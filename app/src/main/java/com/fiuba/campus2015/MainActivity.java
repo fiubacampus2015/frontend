@@ -36,6 +36,17 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        Button singup = (Button) findViewById(R.id.signUp);
+        singup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, Registration.class);
+                    startActivity(intent);
+            }
+        });
+
+
+
     }
 
 
