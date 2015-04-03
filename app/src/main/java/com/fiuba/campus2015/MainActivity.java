@@ -1,14 +1,21 @@
 package com.fiuba.campus2015;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.fiuba.campus2015.dto.user.Authenticate;
+import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.services.Response;
+
+import retrofit.RestAdapter;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -29,10 +36,10 @@ public class MainActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(),"Usuario Incorrecto",Toast.LENGTH_SHORT).show();
                 else
                 {
-                    Intent intent = new Intent(MainActivity.this, Board.class);
-                    startActivity(intent);
-                }
+                    AuthenticateTask task = new AuthenticateTask();
+                    task.execute();
 
+                }
             }
         });
 
@@ -70,5 +77,38 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private class AuthenticateTask extends AsyncTask<Void, Void,
+                Response> {
+        RestAdapter restAdapter;
+
+        @Override
+        protected void onPreExecute() {
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint("https://fiubacampus-staging.herokuapp.com")
+                    .build();
+        }
+
+        @Override
+        protected Response doInBackground(Void... params) {
+
+            String user  =  ((EditText)findViewById(R.id.textuser)).getText().toString();
+            String password =  ((EditText)findViewById(R.id.textpassword)).getText().toString();
+
+            IApiUser api = restAdapter.create(IApiUser.class);
+            Response response = api.authenticate(new Authenticate(user, password));
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(Response response) {
+            if(response.token != null) {
+                Intent intent = new Intent(MainActivity.this, Board.class);
+                startActivity(intent);
+            }
+        }
     }
 }
