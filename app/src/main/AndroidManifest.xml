@@ -25,7 +25,10 @@
             android:name=".Registration"
             android:label="@string/app_name" >
         </activity>
-
+        <activity
+            android:name=".LoadPersonalData"
+            android:label="@string/app_name">
+        </activity>
     </application>
 
 </manifest>
