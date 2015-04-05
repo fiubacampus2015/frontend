@@ -15,7 +15,7 @@ import retrofit.http.Path;
 public interface IApiUser {
 
     @POST("/api/users")
-    public Response register(
+    public retrofit.client.Response register(
             @Body User data
     );
 
@@ -34,5 +34,12 @@ public interface IApiUser {
     public Response update(
             @Path("token") String token,
             @Body User data
+    );
+
+    @PUT("api/{token}/users/{userdId}/personal")
+    public Response put(
+            @Path("token") String token,
+            @Path("userId") String userId
+        //    @Body UserData data
     );
 }
