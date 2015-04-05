@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/idlayout"
-    android:background="#ff3d3229">
+    android:id="@+id/idlayout">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -25,7 +24,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Hola, usuario!"
             android:id="@+id/idhellouser"
-            android:textColor="@color/white"
+            android:textColor="@android:color/darker_gray"
             android:textStyle="bold"
             android:textSize="25dp"
             android:gravity="center_horizontal" />
@@ -37,8 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp"
-        android:background="#ffe0e0e0">
+        android:layout_margin="20dp">
 
         <LinearLayout
             android:orientation="horizontal"

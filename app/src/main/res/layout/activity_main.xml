@@ -45,20 +45,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textuser"
-                android:hint="Usuario"/>
+                android:hint="Usuario" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textpassword"
-                android:hint="Password"/>
+                android:hint="Contraseña"
+                android:inputType="textPassword" />
 
             <Button
-                android:layout_width="match_parent"
+                android:layout_width="238dp"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="Iniciar Sesión"
                 android:id="@+id/login"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                style="TextAppearance.Medium"
+                android:layout_marginTop="30dp"
+                android:background="?attr/colorPrimary"
+                android:textColor="#ffffffff" />
 
             </LinearLayout>
 
@@ -71,9 +76,11 @@
             <Button
                 android:layout_width="179dp"
                 android:layout_height="wrap_content"
-                android:text="Sign Up"
+                android:text="Registrarse"
                 android:id="@+id/signUp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:background="?attr/colorPrimary"
+                android:textColor="#ffffffff" />
         </LinearLayout>
 
     </LinearLayout>

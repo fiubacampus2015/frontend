@@ -67,7 +67,8 @@
             android:inputType="phone"
             android:ems="10"
             android:hint="Celular"
-            android:id="@+id/editPhone" />
+            android:id="@+id/editPhone"
+            android:phoneNumber="true" />
 
         <EditText
             android:layout_width="match_parent"
@@ -75,7 +76,7 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/editPassword"
-            android:hint="Password"
+            android:hint="Contraseña"
             android:layout_gravity="center_horizontal" />
 
         <EditText
@@ -84,7 +85,7 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/editConfirmPassword"
-            android:hint="Confirmar Password"
+            android:hint="Confirmar Contraseña"
             android:layout_gravity="center_horizontal" />
 
         <EditText
@@ -116,10 +117,13 @@
         </LinearLayout>
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:text="Registrate"
-            android:id="@+id/registration" />
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal"
+            android:background="?attr/colorPrimary"
+            android:textColor="#ffffffff" />
 
     </LinearLayout>
 
