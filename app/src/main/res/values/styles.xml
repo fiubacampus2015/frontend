@@ -14,9 +14,20 @@
 
     <item name="actionMenuTextColor">@color/white</item>
 
+    <item name="android:windowBackground">@color/white</item>
 
     <!-- You can also set colorControlNormal, colorControlActivated
          colorControlHighlight & colorSwitchThumbNormal. -->
 </style>
+
+
+    <style name="ToolBarTheme" parent="ThemeOverlay.AppCompat.Light">
+
+        <item name="android:textColorPrimary">@color/white</item>
+
+        <item name="android:textColorSecondary">@color/white</item>
+
+    </style>
+
 
 </resources>

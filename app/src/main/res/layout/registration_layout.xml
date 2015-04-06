@@ -4,11 +4,13 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
+    <include android:id="@+id/app_bar" layout="@layout/app_bar"/>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:id="@+id/toplayout"
-        android:layout_height="124dp">
+        android:layout_height="97dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,10 +26,12 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:id="@+id/middlelayout">
+        android:id="@+id/middlelayout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
@@ -36,7 +40,7 @@
             android:layout_weight="1" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
@@ -50,7 +54,9 @@
         android:id="@+id/bottomlayout"
         android:layout_height="199dp"
         android:layout_weight="0.77"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <EditText
             android:layout_width="match_parent"
@@ -117,7 +123,7 @@
         </LinearLayout>
 
         <Button
-            android:layout_width="135dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="Registrate"
             android:id="@+id/button"
