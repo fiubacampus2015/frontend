@@ -36,7 +36,10 @@
             android:name=".LoadPhoto"
             android:label="FIUBA Campus 2015">
         </activity>
-
+        <activity
+            android:name=".LoadEducation"
+            android:label="FIUBA Campus 2015">
+        </activity>
     </application>
 
 </manifest>

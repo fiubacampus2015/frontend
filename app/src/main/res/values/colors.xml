@@ -6,5 +6,8 @@
     <color name="accent">#FFFF00</color>
     <color name="my_awesome_color">#00BCD4</color>
     <color name="my_awesome_darker_color">#0097A7</color>
+    <color name="background">#ececec</color>
 
+    <drawable name="highlight_pressed">#98dff3</drawable>
+    <drawable name="highlight_focused">#b9e6f3</drawable>
 </resources>

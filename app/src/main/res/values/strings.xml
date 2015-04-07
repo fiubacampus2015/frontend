@@ -12,4 +12,66 @@
 
     <string name="drawer_close">Close</string>
 
+    <!--CARRERAS -->
+    <string-array name="carreras">
+        <item>Ingeniería Informática</item>
+        <item>Linceciatura Sistemas</item>
+        <item>Ingeniería Civil</item>
+    </string-array>
+
+    <string-array name="array_carrera_a_orientaciones">
+        <item>@array/orientaciones_informatica</item>
+        <item>@array/orientaciones_licenciatura</item>
+        <item>@array/orientaciones_civil</item>
+    </string-array>
+
+
+    <string-array name="array_carrera_a_materias">
+        <item>@array/materias_informatica</item>
+        <item>@array/materias_licenciatura</item>
+        <item>@array/materias_civil</item>
+    </string-array>
+
+    <!--ORIENTACIONES DE LAS CARRERAS -->
+    <string-array name="orientaciones_informatica">
+        <item>Gestión industrial de sistemas</item>
+        <item>Sistemas distribuidos</item>
+        <item>Sistemas de producción</item>
+    </string-array>
+    <string-array name="orientaciones_civil">
+        <item>Orientacion civil 1</item>
+        <item>Orientacion civil 2</item>
+        <item>Orientacion civil 3</item>
+    </string-array>
+    <string-array name="orientaciones_licenciatura">
+        <item>Orientacion licenciatura 1</item>
+        <item>Orientacion licenciatura 2</item>
+        <item>Orientacion licenciatura 3</item>
+    </string-array>
+
+    <!--MATERIAS DE LAS CARRERAS -->
+    <string-array name="materias_informatica">
+        <item>materia informatica 1</item>
+        <item>materia informatica 2</item>
+        <item>materia informatica 3</item>
+        <item>materia informatica 4</item>
+        <item>materia informatica 5</item>
+        <item>materia informatica 6</item>
+        <item>materia informatica 7</item>
+        <item>materia informatica 8</item>
+    </string-array>
+    <string-array name="materias_licenciatura">
+        <item>materia licenciatura 1</item>
+        <item>materia licenciatura 2</item>
+        <item>materia licenciatura 3</item>
+        <item>materia licenciatura 4</item>
+        <item>materia licenciatura 5</item>
+        <item>materia licenciatura 6</item>
+    </string-array>
+    <string-array name="materias_civil">
+        <item>materia civil 1</item>
+        <item>materia civil 2</item>
+        <item>materia civil 3</item>
+        <item>materia civil 4</item>
+    </string-array>
 </resources>
