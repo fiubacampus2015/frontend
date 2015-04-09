@@ -1,47 +1,49 @@
-package com.fiuba.campus2015;
+package com.fiuba.campus2015.fragments;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.CustomAdapter;
 import com.fiuba.campus2015.adapter.Row;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ismael on 05/04/15.
- */
-public class LoadEducation extends ActionBarActivity implements AdapterView.OnItemSelectedListener,
-        OnItemClickListener {
 
+public class EducationFragment extends Fragment implements AdapterView.OnItemSelectedListener,
+        AdapterView.OnItemClickListener {
     private Spinner spCarreras;
     private Spinner spOrientacion;
     private ListView list;
     private CustomAdapter customAdapter;
+    private View myView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.loadeducation_layout);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        myView = inflater.inflate(R.layout.loadeducation_layout, container, false);
+
         loadCareer();
-        list = (ListView) findViewById(R.id.list);
+        list = (ListView) myView.findViewById(R.id.list);
+
+        return myView;
     }
 
     private void loadCareer() {
-        spCarreras = (Spinner)findViewById(R.id.spinnerCarreras);
-        spOrientacion = (Spinner)findViewById(R.id.spinnerOrientacion);
+        spCarreras = (Spinner)myView.findViewById(R.id.spinnerCarreras);
+        spOrientacion = (Spinner)myView.findViewById(R.id.spinnerOrientacion);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.carreras, android.R.layout.simple_spinner_item);
+                getActivity(), R.array.carreras, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCarreras.setAdapter(adapter);
         spCarreras.setOnItemSelectedListener(this);
@@ -58,7 +60,7 @@ public class LoadEducation extends ActionBarActivity implements AdapterView.OnIt
                 arrayorientaciones.recycle();
 
                 ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(
-                        this, android.R.layout.simple_spinner_item,
+                        getActivity(), android.R.layout.simple_spinner_item,
                         android.R.id.text1, orientaciones);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spOrientacion.setAdapter(adapter);
@@ -67,11 +69,11 @@ public class LoadEducation extends ActionBarActivity implements AdapterView.OnIt
                         R.array.array_carrera_a_materias);
                 CharSequence[] courses = arrayCourses.getTextArray(position);
                 arrayCourses.recycle();
-                customAdapter = new CustomAdapter(this, buildRows(courses));
+                customAdapter = new CustomAdapter(getActivity(), buildRows(courses));
                 list.setAdapter(customAdapter);
                 break;
-            case R.id.spinnerOrientacion:/*
-               */
+            case R.id.spinnerOrientacion:
+
                 break;
         }
 

@@ -44,9 +44,6 @@
         <item>Orientacion civil 3</item>
     </string-array>
     <string-array name="orientaciones_licenciatura">
-        <item>Orientacion licenciatura 1</item>
-        <item>Orientacion licenciatura 2</item>
-        <item>Orientacion licenciatura 3</item>
     </string-array>
 
     <!--MATERIAS DE LAS CARRERAS -->

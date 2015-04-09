@@ -48,11 +48,6 @@
                 android:text="Ver"
                 android:id="@+id/buttonVerFoto" />
 
-            <Button
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Editar"
-                android:id="@+id/buttonEditarFoto" />
         </LinearLayout>
     </LinearLayout>
 
