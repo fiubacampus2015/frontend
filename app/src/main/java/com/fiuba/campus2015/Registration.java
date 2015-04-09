@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,11 +26,12 @@ import retrofit.RestAdapter;
 public class Registration extends ActionBarActivity {
 
     private Toolbar toolbar;
-    private TextView userName;
+    private TextView lastname;
     private TextView name;
     private TextView password;
     private TextView confirmPassword;
     private TextView email;
+    private Spinner nationality;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +44,19 @@ public class Registration extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        userName = (TextView)findViewById(R.id.editName); // editUserName
+        lastname = (TextView)findViewById(R.id.editLastName);
         name = (TextView) findViewById(R.id.editName);
         password = (TextView) findViewById(R.id.editPassword);
         confirmPassword = (TextView) findViewById(R.id.editConfirmPassword);
         email = (TextView) findViewById(R.id.editEmail);
+
+
+        //Carga del combo desplegable para la nacionalidad
+        nationality = (Spinner) findViewById(R.id.nationality);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        R.array.countries, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nationality.setAdapter(adapter);
 
         Button singup = (Button) findViewById(R.id.button);
         singup.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +71,25 @@ public class Registration extends ActionBarActivity {
 
     }
 
+    public void onGenderRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.genderFemale:
+                if (checked)
+                    // female
+                    break;
+            case R.id.genderMale:
+                if (checked)
+                    // male
+                    break;
+        }
+    }
+
     private boolean checkFields() {
-        if(!isEmpty(userName) && !isEmpty(name) && !isEmpty(password) &&
+        if(!isEmpty(lastname) && !isEmpty(name) && !isEmpty(password) &&
                 !isEmpty(confirmPassword) && !isEmpty(email)) {
             String pass1 = password.getText().toString();
             String pass2 = confirmPassword.getText().toString();

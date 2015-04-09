@@ -7,25 +7,30 @@
     <include android:id="@+id/app_bar" layout="@layout/app_bar"/>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:id="@+id/toplayout"
-        android:layout_height="97dp">
+        android:layout_marginBottom="6dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="REGISTRATE"
-            android:id="@+id/textView2"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="20dp"
-            android:textSize="40dp" />
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:text="REGISTRARME"
+            android:id="@+id/titleregister"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:capitalize="words"
+            android:textColor="@color/primary_text_default_material_light"
+            android:theme="@style/AppTheme"
+            android:fontFamily="abc_action_bar_home_description" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:id="@+id/middlelayout"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
@@ -37,7 +42,11 @@
             android:ems="10"
             android:id="@+id/editName"
             android:hint="Nombre"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            style="@style/AppTheme"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="3dp"
+            android:fontFamily="abc_action_bar_home_description" />
 
         <EditText
             android:layout_width="170dp"
@@ -45,15 +54,18 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:hint="Apellido"
-            android:id="@+id/editLastName" />
+            android:id="@+id/editLastName"
+            style="@style/AppTheme"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="3dp"
+            android:fontFamily="abc_action_bar_home_description" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:id="@+id/bottomlayout"
-        android:layout_height="199dp"
-        android:layout_weight="0.77"
+        android:layout_height="196dp"
         android:weightSum="1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
@@ -64,8 +76,12 @@
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/editEmail"
-            android:hint="Correo"
-            android:layout_gravity="center_horizontal" />
+            android:hint="\@fi.uba.ar"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="3dp"
+            android:theme="@style/AppTheme"
+            android:fontFamily="abc_action_bar_home_description" />
 
         <EditText
             android:layout_width="match_parent"
@@ -74,7 +90,57 @@
             android:ems="10"
             android:hint="Celular"
             android:id="@+id/editPhone"
-            android:phoneNumber="true" />
+            android:phoneNumber="true"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="3dp"
+            android:theme="@style/AppTheme"
+            android:fontFamily="@string/abc_action_bar_home_description" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nationality"
+            android:layout_gravity="center_horizontal"
+            android:spinnerMode="dropdown"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="3dp"
+            android:theme="@style/AppTheme"
+            style="@style/AppTheme" />
+
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="3dp"
+                android:theme="@style/AppTheme">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="M"
+                    android:id="@+id/genderMale"
+                    android:checked="false"
+                    android:onClick="onGenderRadioButtonClicked" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="F"
+                    android:id="@+id/genderFemale"
+                    android:checked="false"
+                    android:onClick="onGenderRadioButtonClicked" />
+            </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:id="@+id/registerPwds"
+        android:layout_height="159dp"
+        android:weightSum="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <EditText
             android:layout_width="match_parent"
@@ -83,7 +149,12 @@
             android:ems="10"
             android:id="@+id/editPassword"
             android:hint="Contraseña"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:password="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="2dp"
+            android:theme="@style/AppTheme"
+            android:fontFamily="@string/abc_action_bar_home_description" />
 
         <EditText
             android:layout_width="match_parent"
@@ -92,45 +163,23 @@
             android:ems="10"
             android:id="@+id/editConfirmPassword"
             android:hint="Confirmar Contraseña"
-            android:layout_gravity="center_horizontal" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nacionalidad"
-            android:id="@+id/editNacionalidad" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sexo"
-            android:layout_weight="0.55">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hombre"
-                android:id="@+id/radioButtonHombre"
-                android:checked="false" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mujer"
-                android:id="@+id/radioButtonMujer"
-                android:checked="false" />
-        </LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:password="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="2dp"
+            android:theme="@style/AppTheme"
+            android:fontFamily="@string/abc_action_bar_home_description" />
 
         <Button
-            android:layout_width="250dp"
+            android:layout_width="101dp"
             android:layout_height="wrap_content"
-            android:text="Registrate"
+            android:text="Listo"
             android:id="@+id/button"
-            android:layout_gravity="center_horizontal"
             android:background="?attr/colorPrimary"
-            android:textColor="#ffffffff" />
-
+            android:textColor="#ffffffff"
+            android:layout_gravity="right"
+            android:theme="@style/AppTheme"
+            android:layout_marginTop="5dp"/>
     </LinearLayout>
 
 </LinearLayout>
