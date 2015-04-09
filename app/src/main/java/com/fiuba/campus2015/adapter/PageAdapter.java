@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.fiuba.campus2015.fragments.CommentsFragment;
 import com.fiuba.campus2015.fragments.EducationFragment;
+import com.fiuba.campus2015.fragments.EmpleoFragment;
 import com.fiuba.campus2015.fragments.LoadPhoto;
 import com.fiuba.campus2015.fragments.PersonalDataFragment;
 
@@ -15,7 +17,7 @@ import java.util.List;
  * Created by ismael on 09/04/15.
  */
 public class PageAdapter extends FragmentPagerAdapter {
-    private int NUM_ITEMS = 3; // por ahora hay 3
+    private int NUM_ITEMS = 5;
     List<String> title;
 
     public PageAdapter(FragmentManager fm) {
@@ -34,6 +36,8 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 0: return new PersonalDataFragment();
             case 1: return new LoadPhoto();
             case 2: return new EducationFragment();
+            case 3: return new EmpleoFragment();
+            case 4: return new CommentsFragment();
             default: return null;
         }
     }
