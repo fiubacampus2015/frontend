@@ -1,5 +1,4 @@
 <resources>
-
 <!-- Base application theme. -->
 <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
     <!-- colorPrimary is used for the default action bar background -->
@@ -15,6 +14,9 @@
     <item name="actionMenuTextColor">@color/white</item>
 
     <item name="android:windowBackground">@color/white</item>
+
+    <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+    <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
 
     <!-- You can also set colorControlNormal, colorControlActivated
          colorControlHighlight & colorSwitchThumbNormal. -->
@@ -32,6 +34,14 @@
     <style name="myPagerTabStripText">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
 </resources>

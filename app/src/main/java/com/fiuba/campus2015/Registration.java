@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.Response;
+import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 import retrofit.RestAdapter;
 
@@ -44,11 +46,11 @@ public class Registration extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        lastname = (TextView)findViewById(R.id.editLastName);
-        name = (TextView) findViewById(R.id.editName);
-        password = (TextView) findViewById(R.id.editPassword);
-        confirmPassword = (TextView) findViewById(R.id.editConfirmPassword);
-        email = (TextView) findViewById(R.id.editEmail);
+        lastname = (MaterialEditText)findViewById(R.id.editLastName);
+        name = (MaterialEditText) findViewById(R.id.editName);
+        password = (MaterialEditText) findViewById(R.id.editPassword);
+        confirmPassword = (MaterialEditText) findViewById(R.id.confirmPassword);
+        email = (MaterialEditText) findViewById(R.id.editEmail);
 
 
         //Carga del combo desplegable para la nacionalidad
@@ -58,7 +60,7 @@ public class Registration extends ActionBarActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         nationality.setAdapter(adapter);
 
-        Button singup = (Button) findViewById(R.id.button);
+        Button singup = (Button) findViewById(R.id.registrate);
         singup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,15 +95,20 @@ public class Registration extends ActionBarActivity {
                 !isEmpty(confirmPassword) && !isEmpty(email)) {
             String pass1 = password.getText().toString();
             String pass2 = confirmPassword.getText().toString();
-            if(pass1.equals(pass2)) {
-                return true;
+
+            if (!pass1.equals(pass2)) {
+                ((MaterialEditText) findViewById(R.id.editPassword)).validateWith(new RegexpValidator("", "\\d+"));
+                ((MaterialEditText) findViewById(R.id.confirmPassword)).validateWith(new RegexpValidator("Las contraseñas no coinciden.", "\\d+"));
             }
-            else {
-                Toast.makeText(getApplicationContext(),"Las constraseñas no coinciden",Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(getApplicationContext(),"Complete todos los campos",Toast.LENGTH_SHORT).show();
+            return true;
         }
+
+        if(isEmpty(password)) ((MaterialEditText) findViewById(R.id.editPassword)).validateWith(new RegexpValidator("Ingresá una contraseña.", "\\d+"));
+        if(isEmpty(confirmPassword)) ((MaterialEditText) findViewById(R.id.confirmPassword)).validateWith(new RegexpValidator("Confirmala.", "\\d+"));
+        if(isEmpty(name)) ((MaterialEditText) findViewById(R.id.editName)).validateWith(new RegexpValidator("Ingresá tu nombre.", "\\d+"));
+        if(isEmpty(lastname)) ((MaterialEditText) findViewById(R.id.editLastName)).validateWith(new RegexpValidator("Ingresá tu apellido.", "\\d+"));
+        if(isEmpty(email)) ((MaterialEditText) findViewById(R.id.editEmail)).validateWith(new RegexpValidator("Ingresá tu email de fiuba.", "\\d+"));
+
         return false;
     }
 
@@ -123,12 +130,13 @@ public class Registration extends ActionBarActivity {
 
         @Override
         protected retrofit.client.Response doInBackground(Void... params) {
-            String user  =  ((EditText)findViewById(R.id.editName)).getText().toString();
+            String userName  =  ((EditText)findViewById(R.id.editName)).getText().toString();
+            String userLastName  =  ((EditText)findViewById(R.id.editLastName)).getText().toString();
             String password =  ((EditText)findViewById(R.id.editPassword)).getText().toString();
             String email =  ((EditText)findViewById(R.id.editEmail)).getText().toString();
 
             IApiUser api = restAdapter.create(IApiUser.class);
-            return  api.register(new User(user, user, password, email));
+            return  api.register(new User(userName, userLastName, email, password));
         }
 
         @Override

@@ -81,4 +81,12 @@
         <item>Paraguay</item>
         <item>Bolivia</item>
     </string-array>
+
+    <!-- MENU -->
+    <string-array name="tabs">
+        <item>CONTACTOS</item>
+        <item>MENSAJES</item>
+        <item>CHECKIN</item>
+    </string-array>
+
 </resources>

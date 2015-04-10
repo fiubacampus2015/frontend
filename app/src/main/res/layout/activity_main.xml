@@ -20,11 +20,9 @@
             android:orientation="vertical"
             android:id="@+id/toplayout">
 
-
-
         <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="114dp"
                 android:text="CAMPUS FIUBA"
                 android:id="@+id/textView"
                 android:gravity="center"
@@ -35,53 +33,56 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="178dp"
-            android:id="@+id/middlelayout"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp">
+            android:layout_height="180dp"
+            android:id="@+id/middlelayout">
 
-
-
-            <EditText
-                android:layout_width="match_parent"
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textuser"
-                android:hint="\@fi.uba.ar" />
+                android:hint="\@fi.uba.ar"
+                card_view:met_primaryColor="@color/accent"
+                card_view:met_floatingLabel="normal"
+                android:layout_gravity="center"/>
 
-            <EditText
-                android:layout_width="match_parent"
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textpassword"
                 android:hint="Contraseña"
-                android:inputType="textPassword" />
+                card_view:met_primaryColor="@color/accent"
+                card_view:met_floatingLabel="normal"
+                android:password="true"
+                android:layout_gravity="center"/>
 
-            <Button
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:text="Inicia Sesión"
-                android:id="@+id/login"
-                android:layout_gravity="center_horizontal"
-                style="TextAppearance.Medium"
-                android:layout_marginTop="30dp"
-                android:background="?attr/colorPrimary"
-                android:textColor="#ffffffff" />
-
-            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="152dp"
+            android:layout_height="140dp"
             android:id="@+id/bottomlayout">
 
             <Button
-                android:layout_width="150dp"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Iniciá Sesión"
+                style="@android:style/TextAppearance.Medium"
+                android:background="?attr/colorPrimary"
+                android:id="@+id/login"
+                android:textColor="#ffffffff"
+                android:layout_gravity="center_horizontal"/>
+
+            <Button
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:text="Registrate"
                 android:id="@+id/signUp"
-                android:layout_gravity="center_horizontal"
+                style="@android:style/TextAppearance.Small"
+                android:textColor="#ffffffff"
                 android:background="?attr/colorPrimary"
-                android:textColor="#ffffffff" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp" />
         </LinearLayout>
 
     </LinearLayout>

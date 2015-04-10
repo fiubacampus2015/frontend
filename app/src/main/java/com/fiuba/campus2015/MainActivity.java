@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.fiuba.campus2015.dto.user.Authenticate;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.Response;
+import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 import retrofit.RestAdapter;
 
@@ -33,15 +35,23 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                String user  =  ((EditText)findViewById(R.id.textuser)).getText().toString();
-                String password =  ((EditText)findViewById(R.id.textpassword)).getText().toString();
+                String user  =  ((MaterialEditText)findViewById(R.id.textuser)).getText().toString();
+                String password =  ((MaterialEditText)findViewById(R.id.textpassword)).getText().toString();
 
-                if (user.isEmpty() || password.isEmpty())
-                    Toast.makeText(getApplicationContext(),"Usuario Incorrecto",Toast.LENGTH_SHORT).show();
-                else
+                if (user.isEmpty()) {
+                    ((MaterialEditText) findViewById(R.id.textuser)).validateWith(new RegexpValidator("Ingresá tu usuario.", "\\d+"));
+                }
+                if (password.isEmpty()) {
+                    ((MaterialEditText) findViewById(R.id.textpassword)).validateWith(new RegexpValidator("Ingresá tu contraseña.", "\\d+"));
+                }
+
+                if(!user.isEmpty() && !password.isEmpty())
                 {
-                    AuthenticateTask task = new AuthenticateTask();
-                    task.execute();
+                    Intent intent = new Intent(MainActivity.this, Board.class);
+                    startActivity(intent);
+
+                    //AuthenticateTask task = new AuthenticateTask();
+                    //task.execute();
 
                 }
             }
@@ -112,6 +122,10 @@ public class MainActivity extends ActionBarActivity {
             if(response.token != null) {
                 Intent intent = new Intent(MainActivity.this, Board.class);
                 startActivity(intent);
+            }
+
+            if(response.status == 401) {
+                Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
             }
         }
     }
