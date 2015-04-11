@@ -47,12 +47,12 @@ public class MainActivity extends ActionBarActivity {
 
                 if(!user.isEmpty() && !password.isEmpty())
                 {
-                    Intent intent = new Intent(MainActivity.this, Board.class);
-                    startActivity(intent);
-
-                    //AuthenticateTask task = new AuthenticateTask();
-                    //task.execute();
-
+                    AuthenticateTask task = new AuthenticateTask();
+                    try {
+                        task.execute();
+                    } catch (Exception x){
+                        Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -112,20 +112,24 @@ public class MainActivity extends ActionBarActivity {
             String password =  ((EditText)findViewById(R.id.textpassword)).getText().toString();
 
             IApiUser api = restAdapter.create(IApiUser.class);
-            Response response = api.authenticate(new Authenticate(user, password));
+
+            Response response = null;
+            try {
+                response = api.authenticate(new Authenticate(user, password));
+            } catch (Exception x) {}
 
             return response;
         }
 
         @Override
         protected void onPostExecute(Response response) {
-            if(response.token != null) {
-                Intent intent = new Intent(MainActivity.this, Board.class);
-                startActivity(intent);
-            }
-
-            if(response.status == 401) {
+            if(response == null)
                 Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
+            else {
+                if (response.token != null) {
+                    Intent intent = new Intent(MainActivity.this, Board.class);
+                    startActivity(intent);
+                }
             }
         }
     }

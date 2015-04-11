@@ -5,11 +5,11 @@ package com.fiuba.campus2015.dto.user;
  */
 public class Authenticate {
 
-    private String username;
+    private String email;
     private String password;
 
-    public Authenticate(String username, String password){
-        this.username = username;
+    public Authenticate(String email, String password){
+        this.email = email;
         this.password = password;
     }
 }

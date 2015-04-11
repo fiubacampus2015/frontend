@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.services.IApiUser;
-import com.fiuba.campus2015.services.Response;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
@@ -136,17 +135,24 @@ public class Registration extends ActionBarActivity {
             String email =  ((EditText)findViewById(R.id.editEmail)).getText().toString();
 
             IApiUser api = restAdapter.create(IApiUser.class);
-            return  api.register(new User(userName, userLastName, email, password));
+            retrofit.client.Response  response = null;
+            try {
+                response = api.register(new User(userName, userLastName, password, email));
+
+            } catch (Exception x) {}
+
+            return response;
         }
 
         @Override
         protected void onPostExecute(retrofit.client.Response response) {
-            if(response.getStatus() == 201) { //
+
+            if(response == null) {
+                Toast.makeText(getApplicationContext(),"Hubo un error al registrarse.",Toast.LENGTH_SHORT).show();
+            } else { //
                 Toast.makeText(getApplicationContext(),"Tu registro fue exitoso",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Registration.this, MainActivity.class);
                 startActivity(intent);
-            } else {
-                Toast.makeText(getApplicationContext(),"Hubo un error al registrarse.",Toast.LENGTH_SHORT).show();
             }
         }
     }
