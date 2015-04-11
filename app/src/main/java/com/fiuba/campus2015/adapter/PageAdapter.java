@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.fragments.CommentsFragment;
 import com.fiuba.campus2015.fragments.EducationFragment;
 import com.fiuba.campus2015.fragments.EmpleoFragment;
@@ -17,27 +18,33 @@ import java.util.List;
  * Created by ismael on 09/04/15.
  */
 public class PageAdapter extends FragmentPagerAdapter {
-    private int NUM_ITEMS = 5;
+    private int NUM_ITEMS = 4;
     List<String> title;
+    private User user;
 
-    public PageAdapter(FragmentManager fm) {
+    public PageAdapter(FragmentManager fm, User user) {
         super(fm);
         title = new ArrayList<>();
         title.add("DATOS PERSONALES");
-        title.add("FOTO");
+       // title.add("FOTO");
         title.add("EDUCACIÓN");
         title.add("EMPLEO");
         title.add("COMENTARIOS");
+        this.user = user;
+    }
+    public void setDataUser( User user) {
+
+        this.user = user;
     }
 
     @Override
     public Fragment getItem(int i) {
         switch(i) {
-            case 0: return new PersonalDataFragment();
-            case 1: return new LoadPhoto();
-            case 2: return new EducationFragment();
-            case 3: return new EmpleoFragment();
-            case 4: return new CommentsFragment();
+            case 0: return PersonalDataFragment.newInstance(this.user);
+        //    case 1: return new LoadPhoto();
+            case 1: return new EducationFragment();
+            case 2: return new EmpleoFragment();
+            case 3: return new CommentsFragment();
             default: return null;
         }
     }

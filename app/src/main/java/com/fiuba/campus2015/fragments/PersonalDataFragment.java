@@ -20,6 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.dto.user.User;
+
+import org.w3c.dom.Text;
+
 import java.io.ByteArrayOutputStream;
 
 
@@ -31,10 +35,41 @@ public class PersonalDataFragment extends Fragment {
     private Bitmap photoBitmap;
 
 
-    @Override
+    public static PersonalDataFragment newInstance(User user) {
+
+        PersonalDataFragment myFragment = new PersonalDataFragment();
+
+        Bundle args = new Bundle();
+        args.putString("name", user.name);
+        args.putString("username", user.username);
+        args.putString("mail", user.email);
+        args.putString("phone", user.phone);
+        args.putString("nationality", "");
+
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
+
+        @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.loadpersonaldata_layout, container, false);
+
+        TextView name = (TextView) myView.findViewById(R.id.idname);
+        name.setText(getArguments().getString("name"));
+
+        TextView username = (TextView) myView.findViewById(R.id.idsurname);
+        username.setText(getArguments().getString("surname"));
+
+        TextView mail = (TextView) myView.findViewById(R.id.idmail);
+        mail.setText(getArguments().getString("mail"));
+
+        TextView phone = (TextView) myView.findViewById(R.id.idphone);
+        phone.setText(getArguments().getString("phone"));
+
+        TextView nationality = (TextView) myView.findViewById(R.id.idnationality);
+        nationality.setText(getArguments().getString("nationality"));
 
         photoUser = (ImageView)myView.findViewById(R.id.idPhoto);
         photoUser.setOnClickListener(new View.OnClickListener() {

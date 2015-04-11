@@ -37,7 +37,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/idnombredatos"
+                android:id="@+id/idname"
                 android:hint="nombre"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
@@ -47,7 +47,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/idapellidodatos"
+                android:id="@+id/idsurname"
                 android:hint="apellido"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
@@ -58,7 +58,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/idemaildatos"
+            android:id="@+id/idmail"
             android:layout_gravity="center_horizontal"
             android:hint="miemail@fi.uba.ar"
             android:layout_marginTop="20dp"
@@ -72,7 +72,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/idtelef"
+            android:id="@+id/idphone"
             android:hint="teléfono"
             android:layout_marginTop="20dp"
             android:layout_marginRight="10dp"
@@ -85,7 +85,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
+            android:id="@+id/idnationality"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:hint="nacionalidad"
