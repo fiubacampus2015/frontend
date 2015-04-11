@@ -1,6 +1,7 @@
 package com.fiuba.campus2015.fragments;
 
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,24 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.CustomAdapter;
-import com.fiuba.campus2015.adapter.Row;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class EducationFragment extends Fragment implements AdapterView.OnItemSelectedListener,
         AdapterView.OnItemClickListener {
+
     private Spinner spCarreras;
     private Spinner spOrientacion;
     private ListView list;
     private CustomAdapter customAdapter;
     private View myView;
+    private DatePicker fechaIngreso;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +33,13 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         myView = inflater.inflate(R.layout.loadeducation_layout, container, false);
 
         loadCareer();
-        list = (ListView) myView.findViewById(R.id.list);
+        //list = (ListView) myView.findViewById(R.id.list);
+
+        //No se muestran los dias en el datepicker
+        fechaIngreso = (DatePicker) myView.findViewById(R.id.fechaIngreso);
+        LinearLayout pickerParentLayout = (LinearLayout) fechaIngreso.getChildAt(0);
+        LinearLayout pickerSpinnersHolder = (LinearLayout) pickerParentLayout.getChildAt(0);
+        pickerSpinnersHolder.getChildAt(1).setVisibility(View.GONE);
 
         return myView;
     }
@@ -69,8 +75,8 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
                         R.array.array_carrera_a_materias);
                 CharSequence[] courses = arrayCourses.getTextArray(position);
                 arrayCourses.recycle();
-                customAdapter = new CustomAdapter(getActivity(), buildRows(courses));
-                list.setAdapter(customAdapter);
+                //customAdapter = new CustomAdapter(getActivity(), buildRows(courses));
+                //list.setAdapter(customAdapter);
                 break;
             case R.id.spinnerOrientacion:
 
@@ -79,7 +85,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
 
     }
 
-    private List<Row> buildRows(CharSequence[] courses) {
+  /*  private List<Row> buildRows(CharSequence[] courses) {
         List<Row> rows = new ArrayList<>();
 
         for(CharSequence course: courses) {
@@ -87,7 +93,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         }
 
         return rows;
-    }
+    }*/
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,31 +7,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-    <include android:id="@+id/app_bar" layout="@layout/app_bar"/>
+        <include android:id="@+id/app_bar" layout="@layout/app_bar"/>
 
-
-    <TextView
-        android:layout_below="@+id/app_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Novedades"
-        android:id="@+id/textView3"
-        android:layout_gravity="center_horizontal"
-        android:textSize="50dp" />
-
-</RelativeLayout>
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:clickable="true"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
     <fragment
-        android:id="@+id/fragment_navigation_drawer"
+        android:id="@+id/fragment_drawer"
         android:layout_width="@dimen/nav_drawer_wide"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:layout="@layout/fragment_navigation_drawer"
-        android:name="com.fiuba.campus2015.NavigationDrawerFragment"
-        tools:layout="@layout/fragment_navigation_drawer" />
+        android:name="com.fiuba.campus2015.navigationdrawer.NavigationDrawerFragment" />
 
 </android.support.v4.widget.DrawerLayout>

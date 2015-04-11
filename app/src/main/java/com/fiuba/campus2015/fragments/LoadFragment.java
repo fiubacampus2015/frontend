@@ -28,6 +28,9 @@ public class LoadFragment extends Fragment{
         vpPager = (ViewPager) view.findViewById(R.id.vpPager);
         vpPager.setAdapter(adapterViewPager);
 
+
+
+
         return view;
     }
 

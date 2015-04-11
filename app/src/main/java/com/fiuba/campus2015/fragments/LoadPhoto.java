@@ -38,6 +38,7 @@ public class LoadPhoto extends Fragment {
                              Bundle savedInstanceState) {
         myView =inflater.inflate(R.layout.loadphoto_layout, container, false);
 
+
         photoUser = (ImageView)myView.findViewById(R.id.imageView2);
         photoUser.setOnClickListener(new View.OnClickListener() {
             @Override

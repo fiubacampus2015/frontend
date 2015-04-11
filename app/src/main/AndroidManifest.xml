@@ -29,16 +29,11 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.fiuba.campus2015.MainActivity"/>
         </activity>
         <activity
-            android:name=".LoadPersonalData"
-            android:label="@string/app_name">
-        </activity>
-        <activity
-            android:name=".LoadPhoto"
-            android:label="FIUBA Campus 2015">
-        </activity>
-        <activity
-            android:name=".LoadEducation"
-            android:label="FIUBA Campus 2015">
+            android:name=".Profile"
+            android:label="@string/app_profile">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.fiuba.campus2015.Board"/>
+
+
         </activity>
     </application>
 
