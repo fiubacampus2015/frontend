@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.fiuba.campus2015.fragments.LoadFragment;
 import com.fiuba.campus2015.fragments.MyBoard;
 import com.fiuba.campus2015.navigationdrawer.NavigationDrawerCallbacks;
 import com.fiuba.campus2015.navigationdrawer.NavigationDrawerFragment;
+import com.fiuba.campus2015.session.SessionManager;
 
 /**
  * Created by gonzalovelasco on 29/3/15.
@@ -20,6 +22,7 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
 
     private Toolbar toolbar;
     private NavigationDrawerFragment drawerFragment;
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +34,17 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        session = new SessionManager(getApplicationContext());
+
+        TextView userMail = (TextView)findViewById(R.id.txtUserEmail);
+
+        userMail.setText(session.getUserMail());
+
 
         drawerFragment = (NavigationDrawerFragment)getFragmentManager().findFragmentById(R.id.fragment_drawer);
         drawerFragment.setup(R.id.fragment_drawer,(DrawerLayout)findViewById(R.id.drawer_layout), toolbar);
+
+
 
 
 

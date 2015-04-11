@@ -7,5 +7,6 @@ public class Response {
 
     public int status;
     public String token;
+    public String id;
 
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
@@ -123,7 +124,7 @@ public class Registration extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             restAdapter = new RestAdapter.Builder()
-                    .setEndpoint("https://fiubacampus-staging.herokuapp.com")
+                    .setEndpoint(UrlEndpoints.URL_API)
                     .build();
         }
 

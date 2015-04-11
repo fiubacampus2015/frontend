@@ -13,8 +13,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.fiuba.campus2015.dto.user.Authenticate;
+import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.Response;
+import com.fiuba.campus2015.session.SessionManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
@@ -101,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             restAdapter = new RestAdapter.Builder()
-                    .setEndpoint("https://fiubacampus-staging.herokuapp.com")
+                    .setEndpoint(UrlEndpoints.URL_API)
                     .build();
         }
 
@@ -127,8 +129,15 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
             else {
                 if (response.token != null) {
+                    SessionManager session;
+                    session = new SessionManager(getApplicationContext());
+
+                    String user  =  ((EditText)findViewById(R.id.textuser)).getText().toString();
+                    session.createLoginSession(user,response.token ,response.id);
+
                     Intent intent = new Intent(MainActivity.this, Board.class);
                     startActivity(intent);
+
                 }
             }
         }
