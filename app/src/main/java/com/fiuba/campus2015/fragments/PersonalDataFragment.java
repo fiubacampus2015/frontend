@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.campus2015.R;
 import java.io.ByteArrayOutputStream;
@@ -24,11 +25,9 @@ import java.io.ByteArrayOutputStream;
 
 public class PersonalDataFragment extends Fragment {
     private ImageView photoUser;
-    private TextView greeting;
     private View myView;
     public static int RESULT_LOAD = 1;
     private String img_Decodable_Str;
-    private ProgressDialog progressDialog;
     private Bitmap photoBitmap;
 
 
@@ -36,14 +35,14 @@ public class PersonalDataFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.loadpersonaldata_layout, container, false);
-        /****************************************
+
         photoUser = (ImageView)myView.findViewById(R.id.idPhoto);
         photoUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadImagefromGallery(v);
             }
-        });*/
+        });
         return myView;
     }
 
@@ -52,31 +51,19 @@ public class PersonalDataFragment extends Fragment {
         // se muestra la foto del usuario, por ahora se muestra la imagen por defecto
     }
 
-    private void greetingShow() {
-        greeting = (TextView)myView.findViewById(R.id.idhellouser);
 
-        // se muestra el nombre del usuario con el saludo
-        String name = "";
-
-        greeting.setText("Hola, " + name + "!");
-    }
-
-/*********************************************
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         try {
             if (requestCode == RESULT_LOAD && resultCode == Activity.RESULT_OK && null != data) {
                 photoUser.setImageBitmap(getPhoto(data));
-            } else {
-                //    Toast.makeText(this, "Elija nuevamente la foto", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            //  Toast.makeText(this, "Excepcion", Toast.LENGTH_SHORT).show();
         }
 
     }
-*/
+
     private Bitmap getPhoto(Intent data) {
         Uri selectedImage = data.getData();
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
