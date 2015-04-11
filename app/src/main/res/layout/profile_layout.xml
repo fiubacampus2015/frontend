@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include android:id="@+id/app_bar" layout="@layout/app_bar"/>
+
+    <fragment
+        android:id="@+id/load_profile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout="@layout/load"
+        android:name="com.fiuba.campus2015.fragments.LoadFragment"
+        tools:layout="@layout/load" />
+
+</LinearLayout>

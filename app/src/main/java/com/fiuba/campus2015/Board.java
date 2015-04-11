@@ -50,14 +50,19 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
 
         switch (position) {
             case 0:
-                fragment = new MyBoard();
+
+                fragmentManager.beginTransaction().replace(R.id.container,new MyBoard()).commit();
+
                 break;
             case 1:
-                fragment = new LoadFragment();
+
+                Intent intent = new Intent(Board.this,Profile.class);
+                startActivity(intent);
+
+
                 break;
             default: break;
         }
-        fragmentManager.beginTransaction().replace(R.id.container,fragment).commit();
     }
 
     @Override

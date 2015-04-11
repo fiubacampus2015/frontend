@@ -35,6 +35,8 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         loadCareer();
         list = (ListView) myView.findViewById(R.id.list);
 
+
+
         return myView;
     }
 
