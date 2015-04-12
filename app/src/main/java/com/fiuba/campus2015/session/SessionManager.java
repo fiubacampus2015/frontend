@@ -21,6 +21,7 @@ public class SessionManager {
     private static final String PREF_NAME = "AndroidHivePref";
     private static final String IS_LOGIN = "isLoggedIn";
     public static final String KEY_NAME = "name";
+    public static final String KEY_SURNAME = "surname";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_TOKEN = "token";
     public static final String KEY_USER_ID = "userid";
@@ -34,11 +35,12 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession(String email, String token ,String userId){
+    public void createLoginSession(String email, String token ,String userId, String name, String surname){
 
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_EMAIL, email);
-        editor.putString(KEY_NAME, email);
+        editor.putString(KEY_NAME, name);
+        editor.putString(KEY_SURNAME, surname);
         editor.putString(KEY_TOKEN, token);
         editor.putString(KEY_USER_ID, userId);
 
@@ -70,6 +72,7 @@ public class SessionManager {
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
         user.put(KEY_TOKEN, pref.getString(KEY_TOKEN, null));
+        user.put(KEY_SURNAME, pref.getString(KEY_SURNAME, null));
         user.put(KEY_USER_ID, pref.getString(KEY_USER_ID, null));
         return user;
     }
@@ -87,6 +90,16 @@ public class SessionManager {
     public String getUserMail(){
 
         return pref.getString(KEY_EMAIL, null);
+    }
+
+    public String getUserName(){
+
+        return pref.getString(KEY_NAME, null);
+    }
+
+    public String getUserSurname(){
+
+        return pref.getString(KEY_SURNAME, null);
     }
     public void logoutUser(){
 

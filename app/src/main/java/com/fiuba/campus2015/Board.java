@@ -37,8 +37,10 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
         session = new SessionManager(getApplicationContext());
 
         TextView userMail = (TextView)findViewById(R.id.txtUserEmail);
+        TextView userName = (TextView)findViewById(R.id.txtCompleteName);
 
         userMail.setText(session.getUserMail());
+        userName.setText(session.getUserName()+" "+session.getUserSurname());
 
 
         drawerFragment = (NavigationDrawerFragment)getFragmentManager().findFragmentById(R.id.fragment_drawer);

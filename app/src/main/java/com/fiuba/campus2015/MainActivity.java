@@ -149,7 +149,7 @@ public class MainActivity extends ActionBarActivity {
                     session = new SessionManager(getApplicationContext());
 
                     String user  =  ((EditText)findViewById(R.id.textuser)).getText().toString();
-                    session.createLoginSession(user,response.token ,response.id);
+                    session.createLoginSession(user,response.token ,response.id,response.name, response.surname);
 
                     Intent intent = new Intent(MainActivity.this, Board.class);
                     startActivity(intent);
