@@ -49,11 +49,13 @@ public class MainActivity extends ActionBarActivity {
 
                 if(!user.isEmpty() && !password.isEmpty())
                 {
-                    AuthenticateTask task = new AuthenticateTask();
-                    try {
-                        task.execute();
-                    } catch (Exception x){
-                        Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
+                    if (checkUser(user)) {
+                        AuthenticateTask task = new AuthenticateTask();
+                        try {
+                            task.execute();
+                        } catch (Exception x){
+                            Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
@@ -72,6 +74,21 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    private boolean checkUser(String user) {
+
+        if (!user.contains("@")) {
+            ((MaterialEditText) findViewById(R.id.textuser)).validateWith(new RegexpValidator("No es un email válido.", "\\d+"));
+            return false;
+        }
+        /*else {
+ TODO: descomentar cuando nos registremos con fiuba.
+            if (!user.contains("fi.uba.ar")) {
+                    ((MaterialEditText) findViewById(R.id.textuser)).validateWith(new RegexpValidator("Sólo se permiten emails de @fi.uba.ar.", "\\d+"));
+                    return false;
+                }
+            }*/
+        return true;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,7 +111,6 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     private class AuthenticateTask extends AsyncTask<Void, Void,
                 Response> {
