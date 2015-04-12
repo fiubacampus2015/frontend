@@ -94,37 +94,47 @@ public class Registration extends ActionBarActivity {
     }
 
     private boolean checkFields() {
-        if(!isEmpty(email)) {
-            String emailstring = email.getText().toString();
-
-            if (emailstring.contains("@")) {
-               /*  TODO: descomentar cuando nos registremos con fiuba.
-               if (!emailstring.contains("fi.uba.ar")) {
-                    ((MaterialEditText) findViewById(R.id.editEmail)).validateWith(new RegexpValidator("Sólo se permiten emails de @fi.uba.ar.", "\\d+"));
-                }*/
-            } else {
-                ((MaterialEditText) findViewById(R.id.editEmail)).validateWith(new RegexpValidator("No es un email válido.", "\\d+"));
-            }
-
-            return false;
-        }
-        if(!isEmpty(lastname) && !isEmpty(name) && !isEmpty(password) &&
-                !isEmpty(confirmPassword) && !isEmpty(email)) {
-            String pass1 = password.getText().toString();
-            String pass2 = confirmPassword.getText().toString();
-
-            if (!pass1.equals(pass2)) {
-                ((MaterialEditText) findViewById(R.id.editPassword)).validateWith(new RegexpValidator("", "\\d+"));
-                ((MaterialEditText) findViewById(R.id.confirmPassword)).validateWith(new RegexpValidator("Las contraseñas no coinciden.", "\\d+"));
-            }
-            return true;
-        }
 
         if(isEmpty(password)) ((MaterialEditText) findViewById(R.id.editPassword)).validateWith(new RegexpValidator("Ingresá una contraseña.", "\\d+"));
         if(isEmpty(confirmPassword)) ((MaterialEditText) findViewById(R.id.confirmPassword)).validateWith(new RegexpValidator("Confirmala.", "\\d+"));
         if(isEmpty(name)) ((MaterialEditText) findViewById(R.id.editName)).validateWith(new RegexpValidator("Ingresá tu nombre.", "\\d+"));
         if(isEmpty(lastname)) ((MaterialEditText) findViewById(R.id.editLastName)).validateWith(new RegexpValidator("Ingresá tu apellido.", "\\d+"));
         if(isEmpty(email)) ((MaterialEditText) findViewById(R.id.editEmail)).validateWith(new RegexpValidator("Ingresá tu email de fiuba.", "\\d+"));
+
+        if(!isEmpty(lastname) && !isEmpty(name) && !isEmpty(password) &&
+                !isEmpty(confirmPassword) && !isEmpty(email)) {
+
+            //coincidencia de contraseñas
+            String pass1 = password.getText().toString();
+            String pass2 = confirmPassword.getText().toString();
+            if (!pass1.equals(pass2)) {
+                ((MaterialEditText) findViewById(R.id.editPassword)).validateWith(new RegexpValidator("", "\\d+"));
+                ((MaterialEditText) findViewById(R.id.confirmPassword)).validateWith(new RegexpValidator("Las contraseñas no coinciden.", "\\d+"));
+
+                return false;
+            } else {
+                if (pass1.length() < 8) {
+                    ((MaterialEditText) findViewById(R.id.editPassword)).validateWith(new RegexpValidator("Fijate el mínimo.", "\\d+"));
+                    ((MaterialEditText) findViewById(R.id.confirmPassword)).validateWith(new RegexpValidator("Fijate el mínimo.", "\\d+"));
+                    return false;
+                }
+            }
+
+            //mail ingresado valido
+            String emailstring = email.getText().toString();
+            if (emailstring.contains("@")) {
+               /*  TODO: descomentar cuando nos registremos con fiuba.
+               if (!emailstring.contains("fi.uba.ar")) {
+                    ((MaterialEditText) findViewById(R.id.editEmail)).validateWith(new RegexpValidator("Sólo se permiten emails de @fi.uba.ar.", "\\d+"));
+                    return false;
+                }*/
+            } else {
+                ((MaterialEditText) findViewById(R.id.editEmail)).validateWith(new RegexpValidator("No es un email válido.", "\\d+"));
+                return false;
+            }
+
+            return true;
+        }
 
         return false;
     }
