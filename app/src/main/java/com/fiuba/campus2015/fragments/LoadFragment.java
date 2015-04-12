@@ -145,7 +145,7 @@ public class LoadFragment extends Fragment{
 
                 Bundle data = adapterViewPager.getAllData();
                 Phone phones = new Phone(data.getString(PHONE),"");
-                Personal personal = new Personal("", data.getString(COMENTARIO),data.getString(NATIONALITY),"",phones);
+                Personal personal = new Personal("", data.getString(COMENTARIO),data.getString(NATIONALITY),"","",phones);
                 User user = new User(data.getString(NAME),data.getString(SURNAME),personal);
 
                 response = api.put(session.getToken(),session.getUserid(),user);

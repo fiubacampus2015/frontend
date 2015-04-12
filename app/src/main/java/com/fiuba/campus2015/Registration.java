@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuba.campus2015.dto.user.Personal;
+import com.fiuba.campus2015.dto.user.Phone;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
@@ -34,6 +36,7 @@ public class Registration extends ActionBarActivity {
     private TextView confirmPassword;
     private TextView email;
     private Spinner nationality;
+    private String gender = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +84,11 @@ public class Registration extends ActionBarActivity {
         switch(view.getId()) {
             case R.id.genderFemale:
                 if (checked)
-                    // female
+                    gender= "F";
                     break;
             case R.id.genderMale:
                 if (checked)
-                    // male
+                    gender= "M";
                     break;
         }
     }
@@ -134,11 +137,16 @@ public class Registration extends ActionBarActivity {
             String userLastName  =  ((EditText)findViewById(R.id.editLastName)).getText().toString();
             String password =  ((EditText)findViewById(R.id.editPassword)).getText().toString();
             String email =  ((EditText)findViewById(R.id.editEmail)).getText().toString();
+            String nationality =  ((Spinner)findViewById(R.id.nationality)).getSelectedItem().toString();
+            String mobile =  ((EditText)findViewById(R.id.editPhone)).getText().toString();
+
+            Phone phone = new Phone(mobile,"");
+            Personal personal = new Personal(nationality,gender,phone);
 
             IApiUser api = restAdapter.create(IApiUser.class);
             retrofit.client.Response  response = null;
             try {
-                response = api.register(new User(userName, userLastName, password, email));
+                response = api.register(new User(userName, userLastName, password, email, personal));
 
             } catch (Exception x) {}
 

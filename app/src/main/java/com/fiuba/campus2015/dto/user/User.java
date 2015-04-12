@@ -13,11 +13,13 @@ public class User {
     public Education education;
 
 
-    public User(String name, String username, String password, String email){
+    public User(String name, String username, String password, String email, Personal personal){
         this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.personal = personal;
+
     }
 
     public User(String name, String username, Personal personal){
