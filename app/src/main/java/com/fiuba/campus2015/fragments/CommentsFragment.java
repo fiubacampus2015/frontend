@@ -40,8 +40,6 @@ public class CommentsFragment extends Fragment {
 
         card1.setText(getArguments().getString(COMENTARIO));
 
-        card2 = (EditText)view.findViewById(R.id.info_text2);
-
         return view;
     }
 
@@ -49,7 +47,6 @@ public class CommentsFragment extends Fragment {
         Bundle bundle = new Bundle();
 
         bundle.putString(COMENTARIO, card1.getText().toString());
-       // bundle.putString(COMENTARIO + "2", card2.getText().toString());
 
         return bundle;
     }
