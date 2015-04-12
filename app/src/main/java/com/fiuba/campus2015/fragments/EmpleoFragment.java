@@ -2,7 +2,6 @@ package com.fiuba.campus2015.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import static com.fiuba.campus2015.extras.Constants.*;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.JobAdapter;
-import com.fiuba.campus2015.adapter.PageAdapter;
 import com.fiuba.campus2015.adapter.RowJob;
 
 import java.util.ArrayList;
@@ -112,6 +108,22 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
             } catch (NumberFormatException e){}
         }
         return result;
+    }
+
+    public Bundle getData() {
+        Bundle bundle = new Bundle();
+        int size = jobAdapter.getCount();
+
+        for(int i = 0; i < size; i++) {
+            RowJob job = jobAdapter.getItem(i);
+            bundle.putString(DESCRIPCIONEMPLEO + i, job.getDescription());
+            bundle.putString(FECHAINGRESOEMPLEO + i, job.getInicio());
+            bundle.putString(FECHASALIDAIEMPLEO + i, job.getFin());
+        }
+
+        bundle.putString(CANTIDADEMPLEOS, Integer.toString(size));
+
+        return bundle;
     }
 
 }

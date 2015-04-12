@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
+import static com.fiuba.campus2015.extras.Constants.*;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.PageAdapter;
 import com.fiuba.campus2015.dto.user.User;
@@ -54,6 +54,13 @@ public class LoadFragment extends Fragment{
 
         Toast.makeText(getActivity().getApplicationContext(), "Se tiene que guardar", Toast.LENGTH_SHORT).show();
 
+        Bundle data = adapterViewPager.getAllData();
+        // en data estan cargados todos los datos de las pantallas,
+        // se pueden acceder a ellos con los valores de las constantes definidas en la clase COnstants
+        // ver los metodos getData de los fragments
+        // faltan algunas validaciones de los datos de las pantallas
+        //
+        // se arreglo elproblema que tenian los fragments de perder sus datos al deslizar
     }
 
 
@@ -104,6 +111,7 @@ public class LoadFragment extends Fragment{
                 adapterViewPager = new PageAdapter(getChildFragmentManager(),user);
                 vpPager = (ViewPager) myView.findViewById(R.id.vpPager);
                 vpPager.setAdapter(adapterViewPager);
+                vpPager.setOffscreenPageLimit(3); // esto guarda el estado delos fragmentos no borrar!!!
 
             }
         }

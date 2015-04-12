@@ -1,5 +1,6 @@
 package com.fiuba.campus2015.adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -21,6 +22,11 @@ public class PageAdapter extends FragmentPagerAdapter {
     private int NUM_ITEMS = 4;
     List<String> title;
     private User user;
+    // solucion temporal
+    private PersonalDataFragment personalDataFragment;
+    private EducationFragment educationFragment;
+    private EmpleoFragment empleoFragment;
+    private CommentsFragment commentsFragment;
 
     public PageAdapter(FragmentManager fm, User user) {
         super(fm);
@@ -31,20 +37,40 @@ public class PageAdapter extends FragmentPagerAdapter {
         title.add("EMPLEO");
         title.add("COMENTARIOS");
         this.user = user;
+
     }
     public void setDataUser( User user) {
 
         this.user = user;
     }
 
+    // se obtienen los datos de todas las pantallas
+    public Bundle getAllData() {
+        Bundle bundle = new Bundle();
+        bundle.putAll(personalDataFragment.getData());
+        bundle.putAll(educationFragment.getData());
+        bundle.putAll(empleoFragment.getData());
+        bundle.putAll(commentsFragment.getData());
+
+        return  bundle;
+    }
+
     @Override
     public Fragment getItem(int i) {
         switch(i) {
-            case 0: return PersonalDataFragment.newInstance(this.user);
-        //    case 1: return new LoadPhoto();
-            case 1: return new EducationFragment();
-            case 2: return new EmpleoFragment();
-            case 3: return new CommentsFragment();
+            case 0:
+                personalDataFragment = PersonalDataFragment.newInstance(this.user);
+                return personalDataFragment;
+            //    case 1: return new LoadPhoto();
+            case 1:
+                educationFragment = new EducationFragment();
+                return educationFragment;
+            case 2:
+                empleoFragment = new EmpleoFragment();
+                return empleoFragment;
+            case 3:
+                commentsFragment = new CommentsFragment();
+                return commentsFragment;
             default: return null;
         }
     }

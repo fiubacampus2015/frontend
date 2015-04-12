@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import static com.fiuba.campus2015.extras.Constants.*;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.CustomAdapter;
@@ -70,11 +71,11 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
                         android.R.id.text1, orientaciones);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spOrientacion.setAdapter(adapter);
-
+/*
                 TypedArray arrayCourses = getResources().obtainTypedArray(
                         R.array.array_carrera_a_materias);
                 CharSequence[] courses = arrayCourses.getTextArray(position);
-                arrayCourses.recycle();
+                arrayCourses.recycle();*/
                 //customAdapter = new CustomAdapter(getActivity(), buildRows(courses));
                 //list.setAdapter(customAdapter);
                 break;
@@ -103,5 +104,15 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    public Bundle getData() {
+        Bundle bundle = new Bundle();
+
+        bundle.putString(PROFESION, spCarreras.getSelectedItem().toString());
+        bundle.putString(ORIENTATION, spOrientacion.getSelectedItem().toString());
+
+      //  bundle.putString(DATEADMISSION, fechaIngreso.toString());
+        return bundle;
     }
 }
