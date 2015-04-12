@@ -91,6 +91,20 @@ public class Registration extends ActionBarActivity {
     }
 
     private boolean checkFields() {
+        if(!isEmpty(email)) {
+            String emailstring = email.getText().toString();
+
+            if (emailstring.contains("@")) {
+               /*  TODO: descomentar cuando nos registremos con fiuba.
+               if (!emailstring.contains("fi.uba.ar")) {
+                    ((MaterialEditText) findViewById(R.id.editEmail)).validateWith(new RegexpValidator("Sólo se permiten emails de @fi.uba.ar.", "\\d+"));
+                }*/
+            } else {
+                ((MaterialEditText) findViewById(R.id.editEmail)).validateWith(new RegexpValidator("No es un email válido.", "\\d+"));
+            }
+
+            return false;
+        }
         if(!isEmpty(lastname) && !isEmpty(name) && !isEmpty(password) &&
                 !isEmpty(confirmPassword) && !isEmpty(email)) {
             String pass1 = password.getText().toString();
