@@ -17,6 +17,8 @@ import static com.fiuba.campus2015.extras.Constants.*;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.CustomAdapter;
+import com.fiuba.campus2015.dto.user.Education;
+import com.fiuba.campus2015.dto.user.User;
 
 public class EducationFragment extends Fragment implements AdapterView.OnItemSelectedListener,
         AdapterView.OnItemClickListener {
@@ -27,6 +29,20 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
     private CustomAdapter customAdapter;
     private View myView;
     private DatePicker fechaIngreso;
+
+    public static EducationFragment newInstance(Education education) {
+        EducationFragment myFragment = new EducationFragment();
+
+        Bundle args = new Bundle();
+      ///  args.putString(PROFESION, education.carreras);
+      //  args.putString(ORIENTATION, education.username);
+      //  args.putString(FECHAINGRESO, education.email);
+
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

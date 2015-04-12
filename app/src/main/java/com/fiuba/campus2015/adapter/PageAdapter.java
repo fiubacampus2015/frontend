@@ -32,16 +32,11 @@ public class PageAdapter extends FragmentPagerAdapter {
         super(fm);
         title = new ArrayList<>();
         title.add("DATOS PERSONALES");
-       // title.add("FOTO");
         title.add("EDUCACIÓN");
         title.add("EMPLEO");
         title.add("COMENTARIOS");
         this.user = user;
 
-    }
-    public void setDataUser( User user) {
-
-        this.user = user;
     }
 
     // se obtienen los datos de todas las pantallas
@@ -61,15 +56,14 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 0:
                 personalDataFragment = PersonalDataFragment.newInstance(this.user);
                 return personalDataFragment;
-            //    case 1: return new LoadPhoto();
             case 1:
-                educationFragment = new EducationFragment();
+                educationFragment = EducationFragment.newInstance(this.user.education);
                 return educationFragment;
             case 2:
                 empleoFragment = new EmpleoFragment();
                 return empleoFragment;
             case 3:
-                commentsFragment = new CommentsFragment();
+                commentsFragment = CommentsFragment.newInstance(this.user.personal.comments);
                 return commentsFragment;
             default: return null;
         }

@@ -51,8 +51,8 @@ public class PersonalDataFragment extends Fragment {
         args.putString(NAME, user.name);
         args.putString(SURNAME, user.username);
         args.putString(EMAIL, user.email);
-        args.putString(PHONE, user.phone);
-        args.putString(NATIONALITY, "");
+        args.putString(PHONE, user.personal.phones.mobile);
+        args.putString(NATIONALITY, user.personal.nacionality);
 
         myFragment.setArguments(args);
 

@@ -9,9 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import static com.fiuba.campus2015.dto.user.Personal.*;
 import static com.fiuba.campus2015.extras.Constants.*;
+
+import com.fiuba.campus2015.Board;
+import com.fiuba.campus2015.Profile;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.PageAdapter;
+import com.fiuba.campus2015.dto.user.Personal;
+import com.fiuba.campus2015.dto.user.Phone;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
@@ -28,7 +35,6 @@ public class LoadFragment extends Fragment{
     private ViewPager vpPager;
     private SessionManager session;
     private View myView;
-    private User userdata;
 
 
     @Override
@@ -38,7 +44,7 @@ public class LoadFragment extends Fragment{
 
         myView =inflater.inflate(R.layout.load, container, false);
 
-        UserTask task = new UserTask();
+        LoadUserDataTask task = new LoadUserDataTask();
         try {
             task.execute();
 
@@ -52,15 +58,14 @@ public class LoadFragment extends Fragment{
 
     public void submitData(){
 
-        Toast.makeText(getActivity().getApplicationContext(), "Se tiene que guardar", Toast.LENGTH_SHORT).show();
 
-        Bundle data = adapterViewPager.getAllData();
-        // en data estan cargados todos los datos de las pantallas,
-        // se pueden acceder a ellos con los valores de las constantes definidas en la clase COnstants
-        // ver los metodos getData de los fragments
-        // faltan algunas validaciones de los datos de las pantallas
-        //
-        // se arreglo elproblema que tenian los fragments de perder sus datos al deslizar
+        SaveUserDataTask task = new SaveUserDataTask();
+        try {
+            task.execute();
+
+        } catch (Exception x){
+            Toast.makeText(getActivity().getApplicationContext(),"Error.",Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -73,7 +78,8 @@ public class LoadFragment extends Fragment{
         }
     }
 
-    private class UserTask extends AsyncTask<Void, Void,
+    //TODO encapsular esto en una clase para que se llame en una sola instancia
+    private class LoadUserDataTask extends AsyncTask<Void, Void,
             User> {
         RestAdapter restAdapter;
 
@@ -96,8 +102,6 @@ public class LoadFragment extends Fragment{
 
             } catch (Exception x) {}
 
-            //adapterViewPager.setDataUser(new User(user.name,user.username,user.email,user.email));
-
             return user;
         }
 
@@ -112,6 +116,58 @@ public class LoadFragment extends Fragment{
                 vpPager = (ViewPager) myView.findViewById(R.id.vpPager);
                 vpPager.setAdapter(adapterViewPager);
                 vpPager.setOffscreenPageLimit(3); // esto guarda el estado delos fragmentos no borrar!!!
+
+            }
+        }
+    }
+
+
+    //TODO encapsular esto en una clase para que se llame en una sola instancia
+    private class SaveUserDataTask extends AsyncTask<Void, Void,
+            retrofit.client.Response> {
+        RestAdapter restAdapter;
+
+        @Override
+        protected void onPreExecute() {
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(UrlEndpoints.URL_API)
+                    .build();
+        }
+
+        @Override
+        protected retrofit.client.Response doInBackground(Void... params) {
+
+            IApiUser api = restAdapter.create(IApiUser.class);
+            retrofit.client.Response  response = null;
+
+            try {
+                session = new SessionManager(getActivity().getApplicationContext());
+
+                Bundle data = adapterViewPager.getAllData();
+                Phone phones = new Phone(data.getString(PHONE),"");
+                Personal personal = new Personal("", data.getString(COMENTARIO),data.getString(NATIONALITY),"",phones);
+                User user = new User(data.getString(NAME),data.getString(SURNAME),personal);
+
+                response = api.put(session.getToken(),session.getUserid(),user);
+
+            } catch (Exception x) {
+
+                Toast.makeText(getActivity().getApplicationContext(), x.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(retrofit.client.Response response) {
+
+            if(response == null) {
+                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al guardar los datos del alumno.", Toast.LENGTH_SHORT).show();
+            } else {
+
+                Toast.makeText(getActivity().getApplicationContext(), "Los datos se guardaron correctamente", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), Board.class);
+                startActivity(intent);
 
             }
         }

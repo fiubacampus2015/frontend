@@ -36,10 +36,10 @@ public interface IApiUser {
             @Body User data
     );
 
-    @PUT("api/{token}/users/{userdId}/personal")
-    public Response put(
+    @PUT("/api/{token}/users/{userId}")
+    public retrofit.client.Response  put(
             @Path("token") String token,
-            @Path("userId") String userId
-        //    @Body UserData data
+            @Path("userId") String userId,
+            @Body User data
     );
 }

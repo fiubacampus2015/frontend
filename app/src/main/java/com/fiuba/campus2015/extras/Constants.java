@@ -14,6 +14,7 @@ public class Constants {
     public static final String FOTO = "foto";
     public static final String PROFESION = "profession";
     public static final String ORIENTATION = "orientation";
+    public static final String FECHAINGRESO = "ingreso";
     public static final String DATEADMISSION = "admission";
     public static final String DESCRIPCIONEMPLEO = "descripcionE";
     public static final String FECHAINGRESOEMPLEO = "ingreso";
