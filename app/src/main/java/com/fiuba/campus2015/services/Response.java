@@ -10,6 +10,6 @@ public class Response {
     public String id;
     public String name;
     public String surname;
-
+    public Boolean confirmed;
 
 }

@@ -6,15 +6,13 @@ import java.util.List;
 /**
  * Created by gonzalovelasco on 12/4/15.
  */
-public class Education {
+public class Job {
 
-    public List<Carrer> careers;
+    public List<Company> companies;
 
-    public class Carrer {
-        public String title;
-        public String branch;
+    public class Company {
+        public String place;
         public Date initdate;
-
-
+        public Date enddate;
     }
 }

@@ -144,7 +144,8 @@ public class MainActivity extends ActionBarActivity {
             if(response == null)
                 Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
             else {
-                if (response.token != null) {
+                if (response.token != null && response.confirmed) {
+
                     SessionManager session;
                     session = new SessionManager(getApplicationContext());
 
@@ -154,6 +155,8 @@ public class MainActivity extends ActionBarActivity {
                     Intent intent = new Intent(MainActivity.this, Board.class);
                     startActivity(intent);
 
+                }else {
+                    Toast.makeText(getApplicationContext(), "Falta confirmar el mail de registro.", Toast.LENGTH_SHORT).show();
                 }
             }
         }

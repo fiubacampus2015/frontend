@@ -1,5 +1,7 @@
 package com.fiuba.campus2015.dto.user;
 
+import java.util.Date;
+
 /**
  * Created by gonzalovelasco on 12/4/15.
  */
@@ -10,6 +12,7 @@ public class Personal {
     public String nacionality;
     public String city;
     public String gender;
+    public Date birthday;
     public Phone phones;
 
     public Personal(String nationality, String gender, Phone phone){

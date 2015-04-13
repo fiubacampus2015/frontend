@@ -11,7 +11,7 @@ public class User {
     public String name;
     public Personal personal;
     public Education education;
-
+    public Job job;
 
     public User(String name, String username, String password, String email, Personal personal){
         this.name = name;
