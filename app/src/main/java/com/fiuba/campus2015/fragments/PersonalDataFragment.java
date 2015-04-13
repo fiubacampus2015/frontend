@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import static com.fiuba.campus2015.extras.Constants.*;
@@ -38,10 +39,10 @@ public class PersonalDataFragment extends Fragment {
     private EditText username;
     private EditText mail;
     private EditText phone;
-    private EditText nationality;
+    private Spinner nationality;
     private RadioGroup radioGroup;
-    private String sex;
-    private EditText birthday;
+    private String gender;
+    //private String birthday;
 
 
     public static PersonalDataFragment newInstance(User user) {
@@ -49,10 +50,12 @@ public class PersonalDataFragment extends Fragment {
 
         Bundle args = new Bundle();
         args.putString(NAME, user.name);
-        args.putString(SURNAME, user.username);
+        args.putString(LASTNAME, user.username);
         args.putString(EMAIL, user.email);
         args.putString(PHONE, user.personal.phones.mobile);
         args.putString(NATIONALITY, user.personal.nacionality);
+        args.putString(GENDER, user.personal.gender);
+        //args.putString(birthday, user.personal.birthday);
 
         myFragment.setArguments(args);
 
@@ -67,12 +70,14 @@ public class PersonalDataFragment extends Fragment {
         initializeIdComponents();
 
         name.setText(getArguments().getString(NAME));
-        username.setText(getArguments().getString(SURNAME));
+        username.setText(getArguments().getString(LASTNAME));
         mail.setText(getArguments().getString(EMAIL));
         phone.setText(getArguments().getString(PHONE));
-        nationality.setText(getArguments().getString(NATIONALITY));
-        photoUser = (ImageView)myView.findViewById(R.id.idPhoto);
+        //birthday.setText(getArguments(),setString(BIRTHDAY));
 
+        //nationality.(getArguments().getString(NATIONALITY));
+
+        photoUser = (ImageView)myView.findViewById(R.id.idPhoto);
         photoUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,34 +85,41 @@ public class PersonalDataFragment extends Fragment {
             }
         });
 
+        gender = getArguments().getString(GENDER);
+        if (gender.equals("F")) {
+            radioGroup.check(R.id.genderFemaleShow);
+        } else {
+            radioGroup.check(R.id.genderMaleShow);
+        }
 
-         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-             @Override
-             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                 if (checkedId == R.id.RbOpcion1) {
-                     sex = "F";
-                 } else if (checkedId == R.id.RbOpcion2) {
-                     sex = "M";
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                 if (checkedId == R.id.genderFemaleShow) {
+                     gender = "F";
+                     System.out.println(gender);
+                 } else if (checkedId == R.id.genderMaleShow) {
+                     gender = "M";
                  }
              }
-         });
+        });
 
 
         return myView;
     }
 
     private void initializeIdComponents() {
+
         name = (EditText) myView.findViewById(R.id.idname);
         username = (EditText) myView.findViewById(R.id.idsurname);
         phone = (EditText) myView.findViewById(R.id.idphone);
         mail = (EditText) myView.findViewById(R.id.idmail);
-        nationality = (EditText) myView.findViewById(R.id.idnationality);
-        radioGroup = (RadioGroup)myView.findViewById(R.id.idradiogroup);
-        birthday = (EditText)myView.findViewById(R.id.idcumple);
+        nationality = (Spinner) myView.findViewById(R.id.idnationality);
+        radioGroup = (RadioGroup)myView.findViewById(R.id.idradiogroupshow);
+
+        //birthday = (EditText)myView.findViewById(R.id.idcumple);
 
     }
-
-
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -184,12 +196,12 @@ public class PersonalDataFragment extends Fragment {
     public Bundle getData() {
         Bundle bundle = new Bundle();
         bundle.putString(NAME,name.getText().toString());
-        bundle.putString(SURNAME,username.getText().toString());
+        bundle.putString(LASTNAME,username.getText().toString());
         bundle.putString(EMAIL, mail.getText().toString());
         bundle.putString(PHONE, phone.getText().toString());
-        bundle.putString(NATIONALITY, nationality.getText().toString());
-        bundle.putString(BIRTHDAY, birthday.getText().toString());
-        bundle.putString(SEX, sex);
+        //bundle.putString(NATIONALITY, nationality.getText().toString());
+        //bundle.putString(BIRTHDAY, birthday.getText().toString());
+        bundle.putString(GENDER, gender);
 
         String photoString = getPhotoString();
         if(photoString != null) {
