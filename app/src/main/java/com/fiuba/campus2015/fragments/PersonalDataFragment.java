@@ -14,6 +14,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -75,7 +76,18 @@ public class PersonalDataFragment extends Fragment {
         phone.setText(getArguments().getString(PHONE));
         //birthday.setText(getArguments(),setString(BIRTHDAY));
 
-        //nationality.(getArguments().getString(NATIONALITY));
+        //Precarga la nacionalidad
+        nationality = (Spinner) myView.findViewById(R.id.idnationality);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(myView.getContext(),
+        R.array.countries, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nationality.setAdapter(adapter);
+
+        String nacionalidad = getArguments().getString(NATIONALITY);
+        if (!nacionalidad.equals(null) && !nacionalidad.isEmpty()) {
+            int spinnerPosition = ((ArrayAdapter<CharSequence>) nationality.getAdapter()).getPosition(nacionalidad);
+            nationality.setSelection(spinnerPosition);
+        }
 
         photoUser = (ImageView)myView.findViewById(R.id.idPhoto);
         photoUser.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +97,7 @@ public class PersonalDataFragment extends Fragment {
             }
         });
 
+        //Precarga el genero
         gender = getArguments().getString(GENDER);
         if (gender.equals("F")) {
             radioGroup.check(R.id.genderFemaleShow);
@@ -199,7 +212,7 @@ public class PersonalDataFragment extends Fragment {
         bundle.putString(LASTNAME,username.getText().toString());
         bundle.putString(EMAIL, mail.getText().toString());
         bundle.putString(PHONE, phone.getText().toString());
-        //bundle.putString(NATIONALITY, nationality.getText().toString());
+        bundle.putString(NATIONALITY, nationality.getSelectedItem().toString());
         //bundle.putString(BIRTHDAY, birthday.getText().toString());
         bundle.putString(GENDER, gender);
 
