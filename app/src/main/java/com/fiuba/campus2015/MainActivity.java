@@ -20,11 +20,12 @@ import com.fiuba.campus2015.session.SessionManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.RestAdapter;
 
 
 public class MainActivity extends ActionBarActivity {
-
+    private SweetAlertDialog pDialog;
     private Toolbar toolbar;
 
     @Override
@@ -121,6 +122,11 @@ public class MainActivity extends ActionBarActivity {
             restAdapter = new RestAdapter.Builder()
                     .setEndpoint(UrlEndpoints.URL_API)
                     .build();
+            pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.PROGRESS_TYPE)
+                    .setTitleText("Validando credenciales.")
+                    .setContentText("Espere un momento por favor.");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
@@ -142,7 +148,9 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Response response) {
             if(response == null)
-                Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
+                pDialog.setConfirmText("OK").setTitleText("Credenciales incorrectas").
+                        setContentText("").changeAlertType(SweetAlertDialog.ERROR_TYPE);
             else {
                 if (response.token != null && response.confirmed) {
 
@@ -150,13 +158,16 @@ public class MainActivity extends ActionBarActivity {
                     session = new SessionManager(getApplicationContext());
 
                     String user  =  ((EditText)findViewById(R.id.textuser)).getText().toString();
-                    session.createLoginSession(user,response.token ,response.id,response.name, response.surname);
+                    session.createLoginSession(user, response.token, response.id, response.name, response.surname);
 
                     Intent intent = new Intent(MainActivity.this, Board.class);
                     startActivity(intent);
-
+                    pDialog.dismiss();
                 }else {
-                    Toast.makeText(getApplicationContext(), "Falta confirmar el mail de registro.", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getApplicationContext(), "Falta confirmar el mail de registro.", Toast.LENGTH_SHORT).show();
+                        pDialog.setConfirmText("OK").setTitleText("Confirmación incompleta.").
+                            setContentText("Falta confirmar el mail de registro.")
+                            .changeAlertType(SweetAlertDialog.WARNING_TYPE);
                 }
             }
         }
