@@ -22,6 +22,7 @@ import com.fiuba.campus2015.services.IApiUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.RestAdapter;
 
 /**
@@ -37,6 +38,7 @@ public class Registration extends ActionBarActivity {
     private TextView email;
     private Spinner nationality;
     private String gender = "";
+    private SweetAlertDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +155,11 @@ public class Registration extends ActionBarActivity {
             restAdapter = new RestAdapter.Builder()
                     .setEndpoint(UrlEndpoints.URL_API)
                     .build();
+            pDialog = new SweetAlertDialog(Registration.this, SweetAlertDialog.PROGRESS_TYPE)
+                    .setTitleText("Registrando")
+                    .setContentText("Espere un momento por favor.");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
@@ -181,12 +188,31 @@ public class Registration extends ActionBarActivity {
         protected void onPostExecute(retrofit.client.Response response) {
 
             if(response == null) {
-                Toast.makeText(getApplicationContext(),"El mail pertenece a un usuario registrado.",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(),"El mail pertenece a un usuario registrado.",Toast.LENGTH_SHORT).show();
+                pDialog.setConfirmText("OK").setContentText("El mail pertenece a un usuario registrado.").
+                              setTitleText("Error").changeAlertType(SweetAlertDialog.ERROR_TYPE);
             } else { //
-                Toast.makeText(getApplicationContext(),"Tu registro fue exitoso",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Registration.this, MainActivity.class);
-                startActivity(intent);
+                //Toast.makeText(getApplicationContext(),"Tu registro fue exitoso",Toast.LENGTH_SHORT).show();
+                MyListener myListener = new MyListener();
+                pDialog.setConfirmClickListener(myListener);
+                pDialog.setTitleText("Tu registro fue exitoso.").setConfirmText("OK").
+                        setContentText("En un momento se te enviara un mail de confirmacion.").
+                        changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
             }
+        }
+    }
+
+    // necesario para lanzar el login despues de presionar el 'ok' de la ventana de notificacion
+    private class MyListener implements SweetAlertDialog.OnSweetClickListener {
+        @Override
+        public void onClick(SweetAlertDialog sweetAlertDialog) {
+            pDialog.dismissWithAnimation();
+            login();
+        }
+
+        public void login() {
+            Intent intent = new Intent(Registration.this, MainActivity.class);
+            startActivity(intent);
         }
     }
 }
