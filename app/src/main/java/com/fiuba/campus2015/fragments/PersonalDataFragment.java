@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -22,10 +23,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import static com.fiuba.campus2015.extras.Constants.*;
+import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
+
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.User;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 public class PersonalDataFragment extends Fragment {
@@ -43,7 +49,7 @@ public class PersonalDataFragment extends Fragment {
     private Spinner nationality;
     private RadioGroup radioGroup;
     private String gender;
-    //private String birthday;
+    private DatePicker birthday;
 
 
     public static PersonalDataFragment newInstance(User user) {
@@ -56,7 +62,7 @@ public class PersonalDataFragment extends Fragment {
         args.putString(PHONE, user.personal.phones.mobile);
         args.putString(NATIONALITY, user.personal.nacionality);
         args.putString(GENDER, user.personal.gender);
-        //args.putString(birthday, user.personal.birthday);
+        args.putString(BIRTHDAY, user.personal.birthday);
 
         myFragment.setArguments(args);
 
@@ -74,7 +80,6 @@ public class PersonalDataFragment extends Fragment {
         username.setText(getArguments().getString(LASTNAME));
         mail.setText(getArguments().getString(EMAIL));
         phone.setText(getArguments().getString(PHONE));
-        //birthday.setText(getArguments(),setString(BIRTHDAY));
 
         //Precarga la nacionalidad
         nationality = (Spinner) myView.findViewById(R.id.idnationality);
@@ -118,7 +123,26 @@ public class PersonalDataFragment extends Fragment {
         });
 
 
-        return myView;
+
+            String birth = getArguments().getString(BIRTHDAY);
+            //Se carga la fecha
+            if(birth != null) {
+
+                Calendar fecha = null;
+                try {
+
+                    fecha = stringToCalendar(birth);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                birthday.updateDate(fecha.get(Calendar.YEAR),fecha.get(Calendar.MONTH),fecha.get(Calendar.DAY_OF_MONTH));
+
+            }
+
+
+
+            return myView;
     }
 
     private void initializeIdComponents() {
@@ -129,9 +153,7 @@ public class PersonalDataFragment extends Fragment {
         mail = (EditText) myView.findViewById(R.id.idmail);
         nationality = (Spinner) myView.findViewById(R.id.idnationality);
         radioGroup = (RadioGroup)myView.findViewById(R.id.idradiogroupshow);
-
-        //birthday = (EditText)myView.findViewById(R.id.idcumple);
-
+        birthday = (DatePicker) myView.findViewById(R.id.birthday);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -213,8 +235,13 @@ public class PersonalDataFragment extends Fragment {
         bundle.putString(EMAIL, mail.getText().toString());
         bundle.putString(PHONE, phone.getText().toString());
         bundle.putString(NATIONALITY, nationality.getSelectedItem().toString());
-        //bundle.putString(BIRTHDAY, birthday.getText().toString());
         bundle.putString(GENDER, gender);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(birthday.getYear(), birthday.getMonth(), birthday.getDayOfMonth());
+        SimpleDateFormat formatter=new SimpleDateFormat(FORMAT_DATETIME);
+
+        bundle.putString(BIRTHDAY, formatter.format(calendar.getTime()));
 
         String photoString = getPhotoString();
         if(photoString != null) {

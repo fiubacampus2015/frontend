@@ -137,7 +137,7 @@
                 <DatePicker
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/fechanacimiento"
+                    android:id="@+id/birthday"
                     android:layout_gravity="left"
                     android:datePickerMode="calendar"
                     android:layout_marginLeft="22dp"

@@ -17,15 +17,21 @@ import com.fiuba.campus2015.Board;
 import com.fiuba.campus2015.Profile;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.PageAdapter;
+import com.fiuba.campus2015.dto.user.Education;
 import com.fiuba.campus2015.dto.user.Personal;
 import com.fiuba.campus2015.dto.user.Phone;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.Date;
 
 import retrofit.RestAdapter;
 import retrofit.client.Response;
+import retrofit.converter.GsonConverter;
 
 /**
  * Created by ismael on 09/04/15.
@@ -82,11 +88,15 @@ public class LoadFragment extends Fragment{
     private class LoadUserDataTask extends AsyncTask<Void, Void,
             User> {
         RestAdapter restAdapter;
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
 
         @Override
         protected void onPreExecute() {
             restAdapter = new RestAdapter.Builder()
                     .setEndpoint(UrlEndpoints.URL_API)
+                    .setConverter(new GsonConverter(gson))
                     .build();
         }
 
@@ -100,7 +110,11 @@ public class LoadFragment extends Fragment{
 
                 user = api.get(session.getToken(),session.getUserid());
 
-            } catch (Exception x) {}
+            } catch (Exception aaaa) {
+
+                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
+
+            }
 
             return user;
         }
@@ -145,8 +159,10 @@ public class LoadFragment extends Fragment{
 
                 Bundle data = adapterViewPager.getAllData();
                 Phone phones = new Phone(data.getString(PHONE),"");
-                Personal personal = new Personal("", data.getString(COMENTARIO),data.getString(NATIONALITY),"",data.getString(GENDER),phones);
-                User user = new User(data.getString(NAME),data.getString(LASTNAME),personal);
+                Education education = new Education();
+                education.addCareer(data.getString(PROFESION),data.getString(ORIENTATION),data.getString(FECHAINGRESO));
+                Personal personal = new Personal("", data.getString(COMENTARIO),data.getString(NATIONALITY),"",data.getString(BIRTHDAY),data.getString(GENDER),phones);
+                User user = new User(data.getString(NAME),data.getString(LASTNAME),personal,education);
 
                 response = api.put(session.getToken(),session.getUserid(),user);
 

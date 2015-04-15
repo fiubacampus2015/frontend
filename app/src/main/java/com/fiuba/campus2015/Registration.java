@@ -181,7 +181,7 @@ public class Registration extends ActionBarActivity {
         protected void onPostExecute(retrofit.client.Response response) {
 
             if(response == null) {
-                Toast.makeText(getApplicationContext(),"Hubo un error al registrarse.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"El mail pertenece a un usuario registrado.",Toast.LENGTH_SHORT).show();
             } else { //
                 Toast.makeText(getApplicationContext(),"Tu registro fue exitoso",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Registration.this, MainActivity.class);

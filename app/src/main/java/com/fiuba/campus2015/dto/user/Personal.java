@@ -12,7 +12,7 @@ public class Personal {
     public String nacionality;
     public String city;
     public String gender;
-    public Date birthday;
+    public String birthday;
     public Phone phones;
 
     public Personal(String nationality, String gender, Phone phone){
@@ -23,11 +23,12 @@ public class Personal {
     }
 
 
-    public Personal(String photo, String comments, String nationality, String city, String gender, Phone phones){
+    public Personal(String photo, String comments, String nationality, String city, String birthday, String gender, Phone phones){
         this.photo = photo;
         this.comments = comments;
         this.nacionality = nationality;
         this.city = city;
+        this.birthday = birthday;
         this.gender = gender;
         this.phones = phones;
 

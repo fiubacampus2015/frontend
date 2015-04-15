@@ -1,7 +1,6 @@
 package com.fiuba.campus2015.fragments;
 
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,11 +13,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import static com.fiuba.campus2015.extras.Constants.*;
+import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.CustomAdapter;
 import com.fiuba.campus2015.dto.user.Education;
-import com.fiuba.campus2015.dto.user.User;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class EducationFragment extends Fragment implements AdapterView.OnItemSelectedListener,
         AdapterView.OnItemClickListener {
@@ -34,9 +37,21 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         EducationFragment myFragment = new EducationFragment();
 
         Bundle args = new Bundle();
-      ///  args.putString(PROFESION, education.carreras);
-      //  args.putString(ORIENTATION, education.username);
-      //  args.putString(FECHAINGRESO, education.email);
+        String title = "";
+        String branch = "" ;
+        String date = "";
+
+        if(!education.careers.isEmpty())
+        {
+            title = education.careers.get(0).title;
+            branch = education.careers.get(0).branch;
+            date = education.careers.get(0).initdate;
+        }
+
+
+        args.putString(PROFESION, title);
+        args.putString(ORIENTATION, branch);
+        args.putString(FECHAINGRESO, date);
 
         myFragment.setArguments(args);
 
@@ -47,16 +62,48 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        //Se inicializan los datos
         myView = inflater.inflate(R.layout.loadeducation_layout, container, false);
-
-        loadCareer();
-        //list = (ListView) myView.findViewById(R.id.list);
-
-        //No se muestran los dias en el datepicker
         fechaIngreso = (DatePicker) myView.findViewById(R.id.fechaIngreso);
+        loadCareer();
+        String initdate = getArguments().getString(FECHAINGRESO);
+        String profesion = getArguments().getString(PROFESION);
+
+
+        //Se carga la fecha
+        if(!initdate.isEmpty()) {
+
+            Calendar fecha = null;
+            try {
+
+                fecha = stringToCalendar(initdate);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            fechaIngreso.updateDate(fecha.get(Calendar.YEAR),fecha.get(Calendar.MONTH),fecha.get(Calendar.DAY_OF_MONTH));
+
+        }
+        
+        //No se muestran los dias en el datepicker
         LinearLayout pickerParentLayout = (LinearLayout) fechaIngreso.getChildAt(0);
         LinearLayout pickerSpinnersHolder = (LinearLayout) pickerParentLayout.getChildAt(0);
         pickerSpinnersHolder.getChildAt(1).setVisibility(View.GONE);
+
+        //Se carga el combo de profesion
+        if (!profesion.equals(null) && !profesion.isEmpty()) {
+            int spinnerPosition = ((ArrayAdapter<CharSequence>) spCarreras.getAdapter()).getPosition(profesion);
+            spCarreras.setSelection(spinnerPosition);
+        }
+
+        //Se carga el combo de orientacion
+       // String orientacion = getArguments().getString(ORIENTATION);
+       // if (!orientacion.equals(null) && !orientacion.isEmpty()) {
+        //    int spinnerPosition =  ((ArrayAdapter<CharSequence>) spOrientacion.getAdapter()).getPosition(orientacion);
+        //    spOrientacion.setSelection(spinnerPosition);
+       // }
+
 
         return myView;
     }
@@ -123,12 +170,16 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
     }
 
     public Bundle getData() {
+
         Bundle bundle = new Bundle();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(fechaIngreso.getYear(), fechaIngreso.getMonth(), fechaIngreso.getDayOfMonth());
+        SimpleDateFormat formatter=new SimpleDateFormat(FORMAT_DATETIME);
 
         bundle.putString(PROFESION, spCarreras.getSelectedItem().toString());
-        bundle.putString(ORIENTATION, spOrientacion.getSelectedItem().toString());
+        bundle.putString(ORIENTATION, "");
+        bundle.putString(FECHAINGRESO, formatter.format(calendar.getTime()));
 
-      //  bundle.putString(DATEADMISSION, fechaIngreso.toString());
         return bundle;
     }
 }
