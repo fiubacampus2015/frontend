@@ -1,183 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
-
-    <include android:id="@+id/app_bar" layout="@layout/app_bar"/>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <!-- Here you put the rest of your current view-->
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/middlelayout"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/editName"
-            android:hint="Nombre"
-            android:layout_weight="1"
-            app:met_primaryColor="@color/accent"
-            app:met_floatingLabel="normal"
-            android:layout_marginTop="3dp"
-            android:fontFamily="abc_action_bar_home_description" />
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:hint="Apellido"
-            android:id="@+id/editLastName"
-            app:met_primaryColor="@color/accent"
-            app:met_floatingLabel="normal"
-            android:layout_marginTop="3dp"
-            android:fontFamily="abc_action_bar_home_description" />
-    </LinearLayout>
-
-    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:id="@+id/bottomlayout"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
+        <include android:id="@+id/app_bar" layout="@layout/app_bar"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/editEmail"
-            android:hint="\@fi.uba.ar"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="3dp"
-            app:met_primaryColor="@color/accent"
-            app:met_floatingLabel="normal"
-            android:fontFamily="abc_action_bar_home_description" />
+            android:id="@+id/middlelayout"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:ems="10"
-            android:hint="Celular"
-            android:id="@+id/editPhone"
-            android:phoneNumber="true"
-            android:layout_marginTop="3dp"
-            app:met_primaryColor="@color/accent"
-            app:met_floatingLabel="normal"
-            android:fontFamily="@string/abc_action_bar_home_description" />
-    </LinearLayout>
-
-    <LinearLayout android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:id="@+id/spinner"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-
-    <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/nationality"
-            android:layout_gravity="center_horizontal"
-            android:spinnerMode="dropdown"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="3dp"
-            android:theme="@style/AppTheme"
-            style="@style/AppTheme" />
-
-
-            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="7dp"
-                android:layout_marginTop="7dp"
-                android:textColor="@color/black"
-                android:theme="@style/AppTheme">
-                <RadioButton
-                    android:layout_width="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/editName"
+                android:hint="Nombre"
+                android:layout_weight="1"
+                app:met_primaryColor="@color/accent"
+                app:met_floatingLabel="normal"
+                android:layout_marginTop="3dp"
+                android:fontFamily="abc_action_bar_home_description" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:hint="Apellido"
+                android:id="@+id/editLastName"
+                app:met_primaryColor="@color/accent"
+                app:met_floatingLabel="normal"
+                android:layout_marginTop="3dp"
+                android:fontFamily="abc_action_bar_home_description" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:id="@+id/bottomlayout"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/editEmail"
+                android:hint="\@fi.uba.ar"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="3dp"
+                app:met_primaryColor="@color/accent"
+                app:met_floatingLabel="normal"
+                android:fontFamily="abc_action_bar_home_description" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:ems="10"
+                android:hint="Celular"
+                android:id="@+id/editPhone"
+                android:phoneNumber="true"
+                android:layout_marginTop="3dp"
+                app:met_primaryColor="@color/accent"
+                app:met_floatingLabel="normal"
+                android:fontFamily="@string/abc_action_bar_home_description" />
+        </LinearLayout>
+
+        <LinearLayout android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:id="@+id/spinner"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+        <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/nationality"
+                android:layout_gravity="center_horizontal"
+                android:spinnerMode="dropdown"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="3dp"
+                android:theme="@style/AppTheme"
+                style="@style/AppTheme" />
+
+
+                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="M"
-                    android:id="@+id/genderMale"
-                    android:checked="false"
-                    android:onClick="onGenderRadioButtonClicked" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="F"
-                    android:id="@+id/genderFemale"
-                    android:checked="false"
-                    android:onClick="onGenderRadioButtonClicked" />
-            </RadioGroup>
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"
+                    android:textColor="@color/black"
+                    android:theme="@style/AppTheme">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="M"
+                        android:id="@+id/genderMale"
+                        android:checked="false"
+                        android:onClick="onGenderRadioButtonClicked" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="F"
+                        android:id="@+id/genderFemale"
+                        android:checked="false"
+                        android:onClick="onGenderRadioButtonClicked" />
+                </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:id="@+id/registerPwds"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editPassword"
+                android:hint="Contraseña"
+                app:met_primaryColor="@color/accent"
+                app:met_floatingLabel="normal"
+                android:password="true"
+                android:layout_gravity="left"
+                app:met_minCharacters="8"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/confirmPassword"
+                android:hint="Confirmá la contraseña"
+                app:met_primaryColor="@color/accent"
+                app:met_floatingLabel="normal"
+                android:password="true"
+                android:layout_gravity="left"
+                app:met_minCharacters="8"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:id="@+id/signUp"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <Button
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Listo"
+                android:id="@+id/registrate"
+                android:textColor="#ffffffff"
+                android:background="?attr/colorPrimary"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:id="@+id/registerPwds"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/editPassword"
-            android:hint="Contraseña"
-            app:met_primaryColor="@color/accent"
-            app:met_floatingLabel="normal"
-            android:password="true"
-            android:layout_gravity="left"
-            app:met_minCharacters="8"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/confirmPassword"
-            android:hint="Confirmá la contraseña"
-            app:met_primaryColor="@color/accent"
-            app:met_floatingLabel="normal"
-            android:password="true"
-            android:layout_gravity="left"
-            app:met_minCharacters="8"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:id="@+id/signUp"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-
-        <Button
-            style="@android:style/TextAppearance.Medium"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="Listo"
-            android:id="@+id/registrate"
-            android:textColor="#ffffffff"
-            android:background="?attr/colorPrimary"
-            android:layout_gravity="center_horizontal"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

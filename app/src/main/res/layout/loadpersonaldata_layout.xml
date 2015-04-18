@@ -5,143 +5,143 @@
     android:layout_height="fill_parent">
     <!-- Here you put the rest of your current view-->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/idlayout">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/idlayout">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="1">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:id="@+id/idPhoto"
-                android:src="@drawable/photodefault" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:id="@+id/nombreapellido">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/idname"
-                android:hint="Nombre"
-                android:layout_weight="1"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:inputType="textPersonName"
-                android:maxLines="1" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/idsurname"
-                android:hint="Apellido"
-                android:layout_weight="1"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:inputType="textPersonName"
-                android:maxLines="1" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/idmail"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:inputType="textEmailAddress"
-                android:enabled="false"
-                android:editable="false" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/idphone"
-                android:hint="Celular"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:inputType="phone" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/idnationality"
-                android:layout_gravity="center_horizontal"
-                android:hint="Nacionalidad"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="4dp"/>
-
-            <RadioGroup android:id="@+id/idradiogroupshow"
+            <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:layout_marginTop="15dp">
+                android:layout_gravity="center_horizontal"
+                android:weightSum="1">
 
-                <RadioButton android:id="@+id/genderFemaleShow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="M"/>
-
-                <RadioButton android:id="@+id/genderMaleShow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="H"/>
-
-            </RadioGroup>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:id="@+id/idPhoto"
+                    android:src="@drawable/photodefault" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/fechaIngresolayout"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="5dp">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:id="@+id/nombreapellido">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Cumpleaños"
-                    android:id="@+id/fechacumpleaños"
-                    android:textSize="13dp"
-                    android:textColor="@color/primary_dark_material_light"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"/>
-
-                <DatePicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/birthday"
-                    android:layout_gravity="left"
-                    android:datePickerMode="calendar"
+                    android:id="@+id/idname"
+                    android:hint="Nombre"
+                    android:layout_weight="1"
                     android:layout_marginLeft="22dp"
-                    android:yearListSelectorColor="@color/accent"
-                    android:calendarViewShown="false"
-                    android:headerMonthTextAppearance="@color/accent" />
+                    android:layout_marginRight="22dp"
+                    android:inputType="textPersonName"
+                    android:maxLines="1" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/idsurname"
+                    android:hint="Apellido"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:inputType="textPersonName"
+                    android:maxLines="1" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/idmail"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:inputType="textEmailAddress"
+                    android:enabled="false"
+                    android:editable="false" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/idphone"
+                    android:hint="Celular"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:inputType="phone" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/idnationality"
+                    android:layout_gravity="center_horizontal"
+                    android:hint="Nacionalidad"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="4dp"/>
+
+                <RadioGroup android:id="@+id/idradiogroupshow"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginTop="15dp">
+
+                    <RadioButton android:id="@+id/genderFemaleShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="M"/>
+
+                    <RadioButton android:id="@+id/genderMaleShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="H"/>
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fechaIngresolayout"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Cumpleaños"
+                        android:id="@+id/fechacumpleaños"
+                        android:textSize="13dp"
+                        android:textColor="@color/primary_dark_material_light"
+                        android:textStyle="bold"
+                        android:layout_marginTop="20dp"/>
+
+                    <DatePicker
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/birthday"
+                        android:layout_gravity="left"
+                        android:datePickerMode="calendar"
+                        android:layout_marginLeft="22dp"
+                        android:yearListSelectorColor="@color/accent"
+                        android:calendarViewShown="false"
+                        android:headerMonthTextAppearance="@color/accent" />
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
 
 </ScrollView>
