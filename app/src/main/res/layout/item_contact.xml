@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="#ffcfcfcf"
+        android:layout_height="1dp"
+        android:id="@+id/separatorContact"
+        android:layout_gravity="right"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="5dp" />
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:baselineAligned="false"
+    android:background="#ffffffff"
+    android:weightSum="1"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <TextView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/CharContact"
+        android:textColor="#ffff0ab1"
+        android:textSize="38dp"
+        android:layout_marginLeft="20dp"
+        android:textStyle="bold"
+        android:layout_gravity="center_vertical" />
+
+    <TextView
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/text_name_contact"
+        android:textSize="25dp"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="15dp" />
+
+    <com.fiuba.campus2015.extras.RoundedImageView
+        android:id="@+id/image_contact"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@mipmap/ic_launcher"
+        android:background="@drawable/shape_contact"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp" />
+
+</LinearLayout>
+
+
+
+</LinearLayout>
