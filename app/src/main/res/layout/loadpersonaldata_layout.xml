@@ -32,33 +32,27 @@
             android:layout_marginTop="10dp"
             android:id="@+id/nombreapellido">
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:id="@+id/idname"
+                android:hint="Nombre"
+                android:layout_weight="1"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:inputType="textPersonName"
+                android:maxLines="1" />
 
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/idname"
-                    android:hint="Nombre"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="15dp"
-                    android:inputType="textPersonName"
-                    android:maxLines="1" />
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/idsurname"
-                    android:hint="Apellido"
-                    android:layout_weight="1"
-                    android:layout_marginRight="15dp"
-                    android:inputType="textPersonName"
-                    android:maxLines="1" />
-
-            </LinearLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/idsurname"
+                android:hint="Apellido"
+                android:layout_weight="1"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:inputType="textPersonName"
+                android:maxLines="1" />
 
             <EditText
                 android:layout_width="match_parent"
