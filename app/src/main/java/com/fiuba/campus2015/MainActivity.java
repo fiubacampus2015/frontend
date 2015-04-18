@@ -27,11 +27,21 @@ import retrofit.RestAdapter;
 public class MainActivity extends ActionBarActivity {
     private SweetAlertDialog pDialog;
     private Toolbar toolbar;
+    private SessionManager session;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        session = new SessionManager(getApplicationContext());
+
+        if (session.isLoggedIn())
+        {
+            Intent intent = new Intent(MainActivity.this, Board.class);
+            startActivity(intent);
+        }
+
 
         Button button = (Button) findViewById(R.id.login);
         button.setOnClickListener(new View.OnClickListener() {
@@ -153,9 +163,6 @@ public class MainActivity extends ActionBarActivity {
                         setContentText("").changeAlertType(SweetAlertDialog.ERROR_TYPE);
             else {
                 if (response.token != null && response.confirmed) {
-
-                    SessionManager session;
-                    session = new SessionManager(getApplicationContext());
 
                     String user  =  ((EditText)findViewById(R.id.textuser)).getText().toString();
                     session.createLoginSession(user, response.token, response.id, response.name, response.surname);
