@@ -86,9 +86,9 @@
 
     <!-- MENU -->
     <string-array name="tabs">
+        <item>MURO</item>
         <item>CONTACTOS</item>
-        <item>MENSAJES</item>
-        <item>CHECKIN</item>
+        <item>GRUPOS</item>
     </string-array>
 
 </resources>
