@@ -157,7 +157,7 @@ public class Registration extends ActionBarActivity {
                     .build();
             pDialog = new SweetAlertDialog(Registration.this, SweetAlertDialog.PROGRESS_TYPE)
                     .setTitleText("Registrando")
-                    .setContentText("Espere un momento por favor.");
+                    .setContentText("Esperá un momento por favor.");
             pDialog.setCancelable(false);
             pDialog.show();
         }
@@ -188,15 +188,13 @@ public class Registration extends ActionBarActivity {
         protected void onPostExecute(retrofit.client.Response response) {
 
             if(response == null) {
-               // Toast.makeText(getApplicationContext(),"El mail pertenece a un usuario registrado.",Toast.LENGTH_SHORT).show();
-                pDialog.setConfirmText("OK").setContentText("El mail pertenece a un usuario registrado.").
+                pDialog.setConfirmText("OK").setContentText("Esa casilla de correo ya está registrada.").
                               setTitleText("Error").changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            } else { //
-                //Toast.makeText(getApplicationContext(),"Tu registro fue exitoso",Toast.LENGTH_SHORT).show();
+            } else {
                 MyListener myListener = new MyListener();
                 pDialog.setConfirmClickListener(myListener);
-                pDialog.setTitleText("Tu registro fue exitoso.").setConfirmText("OK").
-                        setContentText("En un momento se te enviara un mail de confirmacion.").
+                pDialog.setTitleText("Registro exitoso!").setConfirmText("OK").
+                        setContentText("Te enviamos un mail de confirmación a tu casilla.").
                         changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
             }
         }

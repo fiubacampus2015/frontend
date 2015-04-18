@@ -124,7 +124,7 @@ public class MainActivity extends ActionBarActivity {
                     .build();
             pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.PROGRESS_TYPE)
                     .setTitleText("Validando credenciales.")
-                    .setContentText("Espere un momento por favor.");
+                    .setContentText("Esperá un momento por favor.");
             pDialog.setCancelable(false);
             pDialog.show();
         }
@@ -166,7 +166,7 @@ public class MainActivity extends ActionBarActivity {
                 }else {
                   //  Toast.makeText(getApplicationContext(), "Falta confirmar el mail de registro.", Toast.LENGTH_SHORT).show();
                         pDialog.setConfirmText("OK").setTitleText("Confirmación incompleta.").
-                            setContentText("Falta confirmar el mail de registro.")
+                            setContentText("Confirmá tu email de registro.")
                             .changeAlertType(SweetAlertDialog.WARNING_TYPE);
                 }
             }
