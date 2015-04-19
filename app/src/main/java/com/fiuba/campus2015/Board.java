@@ -62,15 +62,19 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
         FragmentManager fragmentManager = getSupportFragmentManager();
         Intent intent = null;
         switch (position) {
-            case 0:
+            case 0: /* MURO */
                 fragmentManager.beginTransaction().replace(R.id.container,new MyBoard()).commit();
                 break;
-            case 1:
+            case 1: /* PERFIL */
                 intent = new Intent(Board.this,Profile.class);
                 startActivity(intent);
                 break;
 
-            case 2:
+            case 2: /* CONFIGURACION */
+                intent = new Intent(Board.this,Configuration.class);
+                startActivity(intent);
+                break;
+            case 3:  /* SALIR */
                 session.logoutUser();
                 break;
             default: break;
