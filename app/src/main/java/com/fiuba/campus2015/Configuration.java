@@ -1,13 +1,20 @@
 package com.fiuba.campus2015;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.views.Switch;
+import com.gc.materialdesign.widgets.Dialog;
 
 public class Configuration extends ActionBarActivity {
 
@@ -27,9 +34,24 @@ public class Configuration extends ActionBarActivity {
             @Override
             public void onCheck(boolean b) {
                 if (b) {
-                    System.out.println("SIII");
-                    //TODO: abrir ventanita para confirmar el desactivado de la cuenta por parte del usuario
-                    //TODO: cerrar sesion y postear el borrado de la cuenta
+
+                    Dialog dialog = new Dialog(Configuration.this,"Desactivar Cuenta", "¿ Realmente querés desactivar tu cuenta?");
+                    dialog.addCancelButton("No");
+
+                    dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            System.out.println("Aceptar");
+                            //TODO: abrir ventanita para mostrar que la app está procesando
+                            //TODO: cerrar sesion y postear el borrado de la cuenta
+
+                        }
+                    });
+                    dialog.show();
+
+                    ButtonFlat acceptButton = (ButtonFlat) dialog.findViewById(R.id.button_accept);
+                    acceptButton.setText("Si");
+
                 }
             }
         });

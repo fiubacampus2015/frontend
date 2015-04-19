@@ -158,7 +158,6 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(Response response) {
             if(response == null)
-                //Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
                 pDialog.setConfirmText("OK").setTitleText("Credenciales incorrectas").
                         setContentText("").changeAlertType(SweetAlertDialog.ERROR_TYPE);
             else {
@@ -171,7 +170,6 @@ public class MainActivity extends ActionBarActivity {
                     startActivity(intent);
                     pDialog.dismiss();
                 }else {
-                  //  Toast.makeText(getApplicationContext(), "Falta confirmar el mail de registro.", Toast.LENGTH_SHORT).show();
                         pDialog.setConfirmText("OK").setTitleText("Confirmación incompleta.").
                             setContentText("Confirmá tu email de registro.")
                             .changeAlertType(SweetAlertDialog.WARNING_TYPE);
