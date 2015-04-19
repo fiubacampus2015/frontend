@@ -9,7 +9,7 @@
     <application
         android:allowBackup="true"
         tools:replace="android:icon,android:theme"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/camping_tent"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
