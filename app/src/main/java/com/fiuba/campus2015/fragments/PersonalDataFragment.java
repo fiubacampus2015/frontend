@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,8 @@ import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.extras.ButtonFloatMaterial;
+import com.gc.materialdesign.views.ButtonFloat;
 
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
@@ -36,6 +39,7 @@ import java.util.Calendar;
 
 public class PersonalDataFragment extends Fragment {
     private ImageView photoUser;
+    private ButtonFloatMaterial buttonImage;
     private View myView;
     public static int RESULT_LOAD = 1;
     private final int KB = 1024;
@@ -51,7 +55,6 @@ public class PersonalDataFragment extends Fragment {
     private String gender;
     private DatePicker birthday;
 
-
     public static PersonalDataFragment newInstance(User user) {
         PersonalDataFragment myFragment = new PersonalDataFragment();
 
@@ -63,6 +66,7 @@ public class PersonalDataFragment extends Fragment {
         args.putString(NATIONALITY, user.personal.nacionality);
         args.putString(GENDER, user.personal.gender);
         args.putString(BIRTHDAY, user.personal.birthday);
+        args.putString(PHOTO, user.personal.photo);
 
         myFragment.setArguments(args);
 
@@ -95,7 +99,11 @@ public class PersonalDataFragment extends Fragment {
         }
 
         photoUser = (ImageView)myView.findViewById(R.id.idPhoto);
-        photoUser.setOnClickListener(new View.OnClickListener() {
+        setPhoto(getArguments().getString(PHOTO));
+
+
+        buttonImage = (ButtonFloatMaterial) myView.findViewById(R.id.buttonImage);
+        buttonImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadImagefromGallery(v);
@@ -217,9 +225,20 @@ public class PersonalDataFragment extends Fragment {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             photoBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] imageBytes = baos.toByteArray();
-            return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            return Base64.encodeToString(imageBytes, Base64.NO_WRAP);
+
         }
         return null;
+    }
+
+    private void setPhoto(String photo) {
+
+        if (!photo.isEmpty()) {
+            byte[] decodedString = Base64.decode(photo,Base64.DEFAULT);
+            photoBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            photoUser.setImageBitmap(photoBitmap);
+        }
+
     }
 
     private void loadImagefromGallery(View view) {
@@ -245,7 +264,9 @@ public class PersonalDataFragment extends Fragment {
 
         String photoString = getPhotoString();
         if(photoString != null) {
-            bundle.putString(FOTO, photoString);
+            bundle.putString(PHOTO, photoString);
+        }else {
+            bundle.putString(PHOTO, "");
         }
 
         return bundle;

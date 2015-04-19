@@ -9,6 +9,7 @@ public class Response {
     public String token;
     public String id;
     public String name;
+    public String photo;
     public String surname;
     public Boolean confirmed;
 

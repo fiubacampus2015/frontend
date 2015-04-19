@@ -161,7 +161,8 @@ public class LoadFragment extends Fragment{
                 Phone phones = new Phone(data.getString(PHONE),"");
                 Education education = new Education();
                 education.addCareer(data.getString(PROFESION),data.getString(ORIENTATION),data.getString(FECHAINGRESO));
-                Personal personal = new Personal("", data.getString(COMENTARIO),data.getString(NATIONALITY),"",data.getString(BIRTHDAY),data.getString(GENDER),phones);
+
+                Personal personal = new Personal(data.getString(PHOTO), data.getString(COMENTARIO),data.getString(NATIONALITY),"",data.getString(BIRTHDAY),data.getString(GENDER),phones);
                 User user = new User(data.getString(NAME),data.getString(LASTNAME),personal,education);
 
                 response = api.put(session.getToken(),session.getUserid(),user);

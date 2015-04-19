@@ -11,7 +11,7 @@ public class Constants {
     public static final String NATIONALITY = "nationality";
     public static final String BIRTHDAY = " birthday";
     public static final String GENDER = "gender";
-    public static final String FOTO = "foto";
+    public static final String PHOTO = "photo";
     public static final String PROFESION = "profession";
     public static final String ORIENTATION = "orientation";
     public static final String FECHAINGRESO = "ingreso";
