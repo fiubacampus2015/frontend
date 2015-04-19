@@ -15,11 +15,13 @@ import com.fiuba.campus2015.navigationdrawer.NavigationDrawerCallbacks;
 import com.fiuba.campus2015.navigationdrawer.NavigationDrawerFragment;
 import com.fiuba.campus2015.session.SessionManager;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by gonzalovelasco on 29/3/15.
  */
 public class Board extends ActionBarActivity  implements NavigationDrawerCallbacks {
-
+    private SweetAlertDialog pDialog;
     private Toolbar toolbar;
     private NavigationDrawerFragment drawerFragment;
     SessionManager session;
@@ -75,10 +77,19 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
                 startActivity(intent);
                 break;
             case 3:  /* SALIR */
+                shutdownMessage();
                 session.logoutUser();
                 break;
             default: break;
         }
+    }
+
+    private void shutdownMessage() {
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+                .setTitleText("Cerrando sesión")
+                .setContentText("Espere un momento por favor.");
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
 
     @Override
@@ -96,4 +107,5 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 }
