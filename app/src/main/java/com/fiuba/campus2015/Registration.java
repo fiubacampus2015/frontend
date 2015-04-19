@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.fiuba.campus2015.dto.user.Personal;
 import com.fiuba.campus2015.dto.user.Phone;
 import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -65,7 +66,7 @@ public class Registration extends ActionBarActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         nationality.setAdapter(adapter);
 
-        Button singup = (Button) findViewById(R.id.registrate);
+        ButtonFloatMaterial singup = (ButtonFloatMaterial) findViewById(R.id.registrate);
         singup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

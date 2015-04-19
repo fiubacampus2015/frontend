@@ -5,6 +5,7 @@
     android:layout_height="fill_parent">
     <!-- Here you put the rest of your current view-->
 
+
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -174,18 +175,23 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp">
 
-            <Button
-                style="@android:style/TextAppearance.Medium"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="Listo"
-                android:id="@+id/registrate"
-                android:textColor="#ffffffff"
-                android:background="?attr/colorPrimary"
-                android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>
 
+        <com.fiuba.campus2015.extras.ButtonFloatMaterial
+            android:id="@+id/registrate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="25dp"
+            android:background="#FFFF00"
+            app:animate="true"
+            app:iconDrawable="@drawable/ic_action_accept_dark"
+            android:layout_gravity="right" />
     </LinearLayout>
+
+
+
 
 </ScrollView>
