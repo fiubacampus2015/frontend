@@ -1,19 +1,18 @@
 package com.fiuba.campus2015;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.fiuba.campus2015.fragments.LoadFragment;
+import com.gc.materialdesign.views.Switch;
 
 public class Configuration extends ActionBarActivity {
 
     private Toolbar toolbar;
+    private Switch deactivatedAccount;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -22,6 +21,18 @@ public class Configuration extends ActionBarActivity {
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+
+        deactivatedAccount = (Switch) findViewById(R.id.switchDesactivarCuenta);
+        deactivatedAccount.setOncheckListener(new Switch.OnCheckListener() {
+            @Override
+            public void onCheck(boolean b) {
+                if (b) {
+                    System.out.println("SIII");
+                    //TODO: abrir ventanita para confirmar el desactivado de la cuenta por parte del usuario
+                    //TODO: cerrar sesion y postear el borrado de la cuenta
+                }
+            }
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
