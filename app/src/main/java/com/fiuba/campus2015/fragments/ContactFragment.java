@@ -2,6 +2,7 @@ package com.fiuba.campus2015.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,13 @@ import com.fiuba.campus2015.adapter.ContactsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import android.support.v7.widget.LinearLayoutManager;
 
 public class ContactFragment extends Fragment {
     private ListView listViewContacts;
     private List<ContactItem> myContacts;
     private ContactsAdapter contactsAdapter;
+    private RecyclerView recyclerView;
     private View myView;
 
     public static ContactFragment newInstance(String param1, String param2) {
@@ -35,12 +37,19 @@ public class ContactFragment extends Fragment {
         myView = inflater.inflate(R.layout.contact_fragment, container, false);
 
         myContacts = new ArrayList<>();
-        listViewContacts = (ListView) myView.findViewById(R.id.listViewContacts);
-        contactsAdapter = new ContactsAdapter(getActivity(), myContacts);
-        listViewContacts.setAdapter(contactsAdapter);
+
+        recyclerView = (RecyclerView) myView.findViewById(R.id.listViewContacts);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+        contactsAdapter = new ContactsAdapter(getActivity());
+        //addAllContacts(fillContacts());
+        recyclerView.setAdapter(contactsAdapter);
+
+        myContacts.addAll(fillContacts());
+        contactsAdapter.setContacts(myContacts);
 
         // hardcoded...
-        addAllContacts(fillContacts());
 
         return myView;
     }

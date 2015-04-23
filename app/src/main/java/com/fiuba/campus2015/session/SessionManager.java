@@ -25,6 +25,8 @@ public class SessionManager {
     public static final String KEY_EMAIL = "email";
     public static final String KEY_TOKEN = "token";
     public static final String KEY_USER_ID = "userid";
+    public static final String KEY_USER_PHOTO = "photo";
+
 
 
 
@@ -35,7 +37,7 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession(String email, String token ,String userId, String name, String surname){
+    public void createLoginSession(String email, String token ,String userId, String name, String surname,String photo){
 
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_EMAIL, email);
@@ -43,6 +45,9 @@ public class SessionManager {
         editor.putString(KEY_SURNAME, surname);
         editor.putString(KEY_TOKEN, token);
         editor.putString(KEY_USER_ID, userId);
+        editor.putString(KEY_USER_PHOTO, photo);
+
+
 
 
         editor.commit();
@@ -74,6 +79,8 @@ public class SessionManager {
         user.put(KEY_TOKEN, pref.getString(KEY_TOKEN, null));
         user.put(KEY_SURNAME, pref.getString(KEY_SURNAME, null));
         user.put(KEY_USER_ID, pref.getString(KEY_USER_ID, null));
+        user.put(KEY_USER_PHOTO, pref.getString(KEY_USER_PHOTO, null));
+
         return user;
     }
 
@@ -101,6 +108,12 @@ public class SessionManager {
 
         return pref.getString(KEY_SURNAME, null);
     }
+
+    public String getUserPhoto(){
+
+        return pref.getString(KEY_USER_PHOTO, "");
+    }
+
     public void logoutUser(){
 
         editor.clear();

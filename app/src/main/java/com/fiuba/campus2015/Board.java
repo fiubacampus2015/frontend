@@ -1,12 +1,15 @@
 package com.fiuba.campus2015;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fiuba.campus2015.fragments.LoadFragment;
@@ -41,8 +44,17 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
         TextView userMail = (TextView)findViewById(R.id.txtUserEmail);
         TextView userName = (TextView)findViewById(R.id.txtCompleteName);
 
+
         userMail.setText(session.getUserMail());
         userName.setText(session.getUserName()+" "+session.getUserSurname());
+        String photo = session.getUserPhoto();
+        if (!photo.isEmpty())
+        {
+            ImageView imageAvatar = (ImageView)findViewById(R.id.imgAvatar);
+            byte[] decodedString = Base64.decode(photo, Base64.DEFAULT);
+            imageAvatar.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+        }
+
 
 
         drawerFragment = (NavigationDrawerFragment)getFragmentManager().findFragmentById(R.id.fragment_drawer);

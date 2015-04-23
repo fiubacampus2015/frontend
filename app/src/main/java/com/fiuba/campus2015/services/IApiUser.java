@@ -30,6 +30,11 @@ public interface IApiUser {
             @Path("userId") String userId
     );
 
+    @GET("/api/{token}/users")
+    public User get(
+            @Path("token") String token
+    );
+
     @PUT("/api/{token}/users")
     public Response update(
             @Path("token") String token,

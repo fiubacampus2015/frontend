@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +23,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import static com.fiuba.campus2015.extras.Constants.*;
+import static com.fiuba.campus2015.extras.Utils.getResizedBitmap;
 import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
-import com.gc.materialdesign.views.ButtonFloat;
 
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
@@ -73,9 +72,12 @@ public class PersonalDataFragment extends Fragment {
         return myFragment;
     }
 
+
+
         @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         myView = inflater.inflate(R.layout.loadpersonaldata_layout, container, false);
 
         initializeIdComponents();
@@ -173,7 +175,7 @@ public class PersonalDataFragment extends Fragment {
                 if(extensionValida()) {
                     if(tamañoValido(foto)) {
                         photoBitmap = foto;
-                        photoUser.setImageBitmap(photoBitmap);
+                        photoUser.setImageBitmap(getResizedBitmap(photoBitmap,256,256));
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(),
                                 "Seleccione fotos menores a 8MB", Toast.LENGTH_SHORT).show();
@@ -223,7 +225,7 @@ public class PersonalDataFragment extends Fragment {
     private String getPhotoString() {
         if(photoBitmap != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            photoBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            photoBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
             byte[] imageBytes = baos.toByteArray();
             return Base64.encodeToString(imageBytes, Base64.NO_WRAP);
 
@@ -235,8 +237,10 @@ public class PersonalDataFragment extends Fragment {
 
         if (!photo.isEmpty()) {
             byte[] decodedString = Base64.decode(photo,Base64.DEFAULT);
-            photoBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            photoUser.setImageBitmap(photoBitmap);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPurgeable = true;
+            photoBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length,options);
+            photoUser.setImageBitmap(Bitmap.createScaledBitmap(photoBitmap, 256 , 256 , true));
         }
 
     }
