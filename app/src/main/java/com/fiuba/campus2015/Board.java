@@ -11,8 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.fiuba.campus2015.fragments.LoadFragment;
 import com.fiuba.campus2015.fragments.MyBoard;
 import com.fiuba.campus2015.navigationdrawer.NavigationDrawerCallbacks;
 import com.fiuba.campus2015.navigationdrawer.NavigationDrawerFragment;

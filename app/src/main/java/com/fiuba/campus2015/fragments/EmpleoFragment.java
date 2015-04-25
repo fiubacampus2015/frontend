@@ -29,6 +29,7 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
     private boolean selected = false;
     private int jobSelected;
     private static int YEARDIGITS = 4;
+    private boolean disable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,8 +61,20 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
                 deleteJob();
             }
         });
-
+        disableComponents();
         return view;
+    }
+
+    public void disable() {
+        disable = true;
+    }
+
+    private void disableComponents() {
+        if(disable) {
+            description.setEnabled(false);
+            addButton.setEnabled(false);
+            deleteButton.setEnabled(false);
+        }
     }
 
     private void addJob() {

@@ -30,19 +30,21 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.fiuba.campus2015.MainActivity"/>
         </activity>
         <activity
-            android:name=".Profile"
-            android:label="@string/app_profile">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.fiuba.campus2015.Board"/>
-
-
+            android:name=".ProfileEditable"
+            android:label="@string/app_edit_profile">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.fiuba.campus2015.Profile"/>
         </activity>
         <activity
             android:name=".Configuration"
             android:label="@string/action_settings">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.fiuba.campus2015.Board"/>
-
-
+        </activity>
+        <activity
+            android:name=".Profile"
+            android:label="@string/app_profile">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.fiuba.campus2015.Board"/>
         </activity>
     </application>
+
 
 </manifest>

@@ -6,4 +6,9 @@
         android:title="Submit"
         android:icon="@drawable/ic_check_white_18dp"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_edit"
+        android:title="Edit"
+        android:icon="@android:drawable/ic_menu_edit"
+        app:showAsAction="ifRoom"/>
 </menu>

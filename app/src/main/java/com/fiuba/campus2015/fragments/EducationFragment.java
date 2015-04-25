@@ -12,6 +12,8 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import static com.fiuba.campus2015.extras.Constants.*;
 import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 
@@ -32,6 +34,8 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
     private CustomAdapter customAdapter;
     private View myView;
     private DatePicker fechaIngreso;
+    private boolean disable;
+    private int optionOrientation = -1;
 
     public static EducationFragment newInstance(Education education) {
         EducationFragment myFragment = new EducationFragment();
@@ -58,6 +62,17 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         return myFragment;
     }
 
+    public void disable() {
+        disable = true;
+    }
+
+    private void disableComponents() {
+        if(disable) {
+            spCarreras.setEnabled(false);
+            spOrientacion.setEnabled(false);
+            fechaIngreso.setEnabled(false);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +97,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            fechaIngreso.updateDate(fecha.get(Calendar.YEAR),fecha.get(Calendar.MONTH),fecha.get(Calendar.DAY_OF_MONTH));
+            fechaIngreso.updateDate(fecha.get(Calendar.YEAR), fecha.get(Calendar.MONTH), fecha.get(Calendar.DAY_OF_MONTH));
 
         }
         
@@ -95,16 +110,18 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         if (!profesion.equals(null) && !profesion.isEmpty()) {
             int spinnerPosition = ((ArrayAdapter<CharSequence>) spCarreras.getAdapter()).getPosition(profesion);
             spCarreras.setSelection(spinnerPosition);
+            onItemSelected(spCarreras,null,spinnerPosition,0);
         }
 
         //Se carga el combo de orientacion
-       // String orientacion = getArguments().getString(ORIENTATION);
-       // if (!orientacion.equals(null) && !orientacion.isEmpty()) {
-        //    int spinnerPosition =  ((ArrayAdapter<CharSequence>) spOrientacion.getAdapter()).getPosition(orientacion);
-        //    spOrientacion.setSelection(spinnerPosition);
-       // }
+        String orientacion = getArguments().getString(ORIENTATION);
+        if (!orientacion.equals(null) && !orientacion.isEmpty() && !profesion.equals("Linceciatura Sistemas")) {
+            int spinnerPosition =  ((ArrayAdapter<CharSequence>) spOrientacion.getAdapter()).getPosition(orientacion);
+            spOrientacion.setSelection(spinnerPosition);
+            optionOrientation = spinnerPosition;
+        }
 
-
+        disableComponents();
         return myView;
     }
 
@@ -143,7 +160,10 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
                 //list.setAdapter(customAdapter);
                 break;
             case R.id.spinnerOrientacion:
-
+                if(optionOrientation != -1) {
+                    spOrientacion.setSelection(optionOrientation);
+                    optionOrientation = -1;
+                }
                 break;
         }
 
@@ -176,8 +196,15 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         calendar.set(fechaIngreso.getYear(), fechaIngreso.getMonth(), fechaIngreso.getDayOfMonth());
         SimpleDateFormat formatter=new SimpleDateFormat(FORMAT_DATETIME);
 
-        bundle.putString(PROFESION, spCarreras.getSelectedItem().toString());
-        bundle.putString(ORIENTATION, "");
+        String profesion = spCarreras.getSelectedItem().toString();
+        bundle.putString(PROFESION, profesion);
+
+        if(!profesion.equals("Linceciatura Sistemas")) {
+            bundle.putString(ORIENTATION, spOrientacion.getSelectedItem().toString());
+        } else {
+            bundle.putString(ORIENTATION, "");
+        }
+
         bundle.putString(FECHAINGRESO, formatter.format(calendar.getTime()));
 
         return bundle;

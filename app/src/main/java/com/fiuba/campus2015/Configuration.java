@@ -61,6 +61,15 @@ public class Configuration extends ActionBarActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem itemSubmit = menu.findItem(R.id.action_submit);
+        itemSubmit.setVisible(true);
+        MenuItem itemSearch = menu.findItem(R.id.action_edit);
+        itemSearch.setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();

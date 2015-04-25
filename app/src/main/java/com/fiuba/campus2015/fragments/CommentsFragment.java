@@ -19,6 +19,7 @@ import com.fiuba.campus2015.R;
 public class CommentsFragment extends Fragment {
     private EditText card1;
     private EditText card2;
+    private boolean disable;
 
 
     public static CommentsFragment newInstance(String comentario) {
@@ -31,6 +32,15 @@ public class CommentsFragment extends Fragment {
         return myFragment;
     }
 
+    public void disable() {
+        disable = true;
+    }
+
+    private void disableComponents() {
+        if(disable)
+            card1.setEnabled(false);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,7 +49,7 @@ public class CommentsFragment extends Fragment {
         card1 = (EditText)view.findViewById(R.id.info_text1);
 
         card1.setText(getArguments().getString(COMENTARIO));
-
+        disableComponents();
         return view;
     }
 
