@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Cumpleaños:"
+                android:text="Fecha Nacimiento:"
                 android:id="@+id/textView7"
                 android:textStyle="bold"
                 android:textSize="16dp" />

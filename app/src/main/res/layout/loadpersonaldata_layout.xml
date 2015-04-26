@@ -134,7 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Cumpleaños"
+                        android:text="Fecha Nacimiento"
                         android:id="@+id/fechacumpleaños"
                         android:textSize="13dp"
                         android:textColor="@color/primary_dark_material_light"
