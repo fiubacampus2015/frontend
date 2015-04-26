@@ -50,7 +50,9 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
 
         if(!empleo.companies.isEmpty())
         {
-            //TODO
+            place = empleo.companies.get(0).place;
+            datefrom = empleo.companies.get(0).initdate;
+            dateTo = empleo.companies.get(0).enddate;
         }
 
         args.putString(DESCRIPCIONEMPLEO, place);
@@ -84,7 +86,7 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
                                 String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
                                 dateFromString.setText(date);
-                                SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_DATETIME);
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                                 try {
                                     dateFrom = formatter.parse(date);
                                 } catch(Exception e) {}
@@ -110,7 +112,7 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
                                 String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
                                 dateToString.setText(date);
-                                SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_DATETIME);
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                                 try {
                                     dateTo = formatter.parse(date);
                                 } catch(Exception e) {}
@@ -192,13 +194,14 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
 
     public Bundle getData() {
         Bundle bundle = new Bundle();
+        SimpleDateFormat formatter=new SimpleDateFormat(FORMAT_DATETIME);
         /*int size = jobAdapter.getCount();
 
         for(int i = 0; i < size; i++) {
             RowJob job = jobAdapter.getItem(i);*/
            bundle.putString(DESCRIPCIONEMPLEO, description.getText().toString());
-           //bundle.putString(FECHAINGRESOEMPLEO, dateFrom.toString());
-           //bundle.putString(FECHASALIDAIEMPLEO, dateTo.toString());
+           bundle.putString(FECHAINGRESOEMPLEO, formatter.format(dateFrom.getTime()));
+           bundle.putString(FECHASALIDAIEMPLEO, formatter.format(dateTo.getTime()));
 
         //bundle.putString(CANTIDADEMPLEOS, Integer.toString(size));
 
