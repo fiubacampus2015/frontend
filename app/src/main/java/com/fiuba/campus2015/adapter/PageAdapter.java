@@ -9,7 +9,6 @@ import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.fragments.CommentsFragment;
 import com.fiuba.campus2015.fragments.EducationFragment;
 import com.fiuba.campus2015.fragments.EmpleoFragment;
-import com.fiuba.campus2015.fragments.LoadPhoto;
 import com.fiuba.campus2015.fragments.PersonalDataFragment;
 
 import java.util.ArrayList;
