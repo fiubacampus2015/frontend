@@ -18,7 +18,6 @@ import com.fiuba.campus2015.adapter.JobAdapter;
 import com.fiuba.campus2015.adapter.RowJob;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
 import java.util.Calendar;
 import java.util.List;
 
