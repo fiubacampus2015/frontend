@@ -172,9 +172,9 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
 
         for(int i = 0; i < size; i++) {
             RowJob job = jobAdapter.getItem(i);*/
-            bundle.putString(DESCRIPCIONEMPLEO, description.getText().toString());
-            bundle.putString(FECHAINGRESOEMPLEO, dateFrom.toString());
-            bundle.putString(FECHASALIDAIEMPLEO, dateTo.toString());
+         //   bundle.putString(DESCRIPCIONEMPLEO, description.getText().toString());
+         //   bundle.putString(FECHAINGRESOEMPLEO, dateFrom.toString());
+         //   bundle.putString(FECHASALIDAIEMPLEO, dateTo.toString());
 
         //bundle.putString(CANTIDADEMPLEOS, Integer.toString(size));
 
