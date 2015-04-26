@@ -39,9 +39,13 @@ public interface IApiUser {
             @Path("token") String token,
             @Query("name") String name,
             @Query("confirmed") Boolean confirmed
-
-
             );
+
+    @GET("/api/{token}/users/{user}/friends")
+    public List<User> friends(
+            @Path("token") String token,
+            @Path("user") String user
+    );
 
     @PUT("/api/{token}/users")
     public Response update(

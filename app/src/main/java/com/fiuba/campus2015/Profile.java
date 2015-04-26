@@ -12,6 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 import static com.fiuba.campus2015.extras.Constants.USER;
+import static com.fiuba.campus2015.extras.Constants.PAGE;
+
 import com.fiuba.campus2015.adapter.ProfileAdapter;
 import com.fiuba.campus2015.asyntask.LoadUserDataTask;
 import com.fiuba.campus2015.dto.user.User;
@@ -81,6 +83,7 @@ public class Profile extends ActionBarActivity implements IProfile{
             case R.id.action_edit:
                 Intent intent = new Intent(this, ProfileEditable.class);
                 intent.putExtra(USER, new Gson().toJson(user));
+                intent.putExtra(PAGE, vpPager.getCurrentItem());
                 startActivity(intent);
                 break;
             default:
