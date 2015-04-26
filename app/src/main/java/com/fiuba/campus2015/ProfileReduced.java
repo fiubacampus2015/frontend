@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,6 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
     private Toolbar toolbar;
     private ImageView photo;
     private TextView name;
-    private TextView lastName;
     private TextView email;
     private TextView nationality;
     private TextView birthday;
@@ -48,6 +48,13 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         initialize();
 
         Bundle extras = getIntent().getExtras();
@@ -58,12 +65,13 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
              //LoadUserDataTask loadTask = new LoadUserDataTask(this, extras.getString(TOKEN), extras.getString(USER));
              //loadTask.executeTask();
         }
+
+
     }
 
     private void initialize() {
         photo = (ImageView) findViewById(R.id.imageViewR);
         name = (TextView) findViewById(R.id.nombre_ProfileR);
-        lastName = (TextView) findViewById(R.id.apellido_ProfileR);
         email = (TextView) findViewById(R.id.emailProfileR);
         nationality = (TextView) findViewById(R.id.nacionalidaProfileR);
         birthday = (TextView) findViewById(R.id.cumpleProfileR);
@@ -72,9 +80,8 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
     }
 
     private void loadData(User user) {
-        getSupportActionBar().setTitle(user.name +" "+user.username);
-        name.setText(user.name);
-        lastName.setText(user.username);
+        getSupportActionBar().setTitle(user.name + " " + user.username);
+        name.setText(user.name + " " + user.username);
         email.setText(user.email);
         phone.setText(user.personal.phones.mobile);
         nationality.setText(user.personal.nacionality);

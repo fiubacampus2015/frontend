@@ -29,21 +29,21 @@
         android:layout_marginBottom="10dp">
 
         <TextView
-            android:layout_width="160dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/nombre_ProfileR"
-            android:layout_marginRight="20dp"
-            android:gravity="right"
-            android:textSize="26dp"
-            android:textStyle="bold" />
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp" />
 
         <TextView
-            android:layout_width="160dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
             android:id="@+id/apellido_ProfileR"
             android:textSize="26dp"
             android:textStyle="bold" />
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="right"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp">
 
@@ -67,33 +67,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView3"
-                android:src="@drawable/ic_email_grey600_24dp" />
+                android:src="@drawable/ic_email_grey600_24dp"
+                android:layout_marginTop="3dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView4"
-                android:src="@drawable/ic_phone_iphone_grey600_24dp" />
+                android:src="@drawable/ic_phone_iphone_grey600_24dp"
+                android:layout_marginTop="3dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView5"
-                android:src="@drawable/ic_settings_grey" />
+                android:src="@drawable/ic_settings_grey"
+                android:layout_marginTop="3dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView6"
                 android:src="@drawable/ic_cake_grey600_24dp"
-                android:layout_marginTop="2dp" />
+                android:layout_marginTop="4dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView7"
                 android:src="@drawable/ic_public_grey600_24dp"
-                android:layout_marginTop="3dp" />
+                android:layout_marginTop="5dp" />
 
         </LinearLayout>
 
@@ -108,7 +111,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
                 android:id="@+id/emailProfileR"
                 android:textSize="16dp"
                 android:layout_marginTop="3dp" />
@@ -117,7 +119,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
                 android:id="@+id/celularProfileR"
                 android:textSize="16dp"
                 android:layout_marginTop="6dp" />
@@ -126,7 +127,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
                 android:id="@+id/generoProfileR"
                 android:textSize="16dp"
                 android:layout_marginTop="7dp" />
@@ -135,7 +135,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
                 android:id="@+id/cumpleProfileR"
                 android:textSize="16dp"
                 android:layout_marginTop="8dp" />
@@ -144,7 +143,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
                 android:id="@+id/nacionalidaProfileR"
                 android:textSize="16dp"
                 android:layout_marginTop="8dp" />

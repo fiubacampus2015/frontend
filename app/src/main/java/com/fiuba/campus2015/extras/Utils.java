@@ -42,18 +42,18 @@ public class Utils {
             formatted = birthday.substring(8,10) + " de ";
 
             switch (month_) {
-                case(1): return formatted + "Enero";
-                case(2): return formatted + "Febrero";
-                case(3): return formatted + "Marzo";
-                case(4): return formatted + "Abril";
-                case(5): return formatted + "Mayo";
-                case(6): return formatted + "Junio";
-                case(7): return formatted + "Julio";
-                case(8): return formatted + "Agosto";
-                case(9): return formatted + "Septiembre";
-                case(10): return formatted + "Octubre";
-                case(11): return formatted + "Noviembre";
-                default: return formatted + "Diciembre";
+                case(1): return formatted + "Enero de " + birthday.substring(0,4);
+                case(2): return formatted + "Febrero de " + birthday.substring(0,4);
+                case(3): return formatted + "Marzo de " + birthday.substring(0,4);
+                case(4): return formatted + "Abril de " + birthday.substring(0,4);
+                case(5): return formatted + "Mayo de " + birthday.substring(0,4);
+                case(6): return formatted + "Junio de " + birthday.substring(0,4);
+                case(7): return formatted + "Julio de " + birthday.substring(0,4);
+                case(8): return formatted + "Agosto de " + birthday.substring(0,4);
+                case(9): return formatted + "Septiembre de " + birthday.substring(0,4);
+                case(10): return formatted + "Octubre de " + birthday.substring(0,4);
+                case(11): return formatted + "Noviembre de " + birthday.substring(0,4);
+                default: return formatted + "Diciembre de " + birthday.substring(0,4);
             }
         }
         return formatted;

@@ -29,7 +29,6 @@ import static com.fiuba.campus2015.extras.Constants.PHOTO;
 public class PersonalProfile extends Fragment {
     private ImageView photo;
     private TextView name;
-    private TextView lastName;
     private TextView email;
     private TextView nationality;
     private TextView birthday;
@@ -65,8 +64,7 @@ public class PersonalProfile extends Fragment {
     }
 
     private void loadData() {
-        name.setText(getArguments().getString(NAME));
-        lastName.setText(getArguments().getString(LASTNAME));
+        name.setText(getArguments().getString(NAME) + " " + getArguments().getString(LASTNAME));
         email.setText(getArguments().getString(EMAIL));
         phone.setText(getArguments().getString(PHONE));
         nationality.setText(getArguments().getString(NATIONALITY));
@@ -84,7 +82,6 @@ public class PersonalProfile extends Fragment {
     private void initialize() {
         photo = (ImageView) view.findViewById(R.id.imageView);
         name = (TextView) view.findViewById(R.id.nombre_Profile);
-        lastName = (TextView) view.findViewById(R.id.apellido_Profile);
         email = (TextView) view.findViewById(R.id.emailProfile);
         nationality = (TextView) view.findViewById(R.id.nacionalidaProfile);
         birthday = (TextView) view.findViewById(R.id.cumpleProfile);
