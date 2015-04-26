@@ -183,12 +183,16 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
 
     private boolean validateFields() {
         Calendar calendar = Calendar.getInstance();
-        if (dateFrom != null && dateTo != null) {
+
+        if(dateTo != null) {
             if(dateTo.compareTo(calendar.getTime()) == 1 ){
                 ((MaterialEditText) view.findViewById(R.id.date_from)).validateWith(new RegexpValidator("", "\\d+"));
                 ((MaterialEditText) view.findViewById(R.id.date_to)).validateWith(new RegexpValidator("Fechas futuras?", "\\d+"));
                 return false;
             }
+        }
+
+        if (dateFrom != null && dateTo != null) {
             if(dateFrom.compareTo(dateTo) == 1){
                 ((MaterialEditText) view.findViewById(R.id.date_from)).validateWith(new RegexpValidator("Desde mayor al Hasta? Mmm...", "\\d+"));
                 ((MaterialEditText) view.findViewById(R.id.date_to)).validateWith(new RegexpValidator("", "\\d+"));
