@@ -16,6 +16,7 @@ import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.JobAdapter;
 import com.fiuba.campus2015.adapter.RowJob;
 
+import com.fiuba.campus2015.dto.user.Job;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -39,6 +40,29 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
     private boolean disable;
     View view;
 
+    public static EmpleoFragment newInstance(Job empleo) {
+        EmpleoFragment myFragment = new EmpleoFragment();
+
+        Bundle args = new Bundle();
+        String place = "";
+        String datefrom = "" ;
+        String dateTo = "";
+
+        if(!empleo.companies.isEmpty())
+        {
+            //TODO
+        }
+
+        args.putString(DESCRIPCIONEMPLEO, place);
+        args.putString(FECHAINGRESOEMPLEO, datefrom);
+        args.putString(FECHASALIDAIEMPLEO, dateTo);
+
+
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,7 +84,7 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
                                 String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
                                 dateFromString.setText(date);
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_DATETIME);
                                 try {
                                     dateFrom = formatter.parse(date);
                                 } catch(Exception e) {}
@@ -86,7 +110,7 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
                                 String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
                                 dateToString.setText(date);
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_DATETIME);
                                 try {
                                     dateTo = formatter.parse(date);
                                 } catch(Exception e) {}
@@ -172,9 +196,9 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
 
         for(int i = 0; i < size; i++) {
             RowJob job = jobAdapter.getItem(i);*/
-         //   bundle.putString(DESCRIPCIONEMPLEO, description.getText().toString());
-         //   bundle.putString(FECHAINGRESOEMPLEO, dateFrom.toString());
-         //   bundle.putString(FECHASALIDAIEMPLEO, dateTo.toString());
+           bundle.putString(DESCRIPCIONEMPLEO, description.getText().toString());
+           //bundle.putString(FECHAINGRESOEMPLEO, dateFrom.toString());
+           //bundle.putString(FECHASALIDAIEMPLEO, dateTo.toString());
 
         //bundle.putString(CANTIDADEMPLEOS, Integer.toString(size));
 

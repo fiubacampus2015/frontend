@@ -22,11 +22,12 @@ public class User {
 
     }
 
-    public User(String name, String username, Personal personal,Education education){
+    public User(String name, String username, Personal personal,Education education, Job job){
         this.name = name;
         this.username = username;
         this.personal = personal;
         this.education = education;
+        this.job = job;
     }
 
 }

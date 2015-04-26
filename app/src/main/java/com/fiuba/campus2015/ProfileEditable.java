@@ -9,7 +9,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import static com.fiuba.campus2015.extras.Constants.BIRTHDAY;
 import static com.fiuba.campus2015.extras.Constants.COMENTARIO;
+import static com.fiuba.campus2015.extras.Constants.DESCRIPCIONEMPLEO;
 import static com.fiuba.campus2015.extras.Constants.FECHAINGRESO;
+import static com.fiuba.campus2015.extras.Constants.FECHAINGRESOEMPLEO;
+import static com.fiuba.campus2015.extras.Constants.FECHASALIDAIEMPLEO;
 import static com.fiuba.campus2015.extras.Constants.GENDER;
 import static com.fiuba.campus2015.extras.Constants.LASTNAME;
 import static com.fiuba.campus2015.extras.Constants.NAME;
@@ -25,6 +28,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import com.fiuba.campus2015.adapter.PageAdapter;
 import com.fiuba.campus2015.dto.user.Education;
+import com.fiuba.campus2015.dto.user.Job;
 import com.fiuba.campus2015.dto.user.Personal;
 import com.fiuba.campus2015.dto.user.Phone;
 import com.fiuba.campus2015.dto.user.User;
@@ -163,11 +167,15 @@ public class ProfileEditable extends ActionBarActivity {
                 SessionManager session = new SessionManager(editProfile.getApplicationContext());
 
                 Phone phones = new Phone(data.getString(PHONE),"");
+                Personal personal = new Personal(data.getString(PHOTO), data.getString(COMENTARIO),data.getString(NATIONALITY),"",data.getString(BIRTHDAY),data.getString(GENDER),phones);
+
                 Education education = new Education();
                 education.addCareer(data.getString(PROFESION),data.getString(ORIENTATION),data.getString(FECHAINGRESO));
 
-                Personal personal = new Personal(data.getString(PHOTO), data.getString(COMENTARIO),data.getString(NATIONALITY),"",data.getString(BIRTHDAY),data.getString(GENDER),phones);
-                User user = new User(data.getString(NAME),data.getString(LASTNAME),personal,education);
+                Job empleo = new Job();
+                empleo.addCompany(data.getString(DESCRIPCIONEMPLEO),data.getString(FECHAINGRESOEMPLEO),data.getString(FECHASALIDAIEMPLEO));
+
+                User user = new User(data.getString(NAME),data.getString(LASTNAME),personal,education,empleo);
 
                 response = api.put(session.getToken(),session.getUserid(),user);
 

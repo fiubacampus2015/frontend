@@ -59,7 +59,7 @@ public class PageAdapter extends FragmentPagerAdapter {
                 educationFragment = EducationFragment.newInstance(this.user.education);
                 return educationFragment;
             case 2:
-                empleoFragment = new EmpleoFragment();
+                empleoFragment = EmpleoFragment.newInstance(this.user.job);
                 return empleoFragment;
             case 3:
                 commentsFragment = CommentsFragment.newInstance(this.user.personal.comments);
