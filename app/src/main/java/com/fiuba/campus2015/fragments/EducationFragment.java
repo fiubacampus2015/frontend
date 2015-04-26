@@ -87,7 +87,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
 
 
         //Se carga la fecha
-        if(!initdate.isEmpty()) {
+        if(initdate != null && !initdate.isEmpty()) {
 
             Calendar fecha = null;
             try {
