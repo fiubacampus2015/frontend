@@ -1,5 +1,7 @@
 package com.fiuba.campus2015.fragments;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -78,6 +80,7 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
 
         // Show a datepicker when the dateButton is clicked
         dateFromButton.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void onClick(View v) {
                 DatePickerDialog.OnDateSetListener fromDateSetListener =
