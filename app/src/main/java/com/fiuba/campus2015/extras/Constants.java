@@ -16,9 +16,9 @@ public class Constants {
     public static final String ORIENTATION = "orientation";
     public static final String FECHAINGRESO = "ingreso";
     public static final String DATEADMISSION = "admission";
-    public static final String DESCRIPCIONEMPLEO = "descripcionE";
-    public static final String FECHAINGRESOEMPLEO = "ingreso";
-    public static final String FECHASALIDAIEMPLEO = "salida";
+    public static final String DESCRIPCIONEMPLEO = "place";
+    public static final String FECHAINGRESOEMPLEO = "initdate";
+    public static final String FECHASALIDAIEMPLEO = "enddate";
     public static final String CANTIDADEMPLEOS = "totalEmpleos";
     public static final String COMENTARIO = "comentario";
     public static final String[] EXTENSIONES = {"png", "jpeg"};

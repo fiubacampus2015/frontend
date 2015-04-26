@@ -179,12 +179,12 @@ public class PersonalDataFragment extends Fragment {
                         photoUser.setImageBitmap(getResizedBitmap(photoBitmap,256,256));
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(),
-                                "Seleccione fotos menores a 8MB", Toast.LENGTH_SHORT).show();
+                                "Seleccioná fotos menores a 8MB", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(),
-                            "Seleccione fotos de formato: " + EXTENSIONES[0] + "o " + EXTENSIONES[1] + " :S",
+                            "Seleccioná fotos de formato: " + EXTENSIONES[0] + "o " + EXTENSIONES[1]+"",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -209,7 +209,7 @@ public class PersonalDataFragment extends Fragment {
     }
 
     private boolean extensionValida() {
-      // falta validar
+      // TODO: falta validar
         return true;
     }
 

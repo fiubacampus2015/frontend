@@ -64,6 +64,18 @@ public class ProfileEditable extends ActionBarActivity {
 
     public void submitData(){
         Bundle data = adapterViewPager.getAllData();
+
+        if (dataIsValid(data)){
+            ExecuteSave(data);
+        }
+
+    }
+
+    private boolean dataIsValid(Bundle data){
+        return true;
+    }
+
+    private void ExecuteSave(Bundle data){
         SaveUserDataTask saveUserDataTask = new SaveUserDataTask(this, data);
         saveUserDataTask.executeTask();
     }
@@ -171,7 +183,7 @@ public class ProfileEditable extends ActionBarActivity {
         protected void onPostExecute(retrofit.client.Response response) {
 
             if(response == null) {
-                Toast.makeText(editProfile.getApplicationContext(), "Hubo un error al guardar los datos del alumno.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(editProfile.getApplicationContext(), "Hubo un error al guardar tus datos.", Toast.LENGTH_SHORT).show();
             } else {
                 editProfile.back();
             }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -17,31 +16,41 @@ import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.JobAdapter;
 import com.fiuba.campus2015.adapter.RowJob;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+<<<<<<< Updated upstream
+=======
+
+import java.text.SimpleDateFormat;
+>>>>>>> Stashed changes
 import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
 
 public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private EditText description;
-    private TextView dateFrom;
+    private TextView dateFromString;
     private ImageView dateFromButton;
-    private TextView dateTo;
+    private TextView dateToString;
+    private Date dateTo;
+    private Date dateFrom;
     private ImageView dateToButton;
 
     private boolean selected = false;
     private int jobSelected;
     private boolean disable;
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.jobfragment, container, false);
+        view =inflater.inflate(R.layout.jobfragment, container, false);
 
         description = (EditText) view.findViewById(R.id.trabajeEn);
-        dateFrom =  (TextView) view.findViewById(R.id.date_from);
+        dateFromString =  (TextView) view.findViewById(R.id.date_from);
         dateFromButton = (ImageView)view.findViewById(R.id.date_buttonFrom);
-        dateTo =  (TextView) view.findViewById(R.id.date_to);
+        dateToString =  (TextView) view.findViewById(R.id.date_to);
         dateToButton = (ImageView)view.findViewById(R.id.date_buttonTo);
 
         // Show a datepicker when the dateButton is clicked
@@ -53,7 +62,11 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
                             @Override
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
                                 String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
-                                dateFrom.setText(date);
+                                dateFromString.setText(date);
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                try {
+                                    dateFrom = formatter.parse(date);
+                                } catch(Exception e) {}
                             }
                         };
 
@@ -75,7 +88,11 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
                             @Override
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
                                 String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
-                                dateTo.setText(date);
+                                dateToString.setText(date);
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                try {
+                                    dateTo = formatter.parse(date);
+                                } catch(Exception e) {}
                             }
                         };
 
@@ -104,8 +121,8 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
     private void disableComponents() {
         if(disable) {
             description.setEnabled(false);
-            dateTo.setEnabled(false);
-            dateFrom.setEnabled(false);
+            dateToString.setEnabled(false);
+            dateFromString.setEnabled(false);
             dateFromButton.setEnabled(false);
             dateToButton.setEnabled(false);
         }
@@ -139,9 +156,17 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
 
     private boolean validateFields() {
 
-        //TODO: agregar validaciones
+        if (dateFrom != null && dateTo != null) {
+            if(dateFrom.compareTo(dateTo) == 1){
+                ((MaterialEditText) view.findViewById(R.id.date_from)).validateWith(new RegexpValidator("Desde mayor al Hasta? Mmm...", "\\d+"));
+                ((MaterialEditText) view.findViewById(R.id.date_to)).validateWith(new RegexpValidator("", "\\d+"));
+                return false;
+            } else {
+                return true;
+            }
+        }
 
-        return true;
+        return false;
     }
 
     public Bundle getData() {
@@ -151,10 +176,12 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
         for(int i = 0; i < size; i++) {
             RowJob job = jobAdapter.getItem(i);*/
             bundle.putString(DESCRIPCIONEMPLEO, description.getText().toString());
-            bundle.putString(FECHAINGRESOEMPLEO, dateFrom.getText().toString());
-            bundle.putString(FECHASALIDAIEMPLEO, dateTo.getText().toString());
+            bundle.putString(FECHAINGRESOEMPLEO, dateFrom.toString());
+            bundle.putString(FECHASALIDAIEMPLEO, dateTo.toString());
 
         //bundle.putString(CANTIDADEMPLEOS, Integer.toString(size));
+
+
 
         return bundle;
     }
