@@ -12,4 +12,6 @@
     <drawable name="highlight_focused">#b9e6f3</drawable>
     <color name="selected_gray">#ffdbdbdb</color>
     <color name="myDrawerBackground">#F2F2F2</color>
+    <color name="mdtp_accent_color">@color/my_awesome_color</color>
+    <color name="mdtp_accent_color_dark">@color/my_awesome_darker_color</color>
 </resources>
