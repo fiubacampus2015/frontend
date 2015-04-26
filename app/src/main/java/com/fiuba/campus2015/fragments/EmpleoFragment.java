@@ -107,6 +107,7 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
         });
 
         dateToButton.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void onClick(View v) {
                 DatePickerDialog.OnDateSetListener toDateSetListener =
@@ -181,33 +182,46 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
     }
 
     private boolean validateFields() {
-
+        Calendar calendar = Calendar.getInstance();
         if (dateFrom != null && dateTo != null) {
+            if(dateTo.compareTo(calendar.getTime()) == 1 ){
+                ((MaterialEditText) view.findViewById(R.id.date_from)).validateWith(new RegexpValidator("", "\\d+"));
+                ((MaterialEditText) view.findViewById(R.id.date_to)).validateWith(new RegexpValidator("Fechas futuras?", "\\d+"));
+                return false;
+            }
             if(dateFrom.compareTo(dateTo) == 1){
                 ((MaterialEditText) view.findViewById(R.id.date_from)).validateWith(new RegexpValidator("Desde mayor al Hasta? Mmm...", "\\d+"));
                 ((MaterialEditText) view.findViewById(R.id.date_to)).validateWith(new RegexpValidator("", "\\d+"));
                 return false;
-            } else {
-                return true;
             }
         }
 
-        return false;
+        return true;
     }
 
     public Bundle getData() {
         Bundle bundle = new Bundle();
-        SimpleDateFormat formatter=new SimpleDateFormat(FORMAT_DATETIME);
-        /*int size = jobAdapter.getCount();
 
-        for(int i = 0; i < size; i++) {
-            RowJob job = jobAdapter.getItem(i);*/
-           bundle.putString(DESCRIPCIONEMPLEO, description.getText().toString());
-           bundle.putString(FECHAINGRESOEMPLEO, formatter.format(dateFrom.getTime()));
-           bundle.putString(FECHASALIDAIEMPLEO, formatter.format(dateTo.getTime()));
 
-        //bundle.putString(CANTIDADEMPLEOS, Integer.toString(size));
+        if (validateFields()) {
+            SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_DATETIME);
+            /*int size = jobAdapter.getCount();
 
+
+            for(int i = 0; i < size; i++) {
+                RowJob job = jobAdapter.getItem(i);*/
+                bundle.putString(DESCRIPCIONEMPLEO, description.getText().toString());
+                bundle.putString(FECHAINGRESOEMPLEO, "");
+                if(dateFrom != null) {
+                    bundle.putString(FECHAINGRESOEMPLEO, formatter.format(dateFrom.getTime()));
+                }
+                bundle.putString(FECHASALIDAIEMPLEO, "");
+                if(dateTo != null) {
+                    bundle.putString(FECHASALIDAIEMPLEO, formatter.format(dateTo.getTime()));
+                }
+
+                //bundle.putString(CANTIDADEMPLEOS, Integer.toString(size));
+        }
 
 
         return bundle;

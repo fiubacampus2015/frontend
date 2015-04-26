@@ -41,12 +41,21 @@ public class PageAdapter extends FragmentPagerAdapter {
     // se obtienen los datos de todas las pantallas
     public Bundle getAllData() {
         Bundle bundle = new Bundle();
-        bundle.putAll(personalDataFragment.getData());
-        bundle.putAll(educationFragment.getData());
-        bundle.putAll(empleoFragment.getData());
-        bundle.putAll(commentsFragment.getData());
+        bundle.putAll(checkBundle(personalDataFragment.getData(),0));
+        bundle.putAll(checkBundle(educationFragment.getData(),1));
+        bundle.putAll(checkBundle(empleoFragment.getData(),2));
+        bundle.putAll(checkBundle(commentsFragment.getData(),3));
 
         return  bundle;
+    }
+
+    private Bundle checkBundle(Bundle bundle, Integer idPantalla){
+        if (bundle.isEmpty()) {
+            Bundle b = new Bundle();
+            b.putInt("ERROR",idPantalla);
+            return b;
+        }
+        else return bundle;
     }
 
     @Override

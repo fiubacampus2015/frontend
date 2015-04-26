@@ -1,6 +1,8 @@
 package com.fiuba.campus2015.fragments;
 
+import android.annotation.TargetApi;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -74,6 +76,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

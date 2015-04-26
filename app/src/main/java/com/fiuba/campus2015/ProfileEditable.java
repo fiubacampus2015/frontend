@@ -76,6 +76,14 @@ public class ProfileEditable extends ActionBarActivity {
     }
 
     private boolean dataIsValid(Bundle data){
+
+        Bundle b = data.getBundle("ERROR");
+
+        if (b != null){
+            vpPager.setCurrentItem(b.getInt("ERROR"));
+            return false;
+        }
+
         return true;
     }
 
