@@ -74,18 +74,10 @@ public class PersonalProfile extends Fragment {
 
         String genero = getArguments().getString(GENDER);
         if(!genero.isEmpty()) {
-            if(genero.equals("M")) { //harcoded
-                gender.setText("Masculino");
-            } else {
-                gender.setText("Femenino");
-            }
+            gender.setText(Utils.getGender(genero));
         }
 
-        String birtday = getArguments().getString(BIRTHDAY);
-        if(!birtday.isEmpty()) {
-            String month = Utils.getMonth(Integer.parseInt(birtday.substring(5,7)));
-            birthday.setText(birtday.substring(8,10) + " de " + month);
-        }
+        birthday.setText(Utils.getBirthdayFormatted(getArguments().getString(BIRTHDAY)));
 
     }
 
@@ -102,11 +94,7 @@ public class PersonalProfile extends Fragment {
 
     private void setPhoto(String photoCad) {
         if (!photoCad.isEmpty()) {
-            byte[] decodedString = Base64.decode(photoCad, Base64.DEFAULT);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPurgeable = true;
-            Bitmap photoBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length,options);
-            photo.setImageBitmap(Bitmap.createScaledBitmap(photoBitmap, 256, 256, true));
+            photo.setImageBitmap(Utils.getPhoto(photoCad));
         }
 
     }

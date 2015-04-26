@@ -29,6 +29,7 @@ import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
+import com.fiuba.campus2015.extras.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
@@ -234,15 +235,9 @@ public class PersonalDataFragment extends Fragment {
     }
 
     private void setPhoto(String photo) {
-
         if (!photo.isEmpty()) {
-            byte[] decodedString = Base64.decode(photo,Base64.DEFAULT);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPurgeable = true;
-            photoBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length,options);
-            photoUser.setImageBitmap(Bitmap.createScaledBitmap(photoBitmap, 256 , 256 , true));
+            photoUser.setImageBitmap(Utils.getPhoto(photo));
         }
-
     }
 
     private void loadImagefromGallery(View view) {

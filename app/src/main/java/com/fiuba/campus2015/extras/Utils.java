@@ -1,7 +1,9 @@
 package com.fiuba.campus2015.extras;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.util.Base64;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,21 +35,43 @@ public class Utils {
         return resizedBitmap;
     }
 
-    public static String getMonth(int month) {
-        switch (month) {
-            case(1): return "Enero";
-            case(2): return "Febrero";
-            case(3): return "Marzo";
-            case(4): return "Abril";
-            case(5): return "Mayo";
-            case(6): return "Junio";
-            case(7): return "Julio";
-            case(8): return "Agosto";
-            case(9): return "Septiembre";
-            case(10): return "Octubre";
-            case(11): return "Noviembre";
-            default: return "Diciembre";
+    public static String getBirthdayFormatted(String birthday) {
+        String formatted = "";
+        if(birthday != null && !birthday.isEmpty()) {
+            int month_ = Integer.parseInt(birthday.substring(5,7));
+            formatted = birthday.substring(8,10) + " de ";
+
+            switch (month_) {
+                case(1): return formatted + "Enero";
+                case(2): return formatted + "Febrero";
+                case(3): return formatted + "Marzo";
+                case(4): return formatted + "Abril";
+                case(5): return formatted + "Mayo";
+                case(6): return formatted + "Junio";
+                case(7): return formatted + "Julio";
+                case(8): return formatted + "Agosto";
+                case(9): return formatted + "Septiembre";
+                case(10): return formatted + "Octubre";
+                case(11): return formatted + "Noviembre";
+                default: return formatted + "Diciembre";
+            }
         }
+        return formatted;
     }
 
+    public static Bitmap getPhoto(String path) {
+        byte[] decodedString = Base64.decode(path , Base64.DEFAULT);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPurgeable = true;
+        Bitmap photoBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length,options);
+        return Bitmap.createScaledBitmap(photoBitmap, 256, 256, true);
+    }
+
+    public static String getGender(String mgender) {
+        if(mgender.equals("M")) {
+            return "Masculino";
+        } else {
+            return "Femenino";
+        }
+    }
 }
