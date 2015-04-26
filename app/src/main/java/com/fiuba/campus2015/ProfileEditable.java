@@ -22,6 +22,7 @@ import static com.fiuba.campus2015.extras.Constants.PHONE;
 import static com.fiuba.campus2015.extras.Constants.PHOTO;
 import static com.fiuba.campus2015.extras.Constants.PROFESION;
 import static com.fiuba.campus2015.extras.Constants.USER;
+import static com.fiuba.campus2015.extras.Constants.PAGE;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -63,12 +64,13 @@ public class ProfileEditable extends ActionBarActivity {
             User user = new Gson().fromJson(userJson, User.class);
             adapterViewPager = new PageAdapter(getSupportFragmentManager(), user);
             vpPager.setAdapter(adapterViewPager);
+            vpPager.setCurrentItem(extras.getInt(PAGE));
         }
     }
 
     public void submitData(){
         Bundle data = adapterViewPager.getAllData();
-
+        vpPager.setCurrentItem(0);
         if (dataIsValid(data)){
             ExecuteSave(data);
         }
