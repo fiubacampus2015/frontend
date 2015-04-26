@@ -14,6 +14,8 @@ import com.fiuba.campus2015.asyntask.LoadUserDataTask;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.fragments.IProfile;
+import com.google.gson.Gson;
+
 import static com.fiuba.campus2015.extras.Constants.TOKEN;
 import static com.fiuba.campus2015.extras.Constants.USER;
 
@@ -43,17 +45,18 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_reduced);
-
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         initialize();
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            LoadUserDataTask loadTask = new LoadUserDataTask(this, extras.getString(TOKEN), extras.getString(USER));
-            loadTask.executeTask();
+            String userJson = extras.getString(USER);
+            User user = new Gson().fromJson(userJson, User.class);
+            setUser(user);
+             //LoadUserDataTask loadTask = new LoadUserDataTask(this, extras.getString(TOKEN), extras.getString(USER));
+             //loadTask.executeTask();
         }
     }
 
@@ -61,7 +64,7 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
         photo = (ImageView) findViewById(R.id.imageViewR);
         name = (TextView) findViewById(R.id.nombre_ProfileR);
         lastName = (TextView) findViewById(R.id.apellido_ProfileR);
-        email = (TextView) findViewById(R.id.emailProfile);
+        email = (TextView) findViewById(R.id.emailProfileR);
         nationality = (TextView) findViewById(R.id.nacionalidaProfileR);
         birthday = (TextView) findViewById(R.id.cumpleProfileR);
         gender = (TextView) findViewById(R.id.generoProfileR);
@@ -69,6 +72,7 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
     }
 
     private void loadData(User user) {
+        getSupportActionBar().setTitle(user.name +" "+user.username);
         name.setText(user.name);
         lastName.setText(user.username);
         email.setText(user.email);
@@ -86,6 +90,8 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
         if(genero != null && !genero.isEmpty()) {
             gender.setText(Utils.getGender(genero));
         }
+
+
     }
 
     @Override
@@ -93,7 +99,7 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
         MenuItem itemSubmit = menu.findItem(R.id.action_submit);
         itemSubmit.setVisible(false);
         MenuItem itemSearch = menu.findItem(R.id.action_edit);
-        itemSearch.setVisible(true);
+        itemSearch.setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 

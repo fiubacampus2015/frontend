@@ -1,20 +1,23 @@
 package com.fiuba.campus2015.adapter;
 
 
+import com.fiuba.campus2015.dto.user.Personal;
+
 public class ContactItem implements Comparable <ContactItem> {
     private String name;
-    private String photo;
+    public String _id;
+    public Personal personal;
     private char title;
     private boolean mark;
 
     public ContactItem(String name, String photo) {
         this.name = name;
-        this.photo = photo;
+      //  this.photo = photo;
 
         title = Character.toUpperCase(name.charAt(0));
     }
 
-    public String getPhoto() {return photo;}
+   // public String getPhoto() {return photo;}
     public String getName() {return name;}
 
     @Override

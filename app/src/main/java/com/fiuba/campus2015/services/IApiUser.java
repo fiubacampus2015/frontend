@@ -1,13 +1,17 @@
 package com.fiuba.campus2015.services;
 
+import com.fiuba.campus2015.adapter.ContactItem;
 import com.fiuba.campus2015.dto.user.Authenticate;
 import com.fiuba.campus2015.dto.user.User;
+
+import java.util.List;
 
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * Created by apetalas on 3/4/15.
@@ -31,9 +35,13 @@ public interface IApiUser {
     );
 
     @GET("/api/{token}/users")
-    public User get(
-            @Path("token") String token
-    );
+    public List<User> getAll(
+            @Path("token") String token,
+            @Query("name") String name,
+            @Query("confirmed") Boolean confirmed
+
+
+            );
 
     @PUT("/api/{token}/users")
     public Response update(

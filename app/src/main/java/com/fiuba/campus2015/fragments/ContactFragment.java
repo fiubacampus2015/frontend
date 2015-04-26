@@ -1,27 +1,47 @@
 package com.fiuba.campus2015.fragments;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.fiuba.campus2015.ProfileEditable;
+import com.fiuba.campus2015.ProfileReduced;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.ContactItem;
 import com.fiuba.campus2015.adapter.ContactsAdapter;
+import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.extras.RecyclerItemClickListener;
+import com.fiuba.campus2015.services.RestClient;
+import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.views.ProgressBarCircularIndeterminate;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import static com.fiuba.campus2015.extras.Constants.USER;
+
 
 public class ContactFragment extends Fragment {
     private ListView listViewContacts;
-    private List<ContactItem> myContacts;
     private ContactsAdapter contactsAdapter;
     private RecyclerView recyclerView;
     private View myView;
+    private EditText searchText;
+    private ProgressBar prgrsBar;
+
 
     public static ContactFragment newInstance(String param1, String param2) {
         ContactFragment fragment = new ContactFragment();
@@ -32,11 +52,29 @@ public class ContactFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.contact_fragment, container, false);
 
-        myContacts = new ArrayList<>();
+        ImageView buttonSearch = (ImageView) myView.findViewById(R.id.search);
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchUsers();
+            }
+        });
+
+        ImageView buttonClear= (ImageView) myView.findViewById(R.id.search_clear);
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchClear(v);
+            }
+        });
+
+
+        prgrsBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminate);
+
 
         recyclerView = (RecyclerView) myView.findViewById(R.id.listViewContacts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -46,47 +84,99 @@ public class ContactFragment extends Fragment {
         //addAllContacts(fillContacts());
         recyclerView.setAdapter(contactsAdapter);
 
-        myContacts.addAll(fillContacts());
-        contactsAdapter.setContacts(myContacts);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        User contact = contactsAdapter.getContact(position);
+                        Intent intent = new Intent(getActivity(), ProfileReduced.class);
+                        intent.putExtra(USER, new Gson().toJson(contact));
+                        startActivity(intent);
+                    }
+                })
+        );
 
-        // hardcoded...
+        //searchUsers();
+        contactsAdapter.setContacts(new ArrayList<User>());
+
+
+        searchText = (EditText) myView.findViewById(R.id.search_text);
+        searchText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                searchText.requestFocusFromTouch();
+                return false;
+            }
+        });
 
         return myView;
     }
 
-    public void addAllContacts(List<ContactItem> contactItems) {
-        myContacts.addAll(contactItems);
-        contactsAdapter.sortMark();
-        contactsAdapter.notifyDataSetChanged();
+
+    public void searchUsers() {
+        SearchUsers task = new SearchUsers(this);
+        try {
+            task.execute();
+        } catch (Exception x){
+            Toast.makeText(getActivity().getApplicationContext(),"Error al buscar contactos.",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
-    public void addContact(ContactItem contact) {
-        myContacts.add(contact);
-        contactsAdapter.sortMark();
-        contactsAdapter.notifyDataSetChanged();
+    public void searchClear(View view) {
+
+        searchText.setText("");
+        contactsAdapter.setContacts(new ArrayList<User>());
+
     }
 
-    public List<ContactItem> getContacts() {
-        return myContacts;
-    }
+    private  class SearchUsers extends AsyncTask<Void, Void, List<User>> {
 
-    private List<ContactItem> fillContacts() {
-        List<ContactItem> contacts = new ArrayList<>();
-        contacts.add(new ContactItem("Alberto Rodriguez","1"));
-        contacts.add(new ContactItem("Luis Fernandez","1"));
-        contacts.add(new ContactItem("Laura Gonzales","1"));
-        contacts.add(new ContactItem("Amelia Lopez","1"));
-        contacts.add(new ContactItem("Armando Garcia", "1"));
-        contacts.add(new ContactItem("Julia Donohue", "1"));
-        contacts.add(new ContactItem("Lionel Messi", "1"));
-        contacts.add(new ContactItem("Beto Sanzhez", "1"));
-        contacts.add(new ContactItem("Barbara Macri", "1"));
-        contacts.add(new ContactItem("Jose Gonzales", "1"));
-        contacts.add(new ContactItem("Renzo Perez", "1"));
-        contacts.add(new ContactItem("Raul Fernandez", "1"));
-        contacts.add(new ContactItem("Romina Arias", "1"));
-        contacts.add(new ContactItem("Ignacio Zapata", "1"));
-        contacts.add(new ContactItem("Sebastian Durand", "1"));
-        return contacts;
+        RestClient restClient;
+        ContactFragment contactFragment;
+
+        public SearchUsers(ContactFragment contactFragment) {
+            this.contactFragment = contactFragment;
+        }
+
+        public void executeTask() {
+            try {
+                this.execute();
+            } catch (Exception e) {
+                 Toast.makeText(getActivity().getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            restClient = new RestClient();
+            prgrsBar.setEnabled(true);
+            prgrsBar.setVisibility(View.VISIBLE);
+
+
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... params) {
+            List<User> user = null;
+            try {
+                SessionManager session = new SessionManager(getActivity().getApplicationContext());
+                user = restClient.getApiService().getAll(session.getToken(), searchText.getText().toString(),true);
+
+            } catch (Exception ex) {
+                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
+
+            }
+            return user;
+        }
+
+        @Override
+        protected void onPostExecute(List<User> user) {
+            if (user == null) {
+                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
+            } else {
+                prgrsBar.setVisibility(View.INVISIBLE);
+                contactsAdapter.setContacts(user);
+            }
+        }
     }
 }

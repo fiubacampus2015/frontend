@@ -23,39 +23,33 @@
     android:paddingTop="5dp"
     android:paddingBottom="5dp">
 
-    <TextView
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/CharContact"
-        android:textColor="#ffff0ab1"
-        android:textSize="38dp"
-        android:layout_marginLeft="20dp"
-        android:textStyle="bold"
-        android:layout_gravity="center_vertical" />
-
-    <TextView
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/text_name_contact"
-        android:textSize="25dp"
-        android:textColor="@android:color/black"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="15dp" />
-
     <com.fiuba.campus2015.extras.RoundedImageView
         android:id="@+id/image_contact"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:src="@mipmap/ic_launcher"
-        android:background="@drawable/shape_contact"
+        android:layout_marginLeft="10dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/ic_account_circle_grey_48dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp" />
 
+    <TextView
+        android:layout_width="206dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:text="Medium Text"
+        android:textStyle="bold"
+        android:id="@+id/text_name_contact"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="15dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:src="@drawable/ic_action_send_now"/>
+
+
 </LinearLayout>
-
-
 
 </LinearLayout>
