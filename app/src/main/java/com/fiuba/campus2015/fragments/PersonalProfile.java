@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.extras.Utils;
 
 import static com.fiuba.campus2015.extras.Constants.BIRTHDAY;
 import static com.fiuba.campus2015.extras.Constants.EMAIL;
@@ -69,8 +71,22 @@ public class PersonalProfile extends Fragment {
         phone.setText(getArguments().getString(PHONE));
         nationality.setText(getArguments().getString(NATIONALITY));
         setPhoto(getArguments().getString(PHOTO));
-        gender.setText(getArguments().getString(GENDER));
-        birthday.setText(getArguments().getString(BIRTHDAY).substring(0,10));
+
+        String genero = getArguments().getString(GENDER);
+        if(!genero.isEmpty()) {
+            if(genero.equals("M")) { //harcoded
+                gender.setText("Masculino");
+            } else {
+                gender.setText("Femenino");
+            }
+        }
+
+        String birtday = getArguments().getString(BIRTHDAY);
+        if(!birtday.isEmpty()) {
+            String month = Utils.getMonth(Integer.parseInt(birtday.substring(5,7)));
+            birthday.setText(birtday.substring(8,10) + " de " + month);
+        }
+
     }
 
     private void initialize() {
