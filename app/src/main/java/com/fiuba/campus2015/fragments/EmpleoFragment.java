@@ -19,11 +19,8 @@ import com.fiuba.campus2015.adapter.RowJob;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-<<<<<<< Updated upstream
-=======
 
 import java.text.SimpleDateFormat;
->>>>>>> Stashed changes
 import java.util.Calendar;
 import java.util.Date;
 
