@@ -13,8 +13,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import static com.fiuba.campus2015.extras.Constants.USER;
 import com.fiuba.campus2015.adapter.ProfileAdapter;
+import com.fiuba.campus2015.asyntask.LoadUserDataTask;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.fragments.IProfile;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
 import com.google.gson.Gson;
@@ -22,7 +24,7 @@ import com.google.gson.GsonBuilder;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
-public class Profile extends ActionBarActivity {
+public class Profile extends ActionBarActivity implements IProfile{
     private ViewPager vpPager;
     private ProfileAdapter adapter;
     private Toolbar toolbar;
@@ -39,11 +41,17 @@ public class Profile extends ActionBarActivity {
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         vpPager.setOffscreenPageLimit(3);
 
-        LoadUserDataTask loadTask = new LoadUserDataTask(this);
+        SessionManager session = new SessionManager(getApplicationContext());
+        LoadUserDataTask loadTask = new LoadUserDataTask(this, session.getToken(), session.getUserid());
         loadTask.executeTask();
     }
 
     public void setUser(User user) {
+        if(user == null) {
+            Toast.makeText(this, "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         this.user = user;
         adapter= new ProfileAdapter(getSupportFragmentManager(), user);
         vpPager.setAdapter(adapter);
@@ -80,68 +88,6 @@ public class Profile extends ActionBarActivity {
         }
         return true;
     }
-
-
-
-
-
-
-
-
-
-    private  class LoadUserDataTask extends AsyncTask<Void, Void, User> {
-        private RestAdapter restAdapter;
-        private Gson gson;
-        private Profile profile;
-
-        public LoadUserDataTask(Profile profile) {
-            this.profile = profile;
-            gson = new GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                    .create();
-        }
-
-        public void executeTask() {
-            try {
-                this.execute();
-            } catch (Exception e) {
-                Toast.makeText(profile.getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(UrlEndpoints.URL_API)
-                    .setConverter(new GsonConverter(gson))
-                    .build();
-        }
-
-        @Override
-        protected User doInBackground(Void... params) {
-            IApiUser api = restAdapter.create(IApiUser.class);
-            User user = null;
-            try {
-                SessionManager session = new SessionManager(profile.getApplicationContext());
-                user = api.get(session.getToken(), session.getUserid());
-
-            } catch (Exception aaaa) {
-                Toast.makeText(profile.getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
-
-            }
-            return user;
-        }
-
-        @Override
-        protected void onPostExecute(User user) {
-            if (user == null) {
-                Toast.makeText(profile.getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
-            } else {
-                profile.setUser(user);
-            }
-        }
-    }
-
 
 
 
