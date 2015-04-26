@@ -49,5 +49,7 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.0.3'
     compile 'cn.pedant.sweetalert:library:1.3'
     compile 'net.yanzm:mth:1.0.1'
+    //Set this dependency for datetimepickers
+    compile 'com.wdullaer:materialdatetimepicker:1.2.2'
 
 }

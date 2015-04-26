@@ -105,6 +105,10 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
     private void disableComponents() {
         if(disable) {
             description.setEnabled(false);
+            dateTo.setEnabled(false);
+            dateFrom.setEnabled(false);
+            dateFromButton.setEnabled(false);
+            dateToButton.setEnabled(false);
         }
     }
 
