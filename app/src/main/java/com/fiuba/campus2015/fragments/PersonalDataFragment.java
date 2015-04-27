@@ -63,6 +63,7 @@ public class PersonalDataFragment extends Fragment {
     private TextView birthdayString;
     private java.util.Date birthday;
     private ImageView birthdayButton;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     public static PersonalDataFragment newInstance(User user) {
         PersonalDataFragment myFragment = new PersonalDataFragment();
@@ -145,6 +146,10 @@ public class PersonalDataFragment extends Fragment {
             birthdayString =  (TextView) myView.findViewById(R.id.date_birthday);
             birthdayButton = (ImageView)myView.findViewById(R.id.date_buttonBirthday);
 
+            birthday = getDateFormat(getArguments().getString(BIRTHDAY));
+            if (birthday!=null)
+                birthdayString.setText(formatter.format(birthday));
+
             // Show a datepicker when the dateButton is clicked
             birthdayButton.setOnClickListener(new View.OnClickListener() {
                 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -156,7 +161,6 @@ public class PersonalDataFragment extends Fragment {
                                 public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
                                     String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
                                     birthdayString.setText(date);
-                                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                                     try {
                                         birthday = formatter.parse(date);
                                     } catch(Exception e) {}
@@ -174,6 +178,21 @@ public class PersonalDataFragment extends Fragment {
             });
 
             return myView;
+    }
+
+    private java.util.Date getDateFormat(String dateString)
+    {
+        Calendar calendar = null;
+        try {
+
+            calendar = stringToCalendar(dateString);
+            return calendar.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     private void initializeIdComponents() {
