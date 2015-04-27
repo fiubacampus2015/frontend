@@ -31,6 +31,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class EducationFragment extends Fragment implements AdapterView.OnItemSelectedListener,
         AdapterView.OnItemClickListener {
@@ -45,6 +46,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
     private ImageView fechaIngresoButton;
     private boolean disable;
     private int optionOrientation = -1;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     public static EducationFragment newInstance(Education education) {
         EducationFragment myFragment = new EducationFragment();
@@ -99,6 +101,10 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         fechaIngresoString =  (TextView) myView.findViewById(R.id.date_initString);
         fechaIngresoButton = (ImageView)myView.findViewById(R.id.dateInit_button);
 
+        fechaIngreso = getDateFormat(getArguments().getString(FECHAINGRESO));
+        if (fechaIngreso!=null)
+            fechaIngresoString.setText(formatter.format(fechaIngreso));
+
         // Show a datepicker when the dateButton is clicked
         fechaIngresoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +115,6 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
                                 String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
                                 fechaIngresoString.setText(date);
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                                 try {
                                     fechaIngreso = formatter.parse(date);
                                 } catch(Exception e) {}
@@ -158,6 +163,21 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         spCarreras.setAdapter(adapter);
         spCarreras.setOnItemSelectedListener(this);
         spOrientacion.setOnItemSelectedListener(this);
+    }
+
+    private Date getDateFormat(String dateString)
+    {
+        Calendar calendar = null;
+        try {
+
+            calendar = stringToCalendar(dateString);
+            return calendar.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     @Override
