@@ -37,6 +37,10 @@ import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
 import com.google.gson.Gson;
+
+import java.sql.Date;
+import java.util.Calendar;
+
 import retrofit.RestAdapter;
 import retrofit.client.Response;
 
@@ -81,6 +85,11 @@ public class ProfileEditable extends ActionBarActivity {
             vpPager.setCurrentItem(error);
             return false;
         }
+
+        if (data.getString("BIRTHDAY") != null && data.get("FECHAINGRESO") != null) {
+            //TODO: validación cruzada
+        }
+
         ExecuteSave(data);
         return true;
     }
@@ -132,12 +141,6 @@ public class ProfileEditable extends ActionBarActivity {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-
-
-
-
-
 
     private class SaveUserDataTask extends AsyncTask<Void, Void, Response> {
         private RestAdapter restAdapter;
