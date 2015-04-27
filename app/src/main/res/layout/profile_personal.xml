@@ -16,7 +16,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:id="@+id/imageView"
-            android:src="@drawable/wallpaper" />
+            android:src="@drawable/ic_account_circle_grey_48dp" />
     </LinearLayout>
 
     <LinearLayout

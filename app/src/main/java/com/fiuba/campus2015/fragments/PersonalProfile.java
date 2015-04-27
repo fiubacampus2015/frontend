@@ -57,7 +57,6 @@ public class PersonalProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.profile_personal, container, false);
-
         initialize();
         loadData();
         return view;

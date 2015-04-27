@@ -38,8 +38,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:background="#FFFF00"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
                 app:animate="false"
                 app:iconDrawable="@drawable/ic_action_send_now"
                 android:layout_gravity="bottom" />

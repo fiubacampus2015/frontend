@@ -103,7 +103,7 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
             gender.setText(Utils.getGender(genero));
         }
         if (user.contacts.contains(session.getUserid())) {
-            findViewById(R.id.addFriend).setEnabled(false);
+            findViewById(R.id.addFriend).setVisibility(View.GONE);
         }
 
 

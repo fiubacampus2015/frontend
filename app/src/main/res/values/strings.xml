@@ -14,7 +14,7 @@
     <string name="app_edit_profile">Editar Perfil</string>
     <string name="app_profile">Perfil</string>
     <string name="drawer_close">Close</string>
-    <string name="no_data_available">No se encontraron contactos</string>
+    <string name="no_data_available">No se encontraron resultados</string>
 
 
     <!--CARRERAS -->

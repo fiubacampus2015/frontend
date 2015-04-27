@@ -34,7 +34,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     public void setContacts(List<User> listContacts,String userId) {
         this.contactsItems = listContacts;
         this.userId = userId;
-        //sortMark();
+        sortMark();
         notifyDataSetChanged();
         //notifyItemRangeChanged(0,listMovies.size());
     }
@@ -48,7 +48,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         //    contact.setMark(false);
         //}
 
-        //Collections.sort(contactsItems);
+        Collections.sort(contactsItems);
         // se marca el primer contacto para mostrar la letra
         //contactsItems.get(0).setMark(true);
 
@@ -73,7 +73,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
         User contactItem = contactsItems.get(position);
 
-        holder.textViewName.setText(contactItem.name);
+        holder.textViewName.setText(contactItem.name + " "+ contactItem.username);
+        holder.textMail.setText(contactItem.email);
+        //holder.textCountry.setText(contactItem.personal.nacionality);
+
         holder.viewSeparator.setBackgroundColor(Color.WHITE);
 
         //if(contactItem.getMark()) {
@@ -82,9 +85,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 // los item que muestran la letra y son distintos al primero muestran la division
                 holder.viewSeparator.setBackgroundColor(Color.parseColor("#ffcfcfcf"));
             }
-           //if (!contactItem.contacts.contains(userId)) {
-             // holder.viewSendInvitation.setVisibility(View.VISIBLE);
-          // }
+           if (!contactItem.contacts.contains(userId)) {
+              holder.viewSendInvitation.setVisibility(View.VISIBLE);
+           }else
+              holder.viewSendInvitation.setVisibility(View.GONE);
+
 
         //} else {
             //holder.textViewChar.setText("");
@@ -126,6 +131,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         ImageView imageViewContact;
         View viewSeparator;
         ImageView viewSendInvitation;
+        TextView textCountry;
+        TextView textMail;
+
+
+
 
         public ViewHolderContacts(View itemView) {
             super(itemView);
@@ -134,7 +144,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             //textViewChar = (TextView) itemView.findViewById(R.id.CharContact);
             viewSeparator = (View) itemView.findViewById(R.id.separatorContact);
             viewSendInvitation = (ImageView) itemView.findViewById(R.id.sendInvitation);
-
+            //textCountry = (TextView)itemView.findViewById(R.id.countryText);
+            textMail = (TextView)itemView.findViewById(R.id.mailText);
 
         }
     }

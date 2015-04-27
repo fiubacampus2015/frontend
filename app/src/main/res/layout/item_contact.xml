@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <View
         android:layout_width="match_parent"
@@ -12,7 +13,7 @@
         android:layout_marginLeft="80dp"
         android:layout_marginRight="5dp" />
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,6 +21,7 @@
     android:baselineAligned="false"
     android:background="#ffffffff"
     android:weightSum="1"
+    android:layout_weight="0.03"
     android:paddingTop="5dp"
     android:paddingBottom="5dp">
 
@@ -33,24 +35,36 @@
         android:layout_marginTop="5dp" />
 
     <TextView
-        android:layout_width="206dp"
+        android:layout_width="215dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:text="Medium Text"
         android:textStyle="bold"
         android:id="@+id/text_name_contact"
         android:textColor="@android:color/black"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="15dp" />
+        android:layout_alignTop="@+id/image_contact"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/mailText"
+        android:layout_marginTop="9dp"
+        android:layout_below="@+id/text_name_contact"
+        android:layout_alignStart="@+id/text_name_contact"
+        android:layout_marginStart="9dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sendInvitation"
+        android:src="@drawable/ic_action_send_now"
+        android:layout_alignTop="@+id/text_name_contact"
         android:visibility="gone"
-        android:src="@drawable/ic_action_send_now"/>
+        android:layout_alignParentEnd="true" />
 
-
-</LinearLayout>
+</RelativeLayout>
 
 </LinearLayout>
