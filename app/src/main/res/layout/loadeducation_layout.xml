@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:orientation="vertical"
@@ -56,35 +57,32 @@
             style="@style/AppTheme"/>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/fechaIngresolayout"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/fechaIngreso"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp">
 
-            <TextView
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/date_initString"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Fecha Ingreso"
-                android:id="@+id/fechaIngresoLabel"
-                android:textSize="13dp"
-                android:textColor="@color/primary_dark_material_light"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginRight="15dp"
+                app:met_primaryColor="@color/accent"
+                app:met_floatingLabel="normal"
+                android:hint="Fecha Ingreso"
+                android:inputType="date"/>
 
-            <DatePicker
+            <ImageView
+                android:id="@+id/dateInit_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/fechaIngreso"
-                android:layout_gravity="center_horizontal"
-                android:datePickerMode="spinner"
-                android:yearListSelectorColor="@color/accent"
-                android:calendarViewShown="false"
-                android:layout_marginLeft="15dp"
-                android:headerMonthTextAppearance="@color/accent" />
-
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="60dp"
+                android:src="@drawable/ic_insert_invitation_grey"/>
 
         </LinearLayout>
 

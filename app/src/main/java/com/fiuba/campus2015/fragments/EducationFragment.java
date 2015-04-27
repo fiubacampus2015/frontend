@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.fiuba.campus2015.extras.Constants.*;
@@ -22,6 +24,9 @@ import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.CustomAdapter;
 import com.fiuba.campus2015.dto.user.Education;
+import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +40,9 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
     private ListView list;
     private CustomAdapter customAdapter;
     private View myView;
-    private DatePicker fechaIngreso;
+    private TextView fechaIngresoString;
+    private java.util.Date fechaIngreso;
+    private ImageView fechaIngresoButton;
     private boolean disable;
     private int optionOrientation = -1;
 
@@ -72,7 +79,8 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         if(disable) {
             spCarreras.setEnabled(false);
             spOrientacion.setEnabled(false);
-            fechaIngreso.setEnabled(false);
+            fechaIngresoButton.setEnabled(false);
+            fechaIngresoString.setEnabled(false);
         }
     }
 
@@ -83,31 +91,43 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
 
         //Se inicializan los datos
         myView = inflater.inflate(R.layout.loadeducation_layout, container, false);
-        fechaIngreso = (DatePicker) myView.findViewById(R.id.fechaIngreso);
         loadCareer();
-        String initdate = getArguments().getString(FECHAINGRESO);
         String profesion = getArguments().getString(PROFESION);
 
 
         //Se carga la fecha
-        if(initdate != null && !initdate.isEmpty()) {
+        fechaIngresoString =  (TextView) myView.findViewById(R.id.date_initString);
+        fechaIngresoButton = (ImageView)myView.findViewById(R.id.dateInit_button);
 
-            Calendar fecha = null;
-            try {
+        // Show a datepicker when the dateButton is clicked
+        fechaIngresoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog.OnDateSetListener fromDateSetListener =
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
+                                String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+                                fechaIngresoString.setText(date);
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                try {
+                                    fechaIngreso = formatter.parse(date);
+                                } catch(Exception e) {}
+                            }
+                        };
 
-                fecha = stringToCalendar(initdate);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = DatePickerDialog.newInstance(fromDateSetListener,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                );
+                dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
             }
-            fechaIngreso.updateDate(fecha.get(Calendar.YEAR), fecha.get(Calendar.MONTH), fecha.get(Calendar.DAY_OF_MONTH));
-
-        }
+        });
         
         //No se muestran los dias en el datepicker
-        LinearLayout pickerParentLayout = (LinearLayout) fechaIngreso.getChildAt(0);
-        LinearLayout pickerSpinnersHolder = (LinearLayout) pickerParentLayout.getChildAt(0);
-        pickerSpinnersHolder.getChildAt(1).setVisibility(View.GONE);
+        //TODO
 
         //Se carga el combo de profesion
         if (!profesion.equals(null) && !profesion.isEmpty()) {
@@ -192,24 +212,41 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
 
     }
 
+    private boolean validateFields() {
+        Calendar calendar = Calendar.getInstance();
+
+        if(fechaIngreso != null) {
+            if(fechaIngreso.compareTo(calendar.getTime()) == 1 ){
+                ((MaterialEditText) myView.findViewById(R.id.date_initString)).validateWith(new RegexpValidator("Fecha de Ingreso mayor a hoy?", "\\d+"));
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     public Bundle getData() {
 
         Bundle bundle = new Bundle();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(fechaIngreso.getYear(), fechaIngreso.getMonth(), fechaIngreso.getDayOfMonth());
-        SimpleDateFormat formatter=new SimpleDateFormat(FORMAT_DATETIME);
 
-        String profesion = spCarreras.getSelectedItem().toString();
-        bundle.putString(PROFESION, profesion);
+        if (validateFields()) {
+            SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_DATETIME);
+            bundle.putString(FECHAINGRESO, "");
+            if (fechaIngreso != null) {
+                bundle.putString(FECHAINGRESO, formatter.format(fechaIngreso.getTime()));
+            }
 
-        if(!profesion.equals("Linceciatura Sistemas")) {
-            bundle.putString(ORIENTATION, spOrientacion.getSelectedItem().toString());
-        } else {
-            bundle.putString(ORIENTATION, "");
+            String profesion = spCarreras.getSelectedItem().toString();
+            bundle.putString(PROFESION, profesion);
+
+            if (!profesion.equals("Linceciatura Sistemas")) {
+                bundle.putString(ORIENTATION, spOrientacion.getSelectedItem().toString());
+            } else {
+                bundle.putString(ORIENTATION, "");
+            }
+
         }
-
-        bundle.putString(FECHAINGRESO, formatter.format(calendar.getTime()));
-
         return bundle;
     }
 }
