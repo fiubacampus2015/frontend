@@ -1,5 +1,6 @@
 package com.fiuba.campus2015.fragments;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.fiuba.campus2015.extras.Constants.*;
@@ -30,8 +33,12 @@ import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.Utils;
+import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -53,7 +60,9 @@ public class PersonalDataFragment extends Fragment {
     private Spinner nationality;
     private RadioGroup radioGroup;
     private String gender;
-    private DatePicker birthday;
+    private TextView birthdayString;
+    private java.util.Date birthday;
+    private ImageView birthdayButton;
 
     public static PersonalDataFragment newInstance(User user) {
         PersonalDataFragment myFragment = new PersonalDataFragment();
@@ -133,25 +142,36 @@ public class PersonalDataFragment extends Fragment {
              }
         });
 
+            birthdayString =  (TextView) myView.findViewById(R.id.date_birthday);
+            birthdayButton = (ImageView)myView.findViewById(R.id.date_buttonBirthday);
 
+            // Show a datepicker when the dateButton is clicked
+            birthdayButton.setOnClickListener(new View.OnClickListener() {
+                @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+                @Override
+                public void onClick(View v) {
+                    DatePickerDialog.OnDateSetListener fromDateSetListener =
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
+                                    String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+                                    birthdayString.setText(date);
+                                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                                    try {
+                                        birthday = formatter.parse(date);
+                                    } catch(Exception e) {}
+                                }
+                            };
 
-            String birth = getArguments().getString(BIRTHDAY);
-            //Se carga la fecha
-            if(birth != null) {
-
-                Calendar fecha = null;
-                try {
-
-                    fecha = stringToCalendar(birth);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    Calendar now = Calendar.getInstance();
+                    DatePickerDialog dpd = DatePickerDialog.newInstance(fromDateSetListener,
+                            now.get(Calendar.YEAR),
+                            now.get(Calendar.MONTH),
+                            now.get(Calendar.DAY_OF_MONTH)
+                    );
+                    dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
                 }
-                birthday.updateDate(fecha.get(Calendar.YEAR),fecha.get(Calendar.MONTH),fecha.get(Calendar.DAY_OF_MONTH));
-
-            }
-
-
+            });
 
             return myView;
     }
@@ -164,7 +184,7 @@ public class PersonalDataFragment extends Fragment {
         mail = (EditText) myView.findViewById(R.id.idmail);
         nationality = (Spinner) myView.findViewById(R.id.idnationality);
         radioGroup = (RadioGroup)myView.findViewById(R.id.idradiogroupshow);
-        birthday = (DatePicker) myView.findViewById(R.id.birthday);
+        birthdayString = (TextView) myView.findViewById(R.id.date_birthday);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -191,6 +211,19 @@ public class PersonalDataFragment extends Fragment {
         } catch (Exception e) {
         }
 
+    }
+
+    private boolean validateFields() {
+        Calendar calendar = Calendar.getInstance();
+
+        if(birthday != null) {
+            if(birthday.compareTo(calendar.getTime()) == 1 ){
+                ((MaterialEditText) myView.findViewById(R.id.date_birthday)).validateWith(new RegexpValidator("Fecha de Nacimiento mayor a hoy?", "\\d+"));
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private Bitmap getPhoto(Intent data) {
@@ -248,26 +281,28 @@ public class PersonalDataFragment extends Fragment {
 
     public Bundle getData() {
         Bundle bundle = new Bundle();
-        bundle.putString(NAME,name.getText().toString());
-        bundle.putString(LASTNAME,username.getText().toString());
-        bundle.putString(EMAIL, mail.getText().toString());
-        bundle.putString(PHONE, phone.getText().toString());
-        bundle.putString(NATIONALITY, nationality.getSelectedItem().toString());
-        bundle.putString(GENDER, gender);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(birthday.getYear(), birthday.getMonth(), birthday.getDayOfMonth());
-        SimpleDateFormat formatter=new SimpleDateFormat(FORMAT_DATETIME);
+        if (validateFields()) {
+            bundle.putString(NAME,name.getText().toString());
+            bundle.putString(LASTNAME,username.getText().toString());
+            bundle.putString(EMAIL, mail.getText().toString());
+            bundle.putString(PHONE, phone.getText().toString());
+            bundle.putString(NATIONALITY, nationality.getSelectedItem().toString());
+            bundle.putString(GENDER, gender);
 
-        bundle.putString(BIRTHDAY, formatter.format(calendar.getTime()));
+            SimpleDateFormat formatter = new SimpleDateFormat(FORMAT_DATETIME);
+            bundle.putString(BIRTHDAY, "");
+            if(birthday != null) {
+                bundle.putString(BIRTHDAY, formatter.format(birthday.getTime()));
+            }
 
-        String photoString = getPhotoString();
-        if(photoString != null) {
-            bundle.putString(PHOTO, photoString);
-        }else {
-            bundle.putString(PHOTO, "");
+            String photoString = getPhotoString();
+            if(photoString != null) {
+                bundle.putString(PHOTO, photoString);
+            }else {
+                bundle.putString(PHOTO, "");
+            }
         }
-
         return bundle;
     }
 

@@ -3,7 +3,8 @@
     <color name="black">#64676767</color>
     <color name="white">#ffffff</color>
     <color name="blue">#2196F3</color>
-    <color name="accent">#FFFF00</color>
+    <!--color name="accent">#FFFF00</color-->
+    <color name="accent">#ffd700</color>
     <color name="my_awesome_color">#00BCD4</color>
     <color name="my_awesome_darker_color">#0097A7</color>
     <color name="background">#ececec</color>
@@ -12,6 +13,6 @@
     <drawable name="highlight_focused">#b9e6f3</drawable>
     <color name="selected_gray">#ffdbdbdb</color>
     <color name="myDrawerBackground">#F2F2F2</color>
-    <color name="mdtp_accent_color">@color/my_awesome_color</color>
+    <color name="mdtp_accent_color">@color/accent</color>
     <color name="mdtp_accent_color_dark">@color/my_awesome_darker_color</color>
 </resources>

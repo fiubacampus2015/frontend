@@ -123,34 +123,32 @@
                 </RadioGroup>
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/fechaIngresolayout"
-                    android:layout_marginLeft="20dp"
+                    android:id="@+id/fechaNacimiento"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Fecha Nacimiento"
-                        android:id="@+id/fechacumpleaños"
-                        android:textSize="13dp"
-                        android:textColor="@color/primary_dark_material_light"
-                        android:textStyle="bold"
-                        android:layout_marginTop="20dp"/>
 
-                    <DatePicker
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/birthday"
-                        android:layout_gravity="left"
-                        android:datePickerMode="calendar"
-                        android:layout_marginLeft="22dp"
-                        android:yearListSelectorColor="@color/accent"
-                        android:calendarViewShown="false"
-                        android:headerMonthTextAppearance="@color/accent" />
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/date_birthday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            app:met_primaryColor="@color/accent"
+                            app:met_floatingLabel="normal"
+                            android:hint="Fecha Nacimiento"
+                            android:inputType="date"/>
+
+                        <ImageView
+                            android:id="@+id/date_buttonBirthday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginRight="60dp"
+                            android:src="@drawable/ic_insert_invitation_grey"/>
                 </LinearLayout>
 
             </LinearLayout>
