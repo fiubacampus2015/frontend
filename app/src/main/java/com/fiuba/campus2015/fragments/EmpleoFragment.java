@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import static com.fiuba.campus2015.extras.Constants.*;
+import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
+
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.JobAdapter;
 import com.fiuba.campus2015.adapter.RowJob;
@@ -23,6 +25,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,6 +39,8 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
     private Date dateTo;
     private Date dateFrom;
     private ImageView dateToButton;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
 
     private boolean selected = false;
     private int jobSelected;
@@ -78,6 +83,15 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
         dateToString =  (TextView) view.findViewById(R.id.date_to);
         dateToButton = (ImageView)view.findViewById(R.id.date_buttonTo);
 
+        dateFrom = getDateFormat(getArguments().getString(FECHAINGRESOEMPLEO));
+        dateTo = getDateFormat(getArguments().getString(FECHASALIDAIEMPLEO));
+        if (dateFrom!=null)
+            dateFromString.setText(formatter.format(dateFrom));
+        if (dateTo!=null)
+             dateToString.setText(formatter.format(dateTo));
+
+        description.setText(getArguments().getString(DESCRIPCIONEMPLEO));
+
         // Show a datepicker when the dateButton is clicked
         dateFromButton.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -89,7 +103,6 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
                                 String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
                                 dateFromString.setText(date);
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                                 try {
                                     dateFrom = formatter.parse(date);
                                 } catch(Exception e) {}
@@ -116,7 +129,6 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
                             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)  {
                                 String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
                                 dateToString.setText(date);
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                                 try {
                                     dateTo = formatter.parse(date);
                                 } catch(Exception e) {}
@@ -139,6 +151,22 @@ public class EmpleoFragment extends Fragment implements AdapterView.OnItemClickL
         disableComponents();
 
         return view;
+    }
+
+
+    private Date getDateFormat(String dateString)
+    {
+        Calendar calendar = null;
+        try {
+
+            calendar = stringToCalendar(dateString);
+            return calendar.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     public void disable() {

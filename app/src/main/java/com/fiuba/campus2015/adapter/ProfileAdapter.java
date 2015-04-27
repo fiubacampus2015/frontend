@@ -44,7 +44,7 @@ public class ProfileAdapter extends FragmentPagerAdapter {
                 educationFragment.disable();
                 return educationFragment;
             case 2:
-                empleoFragment = new EmpleoFragment();
+                empleoFragment =  EmpleoFragment.newInstance(this.user.job);
                 empleoFragment.disable();
                 return empleoFragment;
             case 3:
