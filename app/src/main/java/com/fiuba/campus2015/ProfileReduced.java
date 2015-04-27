@@ -31,17 +31,6 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
     private TextView gender;
     private TextView phone;
 
-    /*
-    Cuando se llame a esta actividad pasarle a traves del intent el id y
-    token del usuario que se desea consultar :/
-
-     Intent intent = new Intent(this, ProfileReduced.class);
-     intent.putExtra(USER, idUser);
-     intent.putExtra(TOKEN, tokenUSer);
-     startActivity(intent);
-     */
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_reduced);
@@ -52,6 +41,12 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        findViewById(R.id.agregarContacto).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
