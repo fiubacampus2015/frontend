@@ -1,10 +1,12 @@
 package com.fiuba.campus2015.dto.user;
 
+import java.util.List;
+
 /**
  * Created by apetalas on 3/4/15.
  */
 public class User {
-
+    public String _id;
     public String username;
     public String password;
     public String email;
@@ -12,6 +14,7 @@ public class User {
     public Personal personal;
     public Education education;
     public Job job;
+    public List<String> contacts;
 
     public User(String name, String username, String password, String email, Personal personal){
         this.name = name;

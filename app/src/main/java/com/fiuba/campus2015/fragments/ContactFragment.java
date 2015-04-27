@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.fiuba.campus2015.extras.Constants.USER;
@@ -41,7 +42,8 @@ public class ContactFragment extends Fragment {
     private View myView;
     private EditText searchText;
     private ProgressBar prgrsBar;
-
+    private TextView emptyView;
+    private SessionManager session;
 
     public static ContactFragment newInstance(String param1, String param2) {
         ContactFragment fragment = new ContactFragment();
@@ -56,11 +58,14 @@ public class ContactFragment extends Fragment {
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.contact_fragment, container, false);
 
+        session = new SessionManager(getActivity().getApplicationContext());
+
+
         ImageView buttonSearch = (ImageView) myView.findViewById(R.id.search);
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchUsers();
+                searchUsers(false);
             }
         });
 
@@ -74,6 +79,7 @@ public class ContactFragment extends Fragment {
 
 
         prgrsBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminate);
+        emptyView = (TextView) myView.findViewById(R.id.empty_view);
 
 
         recyclerView = (RecyclerView) myView.findViewById(R.id.listViewContacts);
@@ -95,10 +101,11 @@ public class ContactFragment extends Fragment {
                 })
         );
 
-        //searchUsers();
-        contactsAdapter.setContacts(new ArrayList<User>());
 
 
+        contactsAdapter.setContacts(new ArrayList<User>(),session.getUserid());
+        searchUsers(true);
+        //Se agrega esto por que sino no funciona el input con tabs
         searchText = (EditText) myView.findViewById(R.id.search_text);
         searchText.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -112,8 +119,8 @@ public class ContactFragment extends Fragment {
     }
 
 
-    public void searchUsers() {
-        SearchUsers task = new SearchUsers(false);
+    public void searchUsers(boolean friend) {
+        SearchUsers task = new SearchUsers(friend);
         try {
             task.execute();
         } catch (Exception x){
@@ -123,10 +130,9 @@ public class ContactFragment extends Fragment {
     }
 
     public void searchClear(View view) {
-
+        emptyView.setVisibility(View.INVISIBLE);
         searchText.setText("");
-        contactsAdapter.setContacts(new ArrayList<User>());
-
+        searchUsers(true);
     }
 
     private  class SearchUsers extends AsyncTask<Void, Void, List<User>> {
@@ -159,8 +165,11 @@ public class ContactFragment extends Fragment {
         protected List<User> doInBackground(Void... params) {
             List<User> user = null;
             try {
-                SessionManager session = new SessionManager(getActivity().getApplicationContext());
-                user = restClient.getApiService().getAll(session.getToken(), searchText.getText().toString(),true);
+                if (searchFriend)
+                    //user = restClient.getApiService().getFriends(session.getToken(),session.getUserid(),"");
+                    user = restClient.getApiService().getAll(session.getToken(), searchText.getText().toString(),session.getUserid(),true);
+                else
+                    user = restClient.getApiService().getFriend(session.getToken(), searchText.getText().toString(), true);
 
             } catch (Exception ex) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
@@ -174,8 +183,13 @@ public class ContactFragment extends Fragment {
             if (user == null) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
             } else {
+                if(user.isEmpty())
+                    emptyView.setVisibility(View.VISIBLE);
+                else
+                    emptyView.setVisibility(View.INVISIBLE);
+
                 prgrsBar.setVisibility(View.INVISIBLE);
-                contactsAdapter.setContacts(user);
+                contactsAdapter.setContacts(user,session.getUserid());
             }
         }
     }

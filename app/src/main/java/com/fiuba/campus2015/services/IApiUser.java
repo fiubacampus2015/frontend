@@ -38,14 +38,32 @@ public interface IApiUser {
     public List<User> getAll(
             @Path("token") String token,
             @Query("name") String name,
+            @Query("contacts") String contacts,
             @Query("confirmed") Boolean confirmed
             );
 
-    @GET("/api/{token}/users/{user}/friends")
-    public List<User> friends(
+    @GET("/api/{token}/users")
+    public List<User> getFriend(
             @Path("token") String token,
-            @Path("user") String user
+            @Query("name") String name,
+            @Query("confirmed") Boolean confirmed
     );
+
+
+    @GET("/api/{token}/users/{user}/friends")
+    public List<User> getFriends(
+            @Path("token") String token,
+            @Path("user") String user,
+            @Query("name") String name
+
+    );
+
+    @PUT("/api/{token}/users/{userId}/{friendId}")
+    public retrofit.client.Response invite(
+            @Path("token") String token,
+            @Path("userId") String userId,
+            @Path("friendId") String friendId
+            );
 
     @PUT("/api/{token}/users")
     public Response update(

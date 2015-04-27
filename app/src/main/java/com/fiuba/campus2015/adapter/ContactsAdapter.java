@@ -23,6 +23,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     private LayoutInflater layoutInflater;
     private List<User> contactsItems;
     private Context context;
+    private String userId;
 
     public ContactsAdapter(Context context){
         layoutInflater = LayoutInflater.from(context);
@@ -30,9 +31,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     }
 
 
-    public void setContacts(List<User> listContacts) {
+    public void setContacts(List<User> listContacts,String userId) {
         this.contactsItems = listContacts;
-        sortMark();
+        this.userId = userId;
+        //sortMark();
         notifyDataSetChanged();
         //notifyItemRangeChanged(0,listMovies.size());
     }
@@ -80,6 +82,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 // los item que muestran la letra y son distintos al primero muestran la division
                 holder.viewSeparator.setBackgroundColor(Color.parseColor("#ffcfcfcf"));
             }
+           //if (!contactItem.contacts.contains(userId)) {
+             // holder.viewSendInvitation.setVisibility(View.VISIBLE);
+          // }
 
         //} else {
             //holder.textViewChar.setText("");
@@ -120,6 +125,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         TextView textViewChar;
         ImageView imageViewContact;
         View viewSeparator;
+        ImageView viewSendInvitation;
 
         public ViewHolderContacts(View itemView) {
             super(itemView);
@@ -127,6 +133,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             imageViewContact = (ImageView) itemView.findViewById(R.id.image_contact);
             //textViewChar = (TextView) itemView.findViewById(R.id.CharContact);
             viewSeparator = (View) itemView.findViewById(R.id.separatorContact);
+            viewSendInvitation = (ImageView) itemView.findViewById(R.id.sendInvitation);
+
+
         }
     }
 }
