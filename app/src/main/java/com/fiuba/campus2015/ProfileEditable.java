@@ -70,22 +70,18 @@ public class ProfileEditable extends ActionBarActivity {
 
     public void submitData(){
         Bundle data = adapterViewPager.getAllData();
-        vpPager.setCurrentItem(0);
-        if (dataIsValid(data)){
-            ExecuteSave(data);
-        }
-
+        dataIsValid(data);
     }
 
     private boolean dataIsValid(Bundle data){
 
-        Bundle b = data.getBundle("ERROR");
+        int error = data.getInt("ERROR");
 
-        if (b != null){
-            vpPager.setCurrentItem(b.getInt("ERROR"));
+        if (error != 999){
+            vpPager.setCurrentItem(error);
             return false;
         }
-
+        ExecuteSave(data);
         return true;
     }
 

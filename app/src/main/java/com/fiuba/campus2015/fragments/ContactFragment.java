@@ -113,7 +113,7 @@ public class ContactFragment extends Fragment {
 
 
     public void searchUsers() {
-        SearchUsers task = new SearchUsers(this);
+        SearchUsers task = new SearchUsers(false);
         try {
             task.execute();
         } catch (Exception x){
@@ -132,10 +132,10 @@ public class ContactFragment extends Fragment {
     private  class SearchUsers extends AsyncTask<Void, Void, List<User>> {
 
         RestClient restClient;
-        ContactFragment contactFragment;
+        Boolean searchFriend;
 
-        public SearchUsers(ContactFragment contactFragment) {
-            this.contactFragment = contactFragment;
+        public SearchUsers(boolean searchFriend) {
+            this.searchFriend = searchFriend;
         }
 
         public void executeTask() {
