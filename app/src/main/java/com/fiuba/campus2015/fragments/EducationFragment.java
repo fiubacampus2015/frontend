@@ -173,7 +173,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
             calendar = stringToCalendar(dateString);
             return calendar.getTime();
 
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
