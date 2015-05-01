@@ -26,6 +26,7 @@ import static com.fiuba.campus2015.extras.Constants.USER;
 import static com.fiuba.campus2015.extras.Constants.PAGE;
 import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,7 +42,12 @@ import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.widgets.Dialog;
 import com.google.gson.Gson;
+
+import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import retrofit.RestAdapter;
 import retrofit.client.Response;
 
@@ -80,40 +86,29 @@ public class ProfileEditable extends ActionBarActivity {
         if (error != 999){
             vpPager.setCurrentItem(error);
         } else {
-            if(isValidEducationDate(data)) {
-                if(isValidJobDate(data)) {
-                    ExecuteSave(data);
-                } else {
-                    Dialog dialog = new Dialog(this, "Las fechas son incorrectas" ,
-                            ".................");
-                    dialog.show();
-                }
-            } else {
-                Dialog dialog = new Dialog(this, "Las fechas son incorrectas" ,
-                        "La fecha de nacimiento no puede ser mayor que la fecha de ingreso a la facultad.");
+            if (!isNonFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESOEMPLEO))) {
+                Dialog dialog = new Dialog(this, "Las fechas son incorrectas",
+                        "La fecha de nacimiento no puede ser mayor que la fecha de ingreso al trabajo.");
                 dialog.show();
+            } else if (!isNonFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESO))) {
+                    Dialog dialog = new Dialog(this, "Las fechas son incorrectas" ,
+                            "La fecha de nacimiento no puede ser mayor a la fecha de ingreso a la facultad.");
+                    dialog.show();
+            } else {
+                ExecuteSave(data);
             }
         }
     }
 
-    private boolean isValidJobDate(Bundle data) {
-        //falta
-        return true;
-    }
+    private boolean isNonFutureDate(String pivotDate, String futureDate) {
 
-    private boolean isValidEducationDate(Bundle data) {
-        String birthday = data.getString(BIRTHDAY);
-        String fechaIngreso = getIngreso(data.getString(FECHAINGRESO));
-
-        if (birthday != null && fechaIngreso != null && !fechaIngreso.isEmpty()) {
-            int yearB = Integer.parseInt(birthday.substring(0, 4));
-            int yearI =  Integer.parseInt(fechaIngreso.substring(0, 4));
-
-            if(yearB < yearI) {
-                return true;
+        if (pivotDate != null && futureDate != null && !futureDate.isEmpty()) {
+            try {
+                return (stringToCalendar(futureDate).compareTo(stringToCalendar(pivotDate)) == 1);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
         }
-
         return false;
 
     }
