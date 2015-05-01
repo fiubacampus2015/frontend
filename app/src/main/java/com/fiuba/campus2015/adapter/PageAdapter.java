@@ -14,14 +14,12 @@ import com.fiuba.campus2015.fragments.PersonalDataFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ismael on 09/04/15.
- */
+
 public class PageAdapter extends FragmentPagerAdapter {
     private int NUM_ITEMS = 4;
     List<String> title;
     private User user;
-    // solucion temporal
+
     private PersonalDataFragment personalDataFragment;
     private EducationFragment educationFragment;
     private EmpleoFragment empleoFragment;
