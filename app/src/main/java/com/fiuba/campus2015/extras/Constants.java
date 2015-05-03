@@ -1,8 +1,6 @@
 package com.fiuba.campus2015.extras;
 
-/**
- * Created by ismael on 12/04/15.
- */
+
 public class Constants {
     public static final String NAME = "name";
     public static final String LASTNAME = "lastname";

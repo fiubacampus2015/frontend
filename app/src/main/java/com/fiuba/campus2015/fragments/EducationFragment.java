@@ -130,9 +130,6 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
                 dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
             }
         });
-        
-        //No se muestran los dias en el datepicker
-        //TODO
 
         //Se carga el combo de profesion
         if (!profesion.equals(null) && !profesion.isEmpty()) {
@@ -173,7 +170,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
             calendar = stringToCalendar(dateString);
             return calendar.getTime();
 
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

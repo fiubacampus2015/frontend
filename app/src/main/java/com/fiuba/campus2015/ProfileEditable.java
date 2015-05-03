@@ -13,6 +13,7 @@ import static com.fiuba.campus2015.extras.Constants.DESCRIPCIONEMPLEO;
 import static com.fiuba.campus2015.extras.Constants.FECHAINGRESO;
 import static com.fiuba.campus2015.extras.Constants.FECHAINGRESOEMPLEO;
 import static com.fiuba.campus2015.extras.Constants.FECHASALIDAIEMPLEO;
+import static com.fiuba.campus2015.extras.Constants.FORMAT_DATETIME;
 import static com.fiuba.campus2015.extras.Constants.GENDER;
 import static com.fiuba.campus2015.extras.Constants.LASTNAME;
 import static com.fiuba.campus2015.extras.Constants.NAME;
@@ -23,6 +24,9 @@ import static com.fiuba.campus2015.extras.Constants.PHOTO;
 import static com.fiuba.campus2015.extras.Constants.PROFESION;
 import static com.fiuba.campus2015.extras.Constants.USER;
 import static com.fiuba.campus2015.extras.Constants.PAGE;
+import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
+
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,9 +40,12 @@ import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.widgets.Dialog;
 import com.google.gson.Gson;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import retrofit.RestAdapter;
@@ -74,24 +81,56 @@ public class ProfileEditable extends ActionBarActivity {
 
     public void submitData(){
         Bundle data = adapterViewPager.getAllData();
-        dataIsValid(data);
+        int error = data.getInt("ERROR");
+
+        if (error != 999){
+            vpPager.setCurrentItem(error);
+        } else {
+            if (!isNonFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESOEMPLEO))) {
+                Dialog dialog = new Dialog(this, "Las fechas son incorrectas",
+                        "La fecha de nacimiento no puede ser mayor que la fecha de ingreso al trabajo.");
+                dialog.show();
+            } else if (!isNonFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESO))) {
+                    Dialog dialog = new Dialog(this, "Las fechas son incorrectas" ,
+                            "La fecha de nacimiento no puede ser mayor a la fecha de ingreso a la facultad.");
+                    dialog.show();
+            } else {
+                ExecuteSave(data);
+            }
+        }
     }
 
-    private boolean dataIsValid(Bundle data){
+    private boolean isNonFutureDate(String pivotDate, String futureDate) {
 
+        if (pivotDate != null && futureDate != null && !futureDate.isEmpty()) {
+            try {
+                return (stringToCalendar(futureDate).compareTo(stringToCalendar(pivotDate)) == 1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+
+    }
+
+    /*
+    private boolean dataIsValid(Bundle data){
         int error = data.getInt("ERROR");
 
         if (error != 999){
             vpPager.setCurrentItem(error);
             return false;
         }
+        return false;
+    }*/
 
-        if (data.getString("BIRTHDAY") != null && data.get("FECHAINGRESO") != null) {
-            //TODO: validación cruzada
+    private String getIngreso(String data) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATETIME);
+            return sdf.format(sdf.parse(data));
+        } catch (Exception e) {
         }
-
-        ExecuteSave(data);
-        return true;
+        return null;
     }
 
     private void ExecuteSave(Bundle data){
