@@ -184,7 +184,8 @@ public class PersonalDataFragment extends Fragment {
     {
         Calendar calendar = null;
         try {
-
+            if(dateString == null)
+                dateString = "";
             calendar = stringToCalendar(dateString);
             return calendar.getTime();
 
@@ -214,8 +215,8 @@ public class PersonalDataFragment extends Fragment {
                 Bitmap foto = getPhoto(data);
                 if(extensionValida()) {
                     if(tamañoValido(foto)) {
-                        photoBitmap = foto;
-                        photoUser.setImageBitmap(getResizedBitmap(photoBitmap,256,256));
+                        photoBitmap = getResizedBitmap(foto,150,150);
+                        photoUser.setImageBitmap(photoBitmap);
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(),
                                 "Seleccioná fotos menores a 8MB", Toast.LENGTH_SHORT).show();
@@ -278,7 +279,7 @@ public class PersonalDataFragment extends Fragment {
     private String getPhotoString() {
         if(photoBitmap != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            photoBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+            photoBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] imageBytes = baos.toByteArray();
             return Base64.encodeToString(imageBytes, Base64.NO_WRAP);
 
@@ -288,7 +289,8 @@ public class PersonalDataFragment extends Fragment {
 
     private void setPhoto(String photo) {
         if (!photo.isEmpty()) {
-            photoUser.setImageBitmap(Utils.getPhoto(photo));
+            photoBitmap =Utils.getPhoto(photo);
+            photoUser.setImageBitmap(photoBitmap);
         }
     }
 
