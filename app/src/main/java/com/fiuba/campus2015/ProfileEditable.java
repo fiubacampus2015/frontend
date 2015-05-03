@@ -86,11 +86,11 @@ public class ProfileEditable extends ActionBarActivity {
         if (error != 999){
             vpPager.setCurrentItem(error);
         } else {
-            if (!isNonFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESOEMPLEO))) {
+            if (!isFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESOEMPLEO))) {
                 Dialog dialog = new Dialog(this, "Las fechas son incorrectas",
                         "La fecha de nacimiento no puede ser mayor que la fecha de ingreso al trabajo.");
                 dialog.show();
-            } else if (!isNonFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESO))) {
+            } else if (!isFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESO))) {
                     Dialog dialog = new Dialog(this, "Las fechas son incorrectas" ,
                             "La fecha de nacimiento no puede ser mayor a la fecha de ingreso a la facultad.");
                     dialog.show();
@@ -100,9 +100,9 @@ public class ProfileEditable extends ActionBarActivity {
         }
     }
 
-    private boolean isNonFutureDate(String pivotDate, String futureDate) {
+    private boolean isFutureDate(String pivotDate, String futureDate) {
 
-        if (pivotDate != null && futureDate != null && !futureDate.isEmpty()) {
+        if (pivotDate != null && futureDate != null && !futureDate.isEmpty() && !pivotDate.isEmpty()) {
             try {
                 return (stringToCalendar(futureDate).compareTo(stringToCalendar(pivotDate)) == 1);
             } catch (ParseException e) {
@@ -123,15 +123,6 @@ public class ProfileEditable extends ActionBarActivity {
         }
         return false;
     }*/
-
-    private String getIngreso(String data) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATETIME);
-            return sdf.format(sdf.parse(data));
-        } catch (Exception e) {
-        }
-        return null;
-    }
 
     private void ExecuteSave(Bundle data){
         SaveUserDataTask saveUserDataTask = new SaveUserDataTask(this, data);

@@ -63,9 +63,9 @@ public class Utils {
         byte[] decodedString = Base64.decode(path , Base64.DEFAULT);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPurgeable = true;
-        options.inSampleSize = 8;
+        //options.inSampleSize = 8;
         Bitmap photoBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length,options);
-        return Bitmap.createScaledBitmap(photoBitmap, 150, 150, true);
+        return Bitmap.createScaledBitmap(photoBitmap, 200, 200, true);
     }
 
     public static String getGender(String mgender) {

@@ -83,9 +83,7 @@ public class PersonalDataFragment extends Fragment {
         return myFragment;
     }
 
-
-
-        @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -215,7 +213,7 @@ public class PersonalDataFragment extends Fragment {
                 Bitmap foto = getPhoto(data);
                 if(extensionValida()) {
                     if(tamañoValido(foto)) {
-                        photoBitmap = getResizedBitmap(foto,150,150);
+                        photoBitmap = getResizedBitmap(foto,200,200);
                         photoUser.setImageBitmap(photoBitmap);
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(),
@@ -279,10 +277,10 @@ public class PersonalDataFragment extends Fragment {
     private String getPhotoString() {
         if(photoBitmap != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            photoBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            photoBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
             byte[] imageBytes = baos.toByteArray();
+            photoBitmap.recycle();
             return Base64.encodeToString(imageBytes, Base64.NO_WRAP);
-
         }
         return null;
     }
