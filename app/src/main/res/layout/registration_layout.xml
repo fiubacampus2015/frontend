@@ -185,7 +185,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="25dp"
-            android:background="#FFFF00"
+            android:background="@color/accent"
             app:animate="true"
             app:iconDrawable="@drawable/ic_action_accept_dark"
             android:layout_gravity="right" />

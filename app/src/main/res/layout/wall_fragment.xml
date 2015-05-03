@@ -1,15 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:fab="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/position"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="MURO"
-        android:gravity="center"
-        android:textSize="50dp" />
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/wall_actions"
+        android:layout_width="wrap_content"
+        android:layout_height="417dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        fab:fab_addButtonColorNormal="@color/accent"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="right">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_addPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_title="Checkin"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_addphoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_title="Foto"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_addVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_title="Video"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_title="Mensaje"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </LinearLayout>
