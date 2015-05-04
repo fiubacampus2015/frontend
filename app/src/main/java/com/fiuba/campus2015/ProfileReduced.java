@@ -12,20 +12,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.fiuba.campus2015.asyntask.LoadUserDataTask;
+import static com.fiuba.campus2015.extras.Constants.*;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.fragments.IProfile;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
 import com.google.gson.Gson;
-
-import java.util.List;
-
 import retrofit.client.Response;
-
-import static com.fiuba.campus2015.extras.Constants.TOKEN;
-import static com.fiuba.campus2015.extras.Constants.USER;
 
 
 public class ProfileReduced extends ActionBarActivity implements IProfile {
@@ -33,11 +27,18 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
     private ImageView photo;
     private TextView name;
     private TextView email;
-    private TextView nationality;
-    private TextView birthday;
-    private TextView gender;
+    private TextView fieldTxt2;
+    private TextView fieldTxt3;
+    private TextView fieldTxt4;
+    private TextView fieldTxt5;
+    private TextView fieldTxt6;
     private String _id;
-    private TextView phone;
+    private ImageView icon2;
+    private ImageView icon3;
+    private ImageView icon4;
+    private ImageView icon5;
+    private ImageView icon6;
+    private int position;
     private SessionManager session;
 
 
@@ -75,38 +76,112 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
     }
 
     private void initialize() {
+        position = 2;
         photo = (ImageView) findViewById(R.id.imageViewR);
         name = (TextView) findViewById(R.id.nombre_ProfileR);
         email = (TextView) findViewById(R.id.emailProfileR);
-        nationality = (TextView) findViewById(R.id.nacionalidaProfileR);
-        birthday = (TextView) findViewById(R.id.cumpleProfileR);
-        gender = (TextView) findViewById(R.id.generoProfileR);
-        phone = (TextView) findViewById(R.id.celularProfileR);
+        fieldTxt2 = (TextView) findViewById(R.id.txtfield2);
+        fieldTxt3 = (TextView) findViewById(R.id.txtfield3);
+        fieldTxt4 = (TextView) findViewById(R.id.txtfield4);
+        fieldTxt5 = (TextView) findViewById(R.id.txtfield5);
+        fieldTxt6 = (TextView) findViewById(R.id.txtfield6);
+
+        icon2 = (ImageView)findViewById(R.id.icon_field2);
+        icon3 = (ImageView)findViewById(R.id.icon_field3);
+        icon4 = (ImageView)findViewById(R.id.icon_field4);
+        icon5 = (ImageView) findViewById(R.id.icon_field5);
+        icon6 = (ImageView) findViewById(R.id.icon_field6);
+
+        icon2.setVisibility(View.INVISIBLE);
+        icon3.setVisibility(View.INVISIBLE);
+        icon4.setVisibility(View.INVISIBLE);
+        icon5.setVisibility(View.INVISIBLE);
+        icon6.setVisibility(View.INVISIBLE);
     }
 
     private void loadData(User user) {
         getSupportActionBar().setTitle(user.name + " " + user.username);
         name.setText(user.name + " " + user.username);
         email.setText(user.email);
-        phone.setText(user.personal.phones.mobile);
-        nationality.setText(user.personal.nacionality);
-        _id = user._id;
+
+        String phoneText = user.personal.phones.mobile;
+        if(phoneText != null && !phoneText.isEmpty()) {
+            loadField(getResource(PHONE), phoneText);
+        }
+
+        if(user.education != null && !user.education.careers.isEmpty()) {
+            String profesionText = user.education.careers.get(0).title;
+            if (profesionText != null && !profesionText.isEmpty()) {
+                loadField(getResource(PROFESION), profesionText);
+            }
+        }
+
+        String genderText = user.personal.gender;
+        if(genderText != null && !genderText.isEmpty()) {
+            loadField(getResource(GENDER), genderText);
+        }
+
+        String birthdayText = Utils.getBirthdayFormatted(user.personal.birthday);
+        if(birthdayText != null && !birthdayText.isEmpty()) {
+            loadField(getResource(BIRTHDAY), birthdayText);
+        }
+
+        String nacionalityText = user.personal.nacionality;
+        if(nacionalityText != null && !nacionalityText.isEmpty()) {
+            loadField(getResource(NATIONALITY), nacionalityText);
+        }
+
         String path = user.personal.photo;
         if(path != null && !path.isEmpty()) {
             photo.setImageBitmap(Utils.getPhoto(user.personal.photo));
         }
 
-        birthday.setText(Utils.getBirthdayFormatted(user.personal.birthday));
+        _id = user._id;
 
-        String genero = user.personal.gender;
-        if(genero != null && !genero.isEmpty()) {
-            gender.setText(Utils.getGender(genero));
-        }
         if (user.contacts.contains(session.getUserid())) {
             findViewById(R.id.addFriend).setVisibility(View.GONE);
         }
+    }
 
+    private void loadField(int src, String txt) {
+        position++;
+        switch (position - 1) {
+            case(2):
+                icon2.setImageResource(src);
+                fieldTxt2.setText(txt);
+                icon2.setVisibility(View.VISIBLE);
+                break;
+            case(3):
+                icon3.setImageResource(src);
+                fieldTxt3.setText(txt);
+                icon3.setVisibility(View.VISIBLE);
+                break;
+            case(4):
+                icon4.setImageResource(src);
+                fieldTxt4.setText(txt);
+                icon4.setVisibility(View.VISIBLE);
+                break;
+            case(5):
+                icon5.setImageResource(src);
+                fieldTxt5.setText(txt);
+                icon5.setVisibility(View.VISIBLE);
+                break;
+            case(6):
+                icon6.setImageResource(src);
+                fieldTxt6.setText(txt);
+                icon6.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
 
+    private int getResource(String value) {
+        switch (value) {
+            case(PROFESION): return R.drawable.ic_school_grey600_24dp;
+            case(PHONE): return R.drawable.ic_phone_iphone_grey600_24dp;
+            case(GENDER): return R.drawable.ic_settings_grey;
+            case(BIRTHDAY): return R.drawable.ic_cake_grey600_24dp;
+            default: return R.drawable.ic_public_grey600_24dp;
+        }
     }
 
     @Override
@@ -190,3 +265,5 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
     }
 
 }
+
+

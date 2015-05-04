@@ -91,35 +91,42 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView3"
+                android:id="@+id/ic_mail_profi"
                 android:src="@drawable/ic_email_grey600_24dp"
                 android:layout_marginTop="3dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView4"
+                android:id="@+id/icon_field2"
                 android:src="@drawable/ic_phone_iphone_grey600_24dp"
                 android:layout_marginTop="3dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView5"
+                android:id="@+id/icon_field3"
+                android:src="@drawable/ic_phone_iphone_grey600_24dp"
+                android:layout_marginTop="3dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/icon_field4"
                 android:src="@drawable/ic_settings_grey"
                 android:layout_marginTop="3dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView6"
+                android:id="@+id/icon_field5"
                 android:src="@drawable/ic_cake_grey600_24dp"
                 android:layout_marginTop="4dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView7"
+                android:id="@+id/icon_field6"
                 android:src="@drawable/ic_public_grey600_24dp"
                 android:layout_marginTop="5dp" />
 
@@ -144,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/celularProfileR"
+                android:id="@+id/txtfield2"
                 android:textSize="16dp"
                 android:layout_marginTop="6dp" />
 
@@ -152,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/generoProfileR"
+                android:id="@+id/txtfield3"
                 android:textSize="16dp"
                 android:layout_marginTop="7dp" />
 
@@ -160,7 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/cumpleProfileR"
+                android:id="@+id/txtfield4"
                 android:textSize="16dp"
                 android:layout_marginTop="8dp" />
 
@@ -168,7 +175,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/nacionalidaProfileR"
+                android:id="@+id/txtfield5"
+                android:textSize="16dp"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/txtfield6"
                 android:textSize="16dp"
                 android:layout_marginTop="8dp" />
         </LinearLayout>
