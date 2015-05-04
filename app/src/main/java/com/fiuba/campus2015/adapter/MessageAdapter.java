@@ -1,67 +1,42 @@
 package com.fiuba.campus2015.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import android.widget.Toast;
+
+import com.dexafree.materialList.cards.BasicButtonsCard;
+import com.dexafree.materialList.cards.BasicImageButtonsCard;
+import com.dexafree.materialList.cards.BigImageButtonsCard;
+import com.dexafree.materialList.cards.BigImageCard;
+import com.dexafree.materialList.cards.OnButtonPressListener;
+import com.dexafree.materialList.cards.SimpleCard;
+import com.dexafree.materialList.cards.SmallImageCard;
+import com.dexafree.materialList.cards.WelcomeCard;
+import com.dexafree.materialList.model.Card;
+import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.Message;
-import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.extras.Constants;
 import com.gc.materialdesign.views.CheckBox;
 
 import java.util.List;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolderContacts> {
+public class MessageAdapter {
     private LayoutInflater layoutInflater;
     private List<Message> messageItems;
     private Context context;
-    private String userId;
+    private MaterialListView materialListView;
 
-    public MessageAdapter(Context context){
+    public MessageAdapter(Context context, MaterialListView materialListView){
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
+        this.materialListView = materialListView;
     }
-
-
-    public void setMessage(List<Message> listMsgs,String userId) {
-        this.messageItems = listMsgs;
-        this.userId = userId;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public MessageAdapter.ViewHolderContacts onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.item_contact, parent, false);
-        ViewHolderContacts viewHolder = new ViewHolderContacts(view);
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(MessageAdapter.ViewHolderContacts holder, int position) {
-
-        Message msgItem = messageItems.get(position);
-
-        //holder.textViewUser.setText(msgItem.user.name);
-        //holder.textContent.setText(msgItem.content);
-
-        holder.viewSeparator.setBackgroundColor(Color.WHITE);
-    }
-
-    @Override
-    public int getItemCount() {
-        return messageItems.size();
-    }
-
-    public User getMsg(int position) {
-        return null;
-    }
-
 
     public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder viewHolder;
@@ -92,25 +67,174 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         CheckBox mCheckBox;
     }
 
-
-    static class ViewHolderContacts extends RecyclerView.ViewHolder {
-
-        TextView textViewName;
-        TextView textViewChar;
-        ImageView imageViewContact;
-        View viewSeparator;
-        ImageView viewSendInvitation;
-        TextView textCountry;
-        TextView textMail;
-
-
-
-
-        public ViewHolderContacts(View itemView) {
-            super(itemView);
-            //textViewUser = (TextView)itemView.findViewById(R.id.text_name_contact);
-            //textContent = (TextView)itemView.findViewById(R.id.mailText);
-
+    public void fillArray() {
+        for (int i = 0; i < this.messageItems.size() - 1; i++) {
+            Card card = getRandomCard(this.messageItems.get(i));
+            materialListView.add(card);
         }
     }
+
+    public void setData(List<Message> msgs) {
+        this.messageItems = msgs;
+    }
+
+    private Card getRandomCard(Message msg) {
+        String title = msg.user.name;
+        String description = msg.content + "\n" + msg.postDate;
+
+        int position = 0;
+
+        SimpleCard card;
+        Drawable icon;
+
+        switch (msg.type) {
+
+            case video:
+                card = new SmallImageCard(this.context);
+                card.setDescription(description);
+                card.setTitle(title);
+                card.setDrawable(R.drawable.ic_launcher);
+                card.setDismissible(true);
+                card.setTag("SMALL_IMAGE_CARD");
+                return card;
+
+            case photo:
+                card = new BigImageCard(this.context);
+                card.setDescription(description);
+                card.setTitle(title);
+                //card.setDrawable(R.drawable.photo);
+                card.setDrawable("https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png");
+                card.setTag("BIG_IMAGE_CARD");
+                card.setDismissible(true);
+                return card;
+
+            case place:
+                card = new BasicImageButtonsCard(this.context);
+                card.setDescription(description);
+                card.setTitle(title);
+                card.setDrawable(R.drawable.ic_location_post);
+                card.setTag("BASIC_IMAGE_BUTTON_CARD");
+                ((BasicImageButtonsCard) card).setLeftButtonText("LEFT");
+                ((BasicImageButtonsCard) card).setRightButtonText("RIGHT");
+
+                if (position % 2 == 0)
+                    ((BasicImageButtonsCard) card).setDividerVisible(true);
+
+                ((BasicImageButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Toast.makeText(context, "You have pressed the left button", Toast.LENGTH_SHORT).show();
+                        ((SimpleCard) card).setTitle("CHANGED ON RUNTIME");
+                    }
+                });
+
+                ((BasicImageButtonsCard) card).setOnRightButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Toast.makeText(context, "You have pressed the right button on card " + ((SimpleCard) card).getTitle(), Toast.LENGTH_SHORT).show();
+                        materialListView.remove(card);
+                    }
+                });
+                card.setDismissible(true);
+
+                return card;
+
+            case text:
+                card = new BasicButtonsCard(this.context);
+                card.setDescription(description);
+                card.setTitle(title);
+                card.setTag("BASIC_BUTTONS_CARD");
+                ((BasicButtonsCard) card).setLeftButtonText("LEFT");
+                ((BasicButtonsCard) card).setRightButtonText("RIGHT");
+                ((BasicButtonsCard) card).setRightButtonTextColorRes(R.color.accent_material_dark);
+
+                if (position % 2 == 0)
+                    ((BasicButtonsCard) card).setDividerVisible(true);
+
+                ((BasicButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Toast.makeText(context, "You have pressed the left button", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                ((BasicButtonsCard) card).setOnRightButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Toast.makeText(context, "You have pressed the right button", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                card.setDismissible(true);
+
+
+                return card;
+
+          /*  case place:
+                card = new WelcomeCard(context);
+                card.setTitle("Welcome Card");
+                card.setDescription("I am the description");
+                card.setTag("WELCOME_CARD");
+                ((WelcomeCard) card).setSubtitle("My subtitle!");
+                ((WelcomeCard) card).setButtonText("Okay!");
+                ((WelcomeCard) card).setOnButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Toast.makeText(context, "Welcome!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                if (position % 2 == 0)
+                    ((WelcomeCard) card).setBackgroundColorRes(R.color.background_material_dark);
+                card.setDismissible(true);
+
+                return card;*/
+
+            default:
+                card = new BigImageButtonsCard(context);
+                card.setDescription(description);
+                card.setTitle(title);
+                card.setDrawable(R.drawable.wallpaper);
+                card.setTag("BIG_IMAGE_BUTTONS_CARD");
+                ((BigImageButtonsCard) card).setLeftButtonText("ADD CARD");
+                ((BigImageButtonsCard) card).setRightButtonText("RIGHT BUTTON");
+
+                if (position % 2 == 0) {
+                    ((BigImageButtonsCard) card).setDividerVisible(true);
+                }
+
+                ((BigImageButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Log.d("ADDING", "CARD");
+
+                        materialListView.add(generateNewCard());
+                        Toast.makeText(context, "Added new card", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                ((BigImageButtonsCard) card).setOnRightButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Toast.makeText(context, "You have pressed the right button", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                card.setDismissible(true);
+
+
+                return card;
+
+        }}
+
+    private Card generateNewCard() {
+        SimpleCard card = new BasicImageButtonsCard(context);
+        card.setDrawable(R.drawable.ic_action_camera);
+        card.setTitle("I'm new");
+        card.setDescription("I've been generated on runtime!");
+        card.setTag("BASIC_IMAGE_BUTTONS_CARD");
+
+        return card;
+    }
+
+
+
 }
