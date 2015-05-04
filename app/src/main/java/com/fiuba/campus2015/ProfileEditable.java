@@ -30,6 +30,7 @@ import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 import com.fiuba.campus2015.adapter.PageAdapter;
 import com.fiuba.campus2015.dto.user.Education;
@@ -64,6 +65,12 @@ public class ProfileEditable extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         vpPager.setOffscreenPageLimit(3);
@@ -113,20 +120,33 @@ public class ProfileEditable extends ActionBarActivity {
 
     }
 
-    /*
-    private boolean dataIsValid(Bundle data){
-        int error = data.getInt("ERROR");
-
-        if (error != 999){
-            vpPager.setCurrentItem(error);
-            return false;
-        }
-        return false;
-    }*/
-
     private void ExecuteSave(Bundle data){
         SaveUserDataTask saveUserDataTask = new SaveUserDataTask(this, data);
         saveUserDataTask.executeTask();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Dialog dialog = new Dialog(this,null, "Cambios no guardados");
+        dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myBackPressed();
+            }
+        });
+        dialog.addCancelButton("Guardar");
+        dialog.setOnCancelButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitData();
+            }
+        });
+        dialog.show();
+        dialog.getButtonAccept().setText("Descartar");
+    }
+
+    private void myBackPressed() {
+        super.onBackPressed();
     }
 
     public void back() {
