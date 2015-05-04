@@ -20,6 +20,8 @@ import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
+import com.gc.materialdesign.widgets.Dialog;
+import com.gc.materialdesign.widgets.ProgressDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
@@ -39,7 +41,8 @@ public class Registration extends ActionBarActivity {
     private TextView email;
     private Spinner nationality;
     private String gender = "";
-    private SweetAlertDialog pDialog;
+    private Dialog dialog;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class Registration extends ActionBarActivity {
                 }
             }
         });
-
+        progressDialog = new ProgressDialog(this, "Registrando");
     }
 
     public void onGenderRadioButtonClicked(View view) {
@@ -156,11 +159,7 @@ public class Registration extends ActionBarActivity {
             restAdapter = new RestAdapter.Builder()
                     .setEndpoint(UrlEndpoints.URL_API)
                     .build();
-            pDialog = new SweetAlertDialog(Registration.this, SweetAlertDialog.PROGRESS_TYPE)
-                    .setTitleText("Registrando")
-                    .setContentText("Esperá un momento por favor.");
-            pDialog.setCancelable(false);
-            pDialog.show();
+            progressDialog.show();
         }
 
         @Override
@@ -187,31 +186,24 @@ public class Registration extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(retrofit.client.Response response) {
-
+            progressDialog.dismiss();
             if(response == null) {
-                pDialog.setConfirmText("OK").setContentText("Esa casilla de correo ya está registrada.").
-                              setTitleText("Error").changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                dialog = new Dialog(Registration.this, null,"Esa casilla de correo ya está registrada.");
+                dialog.show();
+                dialog.getButtonAccept().setText("Aceptar");
             } else {
-                MyListener myListener = new MyListener();
-                pDialog.setConfirmClickListener(myListener);
-                pDialog.setTitleText("Registro exitoso!").setConfirmText("OK").
-                        setContentText("Te enviamos un mail de confirmación a tu casilla.").
-                        changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                dialog = new Dialog(Registration.this, "Registro exitoso!", "Te enviamos un mail de confirmación a tu casilla.");
+                dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Registration.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                dialog.show();
+                dialog.getButtonAccept().setText("Aceptar");
             }
         }
     }
 
-    // necesario para lanzar el login despues de presionar el 'ok' de la ventana de notificacion
-    private class MyListener implements SweetAlertDialog.OnSweetClickListener {
-        @Override
-        public void onClick(SweetAlertDialog sweetAlertDialog) {
-            pDialog.dismissWithAnimation();
-            login();
-        }
-
-        public void login() {
-            Intent intent = new Intent(Registration.this, MainActivity.class);
-            startActivity(intent);
-        }
-    }
 }

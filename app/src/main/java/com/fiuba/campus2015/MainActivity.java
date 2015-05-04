@@ -17,6 +17,9 @@ import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.Response;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.views.ProgressBarCircularIndeterminate;
+import com.gc.materialdesign.widgets.Dialog;
+import com.gc.materialdesign.widgets.ProgressDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
@@ -26,10 +29,10 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 
 public class MainActivity extends ActionBarActivity {
-    private SweetAlertDialog pDialog;
     private Toolbar toolbar;
     private SessionManager session;
-
+    private Dialog dialog;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                String user  =  ((MaterialEditText)findViewById(R.id.textuser)).getText().toString();
-                String password =  ((MaterialEditText)findViewById(R.id.textpassword)).getText().toString();
+                String user = ((MaterialEditText) findViewById(R.id.textuser)).getText().toString();
+                String password = ((MaterialEditText) findViewById(R.id.textpassword)).getText().toString();
 
                 if (user.isEmpty()) {
                     ((MaterialEditText) findViewById(R.id.textuser)).validateWith(new RegexpValidator("Ingresá tu usuario.", "\\d+"));
@@ -59,14 +62,13 @@ public class MainActivity extends ActionBarActivity {
                     ((MaterialEditText) findViewById(R.id.textpassword)).validateWith(new RegexpValidator("Ingresá tu contraseña.", "\\d+"));
                 }
 
-                if(!user.isEmpty() && !password.isEmpty())
-                {
+                if (!user.isEmpty() && !password.isEmpty()) {
                     if (checkUser(user)) {
                         AuthenticateTask task = new AuthenticateTask();
                         try {
                             task.execute();
-                        } catch (Exception x){
-                            Toast.makeText(getApplicationContext(),"Credenciales incorrectas.",Toast.LENGTH_SHORT).show();
+                        } catch (Exception x) {
+                            Toast.makeText(getApplicationContext(), "Credenciales incorrectas.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -83,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
 
-
+        progressDialog =  new ProgressDialog(this, "Iniciando sesión");
     }
 
     private boolean checkUser(String user) {
@@ -133,11 +135,8 @@ public class MainActivity extends ActionBarActivity {
             restAdapter = new RestAdapter.Builder()
                     .setEndpoint(UrlEndpoints.URL_API)
                     .build();
-            pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.PROGRESS_TYPE)
-                    .setTitleText("Validando credenciales.")
-                    .setContentText("Esperá un momento por favor.");
-            pDialog.setCancelable(false);
-            pDialog.show();
+
+            progressDialog.show();
         }
 
         @Override
@@ -158,9 +157,12 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Response response) {
-            if(response == null)
-                pDialog.setConfirmText("OK").setTitleText("Credenciales incorrectas").
-                        setContentText("").changeAlertType(SweetAlertDialog.ERROR_TYPE);
+            progressDialog.dismiss();
+            if(response == null) {
+                dialog = new Dialog(MainActivity.this, null, "Credenciales incorrectas");
+                dialog.show();
+                dialog.getButtonAccept().setText("Aceptar");
+            }
             else {
                 if (response.token != null && response.confirmed) {
 
@@ -169,11 +171,10 @@ public class MainActivity extends ActionBarActivity {
 
                     Intent intent = new Intent(MainActivity.this, Board.class);
                     startActivity(intent);
-                    pDialog.dismiss();
                 }else {
-                        pDialog.setConfirmText("OK").setTitleText("Confirmación incompleta.").
-                            setContentText("Confirmá tu email de registro.")
-                            .changeAlertType(SweetAlertDialog.WARNING_TYPE);
+                    dialog = new Dialog(MainActivity.this, "Confirmación incompleta", "Aún no confirmás tu email de registro.");
+                    dialog.show();
+                    dialog.getButtonAccept().setText("Aceptar");
                 }
             }
         }
