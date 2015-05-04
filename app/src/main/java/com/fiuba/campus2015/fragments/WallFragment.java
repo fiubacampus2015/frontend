@@ -100,13 +100,12 @@ public class WallFragment extends Fragment
     private List<Message> getMessageItemsMock(){
 
         List<Message> mensajes = new ArrayList<Message>();
-        User user = new User("jimena", "tapia", "user", "pwd", null);
-        mensajes.add(new Message("prueba de mensajes en el muro",user,"hoy", Constants.MsgCardType.text));
-        mensajes.add(new Message("esta soy yo!",user,"hoy", Constants.MsgCardType.photo));
-        mensajes.add(new Message("miren esto que copado!",user,"hoy", Constants.MsgCardType.video));
-        mensajes.add(new Message("estoy aqui ahora",user,"hoy", Constants.MsgCardType.place));
-        mensajes.add(new Message("estoy aqui ahora",user,"hoy", Constants.MsgCardType.place));
-        mensajes.add(new Message("estoy aqui ahora",user,"hoy", Constants.MsgCardType.place));
+        User user = new User("Jimena", "Tapia", "user", "pwd", null);
+        mensajes.add(new Message("Esto es un mensaje del muro. Estoy probando el contenido y formato de las distintas cards. Parece lindo!",user,"Lunes 4 de Mayo", Constants.MsgCardType.text));
+        mensajes.add(new Message("Esta soy yo!",user,"Lunes 4 de Mayo", Constants.MsgCardType.photo));
+        mensajes.add(new Message("miren esto que copado!",user,"Lunes 4 de Mayo", Constants.MsgCardType.video));
+        mensajes.add(new Message("Casa - Villa Urquiza",user,"Lunes 4 de Mayo", Constants.MsgCardType.place));
+        mensajes.add(new Message("Otro mensajes pero mas cortito.",user,"Lunes 4 de Mayo", Constants.MsgCardType.text));
 
         return mensajes;
     }

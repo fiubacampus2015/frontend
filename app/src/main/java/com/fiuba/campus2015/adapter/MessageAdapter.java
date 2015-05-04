@@ -68,7 +68,7 @@ public class MessageAdapter {
     }
 
     public void fillArray() {
-        for (int i = 0; i < this.messageItems.size() - 1; i++) {
+        for (int i = 0; i < this.messageItems.size(); i++) {
             Card card = getRandomCard(this.messageItems.get(i));
             materialListView.add(card);
         }
@@ -79,8 +79,8 @@ public class MessageAdapter {
     }
 
     private Card getRandomCard(Message msg) {
-        String title = msg.user.name;
-        String description = msg.content + "\n" + msg.postDate;
+        String title = msg.user.name + " " + msg.user.username;
+        String description = msg.postDate + "\n \n" + msg.content;
 
         int position = 0;
 
@@ -89,11 +89,11 @@ public class MessageAdapter {
 
         switch (msg.type) {
 
-            case video:
+            case place:
                 card = new SmallImageCard(this.context);
                 card.setDescription(description);
                 card.setTitle(title);
-                card.setDrawable(R.drawable.ic_launcher);
+                card.setDrawable(R.drawable.icon_location_wall);
                 card.setDismissible(true);
                 card.setTag("SMALL_IMAGE_CARD");
                 return card;
@@ -108,11 +108,11 @@ public class MessageAdapter {
                 card.setDismissible(true);
                 return card;
 
-            case place:
+            case video:
                 card = new BasicImageButtonsCard(this.context);
                 card.setDescription(description);
                 card.setTitle(title);
-                card.setDrawable(R.drawable.ic_location_post);
+                //card.setDrawable(R.drawable.msg);
                 card.setTag("BASIC_IMAGE_BUTTON_CARD");
                 ((BasicImageButtonsCard) card).setLeftButtonText("LEFT");
                 ((BasicImageButtonsCard) card).setRightButtonText("RIGHT");
