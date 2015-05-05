@@ -15,7 +15,7 @@
     <string name="app_profile">Perfil</string>
     <string name="drawer_close">Close</string>
     <string name="no_data_available">No se encontraron resultados</string>
-
+    <string name="friend_request">Solicitud de amistad</string>
 
     <!--CARRERAS -->
     <string-array name="carreras">

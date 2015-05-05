@@ -48,6 +48,11 @@
             android:name=".ProfileReduced"
             android:label="@string/app_profile">
         </activity>
+        <activity
+            android:name=".FriendRequest"
+            android:label="@string/friend_request">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.fiuba.campus2015.Board"/>
+        </activity>
     </application>
 
 

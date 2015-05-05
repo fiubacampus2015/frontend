@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <com.fiuba.campus2015.extras.RoundedImageView
+        android:id="@+id/image_contact_request"
+        android:layout_marginLeft="10dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/ic_account_circle_grey_48dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textView2"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_alignTop="@+id/image_contact_request"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/mailText_request"
+        android:layout_marginTop="9dp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_marginStart="9dp" />
+
+
+
+    <com.fiuba.campus2015.extras.ButtonFloatMaterial
+        android:id="@+id/buttonAcceptInvitation"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:background="@color/accent"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_toStartOf="@+id/buttonDeleteInvitation"
+        android:layout_marginRight="8dp"
+        app:iconDrawable="@drawable/ic_action_accept_dark"
+        android:layout_marginTop="2dp" />
+
+    <com.fiuba.campus2015.extras.ButtonFloatMaterial
+        android:id="@+id/buttonDeleteInvitation"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:background="@color/accent"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="4dp"
+        app:iconDrawable="@drawable/ic_action_cancel"
+        android:layout_marginTop="2dp" />
+
+</RelativeLayout>
+
+</android.support.v7.widget.CardView>
