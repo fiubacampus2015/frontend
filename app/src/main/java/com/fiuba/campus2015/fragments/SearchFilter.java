@@ -74,7 +74,7 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
             public void onClick(View v) {
                 carrera = spCarreras.getSelectedItem().toString();
 
-                if (!carrera.equals("Linceciatura Sistemas")) {
+                if (!carrera.equals("Licenciatura Sistemas")) {
                     orientacion = spOrientacion.getSelectedItem().toString();
                 } else {
                     orientacion = "";

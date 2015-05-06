@@ -257,7 +257,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
             String profesion = spCarreras.getSelectedItem().toString();
             bundle.putString(PROFESION, profesion);
 
-            if (!profesion.equals("Linceciatura Sistemas")) {
+            if (!profesion.equals("Licenciatura Sistemas")) {
                 bundle.putString(ORIENTATION, spOrientacion.getSelectedItem().toString());
             } else {
                 bundle.putString(ORIENTATION, "");
