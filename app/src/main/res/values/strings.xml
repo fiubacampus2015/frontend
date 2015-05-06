@@ -39,14 +39,14 @@
 
     <!--ORIENTACIONES DE LAS CARRERAS -->
     <string-array name="orientaciones_informatica">
-        <item>Gestión industrial de sistemas</item>
+        <item>Gestión de sistemas</item>
         <item>Sistemas distribuidos</item>
         <item>Sistemas de producción</item>
     </string-array>
     <string-array name="orientaciones_civil">
-        <item>Orientacion civil 1</item>
-        <item>Orientacion civil 2</item>
-        <item>Orientacion civil 3</item>
+        <item>Construcciones</item>
+        <item>Hidráulica</item>
+        <item>Vías de comunicación</item>
     </string-array>
     <string-array name="orientaciones_licenciatura">
     </string-array>

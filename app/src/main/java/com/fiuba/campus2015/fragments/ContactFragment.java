@@ -44,6 +44,7 @@ public class ContactFragment extends Fragment {
     private ProgressBar prgrsBar;
     private TextView emptyView;
     private SessionManager session;
+    private SearchFilter searchFilter;
 
     public static ContactFragment newInstance(String param1, String param2) {
         ContactFragment fragment = new ContactFragment();
@@ -115,9 +116,22 @@ public class ContactFragment extends Fragment {
             }
         });
 
+        ImageView buttonAdvancedSearch = (ImageView) myView.findViewById(R.id.advancedSearch);
+        buttonAdvancedSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSearchDialog();
+            }
+        });
+
+        searchFilter = new SearchFilter(getActivity());
+
         return myView;
     }
 
+    private void showSearchDialog() {
+        searchFilter.showDialog();
+    }
 
     public void searchUsers(boolean friend) {
         SearchUsers task = new SearchUsers(friend);
@@ -132,6 +146,7 @@ public class ContactFragment extends Fragment {
     public void searchClear(View view) {
         emptyView.setVisibility(View.INVISIBLE);
         searchText.setText("");
+        searchFilter.reset();
         searchUsers(true);
     }
 

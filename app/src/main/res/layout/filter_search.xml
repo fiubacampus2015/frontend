@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Carrera"
+                android:id="@+id/textView5" />
+
+            <Spinner
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerCarreraSearch"
+                android:layout_marginLeft="56dp"
+                android:spinnerMode="dropdown"
+                android:layout_marginRight="0dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Orientación"
+                android:id="@+id/textView8" />
+
+            <Spinner
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerOrientationSearch"
+                android:layout_marginLeft="29dp"
+                android:spinnerMode="dropdown"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Nacionalidad"
+                android:id="@+id/textView11" />
+
+            <Spinner
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerNacionalitiesSearch"
+                android:layout_marginLeft="17dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffe4e4e4"
+        android:layout_weight="0.04"
+        android:gravity="center_vertical|right"
+        android:weightSum="1">
+
+        <com.gc.materialdesign.views.ButtonFlat
+            android:id="@+id/buttonCancelarSearchContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCELAR"
+            android:background="#1E88E5"
+            />
+
+        <com.gc.materialdesign.views.ButtonFlat
+            android:id="@+id/buttonAceptarSearchContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ACEPTAR"
+            android:background="#1E88E5"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
