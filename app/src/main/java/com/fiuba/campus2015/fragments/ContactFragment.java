@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.fiuba.campus2015.ProfileEditable;
+import com.fiuba.campus2015.ProfileFriend;
 import com.fiuba.campus2015.ProfileReduced;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.ContactItem;
@@ -95,7 +96,9 @@ public class ContactFragment extends Fragment {
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         User contact = contactsAdapter.getContact(position);
-                        Intent intent = new Intent(getActivity(), ProfileReduced.class);
+                        Intent intent = new Intent(getActivity(), ProfileFriend.class);
+                        //O perfil reducido
+                        //Intent intent = new Intent(getActivity(), ProfileReduced.class);
                         intent.putExtra(USER, new Gson().toJson(contact));
                         startActivity(intent);
                     }

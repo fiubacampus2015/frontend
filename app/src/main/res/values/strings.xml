@@ -94,4 +94,9 @@
         <item>GRUPOS</item>
     </string-array>
 
+    <!-- FRIEND -->
+    <string-array name="tabs_friend_profile">
+        <item>MURO</item>
+        <item>PERFIL</item>
+    </string-array>
 </resources>
