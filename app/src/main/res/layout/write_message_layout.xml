@@ -24,16 +24,6 @@
             android:textColor="@color/primary_dark_material_light"
             android:textStyle="bold"/>
 
-
-        <!--ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dismissMsg"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_delete" /-->
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,5 +58,32 @@
                 app:met_maxCharacters="300"/>
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/selected_gray"
+        android:layout_weight="0.04"
+        android:gravity="center_vertical|left"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dismissMsg"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_delete" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addLink"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_add_link" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

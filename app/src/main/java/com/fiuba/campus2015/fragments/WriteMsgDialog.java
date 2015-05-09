@@ -56,13 +56,13 @@ public class WriteMsgDialog extends AlertDialog.Builder {
             }
         });
 
-       /* ImageView buttonCancel = (ImageView) dialogView.findViewById(R.id.dismissMsg);
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
+       ImageView buttonClear = (ImageView) dialogView.findViewById(R.id.dismissMsg);
+        buttonClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+                reset();
             }
-        });*/
+        });
 
     }
 
