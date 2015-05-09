@@ -77,4 +77,10 @@ public interface IApiUser {
             @Path("userId") String userId,
             @Body User data
     );
+
+    @GET("api/{token}/users/{user}/friends/pending")
+    public List<User> getInvitationsPending(
+            @Path("token") String token,
+            @Path("user") String user
+    );
 }
