@@ -16,7 +16,6 @@ import android.view.View;
 
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.fragments.CompleteProfile;
-import com.fiuba.campus2015.fragments.GroupFragment;
 import com.fiuba.campus2015.fragments.WallFragment;
 
 import net.yanzm.mth.MaterialTabHost;

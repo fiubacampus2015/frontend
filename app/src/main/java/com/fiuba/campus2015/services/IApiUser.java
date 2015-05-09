@@ -45,17 +45,14 @@ public interface IApiUser {
     @GET("/api/{token}/users")
     public List<User> getFriend(
             @Path("token") String token,
-            @Query("name") String name,
-            @Query("confirmed") Boolean confirmed
+            @Query("name") String name
     );
 
 
     @GET("/api/{token}/users/{user}/friends")
     public List<User> getFriends(
             @Path("token") String token,
-            @Path("user") String user,
-            @Query("name") String name
-
+            @Path("user") String user
     );
 
     @PUT("/api/{token}/users/{userId}/{friendId}")

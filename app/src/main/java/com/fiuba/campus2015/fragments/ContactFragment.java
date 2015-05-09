@@ -96,9 +96,16 @@ public class ContactFragment extends Fragment {
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         User contact = contactsAdapter.getContact(position);
-                        Intent intent = new Intent(getActivity(), ProfileFriend.class);
-                        //O perfil reducido
-                        //Intent intent = new Intent(getActivity(), ProfileReduced.class);
+                        Intent intent;
+
+                        //Verifico si es amigo o no para mostrar el perfil
+                        if (contact.friend == null || !contact.friend)
+                        {
+                            intent = new Intent(getActivity(), ProfileReduced.class);
+                        }else
+                        {
+                            intent = new Intent(getActivity(), ProfileFriend.class);
+                        }
                         intent.putExtra(USER, new Gson().toJson(contact));
                         startActivity(intent);
                     }
@@ -184,10 +191,9 @@ public class ContactFragment extends Fragment {
             List<User> user = null;
             try {
                 if (searchFriend)
-                    //user = restClient.getApiService().getFriends(session.getToken(),session.getUserid(),"");
-                    user = restClient.getApiService().getAll(session.getToken(), searchText.getText().toString(),session.getUserid(),true);
+                    user = restClient.getApiService().getFriends(session.getToken(),session.getUserid());
                 else
-                    user = restClient.getApiService().getFriend(session.getToken(), searchText.getText().toString(), true);
+                    user = restClient.getApiService().getFriend(session.getToken(), searchText.getText().toString());
 
             } catch (Exception ex) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();

@@ -11,6 +11,7 @@ public class User implements Comparable <User> {
     public String password;
     public String email;
     public String name;
+    public Boolean friend;
     public Personal personal;
     public Education education;
     public Job job;

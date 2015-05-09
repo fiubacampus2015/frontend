@@ -75,30 +75,20 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
         holder.textViewName.setText(contactItem.name + " "+ contactItem.username);
         holder.textMail.setText(contactItem.email);
-        //holder.textCountry.setText(contactItem.personal.nacionality);
 
         holder.viewSeparator.setBackgroundColor(Color.WHITE);
 
-        //if(contactItem.getMark()) {
-            //holder.textViewChar.setText(Character.toString(contactItem.getTitle()));
-            if(contactsItems.get(0) != contactItem) {
+        if(contactsItems.get(0) != contactItem) {
                 // los item que muestran la letra y son distintos al primero muestran la division
                 holder.viewSeparator.setBackgroundColor(Color.parseColor("#ffcfcfcf"));
             }
-           if (!contactItem.contacts.contains(userId)) {
+
+        //Valido si es amigo o no
+           if (contactItem.friend == null || !contactItem.friend) {
               holder.viewSendInvitation.setVisibility(View.VISIBLE);
            }else
               holder.viewSendInvitation.setVisibility(View.GONE);
 
-
-        //} else {
-            //holder.textViewChar.setText("");
-        //}
-            /*
-             Bitmap icon = BitmapFactory.decodeResource(context.getResources(),....
-            photo.setImageBitmap(icon);
-
-             */
             Bitmap  icon;
             if (contactItem.personal!= null && !contactItem.personal.photo.isEmpty())
             {
