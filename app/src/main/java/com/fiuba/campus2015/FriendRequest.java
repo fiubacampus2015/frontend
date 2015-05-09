@@ -1,6 +1,7 @@
 package com.fiuba.campus2015;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import com.fiuba.campus2015.adapter.ContactRequestAdapter;
 import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.services.RestClient;
+import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.widgets.ProgressDialog;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ public class FriendRequest extends ActionBarActivity {
     private RecyclerView list;
     private ContactRequestAdapter contactRequestAdapter;
     private EditText searchText;
+    private SessionManager session;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +45,11 @@ public class FriendRequest extends ActionBarActivity {
 
         contactRequestAdapter = new ContactRequestAdapter(this);
         list.setAdapter(contactRequestAdapter);
+        session = new SessionManager(this);
 
-        // probando...
-        setInvitations();
+
+        FriendRequestTask friendRequestTask = new FriendRequestTask(this);
+        friendRequestTask.executeTask();
     }
 
     private void setListeners() {
@@ -80,19 +86,14 @@ public class FriendRequest extends ActionBarActivity {
         Toast.makeText(this, "buscando: " + searchText.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 
-    private void setInvitations() {
-     //   ProgressDialog progressDialog = new ProgressDialog(this,"Cargando solicitudes");
-       // progressDialog.show();
+    private void setInvitations(List<User> users) {
+        if(users == null) {
+            Toast.makeText(this, "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
+            return;
 
-        List<User> users = new ArrayList<>();
-        users.add(new User("michael", "fox", "", "michael@gmail.com", null));
-        users.add(new User("agostina", "Donohue", "", "agostina@gmail.com", null));
-        users.add(new User("adriana","ramirez","", "adriana@gmail.com",null));
-        users.add(new User("cristina","fernandez","", "cristina@gmail.com",null));
+        }
 
         contactRequestAdapter.setContacts(users);
-
-//        progressDialog.dismiss();
     }
 
     public void setUserInvited(User user) {
@@ -102,4 +103,52 @@ public class FriendRequest extends ActionBarActivity {
     public void setInvitationDeleted(User user) {
         Toast.makeText(this, "Se borro la invitacion de " + user.email ,Toast.LENGTH_SHORT).show();
     }
+
+
+
+
+    private class FriendRequestTask extends AsyncTask<Void, Void, List<User>> {
+        RestClient restClient;
+        private FriendRequest friendRequest;
+        private ProgressDialog progressDialog;
+        private List<User> users;
+
+        public FriendRequestTask(FriendRequest fr) {
+            friendRequest = fr;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            restClient = new RestClient();
+            progressDialog = new ProgressDialog(friendRequest,"Cargando solicitudes");
+            progressDialog.show();
+        }
+
+        private void executeTask() {
+            try {
+                this.execute();
+            } catch(Exception e) {
+                friendRequest.setInvitations(null);
+            }
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... params) {
+            try {
+                users = restClient.getApiService().getInvitationsPending(session.getToken(),session.getUserid());
+            } catch(Exception e) {
+                friendRequest.setInvitations(null);
+            }
+
+            return users;
+        }
+
+
+        @Override
+        protected void onPostExecute(List<User> listUsers) {
+            progressDialog.dismiss();
+            friendRequest.setInvitations(listUsers);
+        }
+    }
 }
+
