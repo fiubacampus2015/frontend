@@ -22,6 +22,7 @@ public class WallFragment extends Fragment
     private View myView;
     private MaterialListView mListView;
     private MessageAdapter msgAdapter;
+    private WriteMsgDialog w_msgDialog;
 
 
     public static WallFragment newInstance(String param1, String param2) {
@@ -46,12 +47,14 @@ public class WallFragment extends Fragment
         button_actionAddPhoto.setIcon(R.drawable.ic_camera_grey600_48dp);
         button_actionAddPhoto.setStrokeVisible(false);
 
-        FloatingActionButton button_actionAddMeg = (FloatingActionButton) myView.findViewById(R.id.action_write);
+        final FloatingActionButton button_actionAddMeg = (FloatingActionButton) myView.findViewById(R.id.action_write);
         button_actionAddMeg.setSize(FloatingActionButton.SIZE_MINI);
         button_actionAddMeg.setColorNormalResId(R.color.accent);
         button_actionAddMeg.setColorPressedResId(R.color.black);
         button_actionAddMeg.setIcon(R.drawable.ic_rate_review_grey600_36dp);
         button_actionAddMeg.setStrokeVisible(false);
+
+        w_msgDialog = new WriteMsgDialog(getActivity());
 
         FloatingActionButton button_actionAddPlace = (FloatingActionButton) myView.findViewById(R.id.action_addPlace);
         button_actionAddPlace.setSize(FloatingActionButton.SIZE_MINI);
@@ -69,23 +72,12 @@ public class WallFragment extends Fragment
 
         //final View actionAddPhoto = myView.findViewById(R.id.action_addphoto);
 
-       /* FloatingActionButton actionAddMsg = (FloatingActionButton) myView.findViewById(R.id.action_write);
-        actionAddMsg.setTitle("Hide/Show Action above");
-        actionAddMsg.setOnClickListener(new View.OnClickListener() {
+        button_actionAddMeg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                actionAddPhoto.setVisibility(actionAddPhoto.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+                w_msgDialog.showDialog();
             }
         });
-
-        final FloatingActionButton actionAddVideo = (FloatingActionButton) myView.findViewById(R.id.action_addVideo);
-        actionAddVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                actionAddVideo.setTitle("Action A clicked");
-            }
-        });*/
-
 
         mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
 
