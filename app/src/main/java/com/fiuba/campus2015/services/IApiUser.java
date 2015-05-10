@@ -115,4 +115,11 @@ public interface IApiUser {
             @Body Message msg
     );
 
+    @GET("/api/{token}/users/{user}/wall")
+    public List<Message> getUserWallMessages(
+            @Path("token") String token,
+            @Path("user") String user
+    );
+
+
 }
