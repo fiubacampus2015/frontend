@@ -112,8 +112,6 @@ public class ContactFragment extends Fragment {
                 })
         );
 
-
-
         contactsAdapter.setContacts(new ArrayList<User>(),session.getUserid());
         searchUsers(true);
         //Se agrega esto por que sino no funciona el input con tabs
@@ -192,9 +190,21 @@ public class ContactFragment extends Fragment {
             try {
                 if (searchFriend)
                     user = restClient.getApiService().getFriends(session.getToken(),session.getUserid());
-                else
+                else {
+                    // TODO: descomentar esto cuando se pueda buscar por campos combinados
+                    /*
+                    if(searchFilter.filter()) {
+                        user = restClient.getApiService().getPeople(session.getToken(),
+                                searchFilter.getName(), searchFilter.getSurname(), searchFilter.getCareer(),
+                                searchFilter.getOrientacion(), searchFilter.getNacionalidad());
+                    } else {
+                        user = restClient.getApiService().getPeople(session.getToken(),
+                                searchText.getText().toString(), "", "", "", "");
+                    }
+                    */
                     user = restClient.getApiService().getFriend(session.getToken(), searchText.getText().toString());
 
+                }
             } catch (Exception ex) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
 

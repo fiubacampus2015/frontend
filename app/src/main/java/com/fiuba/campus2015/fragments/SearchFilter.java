@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,6 +27,10 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
     private String carrera;
     private String orientacion;
     private String nacionalidad;
+    private String name;
+    private String surname;
+    private EditText nameText;
+    private EditText surnametext;
 
     protected SearchFilter(FragmentActivity activity) {
         super(activity);
@@ -34,13 +39,21 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
         LayoutInflater inflater = activity.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.filter_search, null);
         setView(dialogView);
-        carrera = orientacion = nacionalidad = "";
+        nameText = (EditText) dialogView.findViewById(R.id.editText_);
+        surnametext = (EditText) dialogView.findViewById(R.id.editText45);
+
+        name = surname = carrera = orientacion = nacionalidad = "";
 
         setListener();
         loadCareer();
         loadNacionalities();
         setFormat();
         alertDialog = create();
+    }
+
+    // si se coloco algun filtro de busqueda: true
+    public boolean filter() {
+        return (!name.isEmpty() || !surname.isEmpty() || !carrera.isEmpty() || !orientacion.isEmpty() || !nacionalidad.isEmpty());
     }
 
     public void showDialog() {
@@ -59,10 +72,20 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
         return nacionalidad;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
     private void setFormat() {
         ((TextView) dialogView.findViewById(R.id.textView5)).setTypeface((Typeface) null, 1);
         ((TextView) dialogView.findViewById(R.id.textView8)).setTypeface((Typeface) null, 1);
         ((TextView) dialogView.findViewById(R.id.textView11)).setTypeface((Typeface) null, 1);
+        ((TextView) dialogView.findViewById(R.id.textView14)).setTypeface((Typeface) null, 1);
+        ((TextView) dialogView.findViewById(R.id.textView145)).setTypeface((Typeface) null, 1);
     }
 
     private void setListener() {
@@ -80,6 +103,8 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
                     orientacion = "";
                 }
                 nacionalidad = spNacionality.getSelectedItem().toString();
+                name = nameText.getText().toString();
+                surname = surnametext.getText().toString();
 
                 alertDialog.dismiss();
             }
@@ -96,7 +121,7 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
     public void reset() {
         spCarreras.setSelection(0);
         spNacionality.setSelection(0);
-        carrera = orientacion = nacionalidad = "";
+        name = surname = carrera = orientacion = nacionalidad = "";
     }
 
     private void loadNacionalities() {

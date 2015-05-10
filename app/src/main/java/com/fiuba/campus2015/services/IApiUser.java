@@ -48,6 +48,16 @@ public interface IApiUser {
             @Query("name") String name
     );
 
+    @GET("/api/{token}/users")
+    public List<User> getPeople(
+            @Path("token") String token,
+            @Query("name") String name,
+            @Query("userName") String userName,
+            @Query("career") String career,
+            @Query("orientation") String orientation,
+            @Query("nacionality") String nacionality
+    );
+
 
     @GET("/api/{token}/users/{user}/friends")
     public List<User> getFriends(
