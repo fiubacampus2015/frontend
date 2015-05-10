@@ -19,10 +19,13 @@ import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.Personal;
 import com.fiuba.campus2015.dto.user.Phone;
 import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.gc.materialdesign.widgets.Dialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import java.util.Calendar;
 
 import retrofit.RestAdapter;
 import retrofit.client.Response;
@@ -62,9 +65,8 @@ public class WriteMsgDialog extends AlertDialog.Builder {
             @Override
             public void onClick(View v) {
 
-                msgContent.getText();
-
-
+                SendMsgTask task = new SendMsgTask();
+                task.execute();
 
                 alertDialog.dismiss();
                 reset();
@@ -94,7 +96,6 @@ public class WriteMsgDialog extends AlertDialog.Builder {
             restAdapter = new RestAdapter.Builder()
                     .setEndpoint(UrlEndpoints.URL_API)
                     .build();
-            //progressDialog.show();
         }
 
         @Override
@@ -103,7 +104,10 @@ public class WriteMsgDialog extends AlertDialog.Builder {
             IApiUser api = restAdapter.create(IApiUser.class);
             retrofit.client.Response  response = null;
             try {
-               // response = api.register(new Message(msgContent.getText(),new User(), new Date.));
+                Calendar calendar = Calendar.getInstance();
+
+                //seria: vos posteas a /api/' + jime_token + '/users/' + peta_user_id +'/wall
+                //response = api.post(new Message(msgContent.getText(),null,calendar.getTime(),Constants.MsgCardType.text));
 
             } catch (Exception x) {}
 

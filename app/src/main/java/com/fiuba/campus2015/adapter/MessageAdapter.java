@@ -79,7 +79,7 @@ public class MessageAdapter {
     }
 
     private Card getRandomCard(Message msg) {
-        String title = msg.user.name + " " + msg.user.username;
+        String title = msg.userFrom.name + " " + msg.userFrom.username;
         String description = msg.postDate + "\n \n" + msg.content;
 
         int position = 0;
