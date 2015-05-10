@@ -1,5 +1,7 @@
 package com.fiuba.campus2015.fragments;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -97,7 +99,16 @@ public class CompleteProfile extends Fragment {
         BigImageCard personalCard = new BigImageCard(view.getContext());
         personalCard.setDescription(getArguments().getString(NAME) + " " + getArguments().getString(LASTNAME) + "\n" + getArguments().getString(EMAIL) + "\n" + getArguments().getString(PHONE) + "\n" + getArguments().getString(NATIONALITY) + "\n" + Utils.getBirthdayFormatted(getArguments().getString(BIRTHDAY)));
         personalCard.setTag("BIG_IMAGE_CARD");
-        personalCard.setDrawable("https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png");
+
+        if (!getArguments().getString(PHOTO).isEmpty()) {
+            Drawable drawable = new BitmapDrawable(getResources(), Utils.getPhoto(getArguments().getString(PHOTO)));
+            personalCard.setDrawable(drawable);
+
+        }else
+            personalCard.setDrawable(R.drawable.profiledefault);
+
+
+        //personalCard.setDrawable("https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png");
         personalCard.setDismissible(false);
 
         profileInformation.add(personalCard);
