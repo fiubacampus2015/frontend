@@ -6,20 +6,17 @@ import com.fiuba.campus2015.extras.Constants;
 public class Message {
     public String _id;
     public String content;
-    public String postDate;
-    public User userFrom;
-    public Constants.MsgCardType type;
+    public String date;
+    public User user;
+    public Constants.MsgCardType typeOf;
 
-    public Message(String content, User userFrom, String postDate, Constants.MsgCardType type){
-        this.userFrom = userFrom;
+    public Message(String content,Constants.MsgCardType type){
         this.content = content;
-        this.postDate = postDate;
-        this.type = type;
+        this.typeOf = type;
     }
 
-
     public Constants.MsgCardType getType() {
-        return this.type;
+        return this.typeOf;
     }
 
 }

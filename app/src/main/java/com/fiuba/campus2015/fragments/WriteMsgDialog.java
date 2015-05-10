@@ -22,6 +22,7 @@ import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.widgets.Dialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -36,6 +37,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
     private AlertDialog alertDialog;
     private TextView msgTo;
     private MaterialEditText msgContent;
+    private SessionManager session;
 
     protected WriteMsgDialog(FragmentActivity activity) {
         super(activity);
@@ -43,9 +45,10 @@ public class WriteMsgDialog extends AlertDialog.Builder {
         this.context = activity;
         LayoutInflater inflater = activity.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.write_message_layout, null);
+        session = new SessionManager(context);
 
         msgTo = (TextView) dialogView.findViewById(R.id.senderName);
-        msgTo.setText("Jimena Tapia"); //TODO: tomar el nombre del user
+        msgTo.setText(session.getUserName() + " " + session.getUserSurname());
 
         msgContent = (MaterialEditText) dialogView.findViewById(R.id.msgContent);
 
@@ -104,10 +107,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
             IApiUser api = restAdapter.create(IApiUser.class);
             retrofit.client.Response  response = null;
             try {
-                Calendar calendar = Calendar.getInstance();
-
-                //seria: vos posteas a /api/' + jime_token + '/users/' + peta_user_id +'/wall
-                //response = api.post(new Message(msgContent.getText(),null,calendar.getTime(),Constants.MsgCardType.text));
+                response = api.postMsgToWall(session.getToken(),session.getUserid(),new Message(msgContent.getText().toString(),Constants.MsgCardType.text));
 
             } catch (Exception x) {}
 
@@ -116,22 +116,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
 
         @Override
         protected void onPostExecute(retrofit.client.Response response) {
-            /*progressDialog.dismiss();
-            if(response == null) {
-                dialog = new Dialog(Registration.this, null,"Esa casilla de correo ya está registrada.");
-                dialog.show();
-                dialog.getButtonAccept().setText("Aceptar");
-            } else {
-                dialog = new Dialog(Registration.this, "Registro exitoso!", "Te enviamos un mail de confirmación a tu casilla.");
-                dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(Registration.this, MainActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                dialog.show();
-                dialog.getButtonAccept().setText("Aceptar");*/
+            //TODO: actualizar muro
 
         }
     }

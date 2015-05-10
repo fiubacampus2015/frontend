@@ -79,15 +79,15 @@ public class MessageAdapter {
     }
 
     private Card getRandomCard(Message msg) {
-        String title = msg.userFrom.name + " " + msg.userFrom.username;
-        String description = msg.postDate + "\n \n" + msg.content;
+        String title = msg.user.name + " " + msg.user.username;
+        String description = msg.date + "\n \n" + msg.content;
 
         int position = 0;
 
         SimpleCard card;
         Drawable icon;
 
-        switch (msg.type) {
+        switch (msg.typeOf) {
 
             case place:
                 card = new SmallImageCard(this.context);

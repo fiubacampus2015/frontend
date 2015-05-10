@@ -2,6 +2,7 @@ package com.fiuba.campus2015.services;
 
 import com.fiuba.campus2015.adapter.ContactItem;
 import com.fiuba.campus2015.dto.user.Authenticate;
+import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.User;
 
 import java.util.List;
@@ -105,6 +106,13 @@ public interface IApiUser {
             @Path("token") String token,
             @Path("userId") String userId,
             @Path("friendId") String friendId
+    );
+
+    @POST("/api/{token}/users/{friendId}/wall")
+    public retrofit.client.Response postMsgToWall(
+            @Path("token") String token,
+            @Path("friendId") String friendId,
+            @Body Message msg
     );
 
 }
