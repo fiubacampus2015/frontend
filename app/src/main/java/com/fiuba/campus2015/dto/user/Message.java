@@ -7,11 +7,11 @@ public class Message {
     public String _id;
     public String content;
     public String postDate;
-    public User user;
+    public User userFrom;
     public Constants.MsgCardType type;
 
-    public Message(String content, User user, String postDate, Constants.MsgCardType type){
-        this.user = user;
+    public Message(String content, User userFrom, String postDate, Constants.MsgCardType type){
+        this.userFrom = userFrom;
         this.content = content;
         this.postDate = postDate;
         this.type = type;
