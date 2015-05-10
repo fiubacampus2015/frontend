@@ -1,19 +1,18 @@
 package com.fiuba.campus2015.fragments;
 
-import android.app.Activity;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.dexafree.materialList.cards.BigImageCard;
+import com.dexafree.materialList.cards.SmallImageCard;
+import com.dexafree.materialList.cards.WelcomeCard;
+import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.Utils;
-import com.google.gson.Gson;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,24 +33,12 @@ import static com.fiuba.campus2015.extras.Constants.ORIENTATION;
 import static com.fiuba.campus2015.extras.Constants.PHONE;
 import static com.fiuba.campus2015.extras.Constants.PHOTO;
 import static com.fiuba.campus2015.extras.Constants.PROFESION;
-import static com.fiuba.campus2015.extras.Constants.USER;
 import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 
 
 public class CompleteProfile extends Fragment {
-    private TextView name;
-    private TextView phone;
-    private TextView nacionality;
-    private TextView mail;
-    private TextView nacimiento;
-    private TextView career;
-    private TextView orientation;
-    private TextView empleo;
-    private TextView dateFromString;
-    private TextView dateToString;
-    private TextView fechaIngreso;
-    private TextView labelEmpleo;
-    private TextView labelEducacion;
+
+    private MaterialListView profileInformation;
 
 
     public static CompleteProfile newInstance(User user) {
@@ -88,7 +75,6 @@ public class CompleteProfile extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -97,63 +83,53 @@ public class CompleteProfile extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_complete_profile, container, false);
 
-        initializeViews(view);
-        load();
+        profileInformation = (MaterialListView) view.findViewById(R.id.friendProfileInfo);
 
+        load(view);
 
         return view;
     }
 
-    private void load() {
-        name.setText(getArguments().getString(NAME) + " " + getArguments().getString(LASTNAME));
-        mail.setText(getArguments().getString(EMAIL));
-        phone.setText(getArguments().getString(PHONE));
-        nacionality.setText(getArguments().getString(NATIONALITY));
-        nacimiento.setText(Utils.getBirthdayFormatted(getArguments().getString(BIRTHDAY)));
+    private void load(View view) {
 
-        String myCareer = getArguments().getString(PROFESION);
+
+
+        BigImageCard personalCard = new BigImageCard(view.getContext());
+        personalCard.setDescription(getArguments().getString(NAME) + " " + getArguments().getString(LASTNAME) + "\n" + getArguments().getString(EMAIL) + "\n" + getArguments().getString(PHONE) + "\n" + getArguments().getString(NATIONALITY) + "\n" + Utils.getBirthdayFormatted(getArguments().getString(BIRTHDAY)));
+        personalCard.setTag("BIG_IMAGE_CARD");
+        personalCard.setDrawable("https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png");
+        personalCard.setDismissible(false);
+
+        profileInformation.add(personalCard);
+
+       String myCareer = getArguments().getString(PROFESION);
         if(myCareer != null) {
-            career.setText(myCareer);
-            orientation.setText(getArguments().getString(ORIENTATION));
-            String fechaIngreso_ = Utils.getBirthdayFormatted(getArguments().getString(FECHAINGRESO));
-            if (fechaIngreso_ != null) {
-                fechaIngreso.setText(fechaIngreso_);
-            }
+            SmallImageCard careerCard = new SmallImageCard(view.getContext());
+            careerCard.setDescription(myCareer + "\n" + getArguments().getString(ORIENTATION) + "\n" + Utils.getBirthdayFormatted(getArguments().getString(FECHAINGRESO)));
+            careerCard.setTitle("Educación");
+            careerCard.setDrawable(R.drawable.ic_school_grey600_18dp);
+            careerCard.setDismissible(true);
+            careerCard.setTag("SMALL_IMAGE_CARD");
+
+            profileInformation.add(careerCard);
         }
 
         String job = getArguments().getString(DESCRIPCIONEMPLEO);
         if(job != null) {
+
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            empleo.setText(getArguments().getString(DESCRIPCIONEMPLEO));
             Date dateFrom = getDateFormat(getArguments().getString(FECHAINGRESOEMPLEO));
             Date dateTo = getDateFormat(getArguments().getString(FECHASALIDAIEMPLEO));
-            if (dateFrom!=null)
-                dateFromString.setText(formatter.format(dateFrom));
-            if (dateTo!=null)
-                dateToString.setText(formatter.format(dateTo));
+
+            SmallImageCard jobCard = new SmallImageCard(view.getContext());
+            jobCard.setDrawable(R.drawable.ic_work_grey);
+            jobCard.setTitle("Empleo");
+            jobCard.setDescription(job + "\n" + formatter.format(dateFrom) + " - " + formatter.format(dateTo));
+            jobCard.setTag("BASIC_IMAGE_BUTTONS_CARD");
+
+            profileInformation.add(jobCard);
+
         }
-
-        labelEmpleo.setTypeface((Typeface) null, 1);
-        labelEducacion.setTypeface((Typeface) null, 1);
-    }
-
-
-    private void initializeViews(View view) {
-        name = (TextView) view.findViewById(R.id.nombresPerfilCOmpleto);
-        phone = (TextView) view.findViewById(R.id.telefonoPerfilCompleto);
-        nacionality = (TextView) view.findViewById(R.id.nacionalidadPerfilCOmpleto);
-        mail = (TextView) view.findViewById(R.id.mailPerfilcompleto);
-        nacimiento = (TextView) view.findViewById(R.id.nacimientoPerfilCompleto);
-
-        labelEducacion = (TextView) view.findViewById(R.id.titleEducacionPerfil);
-        career = (TextView) view.findViewById(R.id.carreraPerfilCOmpleto);
-        orientation = (TextView) view.findViewById(R.id.orientacionPerfilCompleto);
-        fechaIngreso = (TextView) view.findViewById(R.id.fechaIngresoPerfilCompleto);
-
-        labelEmpleo = (TextView) view.findViewById(R.id.mailPerfilcompleto);
-        empleo = (TextView) view.findViewById(R.id.empleoPerfilCOmpleto);
-        dateFromString = (TextView) view.findViewById(R.id.fechaInicioPerfilCOmpleto);
-        dateToString = (TextView) view.findViewById(R.id.fechaFinPerfilCOmpleto);
 
     }
 
