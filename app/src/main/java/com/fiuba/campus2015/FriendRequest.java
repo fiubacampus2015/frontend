@@ -45,6 +45,7 @@ public class FriendRequest extends ActionBarActivity {
 
         contactRequestAdapter = new ContactRequestAdapter(this);
         list.setAdapter(contactRequestAdapter);
+
         session = new SessionManager(this);
 
 

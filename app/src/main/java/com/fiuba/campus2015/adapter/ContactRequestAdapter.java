@@ -17,6 +17,7 @@ import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class ContactRequestAdapter  extends RecyclerView.Adapter<ContactRequestA
         this.context = friendRequest;
         layoutInflater = LayoutInflater.from(context);
         this.friendRequest = friendRequest;
+        contactsItems = new ArrayList<>();
     }
 
     public void setContacts(List<User> listContacts) {
