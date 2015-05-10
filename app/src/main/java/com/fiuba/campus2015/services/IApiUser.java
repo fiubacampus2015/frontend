@@ -90,4 +90,21 @@ public interface IApiUser {
             @Path("token") String token,
             @Path("userId") String user
     );
+
+
+    @PUT("/api/{token}/users/{userId}/{friendId}/confirm")
+    public retrofit.client.Response confirmInvitation(
+            @Path("token") String token,
+            @Path("userId") String userId,
+            @Path("friendId") String friendId
+
+    );
+
+    @PUT("/api/{token}/users/{userId}/{friendId}/reject")
+    public retrofit.client.Response rejectInvitation(
+            @Path("token") String token,
+            @Path("userId") String userId,
+            @Path("friendId") String friendId
+    );
+
 }

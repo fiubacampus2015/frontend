@@ -22,12 +22,16 @@ import com.gc.materialdesign.widgets.ProgressDialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.client.Response;
+
 public class FriendRequest extends ActionBarActivity {
     private Toolbar toolbar;
     private RecyclerView list;
     private ContactRequestAdapter contactRequestAdapter;
     private EditText searchText;
     private SessionManager session;
+    private FriendRequestTask friendRequestTask;
+    private InvitationTask invitationTask;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +53,10 @@ public class FriendRequest extends ActionBarActivity {
         session = new SessionManager(this);
 
 
-        FriendRequestTask friendRequestTask = new FriendRequestTask(this);
+        friendRequestTask = new FriendRequestTask(this);
+
+        invitationTask = new InvitationTask();
+
         friendRequestTask.executeTask();
     }
 
@@ -99,10 +106,17 @@ public class FriendRequest extends ActionBarActivity {
 
     public void setUserInvited(User user) {
         Toast.makeText(this, "Se acepto la amistad de " + user.email,Toast.LENGTH_SHORT).show();
+        invitationTask.setConfirmInvitation(user._id);
+        invitationTask.executeTask();
+        friendRequestTask.executeTask();
     }
 
     public void setInvitationDeleted(User user) {
         Toast.makeText(this, "Se borro la invitacion de " + user.email ,Toast.LENGTH_SHORT).show();
+        invitationTask.setRejectInvitation(user._id);
+        invitationTask.executeTask();
+        friendRequestTask.executeTask();
+
     }
 
 
@@ -149,6 +163,64 @@ public class FriendRequest extends ActionBarActivity {
         protected void onPostExecute(List<User> listUsers) {
             progressDialog.dismiss();
             friendRequest.setInvitations(listUsers);
+        }
+    }
+
+    private class InvitationTask extends AsyncTask<Void, Void, Response> {
+        private RestClient restClient;
+        private ProgressDialog progressDialog;
+        private Boolean acceptInvitation;
+        private String userId;
+
+
+        public InvitationTask() {
+        }
+
+        private void setRejectInvitation(String userId) {
+            this.acceptInvitation = false;
+            this.userId = userId;
+        }
+
+        private void setConfirmInvitation(String userId) {
+            this.acceptInvitation = true;
+            this.userId = userId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            restClient = new RestClient();
+
+        }
+
+        private void executeTask() {
+            try {
+                this.execute();
+            } catch(Exception e) {
+            }
+        }
+
+        @Override
+        protected Response doInBackground(Void... params) {
+            Response response = null;
+            try {
+
+                if (this.acceptInvitation)
+                    response = restClient.getApiService().confirmInvitation(session.getToken(),this.userId,session.getUserid());
+                else
+                    response = restClient.getApiService().rejectInvitation(session.getToken(),this.userId,session.getUserid());
+
+            } catch(Exception e) {
+
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(Response response) {
+
+            if (response == null)
+                Toast.makeText(getApplicationContext(), "Hubo un error al rechazar o aceptar la invitacion.", Toast.LENGTH_SHORT).show();
+
         }
     }
 }
