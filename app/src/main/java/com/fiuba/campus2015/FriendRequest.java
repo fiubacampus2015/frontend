@@ -108,14 +108,14 @@ public class FriendRequest extends ActionBarActivity {
         Toast.makeText(this, "Se acepto la amistad de " + user.email,Toast.LENGTH_SHORT).show();
         invitationTask.setConfirmInvitation(user._id);
         invitationTask.executeTask();
-        friendRequestTask.executeTask();
+        //friendRequestTask.executeTask();
     }
 
     public void setInvitationDeleted(User user) {
         Toast.makeText(this, "Se borro la invitacion de " + user.email ,Toast.LENGTH_SHORT).show();
         invitationTask.setRejectInvitation(user._id);
         invitationTask.executeTask();
-        friendRequestTask.executeTask();
+        //friendRequestTask.executeTask();
 
     }
 

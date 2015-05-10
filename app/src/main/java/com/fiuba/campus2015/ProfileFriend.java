@@ -33,7 +33,6 @@ public class ProfileFriend extends ActionBarActivity {
     private User user;
     private SessionManager session;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_friend);
@@ -41,6 +40,16 @@ public class ProfileFriend extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         session = new SessionManager(getApplicationContext());
+
+
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            String userJson = extras.getString(USER);
+            this.user = new Gson().fromJson(userJson, User.class);
+            getSupportActionBar().setTitle(user.name + " " + user.username);
+        }
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,13 +60,17 @@ public class ProfileFriend extends ActionBarActivity {
         MaterialTabHost tabHost = (MaterialTabHost) findViewById(R.id.tabs);
         tabHost.setType(MaterialTabHost.Type.FullScreenWidth);
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        pagerAdapter.setUser(this.user);
+
         for (int i = 0; i < pagerAdapter.getCount(); i++) {
             tabHost.addTab(pagerAdapter.getPageTitle(i));
         }
 
+        tabHost.setCurrentTab(TAB_PROFILE);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setCurrentItem(TAB_PROFILE);
         viewPager.setOnPageChangeListener(tabHost);
 
         tabHost.setOnTabChangeListener(new MaterialTabHost.OnTabChangeListener() {
@@ -66,14 +79,6 @@ public class ProfileFriend extends ActionBarActivity {
                 viewPager.setCurrentItem(position);
             }
         });
-
-        Bundle extras = getIntent().getExtras();
-        if(extras != null) {
-            String userJson = extras.getString(USER);
-            this.user = new Gson().fromJson(userJson, User.class);
-            getSupportActionBar().setTitle(user.name + " " + user.username);
-        }
-
 
         initialize();
 
@@ -113,12 +118,18 @@ public class ProfileFriend extends ActionBarActivity {
 
     class MyPagerAdapter extends FragmentPagerAdapter {
 
+        private User user;
         String[] tabs = getResources().getStringArray(R.array.tabs_friend_profile);
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
             tabs = getResources().getStringArray(R.array.tabs_friend_profile);
 
 
+        }
+
+        public void setUser(User user)
+        {
+            this.user = user;
         }
 
         @Override
@@ -130,7 +141,7 @@ public class ProfileFriend extends ActionBarActivity {
                     fragment = WallFragment.newInstance("", "");
                     break;
                 case TAB_PROFILE:
-                    fragment = CompleteProfile.newInstance(user);
+                    fragment = CompleteProfile.newInstance(this.user);
                     break;
             }
             return fragment;
