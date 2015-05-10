@@ -122,6 +122,8 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
         spCarreras.setSelection(0);
         spNacionality.setSelection(0);
         name = surname = carrera = orientacion = nacionalidad = "";
+        nameText.setText("");
+        surnametext.setText("");
     }
 
     private void loadNacionalities() {
