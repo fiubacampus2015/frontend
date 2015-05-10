@@ -52,10 +52,10 @@ public interface IApiUser {
     public List<User> getPeople(
             @Path("token") String token,
             @Query("name") String name,
-            @Query("userName") String userName,
-            @Query("career") String career,
-            @Query("orientation") String orientation,
-            @Query("nacionality") String nacionality
+            @Query("username") String username,
+            @Query("education.careers.title") String career,
+            @Query("education.careers.branch") String branch,
+            @Query("personal.nacionality") String nacionality
     );
 
 

@@ -192,7 +192,7 @@ public class ContactFragment extends Fragment {
                     user = restClient.getApiService().getFriends(session.getToken(),session.getUserid());
                 else {
                     // TODO: descomentar esto cuando se pueda buscar por campos combinados
-                    /*
+
                     if(searchFilter.filter()) {
                         user = restClient.getApiService().getPeople(session.getToken(),
                                 searchFilter.getName(), searchFilter.getSurname(), searchFilter.getCareer(),
@@ -201,8 +201,6 @@ public class ContactFragment extends Fragment {
                         user = restClient.getApiService().getPeople(session.getToken(),
                                 searchText.getText().toString(), "", "", "", "");
                     }
-                    */
-                    user = restClient.getApiService().getFriend(session.getToken(), searchText.getText().toString());
 
                 }
             } catch (Exception ex) {
