@@ -1,5 +1,6 @@
 package com.fiuba.campus2015.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,10 +13,16 @@ import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.Constants;
+import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.session.SessionManager;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.RestAdapter;
+import retrofit.client.Response;
 
 public class WallFragment extends Fragment
 {
@@ -23,13 +30,14 @@ public class WallFragment extends Fragment
     private MaterialListView mListView;
     private MessageAdapter msgAdapter;
     private WriteMsgDialog w_msgDialog;
-
+    private SessionManager session;
 
     public static WallFragment newInstance(String param1, String param2) {
         WallFragment fragment = new WallFragment();
         Bundle args = new Bundle();
         //put any extra arguments that you may want to supply to this fragment
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -70,8 +78,6 @@ public class WallFragment extends Fragment
         button_actionAddVideo.setIcon(R.drawable.ic_location_on_grey600_18dp);
         button_actionAddVideo.setStrokeVisible(false);
 
-        //final View actionAddPhoto = myView.findViewById(R.id.action_addphoto);
-
         button_actionAddMeg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,8 +88,9 @@ public class WallFragment extends Fragment
         mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
 
         this.msgAdapter = new MessageAdapter(myView.getContext(), mListView);
-        msgAdapter.setData(getMessageItemsMock());
-        msgAdapter.fillArray();
+
+        GetWallMsgsTask fillWall = new GetWallMsgsTask();
+        fillWall.execute();
 
         return myView;
     }
@@ -93,15 +100,47 @@ public class WallFragment extends Fragment
 
         List<Message> mensajes = new ArrayList<Message>();
         User user = new User("Jimena", "Tapia", "user", "pwd", null);
-        mensajes.add(new Message("Esto es un mensaje del muro. Estoy probando el contenido y formato de las distintas cards. Parece lindo!",user,"Lunes 4 de Mayo", Constants.MsgCardType.text));
-        mensajes.add(new Message("Esta soy yo!",user,"Lunes 4 de Mayo", Constants.MsgCardType.photo));
-        mensajes.add(new Message("miren esto que copado!",user,"Lunes 4 de Mayo", Constants.MsgCardType.video));
-        mensajes.add(new Message("Casa - Villa Urquiza",user,"Lunes 4 de Mayo", Constants.MsgCardType.place));
-        mensajes.add(new Message("Otro mensajes pero mas cortito.",user,"Lunes 4 de Mayo", Constants.MsgCardType.text));
+       // mensajes.add(new Message("Esto es un mensaje del muro. Estoy probando el contenido y formato de las distintas cards. Parece lindo!","Lunes 4 de Mayo", Constants.MsgCardType.text));
+       // mensajes.add(new Message("Esta soy yo!","Lunes 4 de Mayo", Constants.MsgCardType.photo));
+       // mensajes.add(new Message("miren esto que copado!","Lunes 4 de Mayo", Constants.MsgCardType.video));
+       // mensajes.add(new Message("Casa - Villa Urquiza","Lunes 4 de Mayo", Constants.MsgCardType.place));
+        //mensajes.add(new Message("Otro mensajes pero mas cortito.","Lunes 4 de Mayo", Constants.MsgCardType.text));
 
         return mensajes;
     }
 
+    private class GetWallMsgsTask extends AsyncTask<Void, Void,
+            Response> {
+        RestAdapter restAdapter;
 
+        @Override
+        protected void onPreExecute() {
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(UrlEndpoints.URL_API)
+                    .build();
+        }
+
+        @Override
+        protected retrofit.client.Response doInBackground(Void... params) {
+
+            IApiUser api = restAdapter.create(IApiUser.class);
+            retrofit.client.Response  response = null;
+            try {
+                List<Message> msgs = api.getUserWallMessages(session.getToken(), session.getUserid());
+                msgAdapter.setData(msgs);
+                msgAdapter.fillArray();
+
+            } catch (Exception x) {}
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(retrofit.client.Response response) {
+            //TODO: actualizar muro
+
+        }
     }
+
+}
 

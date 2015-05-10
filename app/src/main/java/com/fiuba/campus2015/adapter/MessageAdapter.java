@@ -38,35 +38,6 @@ public class MessageAdapter {
         this.materialListView = materialListView;
     }
 
-    public View getView(final int position, View convertView, final ViewGroup parent) {
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            convertView = LayoutInflater.from(this.context).inflate(R.layout.item_msg, parent, false);
-
-            viewHolder = new ViewHolder();
-            viewHolder.mCheckBox = (CheckBox) convertView.findViewById(R.id.checkBox);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-        viewHolder.mCheckBox.setChecked(true);
-        /*
-		viewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-				// Do something awesome!
-			}
-		});
-		*/
-
-        return convertView;
-    }
-
-    static class ViewHolder {
-        CheckBox mCheckBox;
-    }
-
     public void fillArray() {
         for (int i = 0; i < this.messageItems.size(); i++) {
             Card card = getRandomCard(this.messageItems.get(i));
@@ -79,15 +50,12 @@ public class MessageAdapter {
     }
 
     private Card getRandomCard(Message msg) {
-        String title = msg.userFrom.name + " " + msg.userFrom.username;
-        String description = msg.postDate + "\n \n" + msg.content;
-
+        String title = msg.user.name + " " + msg.user.username;
+        String description = msg.date + "\n \n" + msg.content;
         int position = 0;
-
         SimpleCard card;
-        Drawable icon;
 
-        switch (msg.type) {
+        switch (msg.typeOf) {
 
             case place:
                 card = new SmallImageCard(this.context);
