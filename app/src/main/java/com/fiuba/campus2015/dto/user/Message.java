@@ -7,7 +7,7 @@ public class Message {
     public String _id;
     public String content;
     public String date;
-    public String user;
+    public User user;
     public Constants.MsgCardType typeOf;
 
     public Message(String content,Constants.MsgCardType type){

@@ -38,9 +38,13 @@ public class WriteMsgDialog extends AlertDialog.Builder {
     private TextView msgTo;
     private MaterialEditText msgContent;
     private SessionManager session;
+    private String userTo;
 
-    protected WriteMsgDialog(FragmentActivity activity) {
+
+    protected WriteMsgDialog(FragmentActivity activity, String userTo) {
         super(activity);
+
+        this.userTo = userTo;
 
         this.context = activity;
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -107,7 +111,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
             IApiUser api = restAdapter.create(IApiUser.class);
             retrofit.client.Response  response = null;
             try {
-                response = api.postMsgToWall(session.getToken(),session.getUserid(),new Message(msgContent.getText().toString(),Constants.MsgCardType.text));
+                response = api.postMsgToWall(session.getToken(),userTo,new Message(msgContent.getText().toString(),Constants.MsgCardType.text));
 
             } catch (Exception x) {}
 

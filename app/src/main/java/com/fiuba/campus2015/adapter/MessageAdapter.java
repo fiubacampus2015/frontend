@@ -59,9 +59,7 @@ public class MessageAdapter {
     }
 
     private Card getRandomCard(Message msg) {
-        //String title = msg.user.name + " " + msg.user.username;
-        String title = "Nombre" ;
-
+        String title = msg.user.name + " " + msg.user.username;
         String description = Utils.getBirthdayFormatted(msg.date) + "\n \n" + msg.content;
         int position = 0;
         SimpleCard card;
