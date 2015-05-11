@@ -110,7 +110,7 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
                 surname = surnametext.getText().toString();
 
                 contactFragment.searchUsers(false);
-                
+
                 alertDialog.dismiss();
             }
         });
