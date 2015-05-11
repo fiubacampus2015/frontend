@@ -12,7 +12,6 @@ import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.User;
-import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
@@ -22,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RestAdapter;
-import retrofit.client.Response;
+
+import static com.fiuba.campus2015.extras.Constants.USERTO;
 
 public class WallFragment extends Fragment
 {
@@ -32,11 +32,12 @@ public class WallFragment extends Fragment
     private WriteMsgDialog w_msgDialog;
     private SessionManager session;
 
-    public static WallFragment newInstance(String param1, String param2) {
+    public static WallFragment newInstance(String userId) {
         WallFragment fragment = new WallFragment();
         Bundle args = new Bundle();
         //put any extra arguments that you may want to supply to this fragment
         fragment.setArguments(args);
+        args.putString(USERTO, userId);
 
         return fragment;
     }
@@ -47,7 +48,6 @@ public class WallFragment extends Fragment
                              Bundle savedInstanceState) {
 
         myView = inflater.inflate(R.layout.wall_fragment, container, false);
-
 
         session = new SessionManager(getActivity().getApplicationContext());
 
@@ -129,7 +129,7 @@ public class WallFragment extends Fragment
             List<Message> msgs = null;
             IApiUser api = restAdapter.create(IApiUser.class);
             try {
-                msgs = api.getUserWallMessages(session.getToken(), session.getUserid());
+                msgs = api.getUserWallMessages(session.getToken(), getArguments().getString(USERTO));
 
             } catch (Exception x) {}
 
