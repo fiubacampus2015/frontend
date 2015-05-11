@@ -84,7 +84,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             }
 
         //Valido si es amigo o no
-           if (contactItem.friend == null || !contactItem.friend) {
+            if (contactItem.status == null || (contactItem.status!= null && contactItem.status.equals("reject")))
+            {
               holder.viewSendInvitation.setVisibility(View.VISIBLE);
            }else
               holder.viewSendInvitation.setVisibility(View.GONE);
