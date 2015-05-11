@@ -8,6 +8,7 @@ import com.fiuba.campus2015.dto.user.User;
 import java.util.List;
 
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
@@ -119,6 +120,13 @@ public interface IApiUser {
     public List<Message> getUserWallMessages(
             @Path("token") String token,
             @Path("user") String user
+    );
+
+    @DELETE("/api/{token}/users/{userId}/wall")
+    public retrofit.client.Response deleteMsg(
+            @Path("token") String token,
+            @Path("user") String userId,
+            @Body Message msg
     );
 
 

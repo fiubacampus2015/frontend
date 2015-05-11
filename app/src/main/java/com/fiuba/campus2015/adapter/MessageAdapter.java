@@ -2,6 +2,7 @@ package com.fiuba.campus2015.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,9 @@ import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.Constants;
+import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.extras.Utils;
+import com.fiuba.campus2015.services.IApiUser;
 import com.gc.materialdesign.views.CheckBox;
 
 import java.text.ParseException;
@@ -31,8 +34,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import retrofit.RestAdapter;
+
 import static com.fiuba.campus2015.extras.Constants.FECHAINGRESO;
 import static com.fiuba.campus2015.extras.Constants.FECHAINGRESOEMPLEO;
+import static com.fiuba.campus2015.extras.Constants.USERTO;
 import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 
 public class MessageAdapter {
@@ -139,7 +145,9 @@ public class MessageAdapter {
                 ((BasicButtonsCard) card).setOnRightButtonPressedListener(new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
-                        Toast.makeText(context, "You have pressed the right button", Toast.LENGTH_SHORT).show();
+                        DeleteMsgTask deleteMsg = new DeleteMsgTask();
+                        deleteMsg.execute();
+
                     }
                 });
                 card.setDismissible(true);
@@ -213,5 +221,34 @@ public class MessageAdapter {
         return card;
     }
 
+    private class DeleteMsgTask extends AsyncTask<Void, Void,
+            retrofit.client.Response> {
+        RestAdapter restAdapter;
+
+        @Override
+        protected void onPreExecute() {
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(UrlEndpoints.URL_API)
+                    .build();
+        }
+
+        @Override
+        protected retrofit.client.Response doInBackground(Void... params) {
+
+            retrofit.client.Response  response = null;
+            IApiUser api = restAdapter.create(IApiUser.class);
+            try {
+                //response = api.deleteMsg(session.getToken(), getArguments().getString(USERTO));
+
+            } catch (Exception x) {}
+
+            return response;
+        }
+
+        @Override
+        public void onPostExecute(retrofit.client.Response response) {
+
+        }
+    }
 
 }
