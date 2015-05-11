@@ -122,11 +122,11 @@ public interface IApiUser {
             @Path("user") String user
     );
 
-    @DELETE("/api/{token}/users/{userId}/wall")
+    @POST("/api/{token}/users/{user}/walldelete")
     public retrofit.client.Response deleteMsg(
             @Path("token") String token,
-            @Path("user") String userId,
-            @Body Message msg
+            @Path("user") String user,
+            @Body Message message
     );
 
 

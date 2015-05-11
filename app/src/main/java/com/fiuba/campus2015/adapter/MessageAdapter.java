@@ -25,7 +25,11 @@ import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.extras.Utils;
+import com.fiuba.campus2015.fragments.WallFragment;
 import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.services.Response;
+import com.fiuba.campus2015.services.RestClient;
+import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.views.CheckBox;
 
 import java.text.ParseException;
@@ -46,11 +50,19 @@ public class MessageAdapter {
     private List<Message> messageItems;
     private Context context;
     private MaterialListView materialListView;
+    private String userId;
+    private SessionManager session;
+    private WallFragment wallFragment;
 
-    public MessageAdapter(Context context, MaterialListView materialListView){
+
+    public MessageAdapter(Context context, MaterialListView materialListView , String userId,WallFragment wallFragment){
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
         this.materialListView = materialListView;
+        this.userId = userId;
+        this.session = new SessionManager(context.getApplicationContext());
+        this.wallFragment = wallFragment;
+
     }
 
     public void fillArray() {
@@ -68,6 +80,9 @@ public class MessageAdapter {
     private Card getRandomCard(Message msg) {
         String title = msg.user.name + " " + msg.user.username;
         String description = Utils.getBirthdayFormatted(msg.date) + "\n \n" + msg.content;
+
+        final String idMessage = msg._id;
+
         int position = 0;
         SimpleCard card;
 
@@ -145,9 +160,7 @@ public class MessageAdapter {
                 ((BasicButtonsCard) card).setOnRightButtonPressedListener(new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
-                        DeleteMsgTask deleteMsg = new DeleteMsgTask();
-                        deleteMsg.execute();
-
+                        deleteCard(idMessage);
                     }
                 });
                 card.setDismissible(true);
@@ -221,32 +234,60 @@ public class MessageAdapter {
         return card;
     }
 
-    private class DeleteMsgTask extends AsyncTask<Void, Void,
-            retrofit.client.Response> {
-        RestAdapter restAdapter;
+
+
+    private void deleteCard(String idMessage) {
+        DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage);
+        deleteMsg.execute();
+    }
+
+    private class DeleteMsgTask extends AsyncTask<Void, Void,retrofit.client.Response> {
+        RestClient restClient;
+        private String idMessage;
+
+
+
+        public DeleteMsgTask(String idMessage)
+        {
+
+            this.idMessage = idMessage;
+
+        }
+
+        public void executeTask() {
+            try {
+                this.execute();
+            } catch (Exception e) {
+                Toast.makeText(context.getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
+            }
+        }
 
         @Override
         protected void onPreExecute() {
-            restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(UrlEndpoints.URL_API)
-                    .build();
-        }
+                restClient = new RestClient();
+            }
 
-        @Override
-        protected retrofit.client.Response doInBackground(Void... params) {
+            @Override
+            protected retrofit.client.Response doInBackground(Void... params) {
+                retrofit.client.Response response = null;
+                try {
 
-            retrofit.client.Response  response = null;
-            IApiUser api = restAdapter.create(IApiUser.class);
-            try {
-                //response = api.deleteMsg(session.getToken(), getArguments().getString(USERTO));
+                    response = restClient.getApiService().deleteMsg(session.getToken(), userId,new Message(idMessage));
 
-            } catch (Exception x) {}
+                } catch (Exception ex) {
 
-            return response;
-        }
+                }
+                return response;
+            }
 
-        @Override
+
+            @Override
         public void onPostExecute(retrofit.client.Response response) {
+
+            if (response== null)
+                Toast.makeText(context.getApplicationContext(), "Hubo un error al borrar el mensaje.", Toast.LENGTH_SHORT).show();
+
+            wallFragment.update();
 
         }
     }
