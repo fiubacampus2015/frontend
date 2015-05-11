@@ -15,6 +15,11 @@ public class Message {
         this.typeOf = type;
     }
 
+    public Message(String id){
+        this._id = id;
+    }
+
+
     public Constants.MsgCardType getType() {
         return this.typeOf;
     }

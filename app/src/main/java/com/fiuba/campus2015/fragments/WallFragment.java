@@ -90,7 +90,7 @@ public class WallFragment extends Fragment
 
         mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
 
-        this.msgAdapter = new MessageAdapter(myView.getContext(), mListView);
+        this.msgAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
 
         update();
 
