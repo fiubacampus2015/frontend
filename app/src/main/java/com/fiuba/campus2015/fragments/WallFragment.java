@@ -65,7 +65,7 @@ public class WallFragment extends Fragment
         button_actionAddMeg.setIcon(R.drawable.ic_rate_review_grey600_36dp);
         button_actionAddMeg.setStrokeVisible(false);
 
-        w_msgDialog = new WriteMsgDialog(getActivity(),getArguments().getString(USERTO));
+        w_msgDialog = new WriteMsgDialog(getActivity(), this, getArguments().getString(USERTO));
 
         FloatingActionButton button_actionAddPlace = (FloatingActionButton) myView.findViewById(R.id.action_addPlace);
         button_actionAddPlace.setSize(FloatingActionButton.SIZE_MINI);
@@ -92,12 +92,15 @@ public class WallFragment extends Fragment
 
         this.msgAdapter = new MessageAdapter(myView.getContext(), mListView);
 
-        GetWallMsgsTask fillWall = new GetWallMsgsTask();
-        fillWall.execute();
+        update();
 
         return myView;
     }
 
+    public void update() {
+        GetWallMsgsTask fillWall = new GetWallMsgsTask();
+        fillWall.execute();
+    }
 
     private List<Message> getMessageItemsMock(){
 

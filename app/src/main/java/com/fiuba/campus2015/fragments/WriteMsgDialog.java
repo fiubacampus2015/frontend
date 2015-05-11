@@ -39,13 +39,14 @@ public class WriteMsgDialog extends AlertDialog.Builder {
     private MaterialEditText msgContent;
     private SessionManager session;
     private String userTo;
+    private WallFragment wallFragment;
 
 
-    protected WriteMsgDialog(FragmentActivity activity, String userTo) {
+    protected WriteMsgDialog(FragmentActivity activity, WallFragment wallFragment, String userTo) {
         super(activity);
 
         this.userTo = userTo;
-
+        this.wallFragment = wallFragment;
         this.context = activity;
         LayoutInflater inflater = activity.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.write_message_layout, null);
@@ -120,7 +121,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
 
         @Override
         protected void onPostExecute(retrofit.client.Response response) {
-            //TODO: actualizar muro
+            wallFragment.update();
 
         }
     }

@@ -48,6 +48,7 @@ public class MessageAdapter {
     }
 
     public void fillArray() {
+        materialListView.clear();
         for (int i = 0; i < this.messageItems.size(); i++) {
             Card card = getRandomCard(this.messageItems.get(i));
             materialListView.add(card);
