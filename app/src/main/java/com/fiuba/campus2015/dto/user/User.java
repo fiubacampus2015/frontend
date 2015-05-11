@@ -9,6 +9,7 @@ public class User implements Comparable <User> {
     public String _id;
     public String username;
     public String password;
+    public String status;
     public String email;
     public String name;
     public Boolean friend;

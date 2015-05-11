@@ -50,7 +50,9 @@ public class MessageAdapter {
     }
 
     private Card getRandomCard(Message msg) {
-        String title = msg.user.name + " " + msg.user.username;
+        //String title = msg.user.name + " " + msg.user.username;
+        String title = "Nombre" ;
+
         String description = msg.date + "\n \n" + msg.content;
         int position = 0;
         SimpleCard card;

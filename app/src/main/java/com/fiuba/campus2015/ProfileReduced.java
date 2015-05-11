@@ -138,10 +138,11 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
 
         _id = user._id;
 
-        //Verifico si ya se envio o no la solicitud
-        //if (user.contacts.contains(session.getUserid())) {
-          //  findViewById(R.id.addFriend).setVisibility(View.GONE);
-       // }
+        if (user.status != null && user.status.equals("pending"))
+        {
+            findViewById(R.id.addFriend).setVisibility(View.GONE);
+        }
+
     }
 
     private void loadField(int src, String txt) {

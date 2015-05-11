@@ -99,12 +99,14 @@ public class ContactFragment extends Fragment {
                         Intent intent;
 
                         //Verifico si es amigo o no para mostrar el perfil
-                        if (contact.friend == null || !contact.friend)
-                        {
-                            intent = new Intent(getActivity(), ProfileReduced.class);
-                        }else
+                        if (contact.status != null && contact.status.equals("ok"))
                         {
                             intent = new Intent(getActivity(), ProfileFriend.class);
+
+                        }else
+                        {
+                            intent = new Intent(getActivity(), ProfileReduced.class);
+
                         }
                         intent.putExtra(USER, new Gson().toJson(contact));
                         startActivity(intent);

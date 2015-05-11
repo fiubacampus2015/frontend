@@ -48,6 +48,9 @@ public class WallFragment extends Fragment
 
         myView = inflater.inflate(R.layout.wall_fragment, container, false);
 
+
+        session = new SessionManager(getActivity().getApplicationContext());
+
         FloatingActionButton button_actionAddPhoto = (FloatingActionButton) myView.findViewById(R.id.action_addphoto);
         button_actionAddPhoto.setSize(FloatingActionButton.SIZE_MINI);
         button_actionAddPhoto.setColorNormalResId(R.color.accent);
@@ -110,7 +113,7 @@ public class WallFragment extends Fragment
     }
 
     private class GetWallMsgsTask extends AsyncTask<Void, Void,
-            Response> {
+            List<Message>> {
         RestAdapter restAdapter;
 
         @Override
@@ -121,24 +124,25 @@ public class WallFragment extends Fragment
         }
 
         @Override
-        protected retrofit.client.Response doInBackground(Void... params) {
+        protected List<Message> doInBackground(Void... params) {
 
+            List<Message> msgs = null;
             IApiUser api = restAdapter.create(IApiUser.class);
-            retrofit.client.Response  response = null;
             try {
-                List<Message> msgs = api.getUserWallMessages(session.getToken(), session.getUserid());
-                msgAdapter.setData(msgs);
-                msgAdapter.fillArray();
+                msgs = api.getUserWallMessages(session.getToken(), session.getUserid());
 
             } catch (Exception x) {}
 
-            return response;
+            return msgs;
         }
 
         @Override
-        protected void onPostExecute(retrofit.client.Response response) {
-            //TODO: actualizar muro
+        protected void onPostExecute(List<Message> msgs) {
 
+            if(msgs!=null) {
+                msgAdapter.setData(msgs);
+                msgAdapter.fillArray();
+            }
         }
     }
 
