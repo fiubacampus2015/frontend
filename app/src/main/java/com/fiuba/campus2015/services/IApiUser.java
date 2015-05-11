@@ -68,7 +68,7 @@ public interface IApiUser {
     );
 
     @PUT("/api/{token}/users/{userId}/{friendId}")
-    public retrofit.client.Response invite(
+    public Response invite(
             @Path("token") String token,
             @Path("userId") String userId,
             @Path("friendId") String friendId

@@ -6,6 +6,7 @@ package com.fiuba.campus2015.services;
 public class Response {
 
     public int status;
+    public String reason;
     public String token;
     public String id;
     public String name;

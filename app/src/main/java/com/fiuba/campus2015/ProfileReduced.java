@@ -18,8 +18,10 @@ import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.fragments.IProfile;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.widgets.Dialog;
 import com.google.gson.Gson;
-import retrofit.client.Response;
+import com.fiuba.campus2015.services.Response;
+
 
 
 public class ProfileReduced extends ActionBarActivity implements IProfile {
@@ -40,7 +42,7 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
     private ImageView icon6;
     private int position;
     private SessionManager session;
-
+    private Dialog dialog;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,7 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 onBackPressed();
             }
         });
@@ -236,8 +239,6 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
         @Override
         protected void onPreExecute() {
             restClient = new RestClient();
-            //prgrsBar.setEnabled(true);
-            //prgrsBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -259,9 +260,13 @@ public class ProfileReduced extends ActionBarActivity implements IProfile {
             if (response == null) {
                 Toast.makeText(getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
             } else {
-                //prgrsBar.setVisibility(View.INVISIBLE);
-                //contactsAdapter.setContacts(user);
+                if (response.status == 400) {
+                    dialog = new Dialog(ProfileReduced.this, null, response.reason);
+                    dialog.show();
+                    dialog.getButtonAccept().setText("Aceptar");
+                }
                 findViewById(R.id.addFriend).setEnabled(false);
+
             }
         }
     }
