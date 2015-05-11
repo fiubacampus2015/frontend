@@ -6,6 +6,11 @@
 
     <include android:id="@+id/app_bar" layout="@layout/app_bar"/>
 
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center">
+
     <LinearLayout
         android:id="@+id/search_container_request"
         android:layout_width="match_parent"
@@ -52,5 +57,22 @@
         android:layout_gravity="center_horizontal"
         android:divider="#ffffffff"
         android:dividerHeight="5dp" />
+
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:id="@+id/progressbar" >
+    <TextView
+        android:id="@+id/empty_view"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/no_data_available_friends" />
+    </RelativeLayout>
+    </RelativeLayout>
 
 </LinearLayout>

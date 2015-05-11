@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.campus2015.adapter.ContactRequestAdapter;
@@ -32,6 +33,7 @@ public class FriendRequest extends ActionBarActivity {
     private SessionManager session;
     private FriendRequestTask friendRequestTask;
     private InvitationTask invitationTask;
+    private TextView emptyView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,8 @@ public class FriendRequest extends ActionBarActivity {
         list.setAdapter(contactRequestAdapter);
 
         session = new SessionManager(this);
+
+        emptyView = (TextView) findViewById(R.id.empty_view);
 
 
         friendRequestTask = new FriendRequestTask(this);
@@ -105,16 +109,23 @@ public class FriendRequest extends ActionBarActivity {
     }
 
     public void setUserInvited(User user) {
-        Toast.makeText(this, "Se acepto la amistad de " + user.email,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Se acepto la solicitud de " + user.name,Toast.LENGTH_SHORT).show();
         invitationTask.setConfirmInvitation(user._id);
         invitationTask.executeTask();
+        if(contactRequestAdapter.getItemCount() == 0)
+            emptyView.setVisibility(View.VISIBLE);
+
         //friendRequestTask.executeTask();
     }
 
     public void setInvitationDeleted(User user) {
-        Toast.makeText(this, "Se borro la invitacion de " + user.email ,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Se rechazo la invitacion de " + user.name ,Toast.LENGTH_SHORT).show();
         invitationTask.setRejectInvitation(user._id);
         invitationTask.executeTask();
+        if (contactRequestAdapter.getItemCount() == 0)
+            emptyView.setVisibility(View.VISIBLE);
+
+
         //friendRequestTask.executeTask();
 
     }
@@ -161,6 +172,12 @@ public class FriendRequest extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(List<User> listUsers) {
+
+            if(listUsers.isEmpty())
+                emptyView.setVisibility(View.VISIBLE);
+            else
+                emptyView.setVisibility(View.INVISIBLE);
+
             progressDialog.dismiss();
             friendRequest.setInvitations(listUsers);
         }
@@ -207,7 +224,7 @@ public class FriendRequest extends ActionBarActivity {
                 if (this.acceptInvitation)
                     response = restClient.getApiService().confirmInvitation(session.getToken(),this.userId,session.getUserid());
                 else
-                    response = restClient.getApiService().rejectInvitation(session.getToken(),this.userId,session.getUserid());
+                    response = restClient.getApiService().rejectInvitation(session.getToken(), this.userId, session.getUserid());
 
             } catch(Exception e) {
 
