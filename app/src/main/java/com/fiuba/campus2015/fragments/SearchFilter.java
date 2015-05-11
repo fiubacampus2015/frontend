@@ -31,11 +31,14 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
     private String surname;
     private EditText nameText;
     private EditText surnametext;
+    private ContactFragment contactFragment;
 
-    protected SearchFilter(FragmentActivity activity) {
+    protected SearchFilter(FragmentActivity activity, ContactFragment parentFragment) {
         super(activity);
 
         this.context = activity;
+        this.contactFragment = parentFragment;
+
         LayoutInflater inflater = activity.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.filter_search, null);
         setView(dialogView);
@@ -106,6 +109,8 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
                 name = nameText.getText().toString();
                 surname = surnametext.getText().toString();
 
+                contactFragment.searchUsers(false);
+                
                 alertDialog.dismiss();
             }
         });
@@ -113,6 +118,7 @@ public class SearchFilter extends AlertDialog.Builder implements AdapterView.OnI
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                contactFragment.searchClear(v);
                 alertDialog.dismiss();
             }
         });
