@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.widget.TextView;
 
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.session.SessionManager;
+
 import net.yanzm.mth.MaterialTabHost;
 
 
@@ -22,6 +24,7 @@ public class MyBoard extends Fragment {
     public static final int TAB_WALL = 0;
     public static final int TAB_GROUPS = 2;
     public static final int TAB_COUNT = 3;
+    private SessionManager session;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +32,7 @@ public class MyBoard extends Fragment {
 
         View view =inflater.inflate(R.layout.myboard, container, false);
 
+        session = new SessionManager(view.getContext());
 
         MaterialTabHost tabHost = (MaterialTabHost) view.findViewById(R.id.tabs);
         tabHost.setType(MaterialTabHost.Type.FullScreenWidth);
@@ -70,7 +74,7 @@ public class MyBoard extends Fragment {
             Fragment fragment = null;
             switch (position) {
                 case TAB_WALL:
-                    fragment = WallFragment.newInstance("", "");
+                    fragment = WallFragment.newInstance(session.getUserid());
                     break;
                 case TAB_CONTACTS:
                     fragment = ContactFragment.newInstance("", "");

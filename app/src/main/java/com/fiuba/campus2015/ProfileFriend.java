@@ -138,7 +138,7 @@ public class ProfileFriend extends ActionBarActivity {
             Fragment fragment = null;
             switch (position) {
                 case TAB_WALL:
-                    fragment = WallFragment.newInstance("", "");
+                    fragment = WallFragment.newInstance(user._id);
                     break;
                 case TAB_PROFILE:
                     fragment = CompleteProfile.newInstance(this.user);
