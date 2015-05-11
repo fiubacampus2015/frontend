@@ -22,9 +22,18 @@ import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.Constants;
+import com.fiuba.campus2015.extras.Utils;
 import com.gc.materialdesign.views.CheckBox;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import static com.fiuba.campus2015.extras.Constants.FECHAINGRESO;
+import static com.fiuba.campus2015.extras.Constants.FECHAINGRESOEMPLEO;
+import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 
 public class MessageAdapter {
     private LayoutInflater layoutInflater;
@@ -53,7 +62,7 @@ public class MessageAdapter {
         //String title = msg.user.name + " " + msg.user.username;
         String title = "Nombre" ;
 
-        String description = msg.date + "\n \n" + msg.content;
+        String description = Utils.getBirthdayFormatted(msg.date) + "\n \n" + msg.content;
         int position = 0;
         SimpleCard card;
 
@@ -114,8 +123,8 @@ public class MessageAdapter {
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("BASIC_BUTTONS_CARD");
-                ((BasicButtonsCard) card).setLeftButtonText("LEFT");
-                ((BasicButtonsCard) card).setRightButtonText("RIGHT");
+                ((BasicButtonsCard) card).setLeftButtonText("");
+                ((BasicButtonsCard) card).setRightButtonText("Borrar");
                 ((BasicButtonsCard) card).setRightButtonTextColorRes(R.color.accent_material_dark);
 
                 if (position % 2 == 0)
@@ -204,7 +213,6 @@ public class MessageAdapter {
 
         return card;
     }
-
 
 
 }

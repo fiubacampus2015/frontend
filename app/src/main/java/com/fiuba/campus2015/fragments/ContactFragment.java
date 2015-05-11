@@ -193,8 +193,6 @@ public class ContactFragment extends Fragment {
                 if (searchFriend)
                     user = restClient.getApiService().getFriends(session.getToken(),session.getUserid());
                 else {
-                    // TODO: descomentar esto cuando se pueda buscar por campos combinados
-
                     if(searchFilter.filter()) {
                         user = restClient.getApiService().getPeople(session.getToken(),
                                 searchFilter.getName(), searchFilter.getSurname(), searchFilter.getCareer(),
@@ -203,7 +201,6 @@ public class ContactFragment extends Fragment {
                         user = restClient.getApiService().getPeople(session.getToken(),
                                 searchText.getText().toString(), "", "", "", "");
                     }
-
                 }
             } catch (Exception ex) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
