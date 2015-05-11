@@ -134,7 +134,7 @@ public class ContactFragment extends Fragment {
             }
         });
 
-        searchFilter = new SearchFilter(getActivity());
+        searchFilter = new SearchFilter(getActivity(), this);
 
         return myView;
     }
