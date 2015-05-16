@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.fiuba.campus2015.fragments.GroupFragment">
 
-
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/position"
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="GRUPO"
-        android:gravity="center"
-        android:textSize="50dp" />
+        android:layout_below="@id/toolbar"
+        android:id="@+id/listViewGroups"
+        android:layout_gravity="center_horizontal"
+        android:divider="#ffffffff"
+        android:dividerHeight="5dp" />
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:id="@+id/progressbargroup" >
+        <ProgressBar
+            android:id="@+id/progressBarCircularIndeterminateGroup"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone">
+        </ProgressBar>
+
+        <TextView
+            android:id="@+id/empty_view_group"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/no_data_available" />
+    </RelativeLayout>
+
+</RelativeLayout>
