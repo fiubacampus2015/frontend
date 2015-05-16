@@ -1,6 +1,7 @@
 package com.fiuba.campus2015.fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.campus2015.ProfileFriend;
 import com.fiuba.campus2015.ProfileReduced;
@@ -22,10 +24,12 @@ import com.fiuba.campus2015.adapter.GroupAdapter;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
+import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.fiuba.campus2015.extras.Constants.USER;
 
@@ -37,6 +41,7 @@ public class GroupFragment extends Fragment {
     private RecyclerView recyclerView;
     private TextView emptyView;
     private ProgressBar prgrsBar;
+    private EditText searchText;
 
     public static GroupFragment newInstance(String param1, String param2) {
         GroupFragment fragment = new GroupFragment();
@@ -53,6 +58,21 @@ public class GroupFragment extends Fragment {
 
         session = new SessionManager(getActivity().getApplicationContext());
 
+        ImageView buttonSearch = (ImageView) myView.findViewById(R.id.search);
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchGroups();
+            }
+        });
+
+        ImageView buttonClear= (ImageView) myView.findViewById(R.id.search_clear);
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchClear(v);
+            }
+        });
 
         prgrsBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminateGroup);
         emptyView = (TextView) myView.findViewById(R.id.empty_view_group);
@@ -74,9 +94,85 @@ public class GroupFragment extends Fragment {
                 })
         );
 
+        //Se agrega esto por que sino no funciona el input con tabs
+        searchText = (EditText) myView.findViewById(R.id.search_text);
+        searchText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                searchText.requestFocusFromTouch();
+                return false;
+            }
+        });
+
         groupAdapter.setGroups(new ArrayList<Group>(), session.getUserid());
 
         return myView;
+    }
+
+    public void searchGroups() {
+        SearchGroups task = new SearchGroups();
+        try {
+            task.execute();
+        } catch (Exception x){
+            Toast.makeText(getActivity().getApplicationContext(), "Error al buscar grupos.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void searchClear(View view) {
+        emptyView.setVisibility(View.INVISIBLE);
+        searchText.setText("");
+        //searchFilter.reset();
+        //searchUsers(true);
+    }
+
+    private  class SearchGroups extends AsyncTask<Void, Void, List<Group>> {
+
+        RestClient restClient;
+
+        public void executeTask() {
+            try {
+                this.execute();
+            } catch (Exception e) {
+                Toast.makeText(getActivity().getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            restClient = new RestClient();
+            prgrsBar.setEnabled(true);
+            prgrsBar.setVisibility(View.VISIBLE);
+
+
+        }
+
+        @Override
+        protected List<Group> doInBackground(Void... params) {
+            List<Group> group = null;
+            try {
+
+            } catch (Exception ex) {
+                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de grupos.", Toast.LENGTH_SHORT).show();
+
+            }
+            return group;
+        }
+
+        @Override
+        protected void onPostExecute(List<Group> groups) {
+            if (groups == null) {
+                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
+            } else {
+                if(groups.isEmpty())
+                    emptyView.setVisibility(View.VISIBLE);
+                else
+                    emptyView.setVisibility(View.INVISIBLE);
+
+                prgrsBar.setVisibility(View.INVISIBLE);
+                groupAdapter.setGroups(groups, session.getUserid());
+            }
+        }
     }
 
 }
