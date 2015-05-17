@@ -14,10 +14,12 @@ import com.dexafree.materialList.cards.BasicButtonsCard;
 import com.dexafree.materialList.cards.BasicImageButtonsCard;
 import com.dexafree.materialList.cards.BigImageButtonsCard;
 import com.dexafree.materialList.cards.BigImageCard;
+import com.dexafree.materialList.cards.ExtendedCard;
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
 import com.dexafree.materialList.cards.SmallImageCard;
 import com.dexafree.materialList.cards.WelcomeCard;
+import com.dexafree.materialList.controller.OnDismissCallback;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
@@ -31,6 +33,7 @@ import com.fiuba.campus2015.services.Response;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.views.CheckBox;
+import com.gc.materialdesign.widgets.ProgressDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,7 +65,7 @@ public class MessageAdapter {
         this.userId = userId;
         this.session = new SessionManager(context.getApplicationContext());
         this.wallFragment = wallFragment;
-
+        setDismissCallback();
     }
 
     public void fillArray() {
@@ -224,6 +227,17 @@ public class MessageAdapter {
 
         }}
 
+    private void setDismissCallback() {
+        OnDismissCallback callback = new OnDismissCallback() {
+            @Override
+            public void onDismiss(Card card, int i) {
+                OnButtonPressListener button = ((ExtendedCard)card).getOnRightButtonPressedListener();
+                button.onButtonPressedListener(null, null);
+            }
+        };
+        materialListView.setOnDismissCallback(callback);
+    }
+
     private Card generateNewCard() {
         SimpleCard card = new BasicImageButtonsCard(context);
         card.setDrawable(R.drawable.ic_action_camera);
@@ -244,12 +258,12 @@ public class MessageAdapter {
     private class DeleteMsgTask extends AsyncTask<Void, Void,retrofit.client.Response> {
         RestClient restClient;
         private String idMessage;
-
+        private ProgressDialog progressDialog;
 
 
         public DeleteMsgTask(String idMessage)
         {
-
+            progressDialog =  new ProgressDialog(wallFragment.getActivity(), "Borrando mensaje.");
             this.idMessage = idMessage;
 
         }
@@ -264,7 +278,8 @@ public class MessageAdapter {
 
         @Override
         protected void onPreExecute() {
-                restClient = new RestClient();
+            restClient = new RestClient();
+            progressDialog.show();
             }
 
             @Override
@@ -283,7 +298,7 @@ public class MessageAdapter {
 
             @Override
         public void onPostExecute(retrofit.client.Response response) {
-
+                progressDialog.dismiss();
             if (response== null)
                 Toast.makeText(context.getApplicationContext(), "Hubo un error al borrar el mensaje.", Toast.LENGTH_SHORT).show();
 

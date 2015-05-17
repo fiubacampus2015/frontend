@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:id="@+id/groupName"
-                android:hint="Nombre"
+                android:hint="Título"
                 app:met_primaryColor="@color/accent"
                 app:met_floatingLabel="normal"
                 android:fontFamily="abc_action_bar_home_description"
@@ -91,7 +91,8 @@
                     android:layout_height="wrap_content"
                     android:text="Público"
                     android:id="@+id/publicGroup"
-                    android:checked="false" />
+                    android:checked="false"
+                    android:layout_marginRight="80dp"/>
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

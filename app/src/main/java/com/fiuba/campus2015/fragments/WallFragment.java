@@ -15,6 +15,7 @@ import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.widgets.ProgressDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class WallFragment extends Fragment
     private MessageAdapter msgAdapter;
     private WriteMsgDialog w_msgDialog;
     private SessionManager session;
+    private ProgressDialog progressDialog;
 
     public static WallFragment newInstance(String userId) {
         WallFragment fragment = new WallFragment();
@@ -124,6 +126,8 @@ public class WallFragment extends Fragment
             restAdapter = new RestAdapter.Builder()
                     .setEndpoint(UrlEndpoints.URL_API)
                     .build();
+            progressDialog =  new ProgressDialog(getActivity(), "Cargando mensajes");
+            progressDialog.show();
         }
 
         @Override
@@ -141,7 +145,7 @@ public class WallFragment extends Fragment
 
         @Override
         protected void onPostExecute(List<Message> msgs) {
-
+            progressDialog.dismiss();
             if(msgs!=null) {
                 msgAdapter.setData(msgs);
                 msgAdapter.fillArray();
