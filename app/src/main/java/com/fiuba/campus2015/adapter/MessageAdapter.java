@@ -14,10 +14,12 @@ import com.dexafree.materialList.cards.BasicButtonsCard;
 import com.dexafree.materialList.cards.BasicImageButtonsCard;
 import com.dexafree.materialList.cards.BigImageButtonsCard;
 import com.dexafree.materialList.cards.BigImageCard;
+import com.dexafree.materialList.cards.ExtendedCard;
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
 import com.dexafree.materialList.cards.SmallImageCard;
 import com.dexafree.materialList.cards.WelcomeCard;
+import com.dexafree.materialList.controller.OnDismissCallback;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
@@ -63,7 +65,7 @@ public class MessageAdapter {
         this.userId = userId;
         this.session = new SessionManager(context.getApplicationContext());
         this.wallFragment = wallFragment;
-
+        setDismissCallback();
     }
 
     public void fillArray() {
@@ -224,6 +226,17 @@ public class MessageAdapter {
                 return card;
 
         }}
+
+    private void setDismissCallback() {
+        OnDismissCallback callback = new OnDismissCallback() {
+            @Override
+            public void onDismiss(Card card, int i) {
+                OnButtonPressListener button = ((ExtendedCard)card).getOnRightButtonPressedListener();
+                button.onButtonPressedListener(null, null);
+            }
+        };
+        materialListView.setOnDismissCallback(callback);
+    }
 
     private Card generateNewCard() {
         SimpleCard card = new BasicImageButtonsCard(context);
