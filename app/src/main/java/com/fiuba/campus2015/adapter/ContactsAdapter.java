@@ -86,9 +86,12 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         //Valido si es amigo o no
             if (contactItem.status == null || (contactItem.status!= null && contactItem.status.equals("reject")))
             {
-              holder.viewSendInvitation.setVisibility(View.VISIBLE);
-           }else
-              holder.viewSendInvitation.setVisibility(View.GONE);
+                holder.viewSendInvitation.setVisibility(View.VISIBLE);
+                holder.viewDeleteContact.setVisibility(View.GONE);
+           }else {
+                holder.viewSendInvitation.setVisibility(View.GONE);
+                holder.viewDeleteContact.setVisibility(View.VISIBLE);
+            }
 
             Bitmap  icon;
             if (contactItem.personal!= null && !contactItem.personal.photo.isEmpty())
@@ -122,6 +125,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         ImageView imageViewContact;
         View viewSeparator;
         ImageView viewSendInvitation;
+        ImageView viewDeleteContact;
         TextView textCountry;
         TextView textMail;
 
@@ -135,6 +139,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             //textViewChar = (TextView) itemView.findViewById(R.id.CharContact);
             viewSeparator = (View) itemView.findViewById(R.id.separatorContact);
             viewSendInvitation = (ImageView) itemView.findViewById(R.id.sendInvitation);
+            viewDeleteContact = (ImageView) itemView.findViewById(R.id.deleteContact);
             //textCountry = (TextView)itemView.findViewById(R.id.countryText);
             textMail = (TextView)itemView.findViewById(R.id.mailText);
 
