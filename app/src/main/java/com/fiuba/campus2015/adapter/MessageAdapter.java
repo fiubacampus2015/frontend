@@ -31,6 +31,7 @@ import com.fiuba.campus2015.services.Response;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.views.CheckBox;
+import com.gc.materialdesign.widgets.ProgressDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -244,12 +245,12 @@ public class MessageAdapter {
     private class DeleteMsgTask extends AsyncTask<Void, Void,retrofit.client.Response> {
         RestClient restClient;
         private String idMessage;
-
+        private ProgressDialog progressDialog;
 
 
         public DeleteMsgTask(String idMessage)
         {
-
+            progressDialog =  new ProgressDialog(wallFragment.getActivity(), "Borrando mensaje.");
             this.idMessage = idMessage;
 
         }
@@ -264,7 +265,8 @@ public class MessageAdapter {
 
         @Override
         protected void onPreExecute() {
-                restClient = new RestClient();
+            restClient = new RestClient();
+            progressDialog.show();
             }
 
             @Override
@@ -283,7 +285,7 @@ public class MessageAdapter {
 
             @Override
         public void onPostExecute(retrofit.client.Response response) {
-
+                progressDialog.dismiss();
             if (response== null)
                 Toast.makeText(context.getApplicationContext(), "Hubo un error al borrar el mensaje.", Toast.LENGTH_SHORT).show();
 
