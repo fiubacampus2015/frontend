@@ -12,27 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/accent"
-        android:layout_weight="0.04"
-        android:gravity="center_vertical|right"
-        android:weightSum="1">
+        android:gravity="center_vertical|right">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/addGroup"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_send_msg" />
+            android:src="@drawable/ic_menu_check2" />
 
     </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="444dp"
         android:padding="10dp">
 
-            <com.rengwuxian.materialedittext.MaterialEditText
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="151dp">
+
+            <com.fiuba.campus2015.extras.RoundedImageView
+                android:layout_width="100dp"
+                android:id="@+id/idPhoto"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_account_circle_grey_48dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+            <com.fiuba.campus2015.extras.ButtonFloatMaterial
+                android:id="@+id/buttonImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="25dp"
+                android:background="#FFFF00"
+                app:animate="true"
+                app:iconDrawable="@drawable/ic_action_camera" />
+        </RelativeLayout>
+
+
+        <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
@@ -55,9 +76,11 @@
                 android:maxLength="100"
                 app:met_maxCharacters="100"/>
 
-            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/groupType"
                 android:orientation="horizontal"
                 android:layout_marginBottom="7dp"
                 android:layout_marginTop="7dp"
@@ -68,15 +91,13 @@
                     android:layout_height="wrap_content"
                     android:text="Público"
                     android:id="@+id/publicGroup"
-                    android:checked="false"
-                    android:onClick="onPublicGroupRadioButtonClicked" />
+                    android:checked="false" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Privado"
                     android:id="@+id/privateGroup"
-                    android:checked="false"
-                    android:onClick="onPublicGroupRadioButtonClicked" />
+                    android:checked="false" />
             </RadioGroup>
 
         </LinearLayout>
