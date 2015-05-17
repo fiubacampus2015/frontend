@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.GroupAdapter;
 import com.fiuba.campus2015.dto.user.Group;
-import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
 import com.fiuba.campus2015.extras.UrlEndpoints;
@@ -31,8 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RestAdapter;
-
-import static com.fiuba.campus2015.extras.Constants.USERTO;
 
 public class GroupFragment extends Fragment {
     private View myView;
@@ -175,7 +172,7 @@ public class GroupFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Group> groups) {
             if (groups == null) {
-                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del grupo.", Toast.LENGTH_SHORT).show();
             } else {
                 if(groups.isEmpty())
                     emptyView.setVisibility(View.VISIBLE);
