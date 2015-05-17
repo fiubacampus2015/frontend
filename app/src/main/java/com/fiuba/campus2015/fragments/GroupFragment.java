@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuba.campus2015.GroupBoard;
+import com.fiuba.campus2015.ProfileReduced;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.GroupAdapter;
 import com.fiuba.campus2015.dto.user.Group;
@@ -88,6 +90,8 @@ public class GroupFragment extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         Group group = groupAdapter.getGroup(position);
                         Intent intent;
+                        intent = new Intent(getActivity(), GroupBoard.class);
+                        startActivity(intent);
                     }
                 })
         );
@@ -103,6 +107,13 @@ public class GroupFragment extends Fragment {
         });
 
         groupAdapter.setGroups(new ArrayList<Group>(), session.getUserid());
+
+        List<Group> groupItems = new ArrayList<Group>();
+
+        groupItems.add(new Group("1","Proyectos","Materia Proyectos Informaticos",""));
+        groupItems.add(new Group("2","Curso Verano","Curso de verano",""));
+        groupAdapter.setGroups(groupItems, session.getUserid());
+
 
         ButtonFloatMaterial addGroupbutton = (ButtonFloatMaterial) myView.findViewById(R.id.addGroup);
         addGroupbutton.setOnClickListener(new View.OnClickListener() {

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.fragments.ContactFragment;
 import com.fiuba.campus2015.fragments.GroupForumsFragment;
 import com.fiuba.campus2015.session.SessionManager;
 import com.google.gson.Gson;
@@ -43,12 +44,12 @@ public class GroupBoard extends ActionBarActivity {
 
 
 
-        Bundle extras = getIntent().getExtras();
+       /* Bundle extras = getIntent().getExtras();
         if(extras != null) {
             String groupJson = extras.getString(GROUP);
             this.group = new Gson().fromJson(groupJson, Group.class);
             getSupportActionBar().setTitle(group.name);
-        }
+        }*/
 
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -66,11 +67,11 @@ public class GroupBoard extends ActionBarActivity {
             tabHost.addTab(pagerAdapter.getPageTitle(i));
         }
 
-        tabHost.setCurrentTab(TAB_PROFILE);
+        tabHost.setCurrentTab(TAB_CONTACTS);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setCurrentItem(TAB_PROFILE);
+        viewPager.setCurrentItem(TAB_CONTACTS);
         viewPager.setOnPageChangeListener(tabHost);
 
         tabHost.setOnTabChangeListener(new MaterialTabHost.OnTabChangeListener() {
@@ -119,10 +120,10 @@ public class GroupBoard extends ActionBarActivity {
     class MyPagerAdapter extends FragmentPagerAdapter {
 
         private Group group;
-        String[] tabs = getResources().getStringArray(R.array.tabs_friend_profile);
+        String[] tabs = getResources().getStringArray(R.array.tabs_group_board);
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
-            tabs = getResources().getStringArray(R.array.tabs_friend_profile);
+            tabs = getResources().getStringArray(R.array.tabs_group_board);
 
 
         }
@@ -138,16 +139,16 @@ public class GroupBoard extends ActionBarActivity {
             Fragment fragment = null;
             switch (position) {
                 case TAB_CONTACTS:
-                    //fragment = ContactFragment.newInstance(group._id);
+                    fragment = GroupForumsFragment.newInstance("");
                     break;
                 case TAB_FILES:
-                    //fragment = GroupFilesFragment.newInstance(group._id);
+                    fragment = GroupForumsFragment.newInstance("");
                     break;
                 case TAB_FORUMS:
-                    fragment = GroupForumsFragment.newInstance(group._id);
+                    fragment = GroupForumsFragment.newInstance("");
                     break;
                 case TAB_PROFILE:
-                    //fragment = CompleteProfile.newInstance(this.group);
+                    fragment = GroupForumsFragment.newInstance("");
                     break;
             }
             return fragment;

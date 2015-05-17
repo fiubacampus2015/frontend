@@ -52,7 +52,7 @@ public class GroupForumsFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.group_fragment, container, false);
+        myView = inflater.inflate(R.layout.group_forums_fragment, container, false);
         session = new SessionManager(getActivity().getApplicationContext());
         addForumDialog = new AddForumDialog(getActivity(), this);
 
@@ -76,7 +76,7 @@ public class GroupForumsFragment extends Fragment {
         emptyView = (TextView) myView.findViewById(R.id.empty_view_forums);
 
 
-        recyclerView = (RecyclerView) myView.findViewById(R.id.listViewGroups);
+        recyclerView = (RecyclerView) myView.findViewById(R.id.listViewForums);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 

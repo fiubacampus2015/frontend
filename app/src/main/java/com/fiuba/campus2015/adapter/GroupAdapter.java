@@ -60,7 +60,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
         Group groupItem = groupItems.get(position);
 
         holder.textViewName.setText(groupItem.name);
-        holder.textLastMsg.setText(groupItem.lastMsgDate);
+        holder.text_description_group.setText(groupItem.description);
 
         holder.viewSeparator.setBackgroundColor(Color.WHITE);
 
@@ -70,7 +70,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
             }
 
             Bitmap  icon;
-            if (groupItem.photo.isEmpty())
+            if (!groupItem.photo.isEmpty())
             {
                 byte[] decodedString = Base64.decode(groupItem.photo, Base64.DEFAULT);
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -99,14 +99,14 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
         TextView textViewName;
         ImageView imageViewGroup;
         View viewSeparator;
-        TextView textLastMsg;
+        TextView text_description_group;
 
         public ViewHolderGroups(View itemView) {
             super(itemView);
             textViewName = (TextView)itemView.findViewById(R.id.text_name_group);
             imageViewGroup = (ImageView) itemView.findViewById(R.id.image_group);
             viewSeparator = (View) itemView.findViewById(R.id.separatorGroup);
-            textLastMsg = (TextView)itemView.findViewById(R.id.lastMsgText);
+            text_description_group = (TextView)itemView.findViewById(R.id.text_description_group);
 
         }
     }

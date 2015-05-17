@@ -13,6 +13,7 @@
 
     <string name="app_edit_profile">Editar Perfil</string>
     <string name="app_profile">Perfil</string>
+    <string name="app_group">Grupo</string>
     <string name="drawer_close">Close</string>
     <string name="no_data_available">No se encontraron resultados</string>
     <string name="no_data_available_friends">No hay solicitudes pendientes</string>
@@ -100,5 +101,13 @@
     <string-array name="tabs_friend_profile">
         <item>MURO</item>
         <item>PERFIL</item>
+    </string-array>
+
+    <!-- GROUP -->
+    <string-array name="tabs_group_board">
+        <item>PERFIL</item>
+        <item>FOROS</item>
+        <item>ARCHIVOS</item>
+        <item>CONTACTOS</item>
     </string-array>
 </resources>
