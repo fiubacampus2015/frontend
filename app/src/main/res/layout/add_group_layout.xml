@@ -36,14 +36,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:ems="10"
                 android:id="@+id/groupName"
                 android:hint="Nombre"
-                android:layout_weight="1"
                 app:met_primaryColor="@color/accent"
                 app:met_floatingLabel="normal"
-                android:layout_marginTop="3dp"
-                android:fontFamily="abc_action_bar_home_description" />
+                android:fontFamily="abc_action_bar_home_description"
+                android:maxLength="45"
+                app:met_maxCharacters="45" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
