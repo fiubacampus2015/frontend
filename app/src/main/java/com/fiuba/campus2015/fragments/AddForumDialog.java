@@ -24,7 +24,7 @@ public class AddForumDialog extends AlertDialog.Builder {
     private View dialogView;
     private AlertDialog alertDialog;
     private MaterialEditText forumFirstMsg;
-    private MaterialEditText forumName;
+    private MaterialEditText forumTitle;
     private SessionManager session;
     private GroupForumsFragment groupforumFragment;
 
@@ -34,11 +34,11 @@ public class AddForumDialog extends AlertDialog.Builder {
         this.groupforumFragment = groupforumFragment;
         this.context = activity;
         LayoutInflater inflater = activity.getLayoutInflater();
-        dialogView = inflater.inflate(R.layout.add_group_layout, null);
+        dialogView = inflater.inflate(R.layout.add_forum_layout, null);
         session = new SessionManager(context);
 
-        forumName = (MaterialEditText) dialogView.findViewById(R.id.groupName);
-        forumFirstMsg = (MaterialEditText) dialogView.findViewById(R.id.groupDescription);
+        forumTitle = (MaterialEditText) dialogView.findViewById(R.id.forumTitle);
+        forumFirstMsg = (MaterialEditText) dialogView.findViewById(R.id.forumFirstMsg);
 
         setView(dialogView);
 
@@ -51,17 +51,17 @@ public class AddForumDialog extends AlertDialog.Builder {
     }
 
     private boolean validateData(){
-        //TODO: validar campos obligatorios para la creacion de un grupo
+        //TODO: validar campos obligatorios para la creacion de un foro
         return true;
     }
 
     private void setListener() {
-        ImageView buttonAccept = (ImageView) dialogView.findViewById(R.id.addGroup);
+        ImageView buttonAccept = (ImageView) dialogView.findViewById(R.id.addForum);
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             if (validateData()){
-                AddGroupTask task = new AddGroupTask();
+                AddForumTask task = new AddForumTask();
                 task.execute();
 
                 alertDialog.dismiss();
@@ -75,11 +75,11 @@ public class AddForumDialog extends AlertDialog.Builder {
     }
 
     public void reset() {
-        forumName.setText("");
+        forumTitle.setText("");
         forumFirstMsg.setText("");
     }
 
-    private class AddGroupTask extends AsyncTask<Void, Void,
+    private class AddForumTask extends AsyncTask<Void, Void,
             Response> {
         RestAdapter restAdapter;
 
@@ -97,7 +97,7 @@ public class AddForumDialog extends AlertDialog.Builder {
             Response  response = null;
             try {
 
-                //TODO: POST api group
+                //TODO: POST api forums
 
             } catch (Exception x) {}
 
