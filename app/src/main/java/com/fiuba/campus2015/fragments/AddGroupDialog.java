@@ -29,6 +29,7 @@ import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 import retrofit.RestAdapter;
 import retrofit.client.Response;
@@ -66,6 +67,7 @@ public class AddGroupDialog extends AlertDialog.Builder {
         groupName = (MaterialEditText) dialogView.findViewById(R.id.groupName);
         groupDescription = (MaterialEditText) dialogView.findViewById(R.id.groupDescription);
         radioGroup = (RadioGroup)dialogView.findViewById(R.id.groupType);
+        radioGroup.check(R.id.publicGroup);
 
         buttonImage = (ButtonFloatMaterial) dialogView.findViewById(R.id.buttonImage);
         buttonImage.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +105,12 @@ public class AddGroupDialog extends AlertDialog.Builder {
     }
 
     private boolean validateData(){
-        //TODO: validar campos obligatorios para la creacion de un grupo
+
+        if(isEmpty(groupName)) {
+            ((MaterialEditText) dialogView.findViewById(R.id.groupName)).validateWith(new RegexpValidator("Ingresá un título.", "\\d+"));
+            return false;
+        }
+
         return true;
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -119,6 +126,10 @@ public class AddGroupDialog extends AlertDialog.Builder {
         } catch (Exception e) {
         }
 
+    }
+
+    private boolean isEmpty(TextView textview) {
+        return (textview.getText().length() == 0);
     }
 
     private boolean tamañoValido(Bitmap bitmap) {
