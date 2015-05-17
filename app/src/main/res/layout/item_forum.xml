@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <View
+        android:layout_width="match_parent"
+        android:background="#ffcfcfcf"
+        android:layout_height="1dp"
+        android:id="@+id/separatorForum"
+        android:layout_gravity="right"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="5dp" />
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:baselineAligned="false"
+    android:background="#ffffffff"
+    android:weightSum="1"
+    android:layout_weight="0.03"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <com.fiuba.campus2015.extras.RoundedImageView
+        android:id="@+id/image_forum"
+        android:layout_marginLeft="10dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/ic_forum"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:text="Medium Text"
+        android:textStyle="bold"
+        android:id="@+id/forum_title"
+        android:textColor="@android:color/black"
+        android:layout_alignTop="@+id/image_group"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/lastMsgText"
+        android:layout_marginTop="9dp"
+        android:layout_below="@+id/forum_title"
+        android:layout_alignStart="@+id/forum_title"
+        android:layout_marginStart="9dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteForum"
+        android:src="@drawable/ic_remove_grey"
+        android:layout_alignTop="@+id/forum_title"
+        android:visibility="gone"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
+
+</LinearLayout>

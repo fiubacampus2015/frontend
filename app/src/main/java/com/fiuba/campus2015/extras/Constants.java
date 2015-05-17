@@ -25,7 +25,7 @@ public class Constants {
     public static final String TOKEN = "token";
     public static final String PAGE = "page";
     public static final String USERTO = "userTo";
-
+    public static final String GROUP = "group";
 
     public static enum MsgCardType {text, photo, video, place};
 

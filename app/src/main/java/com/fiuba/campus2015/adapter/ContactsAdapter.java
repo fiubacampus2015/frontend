@@ -9,7 +9,6 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,21 +43,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             return;
         }
 
-        //for(ContactItem contact: contactsItems) {
-        //    contact.setMark(false);
-        //}
-
         Collections.sort(contactsItems);
-        // se marca el primer contacto para mostrar la letra
-        //contactsItems.get(0).setMark(true);
-
-        /*for(int i = 1; i < contactsItems.size(); i++) {
-            ContactItem contactItem = contactsItems.get(i);
-            // si un contacto es distinto al anterior se marca para mostrar la letra
-            if(contactsItems.get(i - 1).getTitle() != contactItem.getTitle()) {
-                contactItem.setMark(true);
-            }
-        }*/
     }
 
     @Override
@@ -121,26 +106,19 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     static class ViewHolderContacts extends RecyclerView.ViewHolder {
 
         TextView textViewName;
-        TextView textViewChar;
         ImageView imageViewContact;
         View viewSeparator;
         ImageView viewSendInvitation;
         ImageView viewDeleteContact;
-        TextView textCountry;
         TextView textMail;
-
-
-
 
         public ViewHolderContacts(View itemView) {
             super(itemView);
             textViewName = (TextView)itemView.findViewById(R.id.text_name_contact);
             imageViewContact = (ImageView) itemView.findViewById(R.id.image_contact);
-            //textViewChar = (TextView) itemView.findViewById(R.id.CharContact);
             viewSeparator = (View) itemView.findViewById(R.id.separatorContact);
             viewSendInvitation = (ImageView) itemView.findViewById(R.id.sendInvitation);
             viewDeleteContact = (ImageView) itemView.findViewById(R.id.deleteContact);
-            //textCountry = (TextView)itemView.findViewById(R.id.countryText);
             textMail = (TextView)itemView.findViewById(R.id.mailText);
 
         }
