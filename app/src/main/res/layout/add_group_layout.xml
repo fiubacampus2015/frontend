@@ -69,14 +69,14 @@
                     android:text="Público"
                     android:id="@+id/publicGroup"
                     android:checked="false"
-                    android:onClick="onGenderRadioButtonClicked" />
+                    android:onClick="onPublicGroupRadioButtonClicked" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Privado"
                     android:id="@+id/privateGroup"
                     android:checked="false"
-                    android:onClick="onGenderRadioButtonClicked" />
+                    android:onClick="onPublicGroupRadioButtonClicked" />
             </RadioGroup>
 
         </LinearLayout>

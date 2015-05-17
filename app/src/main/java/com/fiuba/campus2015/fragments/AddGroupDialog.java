@@ -53,12 +53,12 @@ public class AddGroupDialog extends AlertDialog.Builder {
         alertDialog = create();
     }
 
-    public void onGenderRadioButtonClicked(View view) {
+    public void onPublicGroupRadioButtonClicked() {
         // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
+        boolean checked = ((RadioButton) dialogView).isChecked();
 
         // Check which radio button was clicked
-        switch(view.getId()) {
+        switch(dialogView.getId()) {
             case R.id.publicGroup:
                 if (checked)
                     publicGroup= true;
