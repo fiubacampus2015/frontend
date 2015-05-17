@@ -16,23 +16,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fiuba.campus2015.ProfileFriend;
-import com.fiuba.campus2015.ProfileReduced;
 import com.fiuba.campus2015.R;
-import com.fiuba.campus2015.adapter.ContactsAdapter;
 import com.fiuba.campus2015.adapter.GroupAdapter;
 import com.fiuba.campus2015.dto.user.Group;
-import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.dto.user.Message;
+import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
+import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.fiuba.campus2015.extras.Constants.USER;
+import retrofit.RestAdapter;
 
+import static com.fiuba.campus2015.extras.Constants.USERTO;
 
 public class GroupFragment extends Fragment {
     private View myView;
@@ -42,6 +42,7 @@ public class GroupFragment extends Fragment {
     private TextView emptyView;
     private ProgressBar prgrsBar;
     private EditText searchText;
+    private AddGroupDialog addGroupDialog;
 
     public static GroupFragment newInstance(String param1, String param2) {
         GroupFragment fragment = new GroupFragment();
@@ -55,8 +56,8 @@ public class GroupFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.group_fragment, container, false);
-
         session = new SessionManager(getActivity().getApplicationContext());
+        addGroupDialog = new AddGroupDialog(getActivity(), this);
 
         ImageView buttonSearch = (ImageView) myView.findViewById(R.id.search);
         buttonSearch.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +107,20 @@ public class GroupFragment extends Fragment {
 
         groupAdapter.setGroups(new ArrayList<Group>(), session.getUserid());
 
+        ButtonFloatMaterial addGroupbutton = (ButtonFloatMaterial) myView.findViewById(R.id.addGroup);
+        addGroupbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addGroupDialog.showDialog();
+            }
+        });
+
         return myView;
+    }
+
+    public void update() {
+        GetGroupListTask fillGroupList = new GetGroupListTask();
+        fillGroupList.execute();
     }
 
     public void searchGroups() {
@@ -122,8 +136,7 @@ public class GroupFragment extends Fragment {
     public void searchClear(View view) {
         emptyView.setVisibility(View.INVISIBLE);
         searchText.setText("");
-        //searchFilter.reset();
-        //searchUsers(true);
+        searchGroups();
     }
 
     private  class SearchGroups extends AsyncTask<Void, Void, List<Group>> {
@@ -171,6 +184,39 @@ public class GroupFragment extends Fragment {
 
                 prgrsBar.setVisibility(View.INVISIBLE);
                 groupAdapter.setGroups(groups, session.getUserid());
+            }
+        }
+    }
+
+    private class GetGroupListTask extends AsyncTask<Void, Void,
+            List<Group>> {
+        RestAdapter restAdapter;
+
+        @Override
+        protected void onPreExecute() {
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(UrlEndpoints.URL_API)
+                    .build();
+        }
+
+        @Override
+        protected List<Group> doInBackground(Void... params) {
+
+            List<Group> groups = null;
+            IApiUser api = restAdapter.create(IApiUser.class);
+            try {
+                //TODO: traer lista de grupos del usuario
+
+            } catch (Exception x) {}
+
+            return groups;
+        }
+
+        @Override
+        protected void onPostExecute(List<Group> groups) {
+
+            if(groups!=null) {
+               //TODO: volver a cargar la lista de grupos
             }
         }
     }
