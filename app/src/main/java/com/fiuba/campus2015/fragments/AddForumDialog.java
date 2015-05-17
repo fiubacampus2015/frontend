@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 import retrofit.RestAdapter;
 import retrofit.client.Response;
@@ -51,8 +53,16 @@ public class AddForumDialog extends AlertDialog.Builder {
     }
 
     private boolean validateData(){
-        //TODO: validar campos obligatorios para la creacion de un foro
+
+        if(isEmpty(forumTitle)) {
+            ((MaterialEditText) dialogView.findViewById(R.id.forumTitle)).validateWith(new RegexpValidator("Ingresá un título.", "\\d+"));
+            return false;
+        }
         return true;
+    }
+
+    private boolean isEmpty(TextView textview) {
+        return (textview.getText().length() == 0);
     }
 
     private void setListener() {
