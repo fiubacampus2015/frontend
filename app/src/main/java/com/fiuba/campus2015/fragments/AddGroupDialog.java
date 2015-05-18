@@ -28,7 +28,10 @@ import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 import retrofit.client.Response;
 
+import static com.fiuba.campus2015.extras.Utils.getPhotoString;
 import static com.fiuba.campus2015.extras.Utils.getResizedBitmap;
+import static com.fiuba.campus2015.extras.Utils.checkSizePhoto;
+
 
 public class AddGroupDialog extends AlertDialog.Builder {
     private View dialogView;
@@ -69,6 +72,8 @@ public class AddGroupDialog extends AlertDialog.Builder {
                 loadImagefromGallery(v);
             }
         });
+        photoGroup = (ImageView) dialogView.findViewById(R.id.idPhoto);
+
 
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -91,6 +96,7 @@ public class AddGroupDialog extends AlertDialog.Builder {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         activity.startActivityForResult(galleryIntent, RESULT_LOAD);
+
     }
 
     public void showDialog() {
@@ -106,12 +112,12 @@ public class AddGroupDialog extends AlertDialog.Builder {
 
         return true;
     }
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             if (requestCode == RESULT_LOAD && resultCode == Activity.RESULT_OK && null != data) {
                 Bitmap foto = getPhoto(data);
-                    if(tamañoValido(foto)) {
+                    if(checkSizePhoto(foto)) {
                         photoBitmap = getResizedBitmap(foto,200,200);
                         photoGroup.setImageBitmap(photoBitmap);
                     }
@@ -125,15 +131,6 @@ public class AddGroupDialog extends AlertDialog.Builder {
         return (textview.getText().length() == 0);
     }
 
-    private boolean tamañoValido(Bitmap bitmap) {
-        int bytes = bitmap.getRowBytes() * bitmap.getHeight();
-        int megaBytes = bytes/(KB*KB);
-
-        if(megaBytes >= MAXSIZE) {
-            return false;
-        }
-        return true;
-    }
 
     private Bitmap getPhoto(Intent data) {
         Uri selectedImage = data.getData();
@@ -199,7 +196,10 @@ public class AddGroupDialog extends AlertDialog.Builder {
 
             Response  response = null;
             try {
-                response = restClient.getApiService().createGroup(session.getToken(),new Group(session.getUserid(),groupName.getText().toString(),groupDescription.getText().toString(),""));
+
+                response = restClient.getApiService().createGroup(session.getToken(),
+                        new Group(session.getUserid(),groupName.getText().toString(),
+                                groupDescription.getText().toString(),getPhotoString(photoBitmap)));
 
             } catch (Exception x) {}
 

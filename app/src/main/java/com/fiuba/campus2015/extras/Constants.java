@@ -27,6 +27,7 @@ public class Constants {
     public static final String USERTO = "userTo";
     public static final String GROUP = "group";
     public static final String DESCRIPCIONGRUPO = "descripcionGrupo";
+    public static final int MAX_SIZE_PHOTO = 8;
 
     public static enum MsgCardType {text, photo, video, place, file};
 

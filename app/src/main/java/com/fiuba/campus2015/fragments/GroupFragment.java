@@ -135,6 +135,12 @@ public class GroupFragment extends Fragment {
         fillGroupList.execute();
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode,resultCode,data);
+        addGroupDialog.onActivityResult(requestCode,resultCode,data);
+    }
+
     public void search() {
         SearchGroups task = new SearchGroups();
         try {

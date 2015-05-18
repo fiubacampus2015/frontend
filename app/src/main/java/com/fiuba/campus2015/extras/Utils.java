@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -66,6 +67,27 @@ public class Utils {
         //options.inSampleSize = 8;
         Bitmap photoBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length,options);
         return Bitmap.createScaledBitmap(photoBitmap, 200, 200, true);
+    }
+
+    public static boolean checkSizePhoto(Bitmap bitmap) {
+        int bytes = bitmap.getRowBytes() * bitmap.getHeight();
+        int megaBytes = bytes/(1024*1024);
+
+        if(megaBytes >= MAX_SIZE_PHOTO) {
+            return false;
+        }
+        return true;
+    }
+
+    public static String getPhotoString(Bitmap photoBitmap) {
+        if(photoBitmap != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            photoBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+            byte[] imageBytes = baos.toByteArray();
+            photoBitmap.recycle();
+            return Base64.encodeToString(imageBytes, Base64.NO_WRAP);
+        }
+        return "";
     }
 
     public static String getGender(String mgender) {
