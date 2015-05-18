@@ -70,7 +70,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
             }
 
             Bitmap  icon;
-            if (!groupItem.photo.isEmpty())
+            if (groupItem.photo != null && !groupItem.photo.isEmpty())
             {
                 byte[] decodedString = Base64.decode(groupItem.photo, Base64.DEFAULT);
                 BitmapFactory.Options options = new BitmapFactory.Options();

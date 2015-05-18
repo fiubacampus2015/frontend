@@ -2,14 +2,14 @@ package com.fiuba.campus2015.dto.user;
 
 public class Group {
     public String _id;
-    public String lastMsgDate;
+    public String date;
     public String name;
     public String description;
     public String photo;
-    public String ownerid;
+    public String owner;
 
-    public Group(String _id, String name, String description, String photo){
-        this._id = _id;
+    public Group(String user, String name, String description, String photo){
+        this.owner = user;
         this.name = name;
         this.description = description;
         this.photo = photo;

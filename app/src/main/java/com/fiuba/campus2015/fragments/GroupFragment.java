@@ -114,11 +114,12 @@ public class GroupFragment extends Fragment {
 
         List<Group> groupItems = new ArrayList<Group>();
 
-        groupItems.add(new Group("1","Proyectos","Materia Proyectos Informaticos",""));
-        groupItems.add(new Group("2","Curso Verano","Curso de verano",""));
+        //groupItems.add(new Group("1","Proyectos","Materia Proyectos Informaticos",""));
+        //groupItems.add(new Group("2","Curso Verano","Curso de verano",""));
         groupAdapter.setGroups(groupItems, session.getUserid());
 
 
+        update();
         ButtonFloatMaterial addGroupbutton = (ButtonFloatMaterial) myView.findViewById(R.id.addGroup);
         addGroupbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +132,7 @@ public class GroupFragment extends Fragment {
     }
 
     public void update() {
-        GetGroupListTask fillGroupList = new GetGroupListTask();
+        SearchGroups fillGroupList = new SearchGroups();
         fillGroupList.execute();
     }
 
@@ -169,7 +170,6 @@ public class GroupFragment extends Fragment {
             prgrsBar.setEnabled(true);
             prgrsBar.setVisibility(View.VISIBLE);
 
-
         }
 
         @Override
@@ -177,6 +177,7 @@ public class GroupFragment extends Fragment {
             List<Group> group = null;
             try {
 
+                group = restClient.getApiService().getGroup(session.getToken(),"");
             } catch (Exception ex) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de grupos.", Toast.LENGTH_SHORT).show();
 

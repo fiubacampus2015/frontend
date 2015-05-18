@@ -2,6 +2,7 @@ package com.fiuba.campus2015.services;
 
 import com.fiuba.campus2015.adapter.ContactItem;
 import com.fiuba.campus2015.dto.user.Authenticate;
+import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.User;
 
@@ -127,6 +128,20 @@ public interface IApiUser {
             @Path("token") String token,
             @Path("user") String user,
             @Body Message message
+    );
+
+
+    //GRUPOS
+    @POST("/api/{token}/groups")
+    public retrofit.client.Response createGroup(
+            @Path("token") String token,
+            @Body Group group
+    );
+
+    @GET("/api/{token}/groups")
+    public List<Group> getGroup(
+            @Path("token") String token,
+            @Query("name") String name
     );
 
 
