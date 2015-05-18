@@ -141,6 +141,36 @@ public class MessageAdapter {
 
                 return card;
 
+            case file:
+                card = new BasicImageButtonsCard(this.context);
+                card.setDescription(description);
+                card.setTitle(title);
+                card.setTag("BASIC_IMAGE_BUTTON_CARD");
+                ((BasicImageButtonsCard) card).setLeftButtonText("LEFT");
+                ((BasicImageButtonsCard) card).setRightButtonText("RIGHT");
+
+                if (position % 2 == 0)
+                    ((BasicImageButtonsCard) card).setDividerVisible(true);
+
+                ((BasicImageButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Toast.makeText(context, "You have pressed the left button", Toast.LENGTH_SHORT).show();
+                        ((SimpleCard) card).setTitle("CHANGED ON RUNTIME");
+                    }
+                });
+
+                ((BasicImageButtonsCard) card).setOnRightButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Toast.makeText(context, "You have pressed the right button on card " + ((SimpleCard) card).getTitle(), Toast.LENGTH_SHORT).show();
+                        materialListView.remove(card);
+                    }
+                });
+                card.setDismissible(true);
+
+                return card;
+
             case text:
                 card = new BasicButtonsCard(this.context);
                 card.setDescription(description);

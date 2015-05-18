@@ -28,7 +28,7 @@ public class Constants {
     public static final String GROUP = "group";
     public static final String DESCRIPCIONGRUPO = "descripcionGrupo";
 
-    public static enum MsgCardType {text, photo, video, place};
+    public static enum MsgCardType {text, photo, video, place, file};
 
 
 }
