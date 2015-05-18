@@ -73,7 +73,9 @@
         android:layout_alignTop="@+id/text_name_contact"
         android:visibility="gone"
         android:layout_marginRight="10dp"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:focusable="true"/>
 
 </RelativeLayout>
 
