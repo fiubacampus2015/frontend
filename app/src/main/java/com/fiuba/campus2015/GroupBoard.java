@@ -14,8 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.fragments.CompleteProfile;
+import com.fiuba.campus2015.fragments.ContactFragment;
 import com.fiuba.campus2015.fragments.ContactFragment;
 import com.fiuba.campus2015.fragments.GroupForumsFragment;
+import com.fiuba.campus2015.fragments.GroupProfile;
 import com.fiuba.campus2015.session.SessionManager;
 import com.google.gson.Gson;
 
@@ -36,21 +39,18 @@ public class GroupBoard extends ActionBarActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.group_profile);
+        setContentView(R.layout.group_board);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         session = new SessionManager(getApplicationContext());
 
-
-
-       /* Bundle extras = getIntent().getExtras();
+       Bundle extras = getIntent().getExtras();
         if(extras != null) {
             String groupJson = extras.getString(GROUP);
             this.group = new Gson().fromJson(groupJson, Group.class);
             getSupportActionBar().setTitle(group.name);
-        }*/
-
+        }
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,11 +67,11 @@ public class GroupBoard extends ActionBarActivity {
             tabHost.addTab(pagerAdapter.getPageTitle(i));
         }
 
-        tabHost.setCurrentTab(TAB_CONTACTS);
+        tabHost.setCurrentTab(TAB_PROFILE);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setCurrentItem(TAB_CONTACTS);
+        viewPager.setCurrentItem(TAB_PROFILE);
         viewPager.setOnPageChangeListener(tabHost);
 
         tabHost.setOnTabChangeListener(new MaterialTabHost.OnTabChangeListener() {
@@ -138,7 +138,7 @@ public class GroupBoard extends ActionBarActivity {
 
             Fragment fragment = null;
             switch (position) {
-                case TAB_CONTACTS:
+              case TAB_CONTACTS:
                     fragment = GroupForumsFragment.newInstance("");
                     break;
                 case TAB_FILES:
@@ -148,7 +148,7 @@ public class GroupBoard extends ActionBarActivity {
                     fragment = GroupForumsFragment.newInstance("");
                     break;
                 case TAB_PROFILE:
-                    fragment = GroupForumsFragment.newInstance("");
+                    fragment = GroupProfile.newInstance(group);
                     break;
             }
             return fragment;

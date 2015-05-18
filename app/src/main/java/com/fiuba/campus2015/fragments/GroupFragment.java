@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.campus2015.GroupBoard;
-import com.fiuba.campus2015.ProfileReduced;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.GroupAdapter;
 import com.fiuba.campus2015.dto.user.Group;
@@ -27,11 +26,14 @@ import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RestAdapter;
+
+import static com.fiuba.campus2015.extras.Constants.GROUP;
 
 public class GroupFragment extends Fragment {
     private View myView;
@@ -91,6 +93,8 @@ public class GroupFragment extends Fragment {
                         Group group = groupAdapter.getGroup(position);
                         Intent intent;
                         intent = new Intent(getActivity(), GroupBoard.class);
+                        intent.putExtra(GROUP, new Gson().toJson(group));
+
                         startActivity(intent);
                     }
                 })

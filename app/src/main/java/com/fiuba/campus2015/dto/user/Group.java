@@ -15,8 +15,8 @@ public class Group {
         this.photo = photo;
     }
 
-    public Group(String id){
-        this._id = id;
+    public Group(String titulo){
+        this.name = titulo;
     }
 
 
