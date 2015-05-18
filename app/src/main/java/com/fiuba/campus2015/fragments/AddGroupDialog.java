@@ -4,7 +4,6 @@ package com.fiuba.campus2015.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,18 +19,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.fiuba.campus2015.R;
-
+import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
-import com.fiuba.campus2015.extras.UrlEndpoints;
-import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
-import retrofit.RestAdapter;
 import retrofit.client.Response;
 
-import static com.fiuba.campus2015.extras.Constants.EXTENSIONES;
 import static com.fiuba.campus2015.extras.Utils.getResizedBitmap;
 
 public class AddGroupDialog extends AlertDialog.Builder {
@@ -180,23 +176,30 @@ public class AddGroupDialog extends AlertDialog.Builder {
 
     private class AddGroupTask extends AsyncTask<Void, Void,
             Response> {
-        RestAdapter restAdapter;
+        RestClient restClient;
+
+
+
+        public void executeTask() {
+            try {
+                this.execute();
+            } catch (Exception e) {
+            }
+        }
+
 
         @Override
         protected void onPreExecute() {
-            restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(UrlEndpoints.URL_API)
-                    .build();
+            restClient = new RestClient();
+
         }
 
         @Override
         protected Response doInBackground(Void... params) {
 
-            IApiUser api = restAdapter.create(IApiUser.class);
             Response  response = null;
             try {
-
-                //TODO: POST api group
+                response = restClient.getApiService().createGroup(session.getToken(),new Group(session.getUserid(),groupName.getText().toString(),groupDescription.getText().toString(),""));
 
             } catch (Exception x) {}
 
@@ -205,7 +208,10 @@ public class AddGroupDialog extends AlertDialog.Builder {
 
         @Override
         protected void onPostExecute(Response response) {
-            groupFragment.update();
+
+            if(response != null) {
+                groupFragment.update();
+            }
 
         }
     }

@@ -64,7 +64,7 @@ public class GroupFragment extends Fragment {
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchGroups();
+                search();
             }
         });
 
@@ -114,11 +114,10 @@ public class GroupFragment extends Fragment {
 
         List<Group> groupItems = new ArrayList<Group>();
 
-        groupItems.add(new Group("1","Proyectos","Materia Proyectos Informaticos",""));
-        groupItems.add(new Group("2","Curso Verano","Curso de verano",""));
         groupAdapter.setGroups(groupItems, session.getUserid());
 
 
+        update();
         ButtonFloatMaterial addGroupbutton = (ButtonFloatMaterial) myView.findViewById(R.id.addGroup);
         addGroupbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,11 +130,12 @@ public class GroupFragment extends Fragment {
     }
 
     public void update() {
-        GetGroupListTask fillGroupList = new GetGroupListTask();
+        searchText.setText("");
+        SearchGroups fillGroupList = new SearchGroups();
         fillGroupList.execute();
     }
 
-    public void searchGroups() {
+    public void search() {
         SearchGroups task = new SearchGroups();
         try {
             task.execute();
@@ -148,7 +148,7 @@ public class GroupFragment extends Fragment {
     public void searchClear(View view) {
         emptyView.setVisibility(View.INVISIBLE);
         searchText.setText("");
-        searchGroups();
+        search();
     }
 
     private  class SearchGroups extends AsyncTask<Void, Void, List<Group>> {
@@ -169,7 +169,6 @@ public class GroupFragment extends Fragment {
             prgrsBar.setEnabled(true);
             prgrsBar.setVisibility(View.VISIBLE);
 
-
         }
 
         @Override
@@ -177,6 +176,7 @@ public class GroupFragment extends Fragment {
             List<Group> group = null;
             try {
 
+                group = restClient.getApiService().getGroup(session.getToken(),searchText.getText().toString());
             } catch (Exception ex) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de grupos.", Toast.LENGTH_SHORT).show();
 
@@ -196,39 +196,6 @@ public class GroupFragment extends Fragment {
 
                 prgrsBar.setVisibility(View.INVISIBLE);
                 groupAdapter.setGroups(groups, session.getUserid());
-            }
-        }
-    }
-
-    private class GetGroupListTask extends AsyncTask<Void, Void,
-            List<Group>> {
-        RestAdapter restAdapter;
-
-        @Override
-        protected void onPreExecute() {
-            restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(UrlEndpoints.URL_API)
-                    .build();
-        }
-
-        @Override
-        protected List<Group> doInBackground(Void... params) {
-
-            List<Group> groups = null;
-            IApiUser api = restAdapter.create(IApiUser.class);
-            try {
-                //TODO: traer lista de grupos del usuario
-
-            } catch (Exception x) {}
-
-            return groups;
-        }
-
-        @Override
-        protected void onPostExecute(List<Group> groups) {
-
-            if(groups!=null) {
-               //TODO: volver a cargar la lista de grupos
             }
         }
     }
