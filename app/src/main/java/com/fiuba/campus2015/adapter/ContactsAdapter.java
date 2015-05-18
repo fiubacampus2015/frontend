@@ -113,7 +113,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     private void removeContact(final int position) {
         final User contact = getContact(position);
-        Dialog dialog = new Dialog(contactFragment.getActivity(),null, "Esta seguro que desea eliminar su contacto");
+        Dialog dialog = new Dialog(contactFragment.getActivity(),null, "Estás seguro de borrar tu contacto?");
         dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
