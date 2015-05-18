@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.fiuba.campus2015.R;
 import com.dexafree.materialList.view.MaterialListView;
@@ -32,7 +33,7 @@ public class WallFragment extends Fragment
     private MessageAdapter msgAdapter;
     private WriteMsgDialog w_msgDialog;
     private SessionManager session;
-    private ProgressDialog progressDialog;
+    private ProgressBar prgrsBar;
 
     public static WallFragment newInstance(String userId) {
         WallFragment fragment = new WallFragment();
@@ -93,7 +94,7 @@ public class WallFragment extends Fragment
         mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
 
         this.msgAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
-
+        prgrsBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminate_);
         update();
 
         return myView;
@@ -126,8 +127,8 @@ public class WallFragment extends Fragment
             restAdapter = new RestAdapter.Builder()
                     .setEndpoint(UrlEndpoints.URL_API)
                     .build();
-            progressDialog =  new ProgressDialog(getActivity(), "Cargando mensajes");
-            progressDialog.show();
+            prgrsBar.setEnabled(true);
+            prgrsBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -145,7 +146,7 @@ public class WallFragment extends Fragment
 
         @Override
         protected void onPostExecute(List<Message> msgs) {
-            progressDialog.dismiss();
+            prgrsBar.setVisibility(View.INVISIBLE);
             if(msgs!=null) {
                 msgAdapter.setData(msgs);
                 msgAdapter.fillArray();
