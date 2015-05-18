@@ -142,7 +142,7 @@ public class ContactFragment extends Fragment {
     }
 
     public void removeContact(User contact) {
-        Toast.makeText(getActivity().getApplicationContext(),contact.name,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity().getApplicationContext(),contact.name,Toast.LENGTH_SHORT).show();
 
         DeleteContact deleteContact = new DeleteContact(this, contact._id);
         deleteContact.executeTask();
@@ -171,7 +171,7 @@ public class ContactFragment extends Fragment {
         searchUsers(true);
     }
 
-    private class DeleteContact extends AsyncTask<String, Void, retrofit.client.Response> {
+    private class DeleteContact extends AsyncTask<Void, Void, retrofit.client.Response> {
         RestClient restClient;
         private String userId;
         private Context context;
@@ -188,11 +188,18 @@ public class ContactFragment extends Fragment {
                 Toast.makeText(context.getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
             }
         }
+
         @Override
-        protected Response doInBackground(String... params) {
+        protected void onPreExecute() {
+            restClient = new RestClient();
+
+        }
+
+        @Override
+        protected Response doInBackground(Void... params) {
             Response response = null;
             try {
-                response = restClient.getApiService().deleteFriend(session.getToken(), userId, session.getUserid());
+                response = restClient.getApiService().deleteFriend(session.getToken(), session.getUserid(), userId);
             }catch (Exception ex) {
             }
 
