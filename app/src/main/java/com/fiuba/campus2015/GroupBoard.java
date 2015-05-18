@@ -17,6 +17,7 @@ import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.fragments.CompleteProfile;
 import com.fiuba.campus2015.fragments.ContactFragment;
 import com.fiuba.campus2015.fragments.ContactFragment;
+import com.fiuba.campus2015.fragments.GroupFilesFragment;
 import com.fiuba.campus2015.fragments.GroupForumsFragment;
 import com.fiuba.campus2015.fragments.GroupProfile;
 import com.fiuba.campus2015.session.SessionManager;
@@ -142,7 +143,7 @@ public class GroupBoard extends ActionBarActivity {
                     fragment = GroupForumsFragment.newInstance("");
                     break;
                 case TAB_FILES:
-                    fragment = GroupForumsFragment.newInstance("");
+                    fragment = GroupFilesFragment.newInstance(group._id);
                     break;
                 case TAB_FORUMS:
                     fragment = GroupForumsFragment.newInstance("");
