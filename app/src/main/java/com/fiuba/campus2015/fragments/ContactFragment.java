@@ -1,5 +1,6 @@
 package com.fiuba.campus2015.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import com.fiuba.campus2015.extras.RecyclerItemClickListener;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.views.ProgressBarCircularIndeterminate;
+import com.gc.materialdesign.widgets.Dialog;
+import com.gc.materialdesign.widgets.ProgressDialog;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -32,6 +35,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.apache.http.conn.ConnectTimeoutException;
+
+import retrofit.client.Response;
 
 import static com.fiuba.campus2015.extras.Constants.USER;
 
@@ -88,31 +95,9 @@ public class ContactFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        contactsAdapter = new ContactsAdapter(getActivity());
-        //addAllContacts(fillContacts());
+        contactsAdapter = new ContactsAdapter(getActivity(), this);
+
         recyclerView.setAdapter(contactsAdapter);
-
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        User contact = contactsAdapter.getContact(position);
-                        Intent intent;
-
-                        //Verifico si es amigo o no para mostrar el perfil
-                        if (contact.status != null && contact.status.equals("ok"))
-                        {
-                            intent = new Intent(getActivity(), ProfileFriend.class);
-
-                        }else
-                        {
-                            intent = new Intent(getActivity(), ProfileReduced.class);
-
-                        }
-                        intent.putExtra(USER, new Gson().toJson(contact));
-                        startActivity(intent);
-                    }
-                })
-        );
 
         contactsAdapter.setContacts(new ArrayList<User>(),session.getUserid());
         searchUsers(true);
@@ -139,6 +124,32 @@ public class ContactFragment extends Fragment {
         return myView;
     }
 
+    public void loadProfile(User contact) {
+        Intent intent;
+
+        //Verifico si es amigo o no para mostrar el perfil
+        if (contact.status != null && contact.status.equals("ok"))
+        {
+            intent = new Intent(getActivity(), ProfileFriend.class);
+
+        }else
+        {
+            intent = new Intent(getActivity(), ProfileReduced.class);
+
+        }
+        intent.putExtra(USER, new Gson().toJson(contact));
+        startActivity(intent);
+    }
+
+    public void removeContact(User contact) {
+//        Toast.makeText(getActivity().getApplicationContext(),contact.name,Toast.LENGTH_SHORT).show();
+
+        DeleteContact deleteContact = new DeleteContact(this, contact._id);
+        deleteContact.executeTask();
+    }
+
+
+
     private void showSearchDialog() {
         searchFilter.showDialog();
     }
@@ -158,6 +169,49 @@ public class ContactFragment extends Fragment {
         searchText.setText("");
         searchFilter.reset();
         searchUsers(true);
+    }
+
+    private class DeleteContact extends AsyncTask<Void, Void, retrofit.client.Response> {
+        RestClient restClient;
+        private String userId;
+        private Context context;
+
+        public DeleteContact(ContactFragment contactFragment, String userId) {
+            this.context = contactFragment.getActivity();
+            this.userId = userId;
+        }
+
+        public void executeTask() {
+            try {
+                this.execute();
+            } catch (Exception e) {
+                Toast.makeText(context.getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            restClient = new RestClient();
+
+        }
+
+        @Override
+        protected Response doInBackground(Void... params) {
+            Response response = null;
+            try {
+                response = restClient.getApiService().deleteFriend(session.getToken(), session.getUserid(), userId);
+            }catch (Exception ex) {
+            }
+
+            return response;
+        }
+
+        @Override
+        public void onPostExecute(retrofit.client.Response response) {
+            if (response== null)
+                Toast.makeText(context.getApplicationContext(), "Hubo un error al eliminar el contacto.", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     private  class SearchUsers extends AsyncTask<Void, Void, List<User>> {

@@ -94,6 +94,12 @@ public interface IApiUser {
             @Path("userId") String user
     );
 
+    @POST("/api/{token}/users/{userId}/{friendId}/delete")
+    public  retrofit.client.Response deleteFriend(
+            @Path("token") String token,
+            @Path("userId") String userId,
+            @Path("friendId") String friendId
+    );
 
     @PUT("/api/{token}/users/{userId}/{friendId}/confirm")
     public retrofit.client.Response confirmInvitation(
