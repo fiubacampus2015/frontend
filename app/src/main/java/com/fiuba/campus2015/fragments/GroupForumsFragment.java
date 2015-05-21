@@ -1,7 +1,6 @@
 package com.fiuba.campus2015.fragments;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,25 +13,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.ForumAdapter;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
-import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.services.Response;
 import com.fiuba.campus2015.services.RestClient;
+import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.RestAdapter;
-
 import static com.fiuba.campus2015.extras.Constants.GROUP;
-import static com.fiuba.campus2015.extras.Constants.USERTO;
 
 public class GroupForumsFragment extends Fragment {
     private View myView;
@@ -71,7 +69,7 @@ public class GroupForumsFragment extends Fragment {
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchGroups();
+                update();
             }
         });
 
@@ -79,7 +77,8 @@ public class GroupForumsFragment extends Fragment {
         buttonClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchClear(v);
+                searchText.setText("");
+                update();
             }
         });
 
@@ -123,110 +122,55 @@ public class GroupForumsFragment extends Fragment {
             }
         });
 
+        update();
+
         return myView;
     }
 
     public void update() {
-        GetGroupListTask fillGroupList = new GetGroupListTask();
-        fillGroupList.execute();
+        prgrsBar.setVisibility(View.VISIBLE);
+        //Suscripcion a los eventos que devuelve el cliente que llama la api
+        Application.getEventBus().register(this);
+        getForums();
     }
 
-    public void searchGroups() {
-        SearchGroups task = new SearchGroups();
-        try {
-            task.execute();
-        } catch (Exception x){
-            Toast.makeText(getActivity().getApplicationContext(), "Error al buscar foros.", Toast.LENGTH_SHORT).show();
-        }
+    //Se llama a este metodo en caso de que no haya error
+    @Subscribe
+    public void onForumList(ArrayList<Forum> forums) {
+        if(forums.isEmpty())
+            emptyView.setVisibility(View.VISIBLE);
+        else
+            emptyView.setVisibility(View.INVISIBLE);
+
+        forumAdapter.setForums(forums,session.getUserid());
+        prgrsBar.setVisibility(View.GONE);
+        //Desuscripcion a los eventos que devuelve el cliente que llama la api
+        Application.getEventBus().unregister(this);
+    }
+
+
+    //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
+    @Subscribe
+    public void onResponse(Response responseError) {
+        //TODO Mostrar errores en caso de error del request
+        prgrsBar.setVisibility(View.GONE);
 
     }
 
-    public void searchClear(View view) {
-        emptyView.setVisibility(View.INVISIBLE);
-        searchText.setText("");
-        searchGroups();
-    }
 
-    private  class SearchGroups extends AsyncTask<Void, Void, List<Forum>> {
-
-        RestClient restClient;
-
-        public void executeTask() {
-            try {
-                this.execute();
-            } catch (Exception e) {
-                Toast.makeText(getActivity().getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
+    public void getForums()
+    {
+        //Se crea la llamada al servicio
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<List<Forum>, IApiUser>() {
+            @Override
+            public List<Forum> getResult(IApiUser service) {
+                return service.getForum(session.getToken(),groupId,searchText.getText().toString());
             }
-        }
+        };
 
-        @Override
-        protected void onPreExecute() {
-            restClient = new RestClient();
-            prgrsBar.setEnabled(true);
-            prgrsBar.setVisibility(View.VISIBLE);
-
-
-        }
-
-        @Override
-        protected List<Forum> doInBackground(Void... params) {
-            List<Forum> forum = null;
-            try {
-
-            } catch (Exception ex) {
-                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de foros.", Toast.LENGTH_SHORT).show();
-
-            }
-            return forum;
-        }
-
-        @Override
-        protected void onPostExecute(List<Forum> forums) {
-            if (forums == null) {
-                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de foros.", Toast.LENGTH_SHORT).show();
-            } else {
-                if(forums.isEmpty())
-                    emptyView.setVisibility(View.VISIBLE);
-                else
-                    emptyView.setVisibility(View.INVISIBLE);
-
-                prgrsBar.setVisibility(View.INVISIBLE);
-                forumAdapter.setForums(forums, session.getUserid());
-            }
-        }
+        //Se llama a la api
+        RestClient restClient = new RestClient();
+        RestServiceAsync callApi = new RestServiceAsync<List<Forum>, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new Response());
     }
-
-    private class GetGroupListTask extends AsyncTask<Void, Void,
-            List<Forum>> {
-        RestAdapter restAdapter;
-
-        @Override
-        protected void onPreExecute() {
-            restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(UrlEndpoints.URL_API)
-                    .build();
-        }
-
-        @Override
-        protected List<Forum> doInBackground(Void... params) {
-
-            List<Forum> forums = null;
-            IApiUser api = restAdapter.create(IApiUser.class);
-            try {
-                //TODO: traer lista de forums del grupo
-
-            } catch (Exception x) {}
-
-            return forums;
-        }
-
-        @Override
-        protected void onPostExecute(List<Forum> forums) {
-
-            if(forums!=null) {
-               //TODO: volver a cargar la lista de forums
-            }
-        }
-    }
-
 }

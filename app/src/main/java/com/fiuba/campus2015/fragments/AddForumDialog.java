@@ -88,7 +88,7 @@ public class AddForumDialog extends AlertDialog.Builder {
             public void onClick(View v) {
                 if (validateData()) {
                     createForum();
-                    //groupforumFragment.update();
+                    groupforumFragment.update();
                     alertDialog.dismiss();
                     reset();
                 } else {

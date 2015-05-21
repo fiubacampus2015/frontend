@@ -55,7 +55,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolderFo
         Forum forumItem = forumItems.get(position);
 
         holder.textViewTitle.setText(forumItem.title);
-        holder.textLastMsg.setText(forumItem.message);
+        holder.textLastMsg.setText(forumItem.content);
 
         holder.viewSeparator.setBackgroundColor(Color.WHITE);
 
@@ -87,7 +87,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolderFo
             super(itemView);
             textViewTitle = (TextView)itemView.findViewById(R.id.forum_title);
             imageViewForum = (ImageView) itemView.findViewById(R.id.image_forum);
-            viewSeparator = (View) itemView.findViewById(R.id.separatorGroup);
+            viewSeparator = (View) itemView.findViewById(R.id.separatorForum);
             textLastMsg = (TextView)itemView.findViewById(R.id.lastMsgText);
 
         }
