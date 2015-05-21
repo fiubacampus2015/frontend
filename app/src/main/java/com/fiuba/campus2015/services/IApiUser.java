@@ -2,6 +2,7 @@ package com.fiuba.campus2015.services;
 
 import com.fiuba.campus2015.adapter.ContactItem;
 import com.fiuba.campus2015.dto.user.Authenticate;
+import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.User;
@@ -150,5 +151,20 @@ public interface IApiUser {
             @Query("name") String name
     );
 
+
+    @POST("/api/{token}/groups/{groupId}/forums")
+    public retrofit.client.Response  createForum(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Body Forum forum
+    );
+
+
+    @GET("/api/{token}/groups/{groupId}/forums")
+    public List<Forum> getForum(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Query("title") String title
+    );
 
 }

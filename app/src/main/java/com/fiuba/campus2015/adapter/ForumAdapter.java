@@ -55,7 +55,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolderFo
         Forum forumItem = forumItems.get(position);
 
         holder.textViewTitle.setText(forumItem.title);
-        holder.textLastMsg.setText(forumItem.lastMsgDate);
+        holder.textLastMsg.setText(forumItem.message);
 
         holder.viewSeparator.setBackgroundColor(Color.WHITE);
 

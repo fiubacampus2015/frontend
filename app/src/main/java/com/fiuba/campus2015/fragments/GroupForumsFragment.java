@@ -31,6 +31,9 @@ import java.util.List;
 
 import retrofit.RestAdapter;
 
+import static com.fiuba.campus2015.extras.Constants.GROUP;
+import static com.fiuba.campus2015.extras.Constants.USERTO;
+
 public class GroupForumsFragment extends Fragment {
     private View myView;
     private SessionManager session;
@@ -39,22 +42,30 @@ public class GroupForumsFragment extends Fragment {
     private TextView emptyView;
     private ProgressBar prgrsBar;
     private EditText searchText;
+    private String groupId;
+
     private AddForumDialog addForumDialog;
 
     public static GroupForumsFragment newInstance(String groupId) {
         GroupForumsFragment fragment = new GroupForumsFragment();
         Bundle args = new Bundle();
+
+        fragment.setArguments(args);
+        args.putString(GROUP, groupId);
         //put any extra arguments that you may want to supply to this fragment
         fragment.setArguments(args);
         return fragment;
     }
 
+
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.group_forums_fragment, container, false);
+
+        groupId = getArguments().getString(GROUP);
         session = new SessionManager(getActivity().getApplicationContext());
-        addForumDialog = new AddForumDialog(getActivity(), this);
+        addForumDialog = new AddForumDialog(getActivity(), this, groupId);
 
         ImageView buttonSearch = (ImageView) myView.findViewById(R.id.search);
         buttonSearch.setOnClickListener(new View.OnClickListener() {

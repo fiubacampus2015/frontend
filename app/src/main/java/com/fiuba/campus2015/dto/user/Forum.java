@@ -2,11 +2,12 @@ package com.fiuba.campus2015.dto.user;
 
 public class Forum {
     public String _id;
-    public String lastMsgDate;
+    public String message;
     public String title;
-    public String groupid;
+    public String group;
 
-    public Forum(){
+    public Forum(String title, String message){
+
     }
 
     public Forum(String id){

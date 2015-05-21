@@ -14,4 +14,15 @@ public class Response {
     public String surname;
     public Boolean confirmed;
 
+    public Response()
+    {
+
+    }
+    public Response(int status, String reason)
+    {
+        this.status = status;
+        this.reason = reason;
+
+    }
+
 }

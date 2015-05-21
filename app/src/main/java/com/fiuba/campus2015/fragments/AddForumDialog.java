@@ -10,16 +10,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.dto.user.Forum;
+import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.services.RestClient;
+import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
+import com.squareup.otto.Subscribe;
 
 import retrofit.RestAdapter;
 import retrofit.client.Response;
+
+import static com.fiuba.campus2015.extras.Utils.getPhotoString;
 
 public class AddForumDialog extends AlertDialog.Builder {
     private Context context;
@@ -29,10 +38,12 @@ public class AddForumDialog extends AlertDialog.Builder {
     private MaterialEditText forumTitle;
     private SessionManager session;
     private GroupForumsFragment groupforumFragment;
+    private String groupId;
 
-    protected AddForumDialog(FragmentActivity activity, GroupForumsFragment groupforumFragment) {
+    protected AddForumDialog(FragmentActivity activity, GroupForumsFragment groupforumFragment, String groupId) {
         super(activity);
 
+        this.groupId = groupId;
         this.groupforumFragment = groupforumFragment;
         this.context = activity;
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -45,16 +56,21 @@ public class AddForumDialog extends AlertDialog.Builder {
         setView(dialogView);
 
         setListener();
+
         alertDialog = create();
+
+        Application.getEventBus().register(this);
+
     }
 
     public void showDialog() {
         alertDialog.show();
     }
 
-    private boolean validateData(){
 
-        if(isEmpty(forumTitle)) {
+    private boolean validateData() {
+
+        if (isEmpty(forumTitle)) {
             ((MaterialEditText) dialogView.findViewById(R.id.forumTitle)).validateWith(new RegexpValidator("Ingresá un título.", "\\d+"));
             return false;
         }
@@ -70,15 +86,14 @@ public class AddForumDialog extends AlertDialog.Builder {
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if (validateData()){
-                AddForumTask task = new AddForumTask();
-                task.execute();
+                if (validateData()) {
+                    createForum();
+                    //groupforumFragment.update();
+                    alertDialog.dismiss();
+                    reset();
+                } else {
 
-                alertDialog.dismiss();
-                reset();
-            }else{
-
-            }
+                }
             }
         });
 
@@ -89,36 +104,34 @@ public class AddForumDialog extends AlertDialog.Builder {
         forumFirstMsg.setText("");
     }
 
-    private class AddForumTask extends AsyncTask<Void, Void,
-            Response> {
-        RestAdapter restAdapter;
 
-        @Override
-        protected void onPreExecute() {
-            restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(UrlEndpoints.URL_API)
-                    .build();
-        }
 
-        @Override
-        protected Response doInBackground(Void... params) {
+    @Subscribe
+    public void onResponse(com.fiuba.campus2015.services.Response posts) {
 
-            IApiUser api = restAdapter.create(IApiUser.class);
-            Response  response = null;
-            try {
 
-                //TODO: POST api forums
-
-            } catch (Exception x) {}
-
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(Response response) {
-            groupforumFragment.update();
-
-        }
     }
 
+
+    public void createForum() {
+
+
+
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<Response, IApiUser>() {
+            @Override
+            public Response getResult(IApiUser service) {
+                return service.createForum(session.getToken(),groupId,
+                new Forum(forumTitle.getText().toString(),
+                                forumFirstMsg.getText().toString()));
+            }
+        };
+
+        RestClient restClient = new RestClient();
+
+        RestServiceAsync callApi = new RestServiceAsync<Response, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new com.fiuba.campus2015.services.Response());
+
+    }
 }
+
+
