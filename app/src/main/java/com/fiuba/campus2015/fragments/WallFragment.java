@@ -1,19 +1,33 @@
 package com.fiuba.campus2015.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.dexafree.materialList.cards.OnButtonPressListener;
+import com.dexafree.materialList.model.Card;
 import com.fiuba.campus2015.R;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.adapter.MessageAdapter;
+import com.fiuba.campus2015.customcard.VideoCard;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.widgets.ProgressDialog;
@@ -32,6 +46,7 @@ public class WallFragment extends Fragment
     private MaterialListView mListView;
     private MessageAdapter msgAdapter;
     private WriteMsgDialog w_msgDialog;
+    private VideoDialog videoDialog;
     private SessionManager session;
     private ProgressBar prgrsBar;
 
@@ -69,6 +84,7 @@ public class WallFragment extends Fragment
         button_actionAddMeg.setStrokeVisible(false);
 
         w_msgDialog = new WriteMsgDialog(getActivity(), this, getArguments().getString(USERTO));
+        videoDialog = new VideoDialog(getActivity(), this, getArguments().getString(USERTO));
 
         FloatingActionButton button_actionAddPlace = (FloatingActionButton) myView.findViewById(R.id.action_addPlace);
         button_actionAddPlace.setSize(FloatingActionButton.SIZE_MINI);
@@ -93,6 +109,13 @@ public class WallFragment extends Fragment
 
         mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
 
+        button_actionAddPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                videoDialog.showDialog();
+            }
+        });
+
         this.msgAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
         prgrsBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminate_);
         update();
@@ -116,6 +139,21 @@ public class WallFragment extends Fragment
         //mensajes.add(new Message("Otro mensajes pero mas cortito.","Lunes 4 de Mayo", Constants.MsgCardType.text));
 
         return mensajes;
+    }
+
+    public void onRelativePathVideo(int codeRequest, Intent intent) {
+        startActivityForResult(intent, codeRequest);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK) {
+            videoDialog.setUri(data.getData());
+        }
+    }
+
+    // probando video
+    public void addVideoCard(Message msg, Drawable videoPreview, Uri uriVideo) {
+        msgAdapter.setVideoTest(msg, videoPreview, uriVideo);
     }
 
     private class GetWallMsgsTask extends AsyncTask<Void, Void,

@@ -15,10 +15,7 @@ import com.fiuba.campus2015.fragments.MyBoard;
 import com.fiuba.campus2015.navigationdrawer.NavigationDrawerCallbacks;
 import com.fiuba.campus2015.navigationdrawer.NavigationDrawerFragment;
 import com.fiuba.campus2015.session.SessionManager;
-import com.gc.materialdesign.widgets.Dialog;
 import com.gc.materialdesign.widgets.ProgressDialog;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by gonzalovelasco on 29/3/15.

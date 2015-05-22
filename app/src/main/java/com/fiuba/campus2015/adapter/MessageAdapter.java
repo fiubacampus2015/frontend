@@ -1,7 +1,9 @@
 package com.fiuba.campus2015.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ import com.dexafree.materialList.controller.OnDismissCallback;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.customcard.VideoCard;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
@@ -57,7 +60,6 @@ public class MessageAdapter {
     private SessionManager session;
     private WallFragment wallFragment;
 
-
     public MessageAdapter(Context context, MaterialListView materialListView , String userId,WallFragment wallFragment){
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
@@ -66,6 +68,34 @@ public class MessageAdapter {
         this.session = new SessionManager(context.getApplicationContext());
         this.wallFragment = wallFragment;
         setDismissCallback();
+    }
+
+    // probando video
+    public void setVideoTest(Message msg, Drawable videoPreview, final Uri uriVideo) {
+        VideoCard card = new VideoCard(context);
+        card.setTitle(msg.user.name + " " + msg.user.username);
+        card.setDescription("\n" + msg.content);
+        card.setTag("VIDEO_CARD");
+        card.setVideoPreview(videoPreview);
+        card.setDismissible(true);
+
+        card.setOnButtonPressedListenerPreview(new OnButtonPressListener() {
+            @Override
+            public void onButtonPressedListener(View view, Card card) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(uriVideo, "video/*");
+                wallFragment.startActivity(intent);
+            }
+        });
+
+        card.setOnButtonPressedListener(new OnButtonPressListener() {
+            @Override
+            public void onButtonPressedListener(View view, Card card) {
+//                materialListView.remove(card);
+            }
+        });
+
+        materialListView.addAtStart(card);
     }
 
     public void fillArray() {
@@ -261,8 +291,15 @@ public class MessageAdapter {
         OnDismissCallback callback = new OnDismissCallback() {
             @Override
             public void onDismiss(Card card, int i) {
-                OnButtonPressListener button = ((ExtendedCard)card).getOnRightButtonPressedListener();
-                button.onButtonPressedListener(null, null);
+
+                switch(card.getTag().toString()) {
+                    case "BASIC_BUTTONS_CARD":
+                        OnButtonPressListener button = ((ExtendedCard)card).getOnRightButtonPressedListener();
+                        button.onButtonPressedListener(null, null);
+                        break;
+                    case "VIDEO_CARD":
+                        break;
+                }
             }
         };
         materialListView.setOnDismissCallback(callback);
