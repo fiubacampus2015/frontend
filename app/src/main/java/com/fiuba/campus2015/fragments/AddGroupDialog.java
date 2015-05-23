@@ -23,6 +23,7 @@ import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.views.ButtonFlat;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
@@ -148,7 +149,7 @@ public class AddGroupDialog extends AlertDialog.Builder {
     }
 
     private void setListener() {
-        ImageView buttonAccept = (ImageView) dialogView.findViewById(R.id.addGroup);
+        ButtonFlat buttonAccept = (ButtonFlat) dialogView.findViewById(R.id.addGroup);
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +162,15 @@ public class AddGroupDialog extends AlertDialog.Builder {
             }else{
 
             }
+            }
+        });
+
+        ButtonFlat buttonCancel = (ButtonFlat) dialogView.findViewById(R.id.cancelNewGroup);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    alertDialog.dismiss();
+                    reset();
             }
         });
 

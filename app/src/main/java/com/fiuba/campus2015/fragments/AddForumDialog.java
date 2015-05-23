@@ -21,6 +21,7 @@ import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.views.ButtonFlat;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.squareup.otto.Subscribe;
@@ -82,7 +83,7 @@ public class AddForumDialog extends AlertDialog.Builder {
     }
 
     private void setListener() {
-        ImageView buttonAccept = (ImageView) dialogView.findViewById(R.id.addForum);
+        ButtonFlat buttonAccept = (ButtonFlat) dialogView.findViewById(R.id.addForum);
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +95,15 @@ public class AddForumDialog extends AlertDialog.Builder {
                 } else {
 
                 }
+            }
+        });
+
+        ButtonFlat buttonCancel = (ButtonFlat) dialogView.findViewById(R.id.cancelNewForum);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                reset();
             }
         });
 
