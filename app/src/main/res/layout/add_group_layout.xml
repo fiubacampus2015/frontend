@@ -70,30 +70,17 @@
                 android:maxLength="100"
                 app:met_maxCharacters="100"/>
 
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/groupType"
+            android:layout_gravity="center_horizontal"
+            android:spinnerMode="dropdown"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="3dp"
+            android:theme="@style/AppTheme"
+            style="@style/AppTheme" />
 
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/groupType"
-                android:orientation="horizontal"
-                android:layout_marginBottom="7dp"
-                android:layout_marginTop="7dp"
-                android:textColor="@color/black"
-                android:theme="@style/AppTheme">
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Público"
-                    android:id="@+id/publicGroup"
-                    android:checked="false"
-                    android:layout_marginRight="80dp"/>
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Privado"
-                    android:id="@+id/privateGroup"
-                    android:checked="false" />
-            </RadioGroup>
 
         </LinearLayout>
 

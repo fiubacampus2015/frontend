@@ -90,6 +90,13 @@
         <item>Bolivia</item>
     </string-array>
 
+    <!-- GROUP TYPS -->
+    <string-array name="group_types">
+        <item>Público</item>
+        <item>Privado</item>
+        <item>Oculto</item>
+    </string-array>
+
     <!-- MENU -->
     <string-array name="tabs">
         <item>MURO</item>

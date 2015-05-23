@@ -14,8 +14,10 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.fiuba.campus2015.R;
@@ -43,7 +45,7 @@ public class AddGroupDialog extends AlertDialog.Builder {
     private FragmentActivity activity;
     private SessionManager session;
     private GroupFragment groupFragment;
-    private RadioGroup radioGroup;
+    private Spinner groupTypeSpinner;
     private ButtonFloatMaterial buttonImage;
     private Bitmap photoBitmap;
     private final int KB = 1024;
@@ -63,8 +65,6 @@ public class AddGroupDialog extends AlertDialog.Builder {
 
         groupName = (MaterialEditText) dialogView.findViewById(R.id.groupName);
         groupDescription = (MaterialEditText) dialogView.findViewById(R.id.groupDescription);
-        radioGroup = (RadioGroup)dialogView.findViewById(R.id.groupType);
-        radioGroup.check(R.id.publicGroup);
 
         buttonImage = (ButtonFloatMaterial) dialogView.findViewById(R.id.buttonImage);
         buttonImage.setOnClickListener(new View.OnClickListener() {
@@ -75,18 +75,13 @@ public class AddGroupDialog extends AlertDialog.Builder {
         });
         photoGroup = (ImageView) dialogView.findViewById(R.id.idPhoto);
 
+        //Carga del combo desplegable para la nacionalidad
+        groupTypeSpinner = (Spinner)dialogView.findViewById(R.id.groupType);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(dialogView.getContext(),
+                R.array.group_types, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        groupTypeSpinner.setAdapter(adapter);
 
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.publicGroup) {
-                    publicGroup = true;
-                } else if (checkedId == R.id.privateGroup) {
-                    publicGroup = false;
-                }
-            }
-        });
         setView(dialogView);
 
         setListener();
