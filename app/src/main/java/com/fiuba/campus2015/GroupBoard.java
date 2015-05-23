@@ -30,7 +30,7 @@ import static com.fiuba.campus2015.extras.Constants.GROUP;
 
 public class GroupBoard extends ActionBarActivity {
     private Toolbar toolbar;
-    public static final int TAB_PROFILE = 0;
+    public static final int TAB_INFO = 0;
     public static final int TAB_FORUMS = 1;
     public static final int TAB_FILES = 2;
     public static final int TAB_CONTACTS = 3;
@@ -68,11 +68,11 @@ public class GroupBoard extends ActionBarActivity {
             tabHost.addTab(pagerAdapter.getPageTitle(i));
         }
 
-        tabHost.setCurrentTab(TAB_PROFILE);
+        tabHost.setCurrentTab(TAB_INFO);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setCurrentItem(TAB_PROFILE);
+        viewPager.setCurrentItem(TAB_INFO);
         viewPager.setOnPageChangeListener(tabHost);
 
         tabHost.setOnTabChangeListener(new MaterialTabHost.OnTabChangeListener() {
@@ -148,7 +148,7 @@ public class GroupBoard extends ActionBarActivity {
                 case TAB_FORUMS:
                     fragment = GroupForumsFragment.newInstance(group._id);
                     break;
-                case TAB_PROFILE:
+                case TAB_INFO:
                     fragment = GroupProfile.newInstance(group);
                     break;
             }

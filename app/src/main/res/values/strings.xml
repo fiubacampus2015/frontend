@@ -105,7 +105,7 @@
 
     <!-- GROUP -->
     <string-array name="tabs_group_board">
-        <item>PERFIL</item>
+        <item>INFO</item>
         <item>FOROS</item>
         <item>ARCHIVOS</item>
         <item>CONTACTOS</item>
