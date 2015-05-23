@@ -62,11 +62,11 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
         holder.textViewName.setText(groupItem.name);
         holder.text_description_group.setText(groupItem.description);
 
-        holder.viewSeparator.setBackgroundColor(Color.WHITE);
+      //  holder.viewSeparator.setBackgroundColor(Color.WHITE);
 
         if(groupItems.get(0) != groupItem) {
                 // los item que muestran la letra y son distintos al primero muestran la division
-                holder.viewSeparator.setBackgroundColor(Color.parseColor("#ffcfcfcf"));
+              //  holder.viewSeparator.setBackgroundColor(Color.parseColor("#ffcfcfcf"));
             }
 
             Bitmap  icon;
@@ -105,7 +105,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
             super(itemView);
             textViewName = (TextView)itemView.findViewById(R.id.text_name_group);
             imageViewGroup = (ImageView) itemView.findViewById(R.id.image_group);
-            viewSeparator = (View) itemView.findViewById(R.id.separatorGroup);
+            //viewSeparator = (View) itemView.findViewById(R.id.separatorGroup);
             text_description_group = (TextView)itemView.findViewById(R.id.text_description_group);
 
         }
