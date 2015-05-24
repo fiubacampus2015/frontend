@@ -70,35 +70,15 @@ public class WallFragment extends Fragment
         session = new SessionManager(getActivity().getApplicationContext());
 
         FloatingActionButton button_actionAddPhoto = (FloatingActionButton) myView.findViewById(R.id.action_addphoto);
-        button_actionAddPhoto.setSize(FloatingActionButton.SIZE_MINI);
-        button_actionAddPhoto.setColorNormalResId(R.color.accent);
-        button_actionAddPhoto.setColorPressedResId(R.color.black);
-        button_actionAddPhoto.setIcon(R.drawable.ic_camera_grey600_48dp);
-        button_actionAddPhoto.setStrokeVisible(false);
-
         final FloatingActionButton button_actionAddMeg = (FloatingActionButton) myView.findViewById(R.id.action_write);
-        button_actionAddMeg.setSize(FloatingActionButton.SIZE_MINI);
-        button_actionAddMeg.setColorNormalResId(R.color.accent);
-        button_actionAddMeg.setColorPressedResId(R.color.black);
-        button_actionAddMeg.setIcon(R.drawable.ic_rate_review_grey600_36dp);
-        button_actionAddMeg.setStrokeVisible(false);
+
 
         w_msgDialog = new WriteMsgDialog(getActivity(), this, getArguments().getString(USERTO));
         videoDialog = new VideoDialog(getActivity(), this, getArguments().getString(USERTO));
 
         FloatingActionButton button_actionAddPlace = (FloatingActionButton) myView.findViewById(R.id.action_addPlace);
-        button_actionAddPlace.setSize(FloatingActionButton.SIZE_MINI);
-        button_actionAddPlace.setColorNormalResId(R.color.accent);
-        button_actionAddPlace.setColorPressedResId(R.color.black);
-        button_actionAddPlace.setIcon(R.drawable.ic_film_grey);
-        button_actionAddPlace.setStrokeVisible(false);
-
         FloatingActionButton button_actionAddVideo = (FloatingActionButton) myView.findViewById(R.id.action_addVideo);
-        button_actionAddVideo.setSize(FloatingActionButton.SIZE_MINI);
-        button_actionAddVideo.setColorNormalResId(R.color.accent);
-        button_actionAddVideo.setColorPressedResId(R.color.black);
-        button_actionAddVideo.setIcon(R.drawable.ic_location_on_grey600_18dp);
-        button_actionAddVideo.setStrokeVisible(false);
+
 
         button_actionAddMeg.setOnClickListener(new View.OnClickListener() {
             @Override

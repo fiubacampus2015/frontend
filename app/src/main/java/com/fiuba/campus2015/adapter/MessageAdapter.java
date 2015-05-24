@@ -70,6 +70,15 @@ public class MessageAdapter {
         setDismissCallback();
     }
 
+    public MessageAdapter(Context context, MaterialListView materialListView , String userId){
+        layoutInflater = LayoutInflater.from(context);
+        this.context = context;
+        this.materialListView = materialListView;
+        this.userId = userId;
+        this.session = new SessionManager(context.getApplicationContext());
+        setDismissCallback();
+    }
+
     // probando video
     public void setVideoTest(Message msg, Drawable videoPreview, final Uri uriVideo) {
         VideoCard card = new VideoCard(context);
@@ -108,6 +117,12 @@ public class MessageAdapter {
 
     public void setData(List<Message> msgs) {
         this.messageItems = msgs;
+    }
+
+    public void addMessage(Message msgs) {
+        this.messageItems.add(msgs);
+        Card card = getRandomCard(msgs);
+        materialListView.add(card);
     }
 
     private Card getRandomCard(Message msg) {

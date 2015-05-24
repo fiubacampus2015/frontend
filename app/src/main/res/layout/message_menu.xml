@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/wall_actions"
+        android:layout_width="wrap_content"
+        android:layout_height="417dp"
+        fab:fab_addButtonColorNormal="@color/accent"
+        fab:fab_addButtonColorPressed="@color/accent"
+        fab:fab_addButtonPlusIconColor="#616161"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="right">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_addPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/ic_location_on_grey600_18dp"
+            fab:fab_title="Checkin"
+            fab:fab_colorNormal="@color/accent"
+            fab:fab_size="mini"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_addphoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/ic_camera_grey600_48dp"
+            fab:fab_colorNormal="@color/accent"
+            fab:fab_size="mini"
+            fab:fab_title="Foto"
+            fab:fab_colorPressed="@color/black"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_addVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_title="Video"
+            fab:fab_icon="@drawable/ic_film_grey"
+            fab:fab_colorNormal="@color/accent"
+            fab:fab_size="mini"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/ic_rate_review_grey600_36dp"
+            fab:fab_title="Mensaje"
+            fab:fab_colorNormal="@color/accent"
+            fab:fab_size="mini"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+</RelativeLayout>
