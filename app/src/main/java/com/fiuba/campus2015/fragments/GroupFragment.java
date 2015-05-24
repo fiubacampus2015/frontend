@@ -89,7 +89,7 @@ public class GroupFragment extends Fragment {
         recyclerView.setAdapter(groupAdapter);
 
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(getActivity(), recyclerView,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Group group = groupAdapter.getGroup(position);
                         Intent intent;

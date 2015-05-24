@@ -145,6 +145,22 @@ public interface IApiUser {
             @Body Group group
     );
 
+    //GRUPOS
+    @PUT("/api/{token}/groups/{groupId}")
+    public retrofit.client.Response editGroup(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Body Group group
+    );
+
+
+    @POST("/api/{token}/groups/delete")
+    public retrofit.client.Response deleteGroup(
+            @Path("token") String token,
+            @Body Group group
+    );
+
+
     @GET("/api/{token}/groups")
     public List<Group> getGroup(
             @Path("token") String token,
@@ -166,5 +182,23 @@ public interface IApiUser {
             @Path("groupId") String groupId,
             @Query("title") String title
     );
+
+
+
+    @GET("/api/{token}/groups/{groupId}/forums/{forumId}/messages")
+    public List<Message> getForumMessages(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Path("forumId") String forumId
+            );
+
+    @POST("/api/{token}/groups/{groupId}/forums/{forumId}/messages")
+    public retrofit.client.Response postMsgToForum(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Path("forumId") String forumId,
+            @Body Message message
+    );
+
 
 }

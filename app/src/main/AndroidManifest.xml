@@ -61,6 +61,10 @@
             android:name=".GroupBoard"
             android:label="@string/app_group">
         </activity>
+        <activity
+            android:name=".ForumMessage"
+            android:label="@string/app_group">
+        </activity>
     </application>
 
 
