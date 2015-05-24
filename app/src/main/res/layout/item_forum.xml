@@ -25,11 +25,11 @@
     android:paddingTop="5dp"
     android:paddingBottom="5dp">
 
-    <com.fiuba.campus2015.extras.RoundedImageView
+    <ImageView
         android:id="@+id/image_forum"
         android:layout_marginLeft="10dp"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/ic_forum"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp" />

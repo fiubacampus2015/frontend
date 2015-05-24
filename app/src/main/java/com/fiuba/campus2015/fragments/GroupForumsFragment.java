@@ -1,5 +1,7 @@
 package com.fiuba.campus2015.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.fiuba.campus2015.ForumMessage;
+import com.fiuba.campus2015.ProfileReduced;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.ForumAdapter;
 import com.fiuba.campus2015.dto.user.Forum;
@@ -25,12 +29,14 @@ import com.fiuba.campus2015.services.Response;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.widgets.Dialog;
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.fiuba.campus2015.extras.Constants.GROUP;
+import static com.fiuba.campus2015.extras.Constants.FORUM;
 
 public class GroupForumsFragment extends Fragment {
     private View myView;
@@ -94,10 +100,20 @@ public class GroupForumsFragment extends Fragment {
         recyclerView.setAdapter(forumAdapter);
 
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(getActivity(),recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Forum forum = forumAdapter.getForum(position);
                         Intent intent;
+                        intent = new Intent(getActivity(), ForumMessage.class);
+                        intent.putExtra(FORUM, new Gson().toJson(forum));
+                        intent.putExtra(GROUP,groupId);
+                        startActivity(intent);
+                    }
+
+                    @Override public void onItemLongClick(View view, int position) {
+                        Forum forum = forumAdapter.getForum(position);
+                        optionsForum(forum._id);
+
                     }
                 })
         );
@@ -125,6 +141,31 @@ public class GroupForumsFragment extends Fragment {
         update();
 
         return myView;
+    }
+
+
+    private void optionsForum(String idForum)
+    {
+        CharSequence opciones[] = new CharSequence[] {"Eliminar foro"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Opciones del foro");
+        builder.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Dialog dialog2 = new Dialog(getActivity(),null, "Estás seguro que desea eliminar foro?");
+                dialog2.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+                dialog2.addCancelButton("Cancelar");
+                dialog2.show();
+                dialog2.getButtonAccept().setText("Aceptar");
+            }
+        });
+        builder.show();
     }
 
     public void update() {
