@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.model.Card;
+import com.fiuba.campus2015.Map;
+import com.fiuba.campus2015.ProfileFriend;
 import com.fiuba.campus2015.R;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.adapter.MessageAdapter;
@@ -89,10 +91,18 @@ public class WallFragment extends Fragment
 
         mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
 
-        button_actionAddPlace.setOnClickListener(new View.OnClickListener() {
+        button_actionAddVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 videoDialog.showDialog();
+            }
+        });
+
+        button_actionAddPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), Map.class);
+                startActivity(intent);
             }
         });
 

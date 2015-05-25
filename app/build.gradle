@@ -55,5 +55,6 @@ dependencies {
     compile 'net.yanzm:mth:1.0.1'
     //Set this dependency for datetimepickers
     compile 'com.wdullaer:materialdatetimepicker:1.2.2'
+    compile 'com.google.android.gms:play-services:6.5.87'
 
 }

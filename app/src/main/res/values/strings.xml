@@ -11,6 +11,10 @@
 
     <string name="drawer_open">Open</string>
 
+
+
+    <string name="google_maps_key" templateMergeStrategy="preserve">AIzaSyB13QN96wJDXIp6iRjmyAPh5LInUP7H5mU</string>
+
     <string name="app_edit_profile">Editar Perfil</string>
     <string name="app_profile">Perfil</string>
     <string name="app_group">Grupo</string>
