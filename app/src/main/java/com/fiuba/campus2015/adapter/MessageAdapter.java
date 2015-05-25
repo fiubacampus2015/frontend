@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import android.widget.Toast;
 
@@ -20,37 +20,20 @@ import com.dexafree.materialList.cards.ExtendedCard;
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
 import com.dexafree.materialList.cards.SmallImageCard;
-import com.dexafree.materialList.cards.WelcomeCard;
 import com.dexafree.materialList.controller.OnDismissCallback;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.customcard.TextCard;
+import com.fiuba.campus2015.customcard.LinkCard;
 import com.fiuba.campus2015.customcard.VideoCard;
 import com.fiuba.campus2015.dto.user.Message;
-import com.fiuba.campus2015.extras.Constants;
-import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.fragments.WallFragment;
-import com.fiuba.campus2015.services.IApiUser;
-import com.fiuba.campus2015.services.Response;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
-import com.gc.materialdesign.views.CheckBox;
 import com.gc.materialdesign.widgets.ProgressDialog;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-
-import retrofit.RestAdapter;
-
-import static com.fiuba.campus2015.extras.Constants.FECHAINGRESO;
-import static com.fiuba.campus2015.extras.Constants.FECHAINGRESOEMPLEO;
-import static com.fiuba.campus2015.extras.Constants.USERTO;
-import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 
 public class MessageAdapter {
     private LayoutInflater layoutInflater;
@@ -223,28 +206,7 @@ public class MessageAdapter {
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("TEXT_CARD");
-                /*
-                ((BasicButtonsCard) card).setLeftButtonText("");
-                ((BasicButtonsCard) card).setRightButtonText("Borrar");
-                ((BasicButtonsCard) card).setRightButtonTextColorRes(R.color.accent_material_dark);
 
-                if (position % 2 == 0)
-                    ((BasicButtonsCard) card).setDividerVisible(true);
-
-                ((BasicButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
-                    @Override
-                    public void onButtonPressedListener(View view, Card card) {
-                        Toast.makeText(context, "You have pressed the left button", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                ((BasicButtonsCard) card).setOnRightButtonPressedListener(new OnButtonPressListener() {
-                    @Override
-                    public void onButtonPressedListener(View view, Card card) {
-                        deleteCard(idMessage);
-                    }
-                });
-                */
                 ((TextCard)card).setOnButtonPressedListener(new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
@@ -253,6 +215,23 @@ public class MessageAdapter {
                 });
 
                 card.setDismissible(true);
+                return card;
+
+            case link:
+                card = new LinkCard(this.context);
+                card.setDescription(description);
+                card.setTitle(title);
+                card.setTag("LINK_CARD");
+                card.setDismissible(true);
+
+
+                ((LinkCard)card).setOnButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        deleteCard(idMessage);
+                    }
+                });
+
                 return card;
 
           /*  case place:
@@ -322,6 +301,10 @@ public class MessageAdapter {
                         button.onButtonPressedListener(null, null);
                         break;
                     case "VIDEO_CARD":
+                        break;
+                    case "LINK_CARD":
+                        OnButtonPressListener button2 = ((LinkCard)card).getOnButtonPressedListener();
+                        button2.onButtonPressedListener(null, null);
                         break;
                 }
             }

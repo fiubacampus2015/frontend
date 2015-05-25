@@ -58,7 +58,7 @@ public class GroupProfile extends Fragment {
     private void load(View view) {
 
         BigImageCard personalCard = new BigImageCard(view.getContext());
-        personalCard.setDescription(getArguments().getString(NAME));
+        personalCard.setDescription(getArguments().getString(NAME) + "\n" + getArguments().getString(DESCRIPCIONGRUPO));
         personalCard.setTag("BIG_IMAGE_CARD");
 
         if (getArguments().getString(PHOTO) != null && !getArguments().getString(PHOTO).isEmpty()) {

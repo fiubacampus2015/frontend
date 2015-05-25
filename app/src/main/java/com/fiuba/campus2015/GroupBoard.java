@@ -14,9 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fiuba.campus2015.dto.user.Group;
-import com.fiuba.campus2015.fragments.CompleteProfile;
-import com.fiuba.campus2015.fragments.ContactFragment;
-import com.fiuba.campus2015.fragments.ContactFragment;
+import com.fiuba.campus2015.fragments.GroupContactFragment;
 import com.fiuba.campus2015.fragments.GroupFilesFragment;
 import com.fiuba.campus2015.fragments.GroupForumsFragment;
 import com.fiuba.campus2015.fragments.GroupProfile;
@@ -140,7 +138,7 @@ public class GroupBoard extends ActionBarActivity {
             Fragment fragment = null;
             switch (position) {
               case TAB_CONTACTS:
-                    fragment = GroupForumsFragment.newInstance("");
+                    fragment = GroupContactFragment.newInstance("","");
                     break;
                 case TAB_FILES:
                     fragment = GroupFilesFragment.newInstance(group._id);

@@ -27,7 +27,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/sendMsg"
+            android:id="@+id/addLink"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:src="@drawable/ic_send_msg" />
@@ -37,7 +37,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="150dp"
         android:padding="10dp">
 
         <LinearLayout
@@ -50,12 +50,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/msgContent"
-                android:hint="Escribí algo..."
+                android:hint="http:\\"
                 app:met_primaryColor="@color/accent"
                 app:met_floatingLabel="normal"
-                android:layout_gravity="left"
-                android:maxLength="300"
-                app:met_maxCharacters="300"/>
+                android:layout_gravity="left"/>
         </LinearLayout>
     </LinearLayout>
 

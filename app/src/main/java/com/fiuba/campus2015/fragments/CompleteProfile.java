@@ -119,7 +119,7 @@ public class CompleteProfile extends Fragment {
             careerCard.setDescription(myCareer + "\n" + getArguments().getString(ORIENTATION) + "\n" + Utils.getBirthdayFormatted(getArguments().getString(FECHAINGRESO)));
             careerCard.setTitle("Educación");
             careerCard.setDrawable(R.drawable.ic_school_grey600_18dp);
-            careerCard.setDismissible(true);
+            careerCard.setDismissible(false);
             careerCard.setTag("SMALL_IMAGE_CARD");
 
             profileInformation.add(careerCard);

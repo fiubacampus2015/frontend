@@ -7,6 +7,9 @@ public class Group {
     public String description;
     public String photo;
     public User owner;
+    public Integer totalMsgs;
+    public Integer totalContacts;
+    public Integer totalFiles;
 
     public Group(User user, String name, String description, String photo){
         this.owner = user;

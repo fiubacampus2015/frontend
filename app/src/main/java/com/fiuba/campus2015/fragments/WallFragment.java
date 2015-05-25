@@ -49,6 +49,7 @@ public class WallFragment extends Fragment
     private MessageAdapter msgAdapter;
     private WriteMsgDialog w_msgDialog;
     private VideoDialog videoDialog;
+    private PostLinkDialog linkDialog;
     private SessionManager session;
     private ProgressBar prgrsBar;
 
@@ -73,10 +74,12 @@ public class WallFragment extends Fragment
 
         FloatingActionButton button_actionAddPhoto = (FloatingActionButton) myView.findViewById(R.id.action_addphoto);
         final FloatingActionButton button_actionAddMeg = (FloatingActionButton) myView.findViewById(R.id.action_write);
+        final FloatingActionButton button_actionAddLink = (FloatingActionButton) myView.findViewById(R.id.action_link);
 
 
         w_msgDialog = new WriteMsgDialog(getActivity(), this, getArguments().getString(USERTO));
         videoDialog = new VideoDialog(getActivity(), this, getArguments().getString(USERTO));
+        linkDialog = new PostLinkDialog(getActivity(), this, getArguments().getString(USERTO));
 
         FloatingActionButton button_actionAddPlace = (FloatingActionButton) myView.findViewById(R.id.action_addPlace);
         FloatingActionButton button_actionAddVideo = (FloatingActionButton) myView.findViewById(R.id.action_addVideo);
@@ -90,6 +93,13 @@ public class WallFragment extends Fragment
         });
 
         mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
+
+        button_actionAddLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linkDialog.showDialog();
+            }
+        });
 
         button_actionAddVideo.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,16 +22,12 @@ import com.fiuba.campus2015.adapter.GroupAdapter;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
-import com.fiuba.campus2015.extras.UrlEndpoints;
-import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit.RestAdapter;
 
 import static com.fiuba.campus2015.extras.Constants.GROUP;
 
@@ -46,7 +41,7 @@ public class GroupFragment extends Fragment {
     private EditText searchText;
     private AddGroupDialog addGroupDialog;
 
-    public static GroupFragment newInstance(String param1, String param2) {
+    public static GroupFragment newInstance(String string1, String string2) {
         GroupFragment fragment = new GroupFragment();
         Bundle args = new Bundle();
         //put any extra arguments that you may want to supply to this fragment
@@ -57,6 +52,7 @@ public class GroupFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         myView = inflater.inflate(R.layout.group_fragment, container, false);
         session = new SessionManager(getActivity().getApplicationContext());
         addGroupDialog = new AddGroupDialog(getActivity(), this);
@@ -83,7 +79,6 @@ public class GroupFragment extends Fragment {
 
         recyclerView = (RecyclerView) myView.findViewById(R.id.listViewGroups);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-
 
         groupAdapter = new GroupAdapter(getActivity());
         recyclerView.setAdapter(groupAdapter);
@@ -153,7 +148,7 @@ public class GroupFragment extends Fragment {
     }
 
     public void searchClear(View view) {
-        emptyView.setVisibility(View.INVISIBLE);
+        emptyView.setVisibility(view.INVISIBLE);
         searchText.setText("");
         search();
     }
