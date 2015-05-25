@@ -1,7 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/statelist_item_background"
+    android:clickable="true"
     android:weightSum="1">
 
     <View
@@ -19,7 +21,6 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:baselineAligned="false"
-    android:background="#ffffffff"
     android:weightSum="1"
     android:layout_weight="0.03"
     android:paddingTop="5dp"
@@ -67,4 +68,4 @@
 
 </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -51,11 +51,7 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
         {
             ImageView imageAvatar = (ImageView)findViewById(R.id.imgAvatar);
             imageAvatar.setImageBitmap(Utils.getPhoto(photo));
-        }else
-        {
-
         }
-
 
 
         drawerFragment = (NavigationDrawerFragment)getFragmentManager().findFragmentById(R.id.fragment_drawer);
