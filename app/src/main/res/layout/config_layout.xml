@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/middlelayout"
+        android:id="@+id/ubicacionContacto"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
 
@@ -19,20 +19,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Desactivar cuenta"
-            android:id="@+id/desactivarcuenta_label"
+            android:text="Mostrar mi ubicación"
+            android:id="@+id/ubicacion_label"
             android:textSize="15dp"
             android:textColor="@color/primary_dark_material_light"
             android:textStyle="bold"
             android:layout_marginTop="20dp"/>
 
         <com.gc.materialdesign.views.Switch
-            android:id="@+id/switchDesactivarCuenta"
+            android:id="@+id/switchUbicacionContacto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/accent"
             android:layout_marginTop="8dp"
             materialdesign:check="false"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/middlelayout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="20dp">
+
+        <Button
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Desactivar cuenta"
+            style="@android:style/TextAppearance.Medium"
+            android:background="@color/black"
+            android:id="@+id/desactivarCuenta"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 

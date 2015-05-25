@@ -9,17 +9,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.views.Switch;
 import com.gc.materialdesign.widgets.Dialog;
+import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 public class Configuration extends ActionBarActivity {
 
     private Toolbar toolbar;
-    private Switch deactivatedAccount;
+    private Button deactivatedAccount;
+    private Switch ubicacionActual;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -29,29 +33,64 @@ public class Configuration extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
-        deactivatedAccount = (Switch) findViewById(R.id.switchDesactivarCuenta);
-        deactivatedAccount.setOncheckListener(new Switch.OnCheckListener() {
+        deactivatedAccount = (Button) findViewById(R.id.desactivarCuenta);
+        deactivatedAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Dialog dialog = new Dialog(Configuration.this, "Desactivar Cuenta", "¿ Realmente querés desactivar tu cuenta?");
+                dialog.addCancelButton("No");
+
+                dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        System.out.println("Aceptar");
+                        //TODO: abrir ventanita para mostrar que la app está procesando
+                        //TODO: cerrar sesion y postear el borrado de la cuenta
+
+                    }
+                });
+                dialog.show();
+
+                ButtonFlat acceptButton = (ButtonFlat) dialog.findViewById(R.id.button_accept);
+                acceptButton.setText("Si");
+
+            }
+        });
+
+        ubicacionActual = (Switch) findViewById(R.id.switchUbicacionContacto);
+        ubicacionActual.setOncheckListener(new Switch.OnCheckListener() {
             @Override
             public void onCheck(boolean b) {
+
                 if (b) {
 
-                    Dialog dialog = new Dialog(Configuration.this,"Desactivar Cuenta", "¿ Realmente querés desactivar tu cuenta?");
+                    Dialog dialog = new Dialog(Configuration.this,"Ubicación Actual", "Activaste tu ubicación actual. Así, el resto de tus contactos puede verla. ¿ Estás seguro?");
                     dialog.addCancelButton("No");
 
                     dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            System.out.println("Aceptar");
-                            //TODO: abrir ventanita para mostrar que la app está procesando
-                            //TODO: cerrar sesion y postear el borrado de la cuenta
-
+                            System.out.println("Si");
+                            //TODO: servicio de ubicacion actual
+                            ubicacionActual.setChecked(true);
                         }
                     });
+
+                    dialog.setOnCancelButtonClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ubicacionActual.setChecked(false);
+                        }
+                    });
+
                     dialog.show();
 
                     ButtonFlat acceptButton = (ButtonFlat) dialog.findViewById(R.id.button_accept);
                     acceptButton.setText("Si");
 
+                } else {
+                    ubicacionActual.setChecked(false);
                 }
             }
         });
@@ -63,7 +102,7 @@ public class Configuration extends ActionBarActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem itemSubmit = menu.findItem(R.id.action_submit);
-        itemSubmit.setVisible(true);
+        itemSubmit.setVisible(false);
         MenuItem itemSearch = menu.findItem(R.id.action_edit);
         itemSearch.setVisible(false);
         return super.onPrepareOptionsMenu(menu);
@@ -77,14 +116,5 @@ public class Configuration extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_submit:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
 }
