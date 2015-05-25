@@ -134,7 +134,7 @@ public class ForumMessage  extends ActionBarActivity {
         //Desuscripcion a los eventos que devuelve el cliente que llama la api
         Application.getEventBus().unregister(this);
     }
-    
+
 
     //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
     @Subscribe

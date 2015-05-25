@@ -92,6 +92,7 @@ public class WriteForumMsgDialog extends AlertDialog.Builder {
 
     @Subscribe
     public void onResponseClient(retrofit.client.Response response) {
+        Application.getEventBus().unregister(this);
         reset();
         this.context.getMessages();
         alertDialog.dismiss();
