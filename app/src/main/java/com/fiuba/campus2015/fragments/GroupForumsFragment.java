@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.campus2015.ForumMessage;
 import com.fiuba.campus2015.ProfileReduced;
@@ -195,7 +196,7 @@ public class GroupForumsFragment extends Fragment {
     //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
     @Subscribe
     public void onResponse(Response responseError) {
-        //TODO Mostrar errores en caso de error del request
+        Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del foro." + responseError.reason, Toast.LENGTH_SHORT).show();
         prgrsBar.setVisibility(View.GONE);
 
     }

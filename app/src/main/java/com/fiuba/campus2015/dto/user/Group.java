@@ -1,5 +1,7 @@
 package com.fiuba.campus2015.dto.user;
 
+import java.util.List;
+
 public class Group {
     public String _id;
     public String date;
@@ -7,6 +9,7 @@ public class Group {
     public String description;
     public String photo;
     public User owner;
+    public List<Action> actions;
     public Integer totalMsgs;
     public Integer totalContacts;
     public Integer totalFiles;

@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.dto.user.Message;
+import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
@@ -132,7 +134,7 @@ public class AddForumDialog extends AlertDialog.Builder {
             public Response getResult(IApiUser service) {
                 return service.createForum(session.getToken(),groupId,
                 new Forum(forumTitle.getText().toString(),
-                                forumFirstMsg.getText().toString()));
+                        new Message(forumFirstMsg.getText().toString(), Constants.MsgCardType.text)));
             }
         };
 
