@@ -35,6 +35,10 @@ public class User implements Comparable <User> {
         this.job = job;
     }
 
+    public User(String id){
+        this._id = id;
+    }
+
     @Override
     public int compareTo(User another) {
         char title = Character.toUpperCase(name.charAt(0));

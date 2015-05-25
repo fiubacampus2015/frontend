@@ -6,9 +6,9 @@ public class Group {
     public String name;
     public String description;
     public String photo;
-    public String owner;
+    public User owner;
 
-    public Group(String user, String name, String description, String photo){
+    public Group(User user, String name, String description, String photo){
         this.owner = user;
         this.name = name;
         this.description = description;

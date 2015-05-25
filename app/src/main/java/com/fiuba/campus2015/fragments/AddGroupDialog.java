@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
@@ -203,7 +204,7 @@ public class AddGroupDialog extends AlertDialog.Builder {
             try {
 
                 response = restClient.getApiService().createGroup(session.getToken(),
-                        new Group(session.getUserid(),groupName.getText().toString(),
+                        new Group(new User(session.getUserid()),groupName.getText().toString(),
                                 groupDescription.getText().toString(),getPhotoString(photoBitmap)));
 
             } catch (Exception x) {}
