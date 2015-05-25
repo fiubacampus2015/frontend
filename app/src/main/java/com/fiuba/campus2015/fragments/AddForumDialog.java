@@ -73,11 +73,17 @@ public class AddForumDialog extends AlertDialog.Builder {
 
     private boolean validateData() {
 
+        boolean isValid = true;
         if (isEmpty(forumTitle)) {
             ((MaterialEditText) dialogView.findViewById(R.id.forumTitle)).validateWith(new RegexpValidator("Ingresá un título.", "\\d+"));
-            return false;
+            isValid=false;
         }
-        return true;
+
+        if (isEmpty(forumFirstMsg)) {
+            ((MaterialEditText) dialogView.findViewById(R.id.forumFirstMsg)).validateWith(new RegexpValidator("Ingresá el primer mensaje.", "\\d+"));
+            isValid =false;
+        }
+        return isValid;
     }
 
     private boolean isEmpty(TextView textview) {
