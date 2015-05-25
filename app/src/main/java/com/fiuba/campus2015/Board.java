@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.fragments.MyBoard;
 import com.fiuba.campus2015.navigationdrawer.NavigationDrawerCallbacks;
 import com.fiuba.campus2015.navigationdrawer.NavigationDrawerFragment;
@@ -48,8 +50,10 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
         if (!photo.isEmpty())
         {
             ImageView imageAvatar = (ImageView)findViewById(R.id.imgAvatar);
-            byte[] decodedString = Base64.decode(photo, Base64.DEFAULT);
-            imageAvatar.setImageBitmap(BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length));
+            imageAvatar.setImageBitmap(Utils.getPhoto(photo));
+        }else
+        {
+
         }
 
 

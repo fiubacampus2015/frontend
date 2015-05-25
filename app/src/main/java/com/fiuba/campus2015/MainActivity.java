@@ -167,7 +167,7 @@ public class MainActivity extends ActionBarActivity {
                 if (response.token != null && response.confirmed) {
 
                     String user  =  ((EditText)findViewById(R.id.textuser)).getText().toString();
-                    session.createLoginSession(user, response.token, response.id, response.name, response.surname,"");
+                    session.createLoginSession(user, response.token, response.id, response.name, response.surname,response.photo);
 
                     Intent intent = new Intent(MainActivity.this, Board.class);
                     startActivity(intent);
