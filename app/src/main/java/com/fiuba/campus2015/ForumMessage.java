@@ -60,9 +60,6 @@ public class ForumMessage  extends ActionBarActivity {
 
         FloatingActionButton button_actionAddMeg = (FloatingActionButton) findViewById(R.id.action_write);
 
-
-
-
         prgrsBar = (ProgressBar) findViewById(R.id.progressBarCircularIndeterminate_);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -122,7 +119,6 @@ public class ForumMessage  extends ActionBarActivity {
     public void getMessages() {
         prgrsBar.setVisibility(View.VISIBLE);
         //Suscripcion a los eventos que devuelve el cliente que llama la api
-        Application.getEventBus().register(this);
         callApiMessages();
     }
 
@@ -138,6 +134,7 @@ public class ForumMessage  extends ActionBarActivity {
         //Desuscripcion a los eventos que devuelve el cliente que llama la api
         Application.getEventBus().unregister(this);
     }
+    
 
     //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
     @Subscribe
@@ -150,6 +147,8 @@ public class ForumMessage  extends ActionBarActivity {
 
     public void callApiMessages()
     {
+        Application.getEventBus().register(this);
+
         //Se crea la llamada al servicio
         RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<List<Message>, IApiUser>() {
             @Override

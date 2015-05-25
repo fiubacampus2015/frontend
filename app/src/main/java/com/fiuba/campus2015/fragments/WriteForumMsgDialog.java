@@ -75,11 +75,8 @@ public class WriteForumMsgDialog extends AlertDialog.Builder {
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Application.getEventBus().register(this);
                 postMessage();
-                context.getMessages();
-                reset();
-                alertDialog.dismiss();
+                //alertDialog.dismiss();
             }
         });
 
@@ -93,22 +90,31 @@ public class WriteForumMsgDialog extends AlertDialog.Builder {
 
     }
 
+    @Subscribe
+    public void onResponseClient(retrofit.client.Response response) {
+        reset();
+        this.context.getMessages();
+        alertDialog.dismiss();
+    }
+
+
     public void reset() {
         msgContent.setText("");
     }
 
     public void postMessage() {
+        Application.getEventBus().register(this);
 
-        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<Message, IApiUser>() {
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<Response, IApiUser>() {
             @Override
-            public Message getResult(IApiUser service) {
+            public Response getResult(IApiUser service) {
                 return service.postMsgToForum(session.getToken(), groupId, forumId, new Message(msgContent.getText().toString(), Constants.MsgCardType.text));
             }
         };
 
         RestClient restClient = new RestClient();
 
-        RestServiceAsync callApi = new RestServiceAsync<Message, IApiUser>();
+        RestServiceAsync callApi = new RestServiceAsync<Response, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new com.fiuba.campus2015.services.Response());
 
     }

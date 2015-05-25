@@ -198,7 +198,7 @@ public interface IApiUser {
             );
 
     @POST("/api/{token}/groups/{groupId}/forums/{forumId}/messages")
-    public Message postMsgToForum(
+    public retrofit.client.Response postMsgToForum(
             @Path("token") String token,
             @Path("groupId") String groupId,
             @Path("forumId") String forumId,
