@@ -25,6 +25,7 @@ import com.dexafree.materialList.controller.OnDismissCallback;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.customcard.TextCard;
 import com.fiuba.campus2015.customcard.VideoCard;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.Constants;
@@ -217,10 +218,12 @@ public class MessageAdapter {
                 return card;
 
             case text:
-                card = new BasicButtonsCard(this.context);
+                card = new TextCard(this.context);
+                //card = new BasicButtonsCard(this.context);
                 card.setDescription(description);
                 card.setTitle(title);
-                card.setTag("BASIC_BUTTONS_CARD");
+                card.setTag("TEXT_CARD");
+                /*
                 ((BasicButtonsCard) card).setLeftButtonText("");
                 ((BasicButtonsCard) card).setRightButtonText("Borrar");
                 ((BasicButtonsCard) card).setRightButtonTextColorRes(R.color.accent_material_dark);
@@ -241,9 +244,15 @@ public class MessageAdapter {
                         deleteCard(idMessage);
                     }
                 });
+                */
+                ((TextCard)card).setOnButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        deleteCard(idMessage);
+                    }
+                });
+
                 card.setDismissible(true);
-
-
                 return card;
 
           /*  case place:
@@ -308,8 +317,8 @@ public class MessageAdapter {
             public void onDismiss(Card card, int i) {
 
                 switch(card.getTag().toString()) {
-                    case "BASIC_BUTTONS_CARD":
-                        OnButtonPressListener button = ((ExtendedCard)card).getOnRightButtonPressedListener();
+                    case "TEXT_CARD":
+                        OnButtonPressListener button = ((TextCard)card).getOnButtonPressedListener();
                         button.onButtonPressedListener(null, null);
                         break;
                     case "VIDEO_CARD":
