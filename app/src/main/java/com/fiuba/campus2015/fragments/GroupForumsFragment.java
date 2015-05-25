@@ -144,7 +144,7 @@ public class GroupForumsFragment extends Fragment {
     }
 
 
-    private void optionsForum(String idForum)
+    private void optionsForum(final String idForum)
     {
         CharSequence opciones[] = new CharSequence[] {"Eliminar foro"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -157,7 +157,9 @@ public class GroupForumsFragment extends Fragment {
                 dialog2.setOnAcceptButtonClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Application.getEventBus().register(this);
+                        deleteForum(idForum);
+                        update();
                     }
                 });
                 dialog2.addCancelButton("Cancelar");
@@ -212,6 +214,23 @@ public class GroupForumsFragment extends Fragment {
         //Se llama a la api
         RestClient restClient = new RestClient();
         RestServiceAsync callApi = new RestServiceAsync<List<Forum>, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new Response());
+    }
+
+
+    public void deleteForum(final String forumId)
+    {
+        //Se crea la llamada al servicio
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<retrofit.client.Response, IApiUser>() {
+            @Override
+            public retrofit.client.Response getResult(IApiUser service) {
+                return service.deleteForum(session.getToken(), groupId, new Forum(forumId));
+            }
+        };
+
+        //Se llama a la api
+        RestClient restClient = new RestClient();
+        RestServiceAsync callApi = new RestServiceAsync<retrofit.client.Response, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new Response());
     }
 }

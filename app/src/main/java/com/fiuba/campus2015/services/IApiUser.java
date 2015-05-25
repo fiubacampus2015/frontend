@@ -183,7 +183,12 @@ public interface IApiUser {
             @Query("title") String title
     );
 
-
+    @POST("/api/{token}/groups/{groupId}/forums/delete")
+    public retrofit.client.Response  deleteForum(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Body Forum forum
+    );
 
     @GET("/api/{token}/groups/{groupId}/forums/{forumId}/messages")
     public List<Message> getForumMessages(
@@ -193,7 +198,7 @@ public interface IApiUser {
             );
 
     @POST("/api/{token}/groups/{groupId}/forums/{forumId}/messages")
-    public retrofit.client.Response postMsgToForum(
+    public Message postMsgToForum(
             @Path("token") String token,
             @Path("groupId") String groupId,
             @Path("forumId") String forumId,

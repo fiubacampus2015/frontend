@@ -71,7 +71,8 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolderFo
         return forumItems.size();
     }
 
-    public Forum getForum(int position) {
+    public Forum getForum(int position)
+    {
         return forumItems.get(position);
     }
 

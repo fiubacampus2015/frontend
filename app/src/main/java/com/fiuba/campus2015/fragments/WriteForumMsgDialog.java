@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fiuba.campus2015.ForumMessage;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Forum;
@@ -30,7 +31,7 @@ import retrofit.RestAdapter;
 import retrofit.client.Response;
 
 public class WriteForumMsgDialog extends AlertDialog.Builder {
-    private Context context;
+    private ForumMessage context;
     private View dialogView;
     private AlertDialog alertDialog;
     private TextView msgTo;
@@ -43,7 +44,7 @@ public class WriteForumMsgDialog extends AlertDialog.Builder {
     private WallFragment wallFragment;
 
 
-    public WriteForumMsgDialog(Activity activity,MessageAdapter messageAdapter, String groupId,String forumId) {
+    public WriteForumMsgDialog(ForumMessage activity,MessageAdapter messageAdapter, String groupId,String forumId) {
         super(activity);
 
         this.groupId = groupId;
@@ -52,7 +53,7 @@ public class WriteForumMsgDialog extends AlertDialog.Builder {
         this.context = activity;
         LayoutInflater inflater = activity.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.write_message_layout, null);
-        session = new SessionManager(context);
+        session = new SessionManager(activity);
 
         msgTo = (TextView) dialogView.findViewById(R.id.senderName);
         msgTo.setText(session.getUserName() + " " + session.getUserSurname());
@@ -76,6 +77,8 @@ public class WriteForumMsgDialog extends AlertDialog.Builder {
             public void onClick(View v) {
                 Application.getEventBus().register(this);
                 postMessage();
+                context.getMessages();
+                reset();
                 alertDialog.dismiss();
             }
         });
@@ -94,25 +97,18 @@ public class WriteForumMsgDialog extends AlertDialog.Builder {
         msgContent.setText("");
     }
 
-
-    @Subscribe
-    public void onResponse(com.fiuba.campus2015.services.Response posts) {
-        Application.getEventBus().unregister(this);
-        alertDialog.dismiss();
-    }
-
     public void postMessage() {
 
-        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<Response, IApiUser>() {
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<Message, IApiUser>() {
             @Override
-            public Response getResult(IApiUser service) {
+            public Message getResult(IApiUser service) {
                 return service.postMsgToForum(session.getToken(), groupId, forumId, new Message(msgContent.getText().toString(), Constants.MsgCardType.text));
             }
         };
 
         RestClient restClient = new RestClient();
 
-        RestServiceAsync callApi = new RestServiceAsync<Response, IApiUser>();
+        RestServiceAsync callApi = new RestServiceAsync<Message, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new com.fiuba.campus2015.services.Response());
 
     }
