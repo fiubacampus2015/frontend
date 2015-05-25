@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 import retrofit.RestAdapter;
 import retrofit.client.Response;
@@ -73,11 +75,17 @@ public class PostLinkDialog extends AlertDialog.Builder {
         buttonLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SendMsgTask task = new SendMsgTask();
-                task.execute();
 
-                alertDialog.dismiss();
-                reset();
+                if(Patterns.WEB_URL.matcher(msgContent.getText()).matches()){
+                    SendMsgTask task = new SendMsgTask();
+                    task.execute();
+
+                    alertDialog.dismiss();
+                    reset();
+                } else {
+                    ((MaterialEditText) dialogView.findViewById(R.id.msgContent)).validateWith(new RegexpValidator("Esto no es un link!", "\\d+"));
+
+                }
             }
         });
 
