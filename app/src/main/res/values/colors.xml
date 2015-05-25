@@ -11,6 +11,7 @@
     <color name="myPrimaryDarkColor">#3F51B5</color>
     <drawable name="highlight_pressed">#98dff3</drawable>
     <drawable name="highlight_focused">#b9e6f3</drawable>
+    <drawable name="pressed">#ffefefef</drawable>
     <color name="selected_gray">#ffdbdbdb</color>
     <color name="myDrawerBackground">#F2F2F2</color>
     <color name="mdtp_accent_color">@color/accent</color>

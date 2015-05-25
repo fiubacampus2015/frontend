@@ -1,7 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+<include android:id="@+id/app_bar" layout="@layout/app_bar"/>
+
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="454dp"
     android:id="@+id/map"
     tools:context=".Map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"/>
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_weight="1.44" />
+
+    <Button
+        android:layout_width="397dp"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar esta ubicación"
+        android:textColor="@color/black_button"
+        android:id="@+id/button"
+        android:background="@color/white"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>

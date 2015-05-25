@@ -76,8 +76,11 @@
         </activity>
         <activity
             android:name=".Map"
-            android:label="@string/app_group" >
+            android:label="@string/app_map" >
         </activity>
+        <service
+            android:name=".services.LocationService" />
+
     </application>
 
 
