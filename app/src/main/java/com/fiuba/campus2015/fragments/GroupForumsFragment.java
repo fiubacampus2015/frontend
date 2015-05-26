@@ -21,6 +21,7 @@ import com.fiuba.campus2015.ForumMessage;
 import com.fiuba.campus2015.ProfileReduced;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.ForumAdapter;
+import com.fiuba.campus2015.dto.user.Action;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
@@ -113,7 +114,7 @@ public class GroupForumsFragment extends Fragment {
 
                     @Override public void onItemLongClick(View view, int position) {
                         Forum forum = forumAdapter.getForum(position);
-                        optionsForum(forum._id);
+                        optionsForum(forum);
 
                     }
                 })
@@ -145,30 +146,40 @@ public class GroupForumsFragment extends Fragment {
     }
 
 
-    private void optionsForum(final String idForum)
+    private void optionsForum(final Forum forum)
     {
-        CharSequence opciones[] = new CharSequence[] {"Eliminar foro"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Opciones del foro");
-        builder.setItems(opciones, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        final List<String> listItems = new ArrayList<String>();
 
-                Dialog dialog2 = new Dialog(getActivity(),null, "Estás seguro que desea eliminar foro?");
-                dialog2.setOnAcceptButtonClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Application.getEventBus().register(this);
-                        deleteForum(idForum);
-                        update();
-                    }
-                });
-                dialog2.addCancelButton("Cancelar");
-                dialog2.show();
-                dialog2.getButtonAccept().setText("Aceptar");
-            }
-        });
-        builder.show();
+        for (int i = 0; i < forum.actions.size(); i++) {
+            Action action=forum.actions.get(i);
+            if (action.action.equals("delete"))
+                listItems.add("Eliminar grupo.");
+        }
+        if (!listItems.isEmpty()) {
+
+            CharSequence opciones[] = new CharSequence[]{"Eliminar foro"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Opciones del foro");
+            builder.setItems(opciones, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    Dialog dialog2 = new Dialog(getActivity(), null, "Estás seguro que desea eliminar foro?");
+                    dialog2.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Application.getEventBus().register(this);
+                            deleteForum(forum._id);
+                            update();
+                        }
+                    });
+                    dialog2.addCancelButton("Cancelar");
+                    dialog2.show();
+                    dialog2.getButtonAccept().setText("Aceptar");
+                }
+            });
+            builder.show();
+        }
     }
 
     public void update() {

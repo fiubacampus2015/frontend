@@ -1,8 +1,11 @@
 package com.fiuba.campus2015.dto.user;
 
+import java.util.List;
+
 public class Forum {
     public String _id;
     public Message message;
+    public List<Action> actions;
     public String title;
     public String group;
 
