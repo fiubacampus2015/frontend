@@ -137,6 +137,12 @@ public interface IApiUser {
             @Body Message message
     );
 
+    @POST("/api/{token}/users/{user}/position")
+    public retrofit.client.Response sendLocation(
+            @Path("token") String token,
+            @Path("user") String user,
+            @Body User userPosition
+    );
 
     //GRUPOS
     @POST("/api/{token}/groups")
