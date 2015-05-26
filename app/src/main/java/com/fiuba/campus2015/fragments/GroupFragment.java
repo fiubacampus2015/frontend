@@ -1,5 +1,7 @@
 package com.fiuba.campus2015.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,15 +18,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dexafree.materialList.model.Card;
 import com.fiuba.campus2015.GroupBoard;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.GroupAdapter;
+import com.fiuba.campus2015.dto.user.Action;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
+import com.fiuba.campus2015.services.Application;
+import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.services.Response;
 import com.fiuba.campus2015.services.RestClient;
+import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.widgets.Dialog;
 import com.google.gson.Gson;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +103,11 @@ public class GroupFragment extends Fragment {
 
                         startActivity(intent);
                     }
+
+                    @Override public void onItemLongClick(View view, int position) {
+                        Group group = groupAdapter.getGroup(position);
+                        optionsGroup(group);
+                    }
                 })
         );
 
@@ -125,6 +140,51 @@ public class GroupFragment extends Fragment {
         return myView;
     }
 
+
+    private void optionsGroup(final Group group)
+    {
+
+        final List<String> listItems = new ArrayList<String>();
+
+        for (int i = 0; i < group.actions.size(); i++) {
+            Action  action=group.actions.get(i);
+
+            if (action.action.equals("delete"))
+                listItems.add("Eliminar grupo.");
+            if (action.action.equals("unsuscribe"))
+                listItems.add("Abandonar grupo.");
+            if (action.action.equals("suscribe"))
+                listItems.add("Unirme al grupo.");
+
+        }
+        if (!listItems.isEmpty()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Opciones del grupo");
+            final CharSequence options[] = listItems.toArray(new CharSequence[listItems.size()]);
+
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    if (options[which].equals("Eliminar grupo.")) {
+                        Dialog dialog2 = new Dialog(getActivity(), null, "Estás seguro que desea eliminar grupo?");
+                        dialog2.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                deleteGroup(group._id);
+                                update();
+                            }
+                        });
+                        dialog2.addCancelButton("Cancelar");
+                        dialog2.show();
+                        dialog2.getButtonAccept().setText("Aceptar");
+                    }
+                }
+            });
+            builder.show();
+        }
+    }
+
     public void update() {
         searchText.setText("");
         SearchGroups fillGroupList = new SearchGroups();
@@ -133,8 +193,8 @@ public class GroupFragment extends Fragment {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        super.onActivityResult(requestCode,resultCode,data);
-        addGroupDialog.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
+        addGroupDialog.onActivityResult(requestCode, resultCode, data);
     }
 
     public void search() {
@@ -151,6 +211,33 @@ public class GroupFragment extends Fragment {
         emptyView.setVisibility(view.INVISIBLE);
         searchText.setText("");
         search();
+    }
+
+
+    //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
+    @Subscribe
+    public void onResponse(Response responseError) {
+        Toast.makeText(getActivity().getApplicationContext(), "Hubo un error en grupos." + responseError.reason, Toast.LENGTH_SHORT).show();
+        prgrsBar.setVisibility(View.GONE);
+        Application.getEventBus().unregister(this);
+    }
+
+    public void deleteGroup(final String groupId)
+    {
+
+        Application.getEventBus().register(this);
+        //Se crea la llamada al servicio
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<retrofit.client.Response, IApiUser>() {
+            @Override
+            public retrofit.client.Response getResult(IApiUser service) {
+                return service.deleteGroup(session.getToken(), new Group(groupId));
+            }
+        };
+
+        //Se llama a la api
+        RestClient restClient = new RestClient();
+        RestServiceAsync callApi = new RestServiceAsync<retrofit.client.Response, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new Response());
     }
 
     private  class SearchGroups extends AsyncTask<Void, Void, List<Group>> {
