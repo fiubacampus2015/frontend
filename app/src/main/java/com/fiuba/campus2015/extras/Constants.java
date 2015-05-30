@@ -26,6 +26,9 @@ public class Constants {
     public static final String PAGE = "page";
     public static final String USERTO = "userTo";
     public static final String GROUP = "group";
+    public static final String GROUPOWNER = "groupOwner";
+    public static final String GROUPDATE = "groupDate";
+    public static final String OWNERPHOTO = "ownerPhoto";
     public static final String FORUM = "forum";
     public static final String DESCRIPCIONGRUPO = "descripcionGrupo";
     public static final int MAX_SIZE_PHOTO = 8;

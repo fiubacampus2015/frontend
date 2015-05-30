@@ -13,12 +13,18 @@ public class TextCard extends SimpleCard {
     private OnButtonPressListener mListener;
     private int dividerColor;
     private int buttonTextColor;
+    private boolean showDeleteButton;
 
-    public TextCard(final Context context) {
+    public TextCard(final Context context, String userId, String msgUserId) {
         super(context);
         buttonText = "Borrar";
         buttonTextColor = Color.parseColor("#ff80cbc4");
         dividerColor = Color.parseColor("#D4D4D4");
+        showDeleteButton = (userId.equalsIgnoreCase(msgUserId));
+    }
+
+    public boolean isDeleteable(){
+        return showDeleteButton;
     }
 
     @Override

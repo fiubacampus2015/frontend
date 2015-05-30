@@ -5,18 +5,15 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import android.widget.Toast;
 
-import com.dexafree.materialList.cards.BasicButtonsCard;
 import com.dexafree.materialList.cards.BasicImageButtonsCard;
 import com.dexafree.materialList.cards.BigImageButtonsCard;
 import com.dexafree.materialList.cards.BigImageCard;
-import com.dexafree.materialList.cards.ExtendedCard;
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
 import com.dexafree.materialList.cards.SmallImageCard;
@@ -101,12 +98,6 @@ public class MessageAdapter {
 
     public void setData(List<Message> msgs) {
         this.messageItems = msgs;
-    }
-
-    public void addMessage(Message msgs) {
-        this.messageItems.add(msgs);
-        Card card = getRandomCard(msgs);
-        materialListView.add(card);
     }
 
     private Card getRandomCard(Message msg) {
@@ -201,8 +192,7 @@ public class MessageAdapter {
                 return card;
 
             case text:
-                card = new TextCard(this.context);
-                //card = new BasicButtonsCard(this.context);
+                card = new TextCard(this.context, session.getUserid(), msg.user._id);
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("TEXT_CARD");

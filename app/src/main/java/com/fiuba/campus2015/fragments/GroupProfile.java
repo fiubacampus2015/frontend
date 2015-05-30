@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dexafree.materialList.cards.BigImageCard;
+import com.dexafree.materialList.cards.SmallImageCard;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.Group;
@@ -17,6 +18,8 @@ import com.fiuba.campus2015.extras.Utils;
 import static com.fiuba.campus2015.extras.Constants.DESCRIPCIONGRUPO;
 import static com.fiuba.campus2015.extras.Constants.NAME;
 import static com.fiuba.campus2015.extras.Constants.PHOTO;
+import static com.fiuba.campus2015.extras.Constants.GROUPOWNER;
+import static com.fiuba.campus2015.extras.Constants.GROUPDATE;
 
 public class GroupProfile extends Fragment {
 
@@ -30,6 +33,8 @@ public class GroupProfile extends Fragment {
         args.putString(NAME, group.name);
         args.putString(DESCRIPCIONGRUPO, group.description);
         args.putString(PHOTO, group.photo);
+        args.putString(GROUPOWNER, group.owner.name + " " + group.owner.username);
+        args.putString(GROUPDATE, group.date);
 
         fragment.setArguments(args);
 
@@ -71,6 +76,14 @@ public class GroupProfile extends Fragment {
         personalCard.setDismissible(false);
 
         profileInformation.add(personalCard);
+
+        SmallImageCard ownerCard = new SmallImageCard(view.getContext());
+        ownerCard.setDescription(getArguments().getString(GROUPDATE));
+        ownerCard.setTitle("Creador: " + getArguments().getString(GROUPOWNER));
+        ownerCard.setDismissible(false);
+        ownerCard.setTag("SMALL_IMAGE_CARD");
+
+        profileInformation.add(ownerCard);
 
     }
 
