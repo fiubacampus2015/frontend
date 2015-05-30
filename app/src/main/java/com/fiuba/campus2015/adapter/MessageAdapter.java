@@ -204,15 +204,15 @@ public class MessageAdapter {
                     }
                 });
 
-                card.setDismissible(true);
+                card.setDismissible(((TextCard) card).isDeleteable());
                 return card;
 
             case link:
-                card = new LinkCard(this.context);
+                card = new LinkCard(this.context, session.getUserid(), msg.user._id);
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("LINK_CARD");
-                card.setDismissible(true);
+                card.setDismissible(((TextCard) card).isDeleteable());
 
 
                 ((LinkCard)card).setOnButtonPressedListener(new OnButtonPressListener() {
@@ -284,7 +284,6 @@ public class MessageAdapter {
         OnDismissCallback callback = new OnDismissCallback() {
             @Override
             public void onDismiss(Card card, int i) {
-
                 switch(card.getTag().toString()) {
                     case "TEXT_CARD":
                         OnButtonPressListener button = ((TextCard)card).getOnButtonPressedListener();
