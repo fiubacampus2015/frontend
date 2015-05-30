@@ -94,10 +94,10 @@ public class CompleteProfile extends Fragment {
 
     private void load(View view) {
 
-
-
         BigImageCard personalCard = new BigImageCard(view.getContext());
-        personalCard.setDescription(getArguments().getString(NAME) + " " + getArguments().getString(LASTNAME) + "\n" + getArguments().getString(EMAIL) + "\n" + getArguments().getString(PHONE) + "\n" + getArguments().getString(NATIONALITY) + "\n" + Utils.getBirthdayFormatted(getArguments().getString(BIRTHDAY)));
+        personalCard.setTitle(getArguments().getString(NAME) + " " + getArguments().getString(LASTNAME));
+        personalCard.setTitleColor(R.color.accent);
+        personalCard.setDescription(getArguments().getString(EMAIL) + "\n" + getArguments().getString(PHONE) + "\n" + getArguments().getString(NATIONALITY) + "\n" + Utils.getBirthdayFormatted(getArguments().getString(BIRTHDAY)));
         personalCard.setTag("BIG_IMAGE_CARD");
 
         if (!getArguments().getString(PHOTO).isEmpty()) {
@@ -107,8 +107,6 @@ public class CompleteProfile extends Fragment {
         }else
             personalCard.setDrawable(R.drawable.profiledefault);
 
-
-        //personalCard.setDrawable("https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png");
         personalCard.setDismissible(false);
 
         profileInformation.add(personalCard);

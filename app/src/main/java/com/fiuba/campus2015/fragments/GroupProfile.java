@@ -12,10 +12,14 @@ import com.dexafree.materialList.cards.BigImageCard;
 import com.dexafree.materialList.cards.SmallImageCard;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.customcard.TextCard;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.extras.Utils;
 
 import static com.fiuba.campus2015.extras.Constants.DESCRIPCIONGRUPO;
+import static com.fiuba.campus2015.extras.Constants.GROUP_TOTALCONTACTS;
+import static com.fiuba.campus2015.extras.Constants.GROUP_TOTALFILES;
+import static com.fiuba.campus2015.extras.Constants.GROUP_TOTALMSGS;
 import static com.fiuba.campus2015.extras.Constants.NAME;
 import static com.fiuba.campus2015.extras.Constants.PHOTO;
 import static com.fiuba.campus2015.extras.Constants.GROUPOWNER;
@@ -35,6 +39,9 @@ public class GroupProfile extends Fragment {
         args.putString(PHOTO, group.photo);
         args.putString(GROUPOWNER, group.owner.name + " " + group.owner.username);
         args.putString(GROUPDATE, group.date);
+        args.putString(GROUP_TOTALCONTACTS, (group.totalContacts != null ? group.totalContacts.toString() : "0"));
+        args.putString(GROUP_TOTALMSGS, (group.totalMsgs != null ? group.totalMsgs.toString() : "0"));
+        args.putString(GROUP_TOTALFILES, (group.totalFiles != null ? group.totalFiles.toString() : "0"));
 
         fragment.setArguments(args);
 
@@ -63,7 +70,9 @@ public class GroupProfile extends Fragment {
     private void load(View view) {
 
         BigImageCard personalCard = new BigImageCard(view.getContext());
-        personalCard.setDescription(getArguments().getString(NAME) + "\n" + getArguments().getString(DESCRIPCIONGRUPO));
+        personalCard.setTitle(getArguments().getString(NAME));
+        personalCard.setTitleColor(R.color.accent);
+        personalCard.setDescription(getArguments().getString(DESCRIPCIONGRUPO) + "\n" + getArguments().getString(GROUPOWNER));
         personalCard.setTag("BIG_IMAGE_CARD");
 
         if (getArguments().getString(PHOTO) != null && !getArguments().getString(PHOTO).isEmpty()) {
@@ -77,9 +86,8 @@ public class GroupProfile extends Fragment {
 
         profileInformation.add(personalCard);
 
-        SmallImageCard ownerCard = new SmallImageCard(view.getContext());
-        ownerCard.setDescription(getArguments().getString(GROUPDATE));
-        ownerCard.setTitle("Creador: " + getArguments().getString(GROUPOWNER));
+        TextCard ownerCard = new TextCard(view.getContext());
+        ownerCard.setDescription("#" + getArguments().getString(GROUP_TOTALCONTACTS) + " participantes. " + "\n#" + getArguments().getString(GROUP_TOTALMSGS) + " mensajes." + "\n#" + getArguments().getString(GROUP_TOTALFILES) + " archivos.");
         ownerCard.setDismissible(false);
         ownerCard.setTag("SMALL_IMAGE_CARD");
 

@@ -56,14 +56,6 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolderFo
 
         holder.textViewTitle.setText(forumItem.title);
         holder.textLastMsg.setText("");
-
-        holder.viewSeparator.setBackgroundColor(Color.WHITE);
-
-        if(forumItems.get(0) != forumItem) {
-                // los item que muestran la letra y son distintos al primero muestran la division
-                holder.viewSeparator.setBackgroundColor(Color.parseColor("#ffcfcfcf"));
-            }
-
     }
 
     @Override
@@ -81,14 +73,12 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolderFo
 
         TextView textViewTitle;
         ImageView imageViewForum;
-        View viewSeparator;
         TextView textLastMsg;
 
         public ViewHolderForums(View itemView) {
             super(itemView);
             textViewTitle = (TextView)itemView.findViewById(R.id.forum_title);
             imageViewForum = (ImageView) itemView.findViewById(R.id.image_forum);
-            viewSeparator = (View) itemView.findViewById(R.id.separatorForum);
             textLastMsg = (TextView)itemView.findViewById(R.id.lastMsgText);
 
         }

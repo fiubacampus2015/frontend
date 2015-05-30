@@ -311,8 +311,6 @@ public class MessageAdapter {
         return card;
     }
 
-
-
     private void deleteCard(String idMessage) {
         DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage);
         deleteMsg.execute();

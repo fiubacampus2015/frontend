@@ -6,66 +6,77 @@
     android:clickable="true"
     android:weightSum="1">
 
-    <View
-        android:layout_width="match_parent"
-        android:background="#ffcfcfcf"
-        android:layout_height="1dp"
-        android:id="@+id/separatorForum"
-        android:layout_gravity="right"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="5dp" />
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:baselineAligned="false"
-    android:weightSum="1"
-    android:layout_weight="0.03"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp">
-
-    <ImageView
-        android:id="@+id/image_forum"
-        android:layout_marginLeft="10dp"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:src="@drawable/ic_forum"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp" />
-
-    <TextView
-        android:layout_width="215dp"
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="355dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:text="Medium Text"
-        android:textStyle="bold"
-        android:id="@+id/forum_title"
-        android:textColor="@android:color/black"
-        android:layout_alignTop="@+id/image_group"
-        android:layout_centerHorizontal="true" />
+        card_view:cardCornerRadius="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="1dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/lastMsgText"
-        android:layout_marginTop="9dp"
-        android:layout_below="@+id/forum_title"
-        android:layout_alignStart="@+id/forum_title"
-        android:layout_marginStart="9dp" />
+        <FrameLayout
+            android:id="@+id/card_main_content_layout"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/deleteForum"
-        android:src="@drawable/ic_remove_grey"
-        android:layout_alignTop="@+id/forum_title"
-        android:visibility="gone"
-        android:layout_alignParentEnd="true" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
-</RelativeLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+                <ImageView
+                android:id="@+id/image_forum"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_forum"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center|left|right"/>
+
+                <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:text="Nombre"
+                android:textStyle="bold"
+                android:id="@+id/forum_title"
+                android:textColor="@android:color/black"
+                    android:layout_marginLeft="10dp"
+                android:layout_alignTop="@+id/image_forum"
+                android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Ultima Actividad"
+                    android:id="@+id/lastMsgText"
+                    android:gravity="bottom"
+                    android:textSize="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentStart="true"
+                android:layout_gravity="left" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

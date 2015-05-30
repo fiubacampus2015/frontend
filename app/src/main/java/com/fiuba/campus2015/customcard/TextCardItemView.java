@@ -41,8 +41,14 @@ public class TextCardItemView extends BaseTextCardItemView<TextCard> {
         drawable.setColorFilter(card.getButtonTextColor(), PorterDuff.Mode.SRC_IN);
         button.setCompoundDrawablesWithIntrinsicBounds(resize(drawable, 50, 50), null, null, null);
 
-        if(card.isDeleteable()) button.setVisibility(VISIBLE);
-        else button.setVisibility(INVISIBLE);
+        if(card.isDeleteable()) {
+            button.setVisibility(VISIBLE);
+            divider.setVisibility(VISIBLE);
+        }
+        else {
+            button.setVisibility(INVISIBLE);
+            divider.setVisibility(INVISIBLE);
+        }
 
         button.setOnClickListener(new OnClickListener() {
             @Override

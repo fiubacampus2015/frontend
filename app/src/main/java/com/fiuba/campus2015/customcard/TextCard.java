@@ -15,15 +15,26 @@ public class TextCard extends SimpleCard {
     private int buttonTextColor;
     private boolean showDeleteButton;
 
-    public TextCard(final Context context, String userId, String msgUserId, String wallUserId) {
+
+    public TextCard(final Context context) {
         super(context);
+        initCardProperties();
+    }
+
+    public TextCard(final Context context, String userId, String msgUserId, String appUserId) {
+        super(context);
+        initCardProperties();
+
+        if(appUserId.equalsIgnoreCase(userId)){
+            showDeleteButton = true;
+        } else showDeleteButton = (userId.equalsIgnoreCase(msgUserId));
+    }
+
+    private void initCardProperties(){
         buttonText = "Borrar";
         buttonTextColor = Color.parseColor("#ff80cbc4");
         dividerColor = Color.parseColor("#D4D4D4");
-
-        if(wallUserId.equalsIgnoreCase(userId)){
-            showDeleteButton = true;
-        } else showDeleteButton = (userId.equalsIgnoreCase(msgUserId));
+        showDeleteButton = false;
     }
 
     public boolean isDeleteable(){
