@@ -14,7 +14,6 @@ import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.fragments.WriteForumMsgDialog;
-import com.fiuba.campus2015.fragments.WriteMsgDialog;
 import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.Response;

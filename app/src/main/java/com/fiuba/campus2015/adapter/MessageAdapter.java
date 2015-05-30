@@ -41,7 +41,7 @@ public class MessageAdapter {
     private SessionManager session;
     private WallFragment wallFragment;
 
-    public MessageAdapter(Context context, MaterialListView materialListView , String userId,WallFragment wallFragment){
+    public MessageAdapter(Context context, MaterialListView materialListView , String userId, WallFragment wallFragment){
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
         this.materialListView = materialListView;
@@ -192,7 +192,7 @@ public class MessageAdapter {
                 return card;
 
             case text:
-                card = new TextCard(this.context, session.getUserid(), msg.user._id, wallFragment.getWallUserId());
+                card = new TextCard(this.context, session.getUserid(), msg.user._id, (wallFragment == null? "": wallFragment.getWallUserId()));
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("TEXT_CARD");
@@ -208,7 +208,7 @@ public class MessageAdapter {
                 return card;
 
             case link:
-                card = new LinkCard(this.context, session.getUserid(), msg.user._id, wallFragment.getWallUserId());
+                card = new LinkCard(this.context, session.getUserid(), msg.user._id, (wallFragment == null? "": wallFragment.getWallUserId()));
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("LINK_CARD");
