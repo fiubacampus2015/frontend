@@ -52,9 +52,10 @@ public class WallFragment extends Fragment
     private PostLinkDialog linkDialog;
     private SessionManager session;
     private ProgressBar prgrsBar;
+    private String wallUserId;
 
     public static WallFragment newInstance(String userId) {
-        WallFragment fragment = new WallFragment();
+        WallFragment fragment = new WallFragment(userId);
         Bundle args = new Bundle();
         //put any extra arguments that you may want to supply to this fragment
         fragment.setArguments(args);
@@ -63,6 +64,9 @@ public class WallFragment extends Fragment
         return fragment;
     }
 
+    private WallFragment(String userId){
+        this.wallUserId = userId;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,6 +130,10 @@ public class WallFragment extends Fragment
     public void update() {
         GetWallMsgsTask fillWall = new GetWallMsgsTask();
         fillWall.execute();
+    }
+
+    public String getWallUserId(){
+        return this.wallUserId;
     }
 
     public void onRelativePathVideo(int codeRequest, Intent intent) {

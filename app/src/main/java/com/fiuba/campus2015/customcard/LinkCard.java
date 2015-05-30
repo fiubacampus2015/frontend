@@ -14,12 +14,15 @@ public class LinkCard extends SimpleCard {
     private int buttonTextColor;
     private boolean showDeleteButton;
 
-    public LinkCard(final Context context, String userId, String msgUserId) {
+    public LinkCard(final Context context, String userId, String msgUserId, String wallUserId) {
         super(context);
         buttonText = "Borrar";
         buttonTextColor = Color.parseColor("#ff80cbc4");
         dividerColor = Color.parseColor("#D4D4D4");
-        showDeleteButton = (userId.equalsIgnoreCase(msgUserId));
+
+        if(wallUserId.equalsIgnoreCase(userId)){
+            showDeleteButton = true;
+        } else showDeleteButton = (userId.equalsIgnoreCase(msgUserId));
     }
 
     public boolean isDeleteable(){

@@ -192,7 +192,7 @@ public class MessageAdapter {
                 return card;
 
             case text:
-                card = new TextCard(this.context, session.getUserid(), msg.user._id);
+                card = new TextCard(this.context, session.getUserid(), msg.user._id, wallFragment.getWallUserId());
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("TEXT_CARD");
@@ -208,7 +208,7 @@ public class MessageAdapter {
                 return card;
 
             case link:
-                card = new LinkCard(this.context, session.getUserid(), msg.user._id);
+                card = new LinkCard(this.context, session.getUserid(), msg.user._id, wallFragment.getWallUserId());
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("LINK_CARD");
