@@ -3,6 +3,7 @@ package com.fiuba.campus2015.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -133,11 +134,17 @@ public class MessageAdapter {
 
             case photo:
                 card = new BigImageCard(this.context);
-                card.setDescription(description);
+                card.setDescription(Utils.getBirthdayFormatted(msg.date));
                 card.setTitle(title);
-                //card.setDrawable(R.drawable.photo);
-                card.setDrawable("https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png");
-                card.setTag("BIG_IMAGE_CARD");
+                if ( msg.content != null && ! msg.content.isEmpty()) {
+                    Drawable drawable = new BitmapDrawable(context.getResources(), Utils.getPhoto(msg.content));
+                    card.setDrawable(drawable);
+
+                }else
+                    card.setDrawable(R.drawable.profiledefault);
+
+                card.setTag("SMALL_IMAGE_CARD");
+
                 card.setDismissible(true);
                 return card;
 

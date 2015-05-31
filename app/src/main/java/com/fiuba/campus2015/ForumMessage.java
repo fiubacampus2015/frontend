@@ -1,5 +1,6 @@
 package com.fiuba.campus2015;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,12 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.dexafree.materialList.controller.OnDismissCallback;
-import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Message;
+import com.fiuba.campus2015.fragments.PhotoForumDialog;
 import com.fiuba.campus2015.fragments.WriteForumMsgDialog;
 import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
@@ -31,7 +31,6 @@ import java.util.List;
 
 import static com.fiuba.campus2015.extras.Constants.FORUM;
 import static com.fiuba.campus2015.extras.Constants.GROUP;
-import static com.fiuba.campus2015.extras.Constants.USERTO;
 
 
 public class ForumMessage  extends ActionBarActivity {
@@ -42,6 +41,8 @@ public class ForumMessage  extends ActionBarActivity {
     private String forumId;
     private String groupId;
     private WriteForumMsgDialog w_msgDialog;
+    private PhotoForumDialog w_photoForumDialog;
+
 
 
 
@@ -58,16 +59,12 @@ public class ForumMessage  extends ActionBarActivity {
         mListView = (MaterialListView) findViewById(R.id.material_listview);
 
 
-        mListView.setOnDismissCallback(new OnDismissCallback() {
-            @Override
-            public void onDismiss(Card card, int position) {
-                // Do whatever you want here
-                int pos = position;
-            }
-        });
         msgAdapter = new MessageAdapter(getApplicationContext(), mListView, session.getUserid(),this);
 
         FloatingActionButton button_actionAddMeg = (FloatingActionButton) findViewById(R.id.action_write);
+
+        FloatingActionButton button_actionAddPhoto = (FloatingActionButton) findViewById(R.id.action_addphoto);
+
 
         prgrsBar = (ProgressBar) findViewById(R.id.progressBarCircularIndeterminate_);
 
@@ -90,11 +87,21 @@ public class ForumMessage  extends ActionBarActivity {
 
         w_msgDialog = new WriteForumMsgDialog(this,msgAdapter,groupId,forumId);
 
+        w_photoForumDialog = new PhotoForumDialog(this,msgAdapter,groupId,forumId);
+
+
 
         button_actionAddMeg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 w_msgDialog.showDialog();
+            }
+        });
+
+        button_actionAddPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                w_photoForumDialog.showDialog();
             }
         });
 
@@ -158,6 +165,14 @@ public class ForumMessage  extends ActionBarActivity {
         //TODO Mostrar errores en caso de error del request
         prgrsBar.setVisibility(View.GONE);
         Application.getEventBus().unregister(this);
+
+    }
+
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        w_photoForumDialog.onActivityResult(requestCode, resultCode, data);
+
 
     }
 

@@ -48,6 +48,8 @@ public class WallFragment extends Fragment
     private MaterialListView mListView;
     private MessageAdapter msgAdapter;
     private WriteMsgDialog w_msgDialog;
+    private PhotoWallDialog w_photoDialog;
+
     private VideoDialog videoDialog;
     private PostLinkDialog linkDialog;
     private SessionManager session;
@@ -79,6 +81,7 @@ public class WallFragment extends Fragment
         w_msgDialog = new WriteMsgDialog(getActivity(), this, getArguments().getString(USERTO));
         videoDialog = new VideoDialog(getActivity(), this, getArguments().getString(USERTO));
         linkDialog = new PostLinkDialog(getActivity(), this, getArguments().getString(USERTO));
+        w_photoDialog = new PhotoWallDialog(getActivity(), this, getArguments().getString(USERTO));
 
         FloatingActionButton button_actionAddPlace = (FloatingActionButton) myView.findViewById(R.id.action_addPlace);
         FloatingActionButton button_actionAddVideo = (FloatingActionButton) myView.findViewById(R.id.action_addVideo);
@@ -99,6 +102,14 @@ public class WallFragment extends Fragment
                 linkDialog.showDialog();
             }
         });
+
+        button_actionAddPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                w_photoDialog.showDialog();
+            }
+        });
+
 
         button_actionAddVideo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,9 +147,11 @@ public class WallFragment extends Fragment
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK) {
             videoDialog.setUri(data.getData());
         }
+        w_photoDialog.onActivityResult(requestCode,resultCode,data);
     }
 
     // probando video
