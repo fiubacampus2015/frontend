@@ -27,6 +27,7 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
     private Toolbar toolbar;
     private NavigationDrawerFragment drawerFragment;
     SessionManager session;
+    private boolean init;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,23 +73,27 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
         Fragment fragment = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
         Intent intent = null;
+
+        if(!init) {
+            init = true;
+            fragmentManager.beginTransaction().replace(R.id.container,new MyBoard()).commit();
+            return;
+        }
+
         switch (position) {
-            case 0: /* MURO */
-                fragmentManager.beginTransaction().replace(R.id.container,new MyBoard()).commit();
-                break;
-            case 1: /* PERFIL */
+            case 0: /* PERFIL */
                 intent = new Intent(Board.this,Profile.class);
                 startActivity(intent);
                 break;
-            case 2:
+            case 1:
                 intent = new Intent(Board.this, FriendRequest.class);
                 startActivity(intent);
                 break;
-            case 3: /* CONFIGURACION */
+            case 2: /* CONFIGURACION */
                 intent = new Intent(Board.this,Configuration.class);
                 startActivity(intent);
                 break;
-            case 4:  /* SALIR */
+            case 3:  /* SALIR */
                 shutdownMessage();
                 session.logoutUser();
                 break;
