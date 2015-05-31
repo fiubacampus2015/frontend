@@ -107,9 +107,9 @@ public class PhotoWallDialog extends AlertDialog.Builder {
                 dialogView.findViewById(R.id.sendMsg).setEnabled(false);
                 SendMsgTask task = new SendMsgTask();
                 task.execute();
-
+                reset();
                 alertDialog.dismiss();
-                reset();            }
+                            }
         });
     }
 
@@ -176,6 +176,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         @Override
         protected void onPostExecute(retrofit.client.Response response) {
             wallFragment.update();
+            reset();
 
         }
     }
