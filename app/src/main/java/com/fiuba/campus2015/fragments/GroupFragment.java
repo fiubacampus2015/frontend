@@ -18,12 +18,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dexafree.materialList.model.Card;
 import com.fiuba.campus2015.GroupBoard;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.GroupAdapter;
 import com.fiuba.campus2015.dto.user.Action;
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.dto.user.MemberShip;
+import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
 import com.fiuba.campus2015.services.Application;
@@ -97,11 +98,20 @@ public class GroupFragment extends Fragment {
                 new RecyclerItemClickListener(getActivity(), recyclerView,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Group group = groupAdapter.getGroup(position);
-                        Intent intent;
-                        intent = new Intent(getActivity(), GroupBoard.class);
-                        intent.putExtra(GROUP, new Gson().toJson(group));
 
-                        startActivity(intent);
+                        if (group.actions.contains("suscribe"))
+                        {
+                            Dialog dialog2 = new Dialog(getActivity(), null, "Para poder ingresar a " + group.name + " primero tienes que unirte.");
+                            dialog2.show();
+                            dialog2.getButtonAccept().setText("Aceptar");
+                        }else
+                        {
+                            Intent intent;
+                            intent = new Intent(getActivity(), GroupBoard.class);
+                            intent.putExtra(GROUP, new Gson().toJson(group));
+                            startActivity(intent);
+                        }
+
                     }
 
                     @Override public void onItemLongClick(View view, int position) {
@@ -178,6 +188,13 @@ public class GroupFragment extends Fragment {
                         dialog2.addCancelButton("Cancelar");
                         dialog2.show();
                         dialog2.getButtonAccept().setText("Aceptar");
+                    }else if (options[which].equals("Unirme al grupo."))
+                    {
+                        subscribeGroup(group._id);
+
+                    }else if (options[which].equals("Abandonar grupo."))
+                    {
+                        unSubscribeGroup(group._id);
                     }
                 }
             });
@@ -213,18 +230,46 @@ public class GroupFragment extends Fragment {
         search();
     }
 
+    //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
+    @Subscribe
+    public void onResponse(retrofit.client.Response response) {
+        Application.getEventBus().unregister(this);
+        prgrsBar.setVisibility(View.GONE);
+    }
+
+
 
     //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
     @Subscribe
-    public void onResponse(Response responseError) {
-        Toast.makeText(getActivity().getApplicationContext(), "Hubo un error en grupos." + responseError.reason, Toast.LENGTH_SHORT).show();
+    public void onSuscription(MemberShip memberShip) {
+        if (memberShip.status.equals("pending"))
+        {
+            Dialog dialog2 = new Dialog(getActivity(), null, "Te has unido al grupo.");
+            dialog2.show();
+            dialog2.getButtonAccept().setText("Aceptar");
+
+        }else
+        {
+            Dialog dialog2 = new Dialog(getActivity(), null, "Tu solicitud ha sido enviada al grupo.");
+            dialog2.show();
+            dialog2.getButtonAccept().setText("Aceptar");
+        }
+        Application.getEventBus().unregister(this);
+        prgrsBar.setVisibility(View.GONE);
+        update();
+    }
+
+    //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
+    @Subscribe
+    public void onErrorResponse(Response errorResponse) {
+        Toast.makeText(getActivity().getApplicationContext(), "Hubo un error en grupos." + errorResponse.reason, Toast.LENGTH_SHORT).show();
         prgrsBar.setVisibility(View.GONE);
         Application.getEventBus().unregister(this);
     }
 
     public void deleteGroup(final String groupId)
     {
-
+        prgrsBar.setVisibility(View.VISIBLE);
         Application.getEventBus().register(this);
         //Se crea la llamada al servicio
         RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<retrofit.client.Response, IApiUser>() {
@@ -239,6 +284,45 @@ public class GroupFragment extends Fragment {
         RestServiceAsync callApi = new RestServiceAsync<retrofit.client.Response, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new Response());
     }
+
+
+    private void subscribeGroup(final String groupId)
+    {
+        prgrsBar.setVisibility(View.VISIBLE);
+
+        Application.getEventBus().register(this);
+        //Se crea la llamada al servicio
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<MemberShip, IApiUser>() {
+            @Override
+            public MemberShip getResult(IApiUser service) {
+                return service.subscribeGroup(session.getToken(), groupId, new User(session.getUserid()));
+            }
+        };
+
+        //Se llama a la api
+        RestClient restClient = new RestClient();
+        RestServiceAsync callApi = new RestServiceAsync<MemberShip, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new Response());
+    }
+
+    private void unSubscribeGroup(final String groupId)
+    {
+        prgrsBar.setVisibility(View.VISIBLE);
+        Application.getEventBus().register(this);
+        //Se crea la llamada al servicio
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<retrofit.client.Response, IApiUser>() {
+            @Override
+            public retrofit.client.Response getResult(IApiUser service) {
+                return service.unSubscribeGroup(session.getToken(), groupId, new User(session.getUserid()));
+            }
+        };
+
+        //Se llama a la api
+        RestClient restClient = new RestClient();
+        RestServiceAsync callApi = new RestServiceAsync<retrofit.client.Response, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new Response());
+    }
+
 
     private  class SearchGroups extends AsyncTask<Void, Void, List<Group>> {
 

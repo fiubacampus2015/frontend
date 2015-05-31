@@ -1,5 +1,6 @@
 package com.fiuba.campus2015.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import com.dexafree.materialList.controller.IMaterialListAdapter;
 import com.dexafree.materialList.controller.OnDismissCallback;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
+import com.fiuba.campus2015.ForumMessage;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.customcard.TextCard;
 import com.fiuba.campus2015.customcard.LinkCard;
@@ -41,6 +43,8 @@ public class MessageAdapter {
     private String userId;
     private SessionManager session;
     private WallFragment wallFragment;
+    private ForumMessage forumMessage;
+
 
     public MessageAdapter(Context context, MaterialListView materialListView , String userId, WallFragment wallFragment){
         layoutInflater = LayoutInflater.from(context);
@@ -52,12 +56,14 @@ public class MessageAdapter {
         setDismissCallback();
     }
 
-    public MessageAdapter(Context context, MaterialListView materialListView , String userId){
+    public MessageAdapter(Context context, MaterialListView materialListView , String userId,ForumMessage forumMessage){
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
         this.materialListView = materialListView;
         this.userId = userId;
         this.session = new SessionManager(context.getApplicationContext());
+        this.forumMessage = forumMessage;
+
         setDismissCallback();
     }
 
@@ -329,8 +335,14 @@ public class MessageAdapter {
 
         public DeleteMsgTask(String idMessage, Card card)
         {
-            progressDialog =  new ProgressDialog(context, "Borrando mensaje.");
-            this.idMessage = idMessage;
+            Activity activity;
+            if (wallFragment!=null)
+                activity = wallFragment.getActivity();
+            else
+                activity = forumMessage;
+
+
+            progressDialog =  new ProgressDialog(activity, "Borrando mensaje.");            this.idMessage = idMessage;
             this.card = card;
         }
 
@@ -353,7 +365,11 @@ public class MessageAdapter {
                 retrofit.client.Response response = null;
                 try {
 
-                    response = restClient.getApiService().deleteMsg(session.getToken(), userId,new Message(idMessage));
+
+                    if (wallFragment != null)
+                        response = restClient.getApiService().deleteMsg(session.getToken(), userId,new Message(idMessage));
+                    else
+                        response = restClient.getApiService().deleteForumMessage(session.getToken(), forumMessage.getGroupId(), forumMessage.getForumId(), new Message(idMessage));
 
                 } catch (Exception ex) {
 

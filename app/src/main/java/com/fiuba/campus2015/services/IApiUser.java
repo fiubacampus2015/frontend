@@ -4,6 +4,7 @@ import com.fiuba.campus2015.adapter.ContactItem;
 import com.fiuba.campus2015.dto.user.Authenticate;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.dto.user.MemberShip;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.User;
 
@@ -173,6 +174,19 @@ public interface IApiUser {
             @Query("name") String name
     );
 
+    @POST("/api/{token}/groups/{groupId}/subscribe")
+    public MemberShip subscribeGroup(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Body User user
+    );
+
+    @POST("/api/{token}/groups/{groupId}/unsubscribe")
+    public retrofit.client.Response unSubscribeGroup(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Body User user
+    );
 
     @POST("/api/{token}/groups/{groupId}/forums")
     public retrofit.client.Response  createForum(
@@ -210,6 +224,15 @@ public interface IApiUser {
             @Path("forumId") String forumId,
             @Body Message message
     );
+
+    @POST("/api/{token}/groups/{groupId}/forums/{forumId}/messages/delete")
+    public retrofit.client.Response deleteForumMessage(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Path("forumId") String forumId,
+            @Body Message message
+    );
+
 
 
 }

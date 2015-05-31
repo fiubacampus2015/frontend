@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.dexafree.materialList.controller.OnDismissCallback;
+import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Forum;
@@ -55,7 +57,15 @@ public class ForumMessage  extends ActionBarActivity {
 
         mListView = (MaterialListView) findViewById(R.id.material_listview);
 
-        msgAdapter = new MessageAdapter(getApplicationContext(), mListView, session.getUserid());
+
+        mListView.setOnDismissCallback(new OnDismissCallback() {
+            @Override
+            public void onDismiss(Card card, int position) {
+                // Do whatever you want here
+                int pos = position;
+            }
+        });
+        msgAdapter = new MessageAdapter(getApplicationContext(), mListView, session.getUserid(),this);
 
         FloatingActionButton button_actionAddMeg = (FloatingActionButton) findViewById(R.id.action_write);
 
@@ -119,6 +129,13 @@ public class ForumMessage  extends ActionBarActivity {
         prgrsBar.setVisibility(View.VISIBLE);
         //Suscripcion a los eventos que devuelve el cliente que llama la api
         callApiMessages();
+    }
+
+    public String getForumId() {
+        return forumId;
+    }
+    public String getGroupId() {
+        return groupId;
     }
 
 

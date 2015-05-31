@@ -185,7 +185,6 @@ public class GroupForumsFragment extends Fragment {
     public void update() {
         prgrsBar.setVisibility(View.VISIBLE);
         //Suscripcion a los eventos que devuelve el cliente que llama la api
-        Application.getEventBus().register(this);
         getForums();
     }
 
@@ -209,12 +208,15 @@ public class GroupForumsFragment extends Fragment {
     public void onResponse(Response responseError) {
         Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del foro." + responseError.reason, Toast.LENGTH_SHORT).show();
         prgrsBar.setVisibility(View.GONE);
+        Application.getEventBus().unregister(this);
+
 
     }
 
 
     public void getForums()
     {
+        Application.getEventBus().register(this);
         //Se crea la llamada al servicio
         RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<List<Forum>, IApiUser>() {
             @Override

@@ -177,6 +177,16 @@ public class AddGroupDialog extends AlertDialog.Builder {
         groupDescription.setText("");
     }
 
+    public String getStatusGroup(String status)
+    {
+
+        if (status.equals("Privado"))
+            return "private";
+        else if (status.equals("Oculto"))
+            return "hidden";
+        return "public";
+    }
+
     private class AddGroupTask extends AsyncTask<Void, Void,
             Response> {
         RestClient restClient;
@@ -203,11 +213,14 @@ public class AddGroupDialog extends AlertDialog.Builder {
             Response  response = null;
             try {
 
+                String status = getStatusGroup(groupTypeSpinner.getSelectedItem().toString());
+
                 response = restClient.getApiService().createGroup(session.getToken(),
                         new Group(new User(session.getUserid()),groupName.getText().toString(),
-                                groupDescription.getText().toString(),getPhotoString(photoBitmap)));
+                                groupDescription.getText().toString(),getPhotoString(photoBitmap),
+                                status));
 
-            } catch (Exception x) {}
+             } catch (Exception x) {}
 
             return response;
         }
