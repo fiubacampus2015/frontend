@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.fiuba.campus2015.ForumMessage;
@@ -55,7 +56,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
     private Bitmap photoBitmap;
     private String userTo;
     private WallFragment wallFragment;
-
+    private ProgressBar prgrsBar;
 
     public PhotoWallDialog(FragmentActivity activity, WallFragment wallFragment, String userTo) {
         super(activity);
@@ -72,7 +73,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
 
         msgTo = (TextView) dialogView.findViewById(R.id.senderName);
         msgTo.setText(session.getUserName() + " " + session.getUserSurname());
-
+        prgrsBar = (ProgressBar) dialogView.findViewById(R.id.progressBarCircularIndeterminatePhoto);
 
         buttonImage = (ButtonFloatMaterial) dialogView.findViewById(R.id.buttonImage);
         buttonImage.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +159,9 @@ public class PhotoWallDialog extends AlertDialog.Builder {
             restAdapter = new RestAdapter.Builder()
                     .setEndpoint(UrlEndpoints.URL_API)
                     .build();
+
+            prgrsBar.setEnabled(true);
+            prgrsBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -175,6 +179,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
 
         @Override
         protected void onPostExecute(retrofit.client.Response response) {
+            prgrsBar.setVisibility(View.INVISIBLE);
             wallFragment.update();
 
         }

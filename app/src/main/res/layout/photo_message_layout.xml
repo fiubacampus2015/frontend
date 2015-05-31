@@ -67,6 +67,23 @@
                 app:animate="true"
                 app:iconDrawable="@drawable/ic_action_camera" />
 
+            <RelativeLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:id="@+id/progressbarPhoto"
+                android:layout_centerInParent="true">
+                <ProgressBar
+                    android:id="@+id/progressBarCircularIndeterminatePhoto"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone">
+                </ProgressBar>
+            </RelativeLayout>
+
         </RelativeLayout>
     </LinearLayout>
 
