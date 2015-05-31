@@ -104,7 +104,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogView.findViewById(R.id.sendMsg).setEnabled(false);
+                //dialogView.findViewById(R.id.sendMsg).setEnabled(false);
                 SendMsgTask task = new SendMsgTask();
                 task.execute();
                 reset();
@@ -116,7 +116,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
 
     public void reset()
     {
-        dialogView.findViewById(R.id.sendMsg).setEnabled(false);
+        dialogView.findViewById(R.id.sendMsg).setEnabled(true);
         msgContent.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_image_default));
     }
 
@@ -176,7 +176,6 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         @Override
         protected void onPostExecute(retrofit.client.Response response) {
             wallFragment.update();
-            reset();
 
         }
     }
