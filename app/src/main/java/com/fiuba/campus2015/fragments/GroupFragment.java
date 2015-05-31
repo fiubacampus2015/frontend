@@ -177,7 +177,7 @@ public class GroupFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
 
                     if (options[which].equals("Eliminar grupo.")) {
-                        Dialog dialog2 = new Dialog(getActivity(), null, "Estás seguro que desea eliminar grupo?");
+                        Dialog dialog2 = new Dialog(getActivity(), null, "Estás seguro de eliminar grupo?");
                         dialog2.setOnAcceptButtonClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
