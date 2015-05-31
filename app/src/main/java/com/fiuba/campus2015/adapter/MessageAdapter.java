@@ -18,7 +18,6 @@ import com.dexafree.materialList.cards.BigImageButtonsCard;
 import com.dexafree.materialList.cards.BigImageCard;
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
-import com.dexafree.materialList.cards.SmallImageCard;
 import com.dexafree.materialList.controller.IMaterialListAdapter;
 import com.dexafree.materialList.controller.OnDismissCallback;
 import com.dexafree.materialList.model.Card;
@@ -124,12 +123,22 @@ public class MessageAdapter {
         switch (msg.typeOf) {
 
             case place:
-                card = new SmallImageCard(this.context);
+                card = new BasicImageButtonsCard(this.context);
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setDrawable(R.drawable.icon_location_wall);
+                card.setTag("PLACE_CARD");
                 card.setDismissible(true);
-                card.setTag("SMALL_IMAGE_CARD");
+                ((BasicImageButtonsCard) card).setLeftButtonText("Borrar");
+                ((BasicImageButtonsCard) card).setLeftButtonTextColorRes(R.color.my_awesome_darker_color);
+                ((BasicImageButtonsCard) card).setRightButtonText("");
+                ((BasicImageButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        deleteCard(idMessage, card);
+                    }
+                });
+
                 return card;
 
             case photo:
@@ -143,9 +152,19 @@ public class MessageAdapter {
                 }else
                     card.setDrawable(R.drawable.profiledefault);
 
-                card.setTag("SMALL_IMAGE_CARD");
-
+                card.setTag("BIG_IMAGE_CARD");
                 card.setDismissible(true);
+/*
+                ((BigImageButtonsCard) card).setLeftButtonText("Borrar");
+                ((BigImageButtonsCard) card).setLeftButtonTextColorRes(R.color.my_awesome_darker_color);
+                ((BigImageButtonsCard) card).setRightButtonText("");
+                ((BigImageButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        deleteCard(idMessage, card);
+                    }
+                });
+*/
                 return card;
 
             case video:
@@ -242,26 +261,6 @@ public class MessageAdapter {
 
                 return card;
 
-          /*  case place:
-                card = new WelcomeCard(context);
-                card.setTitle("Welcome Card");
-                card.setDescription("I am the description");
-                card.setTag("WELCOME_CARD");
-                ((WelcomeCard) card).setSubtitle("My subtitle!");
-                ((WelcomeCard) card).setButtonText("Okay!");
-                ((WelcomeCard) card).setOnButtonPressedListener(new OnButtonPressListener() {
-                    @Override
-                    public void onButtonPressedListener(View view, Card card) {
-                        Toast.makeText(context, "Welcome!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                if (position % 2 == 0)
-                    ((WelcomeCard) card).setBackgroundColorRes(R.color.background_material_dark);
-                card.setDismissible(true);
-
-                return card;*/
-
             default:
                 card = new BigImageButtonsCard(context);
                 card.setDescription(description);
@@ -312,6 +311,10 @@ public class MessageAdapter {
                     case "LINK_CARD":
                         OnButtonPressListener button2 = ((LinkCard)card).getOnButtonPressedListener();
                         button2.onButtonPressedListener(null, card);
+                        break;
+                    case "PLACE_CARD":
+                        OnButtonPressListener button3 = ((BasicImageButtonsCard)card).getOnLeftButtonPressedListener();
+                        button3.onButtonPressedListener(null, card);
                         break;
                 }
             }

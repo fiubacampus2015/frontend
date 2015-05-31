@@ -2,8 +2,8 @@ package com.fiuba.campus2015;
 
 import android.content.IntentSender;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,6 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.fiuba.campus2015.dto.user.Message;
+import com.fiuba.campus2015.extras.ButtonFloatMaterial;
+import com.fiuba.campus2015.extras.Constants;
+import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.session.SessionManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -23,12 +29,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import retrofit.RestAdapter;
+import retrofit.client.Response;
+
 public class Map extends ActionBarActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
     private Toolbar toolbar;
+    private SessionManager session;
 
     public static final String TAG = Map.class.getSimpleName();
 
@@ -52,7 +62,7 @@ public class Map extends ActionBarActivity implements
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        session = new SessionManager(this);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +83,15 @@ public class Map extends ActionBarActivity implements
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+
+        ButtonFloatMaterial postLocation = (ButtonFloatMaterial) findViewById(R.id.postPlace);
+        postLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SendLocationMsgTask task = new SendLocationMsgTask();
+                    task.execute();
+            }
+        });
     }
 
     @Override
@@ -150,7 +169,7 @@ public class Map extends ActionBarActivity implements
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker1"));
+       // mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker1"));
     }
 
     private void handleNewLocation(Location location) {
@@ -164,9 +183,9 @@ public class Map extends ActionBarActivity implements
         //mMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude, currentLongitude)).title("Current Location"));
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
-                .title("I am here!");
+                .title("Estoy acá!");
         mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,14));
     }
 
     @Override
@@ -217,5 +236,36 @@ public class Map extends ActionBarActivity implements
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
+    }
+
+    private class SendLocationMsgTask extends AsyncTask<Void, Void,
+            Response> {
+        RestAdapter restAdapter;
+
+        @Override
+        protected void onPreExecute() {
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(UrlEndpoints.URL_API)
+                    .build();
+        }
+
+        @Override
+        protected retrofit.client.Response doInBackground(Void... params) {
+
+            IApiUser api = restAdapter.create(IApiUser.class);
+            retrofit.client.Response  response = null;
+            try {
+                response = api.postMsgToWall(session.getToken(),session.getUserid(),new Message("Estoy en: ", Constants.MsgCardType.place));
+
+            } catch (Exception x) {}
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(retrofit.client.Response response) {
+           // wallFragment.update();
+
+        }
     }
 }
