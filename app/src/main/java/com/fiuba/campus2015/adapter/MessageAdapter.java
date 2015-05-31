@@ -17,6 +17,7 @@ import com.dexafree.materialList.cards.BigImageCard;
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
 import com.dexafree.materialList.cards.SmallImageCard;
+import com.dexafree.materialList.controller.IMaterialListAdapter;
 import com.dexafree.materialList.controller.OnDismissCallback;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
@@ -98,6 +99,10 @@ public class MessageAdapter {
 
     public void setData(List<Message> msgs) {
         this.messageItems = msgs;
+    }
+
+    public void delete(Card card) {
+        ((IMaterialListAdapter)materialListView.getAdapter()).remove(card,false);
     }
 
     private Card getRandomCard(Message msg) {
@@ -200,7 +205,7 @@ public class MessageAdapter {
                 ((TextCard)card).setOnButtonPressedListener(new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
-                        deleteCard(idMessage);
+                        deleteCard(idMessage, card);
                     }
                 });
 
@@ -212,13 +217,13 @@ public class MessageAdapter {
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("LINK_CARD");
-                card.setDismissible(((TextCard) card).isDeleteable());
+                card.setDismissible(((LinkCard) card).isDeleteable());
 
 
                 ((LinkCard)card).setOnButtonPressedListener(new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
-                        deleteCard(idMessage);
+                        deleteCard(idMessage, card);
                     }
                 });
 
@@ -287,13 +292,13 @@ public class MessageAdapter {
                 switch(card.getTag().toString()) {
                     case "TEXT_CARD":
                         OnButtonPressListener button = ((TextCard)card).getOnButtonPressedListener();
-                        button.onButtonPressedListener(null, null);
+                        button.onButtonPressedListener(null, card);
                         break;
                     case "VIDEO_CARD":
                         break;
                     case "LINK_CARD":
                         OnButtonPressListener button2 = ((LinkCard)card).getOnButtonPressedListener();
-                        button2.onButtonPressedListener(null, null);
+                        button2.onButtonPressedListener(null, card);
                         break;
                 }
             }
@@ -311,8 +316,8 @@ public class MessageAdapter {
         return card;
     }
 
-    private void deleteCard(String idMessage) {
-        DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage);
+    private void deleteCard(String idMessage, Card card) {
+        DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage, card);
         deleteMsg.execute();
     }
 
@@ -320,13 +325,13 @@ public class MessageAdapter {
         RestClient restClient;
         private String idMessage;
         private ProgressDialog progressDialog;
+        private Card card;
 
-
-        public DeleteMsgTask(String idMessage)
+        public DeleteMsgTask(String idMessage, Card card)
         {
-            progressDialog =  new ProgressDialog(wallFragment.getActivity(), "Borrando mensaje.");
+            progressDialog =  new ProgressDialog(context, "Borrando mensaje.");
             this.idMessage = idMessage;
-
+            this.card = card;
         }
 
         public void executeTask() {
@@ -362,8 +367,9 @@ public class MessageAdapter {
                 progressDialog.dismiss();
             if (response== null)
                 Toast.makeText(context.getApplicationContext(), "Hubo un error al borrar el mensaje.", Toast.LENGTH_SHORT).show();
-
-            wallFragment.update();
+            else
+                delete(card);
+            //wallFragment.update();
 
         }
     }
