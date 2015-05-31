@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.fiuba.campus2015.customcard.BigPhotoCardItemView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    style="@style/MainLayout">
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardView"
+        card_view:cardCornerRadius="@dimen/card_corner_radius"
+        style="@style/MainCardView">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:adjustViewBounds="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:id="@+id/imageView"/>
+
+            <TextView
+                style="@style/CardTitle"
+                android:layout_alignBottom="@+id/imageView"
+                android:id="@+id/titleTextView"
+                tools:text="Title"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/descriptionTextView"
+                android:textColor="@color/description_color"
+                android:padding="@dimen/big_padding"
+                android:textSize="@dimen/description_size"
+                android:layout_below="@+id/imageView"
+                tools:text="Test description"/>
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/cardDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_white"
+            android:layout_marginLeft="@dimen/big_padding"
+            android:layout_marginRight="@dimen/big_padding"
+            android:visibility="visible"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:id="@+id/deleteButtonLinkCard"
+            android:clickable="true"
+            android:focusable="false"
+            android:textStyle="bold"
+            android:padding="@dimen/big_padding"
+            android:drawableLeft="@drawable/ic_delete"
+            android:drawablePadding="@dimen/big_padding"
+            style="@style/LeftButtonBaseStyle"
+            tools:text="CLICK ME"
+            android:textColor="#ffff171f" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+   </com.fiuba.campus2015.customcard.BigPhotoCardItemView>
