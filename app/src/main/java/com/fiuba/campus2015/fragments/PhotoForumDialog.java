@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.campus2015.ForumMessage;
 import com.fiuba.campus2015.R;
@@ -107,8 +108,10 @@ public class PhotoForumDialog extends AlertDialog.Builder {
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogView.findViewById(R.id.sendMsg).setEnabled(false);
-                postMessage();
+                if (validateData()) {
+                    dialogView.findViewById(R.id.sendMsg).setEnabled(false);
+                    postMessage();
+                }
             }
         });
     }
@@ -142,11 +145,24 @@ public class PhotoForumDialog extends AlertDialog.Builder {
                 if(checkSizePhoto(foto)) {
                     photoBitmap = getResizedBitmap(foto,200,200);
                     msgContent.setImageBitmap(photoBitmap);
-                }
+                }else
+                    Toast.makeText(this.getContext(),
+                            "Seleccioná fotos menores a 8MB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
         }
 
+    }
+
+    private boolean validateData() {
+
+        boolean isValid = true;
+        if (photoBitmap == null) {
+            Toast.makeText(this.getContext(), "No subiste ninguna foto", Toast.LENGTH_SHORT).show();
+            isValid=false;
+        }
+
+        return isValid;
     }
 
     @Subscribe

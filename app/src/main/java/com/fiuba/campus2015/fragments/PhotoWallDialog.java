@@ -123,7 +123,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
     private boolean validateData() {
 
         boolean isValid = true;
-        if (this.msgContent.getDrawable() == null) {
+        if (photoBitmap == null) {
             Toast.makeText(this.getContext(), "No subiste ninguna foto", Toast.LENGTH_SHORT).show();
             isValid=false;
         }
@@ -159,7 +159,9 @@ public class PhotoWallDialog extends AlertDialog.Builder {
                 if(checkSizePhoto(foto)) {
                     photoBitmap = getResizedBitmap(foto,200,200);
                     msgContent.setImageBitmap(photoBitmap);
-                }
+                }else
+                    Toast.makeText(this.getContext(),
+                            "Seleccioná fotos menores a 8MB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             Toast.makeText(this.getContext(), "FOTO", Toast.LENGTH_SHORT).show();
