@@ -99,9 +99,9 @@ public class GroupFragment extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         Group group = groupAdapter.getGroup(position);
 
-                        if (group.actions.contains("suscribe"))
+                        if (group.actions.get(0).action.equals("suscribe"))
                         {
-                            Dialog dialog2 = new Dialog(getActivity(), null, "Para poder ingresar a " + group.name + " primero tienes que unirte.");
+                            Dialog dialog2 = new Dialog(getActivity(), null, "Para poder ingresar a " + group.name + " primero tenés que unirte.");
                             dialog2.show();
                             dialog2.getButtonAccept().setText("Aceptar");
                         }else
@@ -244,7 +244,7 @@ public class GroupFragment extends Fragment {
     public void onSuscription(MemberShip memberShip) {
         if (memberShip.status.equals("pending"))
         {
-            Dialog dialog2 = new Dialog(getActivity(), null, "Te has unido al grupo.");
+            Dialog dialog2 = new Dialog(getActivity(), null, "Te uniste al grupo.");
             dialog2.show();
             dialog2.getButtonAccept().setText("Aceptar");
 
