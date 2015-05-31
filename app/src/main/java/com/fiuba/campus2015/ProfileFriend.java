@@ -1,6 +1,8 @@
 package com.fiuba.campus2015;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -114,6 +116,14 @@ public class ProfileFriend extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 
 
     class MyPagerAdapter extends FragmentPagerAdapter {
@@ -146,6 +156,8 @@ public class ProfileFriend extends ActionBarActivity {
             }
             return fragment;
         }
+
+
 
         @Override
         public CharSequence getPageTitle(int position) {
