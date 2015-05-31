@@ -75,6 +75,12 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
                 icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_account_circle_grey_48dp);
             }
             holder.imageViewGroup.setImageBitmap(icon);
+
+        if(groupItem.owner._id.equals(userId)) {
+            holder.imageStar.setVisibility(View.VISIBLE);
+        } else {
+            holder.imageStar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -92,13 +98,14 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
         TextView textViewName;
         ImageView imageViewGroup;
         TextView text_description_group;
+        ImageView imageStar;
 
         public ViewHolderGroups(View itemView) {
             super(itemView);
             textViewName = (TextView)itemView.findViewById(R.id.text_name_group);
             imageViewGroup = (ImageView) itemView.findViewById(R.id.image_group);
             text_description_group = (TextView)itemView.findViewById(R.id.text_description_group);
-
+            imageStar = (ImageView) itemView.findViewById(R.id.isOwner);
         }
     }
 }
