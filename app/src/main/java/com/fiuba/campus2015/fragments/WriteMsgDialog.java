@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,7 +43,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
     private SessionManager session;
     private String userTo;
     private WallFragment wallFragment;
-
+    private ProgressBar prgrsBar;
 
     protected WriteMsgDialog(FragmentActivity activity, WallFragment wallFragment, String userTo) {
         super(activity);
@@ -53,6 +54,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
         LayoutInflater inflater = activity.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.write_message_layout, null);
         session = new SessionManager(context);
+        prgrsBar = (ProgressBar) dialogView.findViewById(R.id.progressBarCircularIndeterminateMessage);
 
         msgTo = (TextView) dialogView.findViewById(R.id.senderName);
         msgTo.setText(session.getUserName() + " " + session.getUserSurname());
@@ -105,6 +107,8 @@ public class WriteMsgDialog extends AlertDialog.Builder {
             restAdapter = new RestAdapter.Builder()
                     .setEndpoint(UrlEndpoints.URL_API)
                     .build();
+            prgrsBar.setEnabled(true);
+            prgrsBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -122,6 +126,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
 
         @Override
         protected void onPostExecute(retrofit.client.Response response) {
+            prgrsBar.setVisibility(View.INVISIBLE);
             wallFragment.update();
 
         }

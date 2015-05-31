@@ -40,7 +40,7 @@
         android:layout_height="250dp"
         android:padding="10dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,8 +55,31 @@
                 app:met_floatingLabel="normal"
                 android:layout_gravity="left"
                 android:maxLength="300"
-                app:met_maxCharacters="300"/>
-        </LinearLayout>
+                app:met_maxCharacters="300"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp" />
+
+            <RelativeLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:id="@+id/progressbarMessage"
+                android:layout_centerInParent="true">
+                <ProgressBar
+                    android:id="@+id/progressBarCircularIndeterminateMessage"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone">
+                </ProgressBar>
+
+
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
