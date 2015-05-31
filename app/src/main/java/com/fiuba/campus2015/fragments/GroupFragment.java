@@ -242,7 +242,7 @@ public class GroupFragment extends Fragment {
     //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
     @Subscribe
     public void onSuscription(MemberShip memberShip) {
-        if (memberShip.status.equals("pending"))
+        if (!memberShip.status.equals("pending"))
         {
             Dialog dialog2 = new Dialog(getActivity(), null, "Te uniste al grupo.");
             dialog2.show();
@@ -250,7 +250,7 @@ public class GroupFragment extends Fragment {
 
         }else
         {
-            Dialog dialog2 = new Dialog(getActivity(), null, "Tu solicitud ha sido enviada al grupo.");
+            Dialog dialog2 = new Dialog(getActivity(), null, "Enviamo tu solicitud al moderador del grupo.");
             dialog2.show();
             dialog2.getButtonAccept().setText("Aceptar");
         }
