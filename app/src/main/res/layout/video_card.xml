@@ -70,30 +70,25 @@
                 android:layout_marginBottom="5dp" />
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp">
 
-                <Button
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:id="@+id/buttondeleteVideo"
-                    android:background="@drawable/ic_delete"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="center" />
-
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Borrar"
-                    android:id="@+id/textView16"
-                    android:layout_marginTop="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="#ff80cbc4"
-                    android:textSize="15sp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:id="@+id/deleteButtonVideoCard"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:textStyle="bold"
+                    android:padding="@dimen/big_padding"
+                    android:drawableLeft="@drawable/ic_delete"
+                    android:drawablePadding="@dimen/big_padding"
+                    style="@style/LeftButtonBaseStyle"
+                    tools:text="CLICK ME"
+                    android:textColor="#ffff171f" />
+
 
             </LinearLayout>
 

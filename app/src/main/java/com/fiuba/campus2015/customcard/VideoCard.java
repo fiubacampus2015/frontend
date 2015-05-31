@@ -16,13 +16,15 @@ public class VideoCard extends SimpleCard {
     private String buttonText;
     private OnButtonPressListener mListener;
     private OnButtonPressListener listenerPreview;
-    private int subtitleColor = Color.BLACK;
-    private int dividerColor = Color.parseColor("#608DFA");
-    private int buttonTextColor = Color.WHITE;
+    private int dividerColor;
+    private int buttonTextColor;
     private Drawable previewVideo;
 
     public VideoCard(final Context context) {
         super(context);
+        buttonText = "Borrar";
+        buttonTextColor = Color.parseColor("#ff80cbc4");
+        dividerColor = Color.parseColor("#D4D4D4");
     }
 
     public String getSubtitle() {
@@ -61,60 +63,12 @@ public class VideoCard extends SimpleCard {
         return buttonText;
     }
 
-    public int getSubtitleColor() {
-        return subtitleColor;
-    }
-
     public int getDividerColor() {
         return dividerColor;
     }
 
     public int getButtonTextColor() {
         return buttonTextColor;
-    }
-
-    public void setButtonText(int buttonTextId) {
-        setButtonText(getString(buttonTextId));
-    }
-
-    public void setButtonText(String buttonText) {
-        this.buttonText = buttonText;
-    }
-
-    public void setSubtitleColorRes(int colorId) {
-        setSubtitleColor(getResources().getColor(colorId));
-    }
-
-    public void setSubtitleColor(int color) {
-        this.subtitleColor = color;
-    }
-
-    public void setSubtitleColor(String color) {
-        setSubtitleColor(Color.parseColor(color));
-    }
-
-    public void setDividerColorRes(int colorId) {
-        setDividerColor(getResources().getColor(colorId));
-    }
-
-    public void setDividerColor(int color) {
-        this.dividerColor = color;
-    }
-
-    public void setDividerColor(String color) {
-        setDividerColor(Color.parseColor(color));
-    }
-
-    public void setButtonTextColorRes(int colorId) {
-        setButtonTextColor(getResources().getColor(colorId));
-    }
-
-    public void setButtonTextColor(int color) {
-        this.buttonTextColor = color;
-    }
-
-    public void setButtonTextColor(String color) {
-        setButtonTextColor(Color.parseColor(color));
     }
 
     @Override

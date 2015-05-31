@@ -35,11 +35,6 @@ public class VideoCardItemView extends BaseTextCardItemView<VideoCard> {
     public void build(final VideoCard card) {
         super.build(card);
 
-        // Subtitle
-     //   TextView subtitle = (TextView) findViewById(R.id.subtitleTextView);
-      //  subtitle.setText(card.getSubtitle());
-      //  subtitle.setTextColor(card.getSubtitleColor());
-
         // Divider
         View divider = findViewById(R.id.cardDivider);
         divider.setBackgroundColor(card.getDividerColor());
@@ -48,17 +43,19 @@ public class VideoCardItemView extends BaseTextCardItemView<VideoCard> {
      //   TextView description = (TextView) findViewById(R.id.descriptionTextView);
      //   description.setTextColor(#878787); Color.parseColor("#608DFA")
 
-
         // Button
-        final TextView button = (TextView) findViewById(R.id.buttondeleteVideo);
-        //button.setText(card.getButtonText());
-     //   button.setBackground(resize(card.getPreview(), 310,130));
-        //button.setCompoundDrawablesWithIntrinsicBounds(resize(card.getPreview(), 310, 130), null, null, null);
-        button.setOnClickListener(new OnClickListener() {
+        final TextView button2 = (TextView) findViewById(R.id.deleteButtonVideoCard);
+        button2.setText(card.getButtonText());
+        button2.setTextColor(card.getButtonTextColor());
+        Drawable drawable = button2.getCompoundDrawables()[0];
+        drawable.setColorFilter(card.getButtonTextColor(), PorterDuff.Mode.SRC_IN);
+        button2.setCompoundDrawablesWithIntrinsicBounds(resize(drawable, 50, 50), null, null, null);
+
+        button2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (card.getOnButtonPressedListener() != null) {
-                    card.getOnButtonPressedListener().onButtonPressedListener(button, card);
+                    card.getOnButtonPressedListener().onButtonPressedListener(button2, card);
                 }
             }
         });
@@ -73,6 +70,12 @@ public class VideoCardItemView extends BaseTextCardItemView<VideoCard> {
                 }
             }
         });
+    }
+
+    private Drawable resize(Drawable image, int width, int height) {
+        Bitmap b = ((BitmapDrawable) image).getBitmap();
+        Bitmap bitmapResize = Bitmap.createScaledBitmap(b, width, height, false);
+        return new BitmapDrawable(getResources(), bitmapResize);
     }
 
 }
