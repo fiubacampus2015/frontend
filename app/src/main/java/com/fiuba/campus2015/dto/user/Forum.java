@@ -8,6 +8,7 @@ public class Forum {
     public List<Action> actions;
     public String title;
     public String group;
+    public User owner;
 
     public Forum(String title, Message message){
         this.title = title;

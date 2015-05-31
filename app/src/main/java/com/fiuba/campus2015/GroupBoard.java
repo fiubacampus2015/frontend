@@ -144,7 +144,7 @@ public class GroupBoard extends ActionBarActivity {
                     fragment = GroupFilesFragment.newInstance(group._id);
                     break;
                 case TAB_FORUMS:
-                    fragment = GroupForumsFragment.newInstance(group._id);
+                    fragment = GroupForumsFragment.newInstance(group);
                     break;
                 case TAB_INFO:
                     fragment = GroupProfile.newInstance(group);

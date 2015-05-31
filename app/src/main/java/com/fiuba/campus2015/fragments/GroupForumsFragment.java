@@ -23,6 +23,7 @@ import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.ForumAdapter;
 import com.fiuba.campus2015.dto.user.Action;
 import com.fiuba.campus2015.dto.user.Forum;
+import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
 import com.fiuba.campus2015.services.Application;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static com.fiuba.campus2015.extras.Constants.GROUP;
 import static com.fiuba.campus2015.extras.Constants.FORUM;
+import static com.fiuba.campus2015.extras.Constants.GROUPOWNER;
 
 public class GroupForumsFragment extends Fragment {
     private View myView;
@@ -52,12 +54,14 @@ public class GroupForumsFragment extends Fragment {
 
     private AddForumDialog addForumDialog;
 
-    public static GroupForumsFragment newInstance(String groupId) {
+    public static GroupForumsFragment newInstance(Group group) {
         GroupForumsFragment fragment = new GroupForumsFragment();
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
-        args.putString(GROUP, groupId);
+        args.putString(GROUP, group._id);
+        args.putString(GROUPOWNER, group.owner._id);
+
         //put any extra arguments that you may want to supply to this fragment
         fragment.setArguments(args);
         return fragment;
@@ -150,11 +154,15 @@ public class GroupForumsFragment extends Fragment {
     {
         final List<String> listItems = new ArrayList<String>();
 
-        for (int i = 0; i < forum.actions.size(); i++) {
-            Action action=forum.actions.get(i);
-            if (action.action.equals("delete"))
-                listItems.add("Eliminar grupo.");
+        if (forum.owner._id.equals(session.getUserid()) || getArguments().getString(GROUPOWNER).equals(session.getUserid()))
+        {
+            listItems.add("Eliminar grupo.");
         }
+      //  for (int i = 0; i < forum.actions.size(); i++) {
+        //    Action action=forum.actions.get(i);
+            //if (action.action.equals("delete"))
+          //      listItems.add("Eliminar grupo.");
+        //}
         if (!listItems.isEmpty()) {
 
             CharSequence opciones[] = new CharSequence[]{"Eliminar foro"};
