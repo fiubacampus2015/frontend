@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.dexafree.materialList.cards.BasicImageButtonsCard;
 import com.dexafree.materialList.cards.BigImageButtonsCard;
-import com.dexafree.materialList.cards.BigImageCard;
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
 import com.dexafree.materialList.controller.IMaterialListAdapter;
@@ -142,29 +141,30 @@ public class MessageAdapter {
                 return card;
 
             case photo:
-                card = new BigImageCard(this.context);
+                card = new BigImageButtonsCard(this.context);
                 card.setDescription(Utils.getBirthdayFormatted(msg.date));
                 card.setTitle(title);
-                if ( msg.content != null && ! msg.content.isEmpty()) {
-                    Drawable drawable = new BitmapDrawable(context.getResources(), Utils.getPhoto(msg.content));
-                    card.setDrawable(drawable);
-
-                }else
-                    card.setDrawable(R.drawable.profiledefault);
-
-                card.setTag("BIG_IMAGE_CARD");
                 card.setDismissible(true);
-/*
+
                 ((BigImageButtonsCard) card).setLeftButtonText("Borrar");
                 ((BigImageButtonsCard) card).setLeftButtonTextColorRes(R.color.my_awesome_darker_color);
                 ((BigImageButtonsCard) card).setRightButtonText("");
+
+                if ( msg.content != null && ! msg.content.isEmpty()) {
+                    Drawable drawable = new BitmapDrawable(context.getResources(), Utils.getPhoto(msg.content));
+                    card.setDrawable(drawable);
+                }else
+                    card.setDrawable(R.drawable.profiledefault);
+
+                card.setTag("BIG_IMAGE_BUTTON_CARD");
+
                 ((BigImageButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
                         deleteCard(idMessage, card);
                     }
                 });
-*/
+
                 return card;
 
             case video:
@@ -312,8 +312,8 @@ public class MessageAdapter {
                         OnButtonPressListener button2 = ((LinkCard)card).getOnButtonPressedListener();
                         button2.onButtonPressedListener(null, card);
                         break;
-                    case "PLACE_CARD":
-                        OnButtonPressListener button3 = ((BasicImageButtonsCard)card).getOnLeftButtonPressedListener();
+                    case "BIG_IMAGE_BUTTON_CARD":
+                        OnButtonPressListener button3 = ((BigImageButtonsCard)card).getOnLeftButtonPressedListener();
                         button3.onButtonPressedListener(null, card);
                         break;
                 }

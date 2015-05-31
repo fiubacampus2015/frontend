@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fiuba.campus2015.ForumMessage;
 import com.fiuba.campus2015.R;
@@ -33,8 +34,11 @@ import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.squareup.otto.Subscribe;
 
+
+import org.w3c.dom.Text;
 
 import retrofit.RestAdapter;
 import retrofit.client.Response;
@@ -106,14 +110,26 @@ public class PhotoWallDialog extends AlertDialog.Builder {
             @Override
             public void onClick(View v) {
                 //dialogView.findViewById(R.id.sendMsg).setEnabled(false);
-                SendMsgTask task = new SendMsgTask();
-                task.execute();
-                reset();
-                alertDialog.dismiss();
-                            }
+                if (validateData()) {
+                    SendMsgTask task = new SendMsgTask();
+                    task.execute();
+                    reset();
+                    alertDialog.dismiss();
+                }
+            }
         });
     }
 
+    private boolean validateData() {
+
+        boolean isValid = true;
+        if (this.msgContent.getDrawable() == null) {
+            Toast.makeText(this.getContext(), "No subiste ninguna foto", Toast.LENGTH_SHORT).show();
+            isValid=false;
+        }
+
+        return isValid;
+    }
 
     public void reset()
     {
@@ -146,6 +162,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
                 }
             }
         } catch (Exception e) {
+            Toast.makeText(this.getContext(), "FOTO", Toast.LENGTH_SHORT).show();
         }
 
     }
