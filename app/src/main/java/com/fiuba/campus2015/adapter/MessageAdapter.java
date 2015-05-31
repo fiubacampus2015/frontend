@@ -88,7 +88,7 @@ public class MessageAdapter {
         card.setOnButtonPressedListener(new OnButtonPressListener() {
             @Override
             public void onButtonPressedListener(View view, Card card) {
-                materialListView.remove(card);
+             delete(card);
             }
         });
 
