@@ -56,6 +56,7 @@ public class VideoDialog extends AlertDialog.Builder {
     private final int MAXSIZE = 8;
     private boolean sending;
     private String realPath;
+    private String videoEncoded;
 
     protected VideoDialog(FragmentActivity activity, WallFragment wallFragment, MessageAdapter msgAdapter, String userTo) {
         super(activity);
@@ -97,9 +98,9 @@ public class VideoDialog extends AlertDialog.Builder {
 
                         if (data != null) {
                             if (validateSize(data)) {
-                                String videoEncoded = encodeVideoToString(data);
+                                videoEncoded = encodeVideoToString(data);
                                 SendVideoTask task = new SendVideoTask();
-                                task.execute(videoEncoded);
+                                task.execute();
                             }
                         } else {
                             Toast.makeText(wallFragment.getActivity(),"Error al convertir el video en bytes",
@@ -198,7 +199,7 @@ public class VideoDialog extends AlertDialog.Builder {
     }
 
     private String encodeVideoToString(byte[] videoBytes) {
-        return  Base64.encodeToString(videoBytes, Base64.DEFAULT);
+        return  Base64.encodeToString(videoBytes, Base64.NO_WRAP);
     }
 
     private boolean validateSize(byte[] data) {
@@ -240,7 +241,7 @@ public class VideoDialog extends AlertDialog.Builder {
             Message  message = null;
 
             try {
-               message =  api.postMsgToWall(session.getToken(), userTo, new Message(params[0],
+               message =  api.postMsgToWall(session.getToken(), userTo, new Message(videoEncoded,
                         Constants.MsgCardType.video));
 
             } catch (Exception x) { }

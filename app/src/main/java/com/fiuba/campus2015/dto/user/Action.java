@@ -5,4 +5,8 @@ package com.fiuba.campus2015.dto.user;
  */
 public class Action {
     public String action;
+
+    public Action(String action) {
+        this.action = action;
+    }
 }

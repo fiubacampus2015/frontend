@@ -137,18 +137,13 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
-        update();
+//        update();
 
         return myView;
     }
 
     public void searchFilesInGroup() {
-        SearchGroupFiles task = new SearchGroupFiles();
-        try {
-            task.execute();
-        } catch (Exception x){
-            Toast.makeText(getActivity().getApplicationContext(), "Error al buscar archivos.", Toast.LENGTH_SHORT).show();
-        }
+
 
     }
 
@@ -163,54 +158,6 @@ public class GroupFilesFragment extends Fragment {
         searchText.setText("");
         searchFilesInGroup();
     }
-
-    private  class SearchGroupFiles extends AsyncTask<Void, Void, List<Message>> {
-
-        RestClient restClient;
-
-        public void executeTask() {
-            try {
-                this.execute();
-            } catch (Exception e) {
-                Toast.makeText(getActivity().getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            restClient = new RestClient();
-            progressBar.setEnabled(true);
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected List<Message> doInBackground(Void... params) {
-            List<Message> file = null;
-            try {
-
-            } catch (Exception ex) {
-                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de archivos.", Toast.LENGTH_SHORT).show();
-
-            }
-            return file;
-        }
-
-        @Override
-        protected void onPostExecute(List<Message> forums) {
-            if (forums == null) {
-                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de archivos.", Toast.LENGTH_SHORT).show();
-            } else {
-                if(forums.isEmpty())
-                    emptyView.setVisibility(View.VISIBLE);
-                else
-                    emptyView.setVisibility(View.INVISIBLE);
-
-                progressBar.setVisibility(View.INVISIBLE);
-
-            }
-        }
-    }
-
     //Se llama a este metodo en caso de que no haya error
     @Subscribe
     public void onFileList(ArrayList<Message> msgs) {
