@@ -2,6 +2,8 @@ package com.fiuba.campus2015.asyntask;
 
 
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.UrlEndpoints;
@@ -20,9 +22,12 @@ public class LoadUserDataTask extends AsyncTask<Void, Void, User> {
     private IProfile profile;
     private String tokenUser;
     private String idUser;
+    private ProgressBar progressBar;
 
     public LoadUserDataTask(IProfile profile, String tokenUser, String idUser) {
         this.profile = profile;
+        //this.progressBar = progressBar;
+
         gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 .create();
@@ -40,10 +45,12 @@ public class LoadUserDataTask extends AsyncTask<Void, Void, User> {
 
     @Override
     protected void onPreExecute() {
+
         restAdapter = new RestAdapter.Builder()
                 .setEndpoint(UrlEndpoints.URL_API)
                 .setConverter(new GsonConverter(gson))
                 .build();
+
     }
 
     @Override
@@ -59,6 +66,7 @@ public class LoadUserDataTask extends AsyncTask<Void, Void, User> {
 
     @Override
     protected void onPostExecute(User user) {
+
       profile.setUser(user);
     }
 }

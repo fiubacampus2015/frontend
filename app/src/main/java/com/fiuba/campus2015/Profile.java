@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import static com.fiuba.campus2015.extras.Constants.USER;
 import static com.fiuba.campus2015.extras.Constants.PAGE;
@@ -31,6 +33,7 @@ public class Profile extends ActionBarActivity implements IProfile{
     private ProfileAdapter adapter;
     private Toolbar toolbar;
     private User user;
+    private ProgressBar prgrsBar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +42,12 @@ public class Profile extends ActionBarActivity implements IProfile{
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        prgrsBar = (ProgressBar) findViewById(R.id.progressBarCircularIndeterminateProfile);
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         vpPager.setOffscreenPageLimit(3);
 
         SessionManager session = new SessionManager(getApplicationContext());
+        prgrsBar.setVisibility(View.VISIBLE);
         LoadUserDataTask loadTask = new LoadUserDataTask(this, session.getToken(), session.getUserid());
         loadTask.executeTask();
     }
@@ -53,7 +57,7 @@ public class Profile extends ActionBarActivity implements IProfile{
             Toast.makeText(this, "Hubo un error al obtener los datos del usuario.", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        prgrsBar.setVisibility(View.GONE);
         this.user = user;
         adapter= new ProfileAdapter(getSupportFragmentManager(), user);
         vpPager.setAdapter(adapter);

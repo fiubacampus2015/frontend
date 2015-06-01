@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.fiuba.campus2015.adapter.PageAdapter;
 import com.fiuba.campus2015.dto.user.Education;
@@ -57,6 +58,7 @@ public class ProfileEditable extends ActionBarActivity {
     private Toolbar toolbar;
     private PageAdapter adapterViewPager;
     private ViewPager vpPager;
+    private ProgressBar prgrsBar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,7 @@ public class ProfileEditable extends ActionBarActivity {
                 onBackPressed();
             }
         });
+        prgrsBar = (ProgressBar) findViewById(R.id.progressBarCircularIndeterminateProfile);
 
         vpPager = (ViewPager) findViewById(R.id.vpPager);
         vpPager.setOffscreenPageLimit(3);
@@ -87,20 +90,28 @@ public class ProfileEditable extends ActionBarActivity {
     }
 
     public void submitData(){
+        prgrsBar.setVisibility(View.VISIBLE);
+
         Bundle data = adapterViewPager.getAllData();
         int error = data.getInt("ERROR");
 
         if (error != 999){
             vpPager.setCurrentItem(error);
+            prgrsBar.setVisibility(View.GONE);
+
         } else {
             if (!isFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESOEMPLEO))) {
                 Dialog dialog = new Dialog(this, "Las fechas son incorrectas",
                         "La fecha de nacimiento no puede ser mayor que la fecha de ingreso al trabajo.");
                 dialog.show();
+                prgrsBar.setVisibility(View.GONE);
+
             } else if (!isFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESO))) {
                     Dialog dialog = new Dialog(this, "Las fechas son incorrectas" ,
                             "La fecha de nacimiento no puede ser mayor a la fecha de ingreso a la facultad.");
                     dialog.show();
+                prgrsBar.setVisibility(View.GONE);
+
             } else {
                 ExecuteSave(data);
             }
@@ -248,10 +259,11 @@ public class ProfileEditable extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(retrofit.client.Response response) {
-
+            prgrsBar.setVisibility(View.GONE);
             if(response == null) {
                 Toast.makeText(editProfile.getApplicationContext(), "Hubo un error al guardar tus datos.", Toast.LENGTH_SHORT).show();
             } else {
+
                 editProfile.back();
             }
         }
