@@ -124,9 +124,10 @@ public class MessageAdapter {
 
             case place:
                 card = new BasicImageButtonsCard(this.context);
-                card.setDescription(description);
+                card.setDescription(Utils.getBirthdayFormatted(msg.date));
                 card.setTitle(title);
-                card.setDrawable(R.drawable.icon_location_wall);
+                Drawable drawablePlace = new BitmapDrawable(context.getResources(), Utils.getPhoto(msg.content));
+                card.setDrawable(drawablePlace);
                 card.setTag("PLACE_CARD");
                 card.setDismissible(true);
                 ((BasicImageButtonsCard) card).setLeftButtonText("Borrar");

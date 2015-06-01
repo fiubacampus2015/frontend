@@ -1,6 +1,8 @@
 package com.fiuba.campus2015;
 
+import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,6 +34,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import retrofit.RestAdapter;
 import retrofit.client.Response;
 
+import static com.fiuba.campus2015.extras.Utils.getPhotoString;
+
 public class Map extends ActionBarActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -39,6 +43,8 @@ public class Map extends ActionBarActivity implements
 
     private Toolbar toolbar;
     private SessionManager session;
+    private String content;
+
 
     public static final String TAG = Map.class.getSimpleName();
 
@@ -88,8 +94,8 @@ public class Map extends ActionBarActivity implements
         postLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SendLocationMsgTask task = new SendLocationMsgTask();
-                    task.execute();
+                CaptureMapScreen();
+
             }
         });
     }
@@ -233,6 +239,27 @@ public class Map extends ActionBarActivity implements
         }
     }
 
+    public void CaptureMapScreen()
+    {
+        GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
+
+            Bitmap photoBitmap;
+            @Override
+            public void onSnapshotReady(Bitmap snapshot) {
+                photoBitmap = Bitmap.createScaledBitmap(snapshot, 100, 100, true);
+                try {
+                    content = getPhotoString(photoBitmap);
+                    SendLocationMsgTask task = new SendLocationMsgTask();
+                    task.execute();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        mMap.snapshot(callback);
+
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
@@ -255,7 +282,10 @@ public class Map extends ActionBarActivity implements
             IApiUser api = restAdapter.create(IApiUser.class);
             retrofit.client.Response  response = null;
             try {
-                response = api.postMsgToWall(session.getToken(),session.getUserid(),new Message("Estoy en: ", Constants.MsgCardType.place));
+
+
+                String content2 = content;
+                response = api.postMsgToWall(session.getToken(),session.getUserid(),new Message(content2,Constants.MsgCardType.place));
 
             } catch (Exception x) {}
 
@@ -264,7 +294,9 @@ public class Map extends ActionBarActivity implements
 
         @Override
         protected void onPostExecute(retrofit.client.Response response) {
-           // wallFragment.update();
+
+            Intent intent = new Intent(Map.this, Board.class);
+            startActivity(intent);
 
         }
     }

@@ -65,6 +65,9 @@ public class ForumMessage  extends ActionBarActivity {
 
         FloatingActionButton button_actionAddPhoto = (FloatingActionButton) findViewById(R.id.action_addphoto);
 
+        FloatingActionButton button_actionAddPlace = (FloatingActionButton) findViewById(R.id.action_addPlace);
+        button_actionAddPlace.setVisibility(View.GONE);
+
 
         prgrsBar = (ProgressBar) findViewById(R.id.progressBarCircularIndeterminate_);
 
