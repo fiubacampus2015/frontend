@@ -52,14 +52,10 @@
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:id="@+id/listViewFiles"
-        android:layout_gravity="center_horizontal"
-        android:divider="#ffffffff"
-        android:dividerHeight="5dp" />
+    <com.dexafree.materialList.view.MaterialListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/listViewFiles"/>
 
     <include layout="@layout/file_menu"/>
 

@@ -11,8 +11,9 @@ public class Group {
     public String photo;
     public User owner;
     public List<Action> actions;
-    public Integer totalMsgs;
-    public Integer totalContacts;
+    public Integer members;
+    public Integer request;
+    public Integer msgs;
     public Integer totalFiles;
 
     public Group(User user, String name, String description, String photo, String status){

@@ -240,6 +240,11 @@ public interface IApiUser {
             @Body Message message
     );
 
-
+    @GET("/api/{token}/groups/{groupId}/files")
+    public List<Message> getGroupFiles(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Query("title") String title
+    );
 
 }

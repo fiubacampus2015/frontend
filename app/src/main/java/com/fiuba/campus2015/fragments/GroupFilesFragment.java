@@ -22,19 +22,26 @@ import com.fiuba.campus2015.adapter.ForumAdapter;
 import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
 import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.services.Response;
 import com.fiuba.campus2015.services.RestClient;
+import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RestAdapter;
 
+import static com.fiuba.campus2015.extras.Constants.GROUP;
+import static com.fiuba.campus2015.extras.Constants.GROUPOWNER;
 import static com.fiuba.campus2015.extras.Constants.USERTO;
 
 public class GroupFilesFragment extends Fragment {
@@ -48,10 +55,15 @@ public class GroupFilesFragment extends Fragment {
     private PhotoWallDialog photoDialog;
     private VideoDialog videoDialog;
     private MaterialListView mListView;
+    private String groupId;
 
-    public static GroupFilesFragment newInstance(String groupId) {
+    public static GroupFilesFragment newInstance(Group group) {
         GroupFilesFragment fragment = new GroupFilesFragment();
         Bundle args = new Bundle();
+
+        fragment.setArguments(args);
+        args.putString(GROUP, group._id);
+
         //put any extra arguments that you may want to supply to this fragment
         fragment.setArguments(args);
         return fragment;
@@ -62,12 +74,13 @@ public class GroupFilesFragment extends Fragment {
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.group_files_fragment, container, false);
         session = new SessionManager(getActivity().getApplicationContext());
+        groupId = getArguments().getString(GROUP);
 
         ImageView buttonSearch = (ImageView) myView.findViewById(R.id.search);
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchGroups();
+                searchFilesInGroup();
             }
         });
 
@@ -82,11 +95,6 @@ public class GroupFilesFragment extends Fragment {
         prgrsBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminateFile);
         emptyView = (TextView) myView.findViewById(R.id.empty_view_files);
 
-
-        recyclerView = (RecyclerView) myView.findViewById(R.id.listViewFiles);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
         //Se agrega esto por que sino no funciona el input con tabs
         searchText = (EditText) myView.findViewById(R.id.search_text);
         searchText.setOnTouchListener(new View.OnTouchListener() {
@@ -97,8 +105,8 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
-        mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
-        //this.fileAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
+        mListView = (MaterialListView) myView.findViewById(R.id.listViewFiles);
+        this.fileAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
 
         FloatingActionButton button_actionAddPhoto = (FloatingActionButton) myView.findViewById(R.id.action_addphoto);
         FloatingActionButton button_actionAddVideo = (FloatingActionButton) myView.findViewById(R.id.action_addVideo);
@@ -129,32 +137,34 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
+        update();
 
         return myView;
     }
 
-    public void update() {
-        GetGroupListTask fillGroupList = new GetGroupListTask();
-        fillGroupList.execute();
-    }
-
-    public void searchGroups() {
-        SearchGroups task = new SearchGroups();
+    public void searchFilesInGroup() {
+        SearchGroupFiles task = new SearchGroupFiles();
         try {
             task.execute();
         } catch (Exception x){
-            Toast.makeText(getActivity().getApplicationContext(), "Error al buscar foros.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Error al buscar archivos.", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public void update() {
+        prgrsBar.setVisibility(View.VISIBLE);
+        //Suscripcion a los eventos que devuelve el cliente que llama la api
+        getFilesInGroup();
     }
 
     public void searchClear(View view) {
         emptyView.setVisibility(View.INVISIBLE);
         searchText.setText("");
-        searchGroups();
+        searchFilesInGroup();
     }
 
-    private  class SearchGroups extends AsyncTask<Void, Void, List<Forum>> {
+    private  class SearchGroupFiles extends AsyncTask<Void, Void, List<Message>> {
 
         RestClient restClient;
 
@@ -176,19 +186,19 @@ public class GroupFilesFragment extends Fragment {
         }
 
         @Override
-        protected List<Forum> doInBackground(Void... params) {
-            List<Forum> forum = null;
+        protected List<Message> doInBackground(Void... params) {
+            List<Message> file = null;
             try {
 
             } catch (Exception ex) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de archivos.", Toast.LENGTH_SHORT).show();
 
             }
-            return forum;
+            return file;
         }
 
         @Override
-        protected void onPostExecute(List<Forum> forums) {
+        protected void onPostExecute(List<Message> forums) {
             if (forums == null) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de archivos.", Toast.LENGTH_SHORT).show();
             } else {
@@ -198,42 +208,50 @@ public class GroupFilesFragment extends Fragment {
                     emptyView.setVisibility(View.INVISIBLE);
 
                 prgrsBar.setVisibility(View.INVISIBLE);
-                //forumAdapter.setForums(forums, session.getUserid());
+
             }
         }
     }
 
-    private class GetGroupListTask extends AsyncTask<Void, Void,
-            List<Forum>> {
-        RestAdapter restAdapter;
+    //Se llama a este metodo en caso de que no haya error
+    @Subscribe
+    public void onFileList(ArrayList<Message> msgs) {
+        if(msgs.isEmpty())
+            emptyView.setVisibility(View.VISIBLE);
+        else
+            emptyView.setVisibility(View.INVISIBLE);
 
-        @Override
-        protected void onPreExecute() {
-            restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(UrlEndpoints.URL_API)
-                    .build();
-        }
+        fileAdapter.setData(msgs);
+        prgrsBar.setVisibility(View.GONE);
+        //Desuscripcion a los eventos que devuelve el cliente que llama la api
+        Application.getEventBus().unregister(this);
+    }
 
-        @Override
-        protected List<Forum> doInBackground(Void... params) {
 
-            List<Forum> forums = null;
-            IApiUser api = restAdapter.create(IApiUser.class);
-            try {
-                //TODO: traer lista de forums del grupo
+    //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
+    @Subscribe
+    public void onResponse(Response responseError) {
+        Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los archivos del grupo." + responseError.reason, Toast.LENGTH_SHORT).show();
+        prgrsBar.setVisibility(View.GONE);
+        Application.getEventBus().unregister(this);
+    }
 
-            } catch (Exception x) {}
 
-            return forums;
-        }
-
-        @Override
-        protected void onPostExecute(List<Forum> forums) {
-
-            if(forums!=null) {
-               //TODO: volver a cargar la lista de forums
+    public void getFilesInGroup()
+    {
+        Application.getEventBus().register(this);
+        //Se crea la llamada al servicio
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<List<Message>, IApiUser>() {
+            @Override
+            public List<Message> getResult(IApiUser service) {
+                return service.getGroupFiles(session.getToken(), groupId, searchText.getText().toString());
             }
-        }
+        };
+
+        //Se llama a la api
+        RestClient restClient = new RestClient();
+        RestServiceAsync callApi = new RestServiceAsync<List<Message>, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new Response());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.fiuba.campus2015.adapter;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -29,6 +30,7 @@ import com.fiuba.campus2015.customcard.LinkCard;
 import com.fiuba.campus2015.customcard.VideoCard;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.Utils;
+import com.fiuba.campus2015.fragments.GroupFilesFragment;
 import com.fiuba.campus2015.fragments.WallFragment;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
@@ -43,18 +45,32 @@ public class MessageAdapter {
     private String userId;
     private SessionManager session;
     private WallFragment wallFragment;
+    private GroupFilesFragment fileFragment;
     private ForumMessage forumMessage;
 
 
-    public MessageAdapter(Context context, MaterialListView materialListView , String userId, WallFragment wallFragment){
+    public MessageAdapter(Context context, MaterialListView materialListView , String userId, WallFragment fragment){
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
         this.materialListView = materialListView;
         this.userId = userId;
         this.session = new SessionManager(context.getApplicationContext());
-        this.wallFragment = wallFragment;
+        this.wallFragment = fragment;
+
         setDismissCallback();
     }
+
+    public MessageAdapter(Context context, MaterialListView materialListView , String userId, GroupFilesFragment fragment){
+        layoutInflater = LayoutInflater.from(context);
+        this.context = context;
+        this.materialListView = materialListView;
+        this.userId = userId;
+        this.session = new SessionManager(context.getApplicationContext());
+        this.fileFragment = fragment;
+
+        setDismissCallback();
+    }
+
 
     public MessageAdapter(Context context, MaterialListView materialListView , String userId,ForumMessage forumMessage){
         layoutInflater = LayoutInflater.from(context);
@@ -345,12 +361,12 @@ public class MessageAdapter {
 
         public DeleteMsgTask(String idMessage, Card card)
         {
-            Activity activity;
+            Activity activity = forumMessage;
+
             if (wallFragment!=null)
                 activity = wallFragment.getActivity();
-            else
-                activity = forumMessage;
-
+            if (fileFragment!=null)
+                activity = fileFragment.getActivity();
 
             progressDialog =  new ProgressDialog(activity, "Borrando mensaje.");            this.idMessage = idMessage;
             this.card = card;
@@ -395,8 +411,6 @@ public class MessageAdapter {
                 Toast.makeText(context.getApplicationContext(), "Hubo un error al borrar el mensaje.", Toast.LENGTH_SHORT).show();
             else
                 delete(card);
-            //wallFragment.update();
-
         }
     }
 
