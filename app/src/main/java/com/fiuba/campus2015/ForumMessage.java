@@ -15,6 +15,8 @@ import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.fragments.PhotoForumDialog;
+import com.fiuba.campus2015.fragments.PostForumLinkDialog;
+import com.fiuba.campus2015.fragments.PostLinkDialog;
 import com.fiuba.campus2015.fragments.WriteForumMsgDialog;
 import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
@@ -31,6 +33,7 @@ import java.util.List;
 
 import static com.fiuba.campus2015.extras.Constants.FORUM;
 import static com.fiuba.campus2015.extras.Constants.GROUP;
+import static com.fiuba.campus2015.extras.Constants.USERTO;
 
 
 public class ForumMessage  extends ActionBarActivity {
@@ -42,7 +45,7 @@ public class ForumMessage  extends ActionBarActivity {
     private String groupId;
     private WriteForumMsgDialog w_msgDialog;
     private PhotoForumDialog w_photoForumDialog;
-
+    private PostForumLinkDialog linkDialog;
 
 
 
@@ -68,6 +71,7 @@ public class ForumMessage  extends ActionBarActivity {
         FloatingActionButton button_actionAddPlace = (FloatingActionButton) findViewById(R.id.action_addPlace);
         button_actionAddPlace.setVisibility(View.GONE);
 
+        final FloatingActionButton button_actionAddLink = (FloatingActionButton) findViewById(R.id.action_link);
 
         prgrsBar = (ProgressBar) findViewById(R.id.progressBarCircularIndeterminate_);
 
@@ -92,7 +96,7 @@ public class ForumMessage  extends ActionBarActivity {
 
         w_photoForumDialog = new PhotoForumDialog(this,msgAdapter,groupId,forumId);
 
-
+        linkDialog = new PostForumLinkDialog(this,msgAdapter,groupId,forumId);
 
         button_actionAddMeg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +109,13 @@ public class ForumMessage  extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 w_photoForumDialog.showDialog();
+            }
+        });
+
+        button_actionAddLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linkDialog.showDialog();
             }
         });
 

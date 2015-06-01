@@ -4,11 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    xmlns:fab="http://schemas.android.com/tools"
     tools:context="com.fiuba.campus2015.fragments.GroupFilesFragment">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarFiles"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#ffdbdbdb"
@@ -16,13 +15,13 @@
         android:minHeight="?attr/actionBarSize">
 
         <LinearLayout
-            android:id="@+id/search_container"
+            android:id="@+id/search_files_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal">
             <ImageView
-                android:id="@+id/search"
+                android:id="@+id/search_files"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -30,7 +29,7 @@
                 android:src="@drawable/ic_action_search" />
 
             <EditText
-                android:id="@+id/search_text"
+                android:id="@+id/search_files_text"
                 android:layout_width="wrap_content"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_weight="1"
@@ -44,7 +43,7 @@
                 android:textColorHint="@color/black" />
 
             <ImageView
-                android:id="@+id/search_clear"
+                android:id="@+id/search_files_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -57,14 +56,12 @@
         android:layout_height="fill_parent"
         android:id="@+id/listViewFiles"/>
 
-    <include layout="@layout/file_menu"/>
-
     <RelativeLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_centerInParent="true"
-        android:id="@+id/progressbarfiles" >
+        android:id="@+id/progressbarFile" >
         <ProgressBar
             android:id="@+id/progressBarCircularIndeterminateFile"
             style="?android:attr/progressBarStyleLarge"
@@ -85,4 +82,5 @@
             android:text="@string/no_data_available" />
     </RelativeLayout>
 
+    <include layout="@layout/file_menu"/>
 </RelativeLayout>

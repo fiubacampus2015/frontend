@@ -48,9 +48,8 @@ public class GroupFilesFragment extends Fragment {
     private View myView;
     private SessionManager session;
     private MessageAdapter fileAdapter;
-    private RecyclerView recyclerView;
     private TextView emptyView;
-    private ProgressBar prgrsBar;
+    private ProgressBar progressBar;
     private EditText searchText;
     private PhotoWallDialog photoDialog;
     private VideoDialog videoDialog;
@@ -72,11 +71,12 @@ public class GroupFilesFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         myView = inflater.inflate(R.layout.group_files_fragment, container, false);
         session = new SessionManager(getActivity().getApplicationContext());
         groupId = getArguments().getString(GROUP);
 
-        ImageView buttonSearch = (ImageView) myView.findViewById(R.id.search);
+        ImageView buttonSearch = (ImageView) myView.findViewById(R.id.search_files);
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +84,7 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
-        ImageView buttonClear= (ImageView) myView.findViewById(R.id.search_clear);
+        ImageView buttonClear= (ImageView) myView.findViewById(R.id.search_files_clear);
         buttonClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,11 +92,10 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
-        prgrsBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminateFile);
         emptyView = (TextView) myView.findViewById(R.id.empty_view_files);
 
         //Se agrega esto por que sino no funciona el input con tabs
-        searchText = (EditText) myView.findViewById(R.id.search_text);
+        searchText = (EditText) myView.findViewById(R.id.search_files_text);
         searchText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -105,6 +104,7 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
+        progressBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminateFile);
         mListView = (MaterialListView) myView.findViewById(R.id.listViewFiles);
         this.fileAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
 
@@ -153,7 +153,7 @@ public class GroupFilesFragment extends Fragment {
     }
 
     public void update() {
-        prgrsBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         //Suscripcion a los eventos que devuelve el cliente que llama la api
         getFilesInGroup();
     }
@@ -179,10 +179,8 @@ public class GroupFilesFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             restClient = new RestClient();
-            prgrsBar.setEnabled(true);
-            prgrsBar.setVisibility(View.VISIBLE);
-
-
+            progressBar.setEnabled(true);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -207,7 +205,7 @@ public class GroupFilesFragment extends Fragment {
                 else
                     emptyView.setVisibility(View.INVISIBLE);
 
-                prgrsBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
 
             }
         }
@@ -222,7 +220,7 @@ public class GroupFilesFragment extends Fragment {
             emptyView.setVisibility(View.INVISIBLE);
 
         fileAdapter.setData(msgs);
-        prgrsBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
         //Desuscripcion a los eventos que devuelve el cliente que llama la api
         Application.getEventBus().unregister(this);
     }
@@ -232,7 +230,7 @@ public class GroupFilesFragment extends Fragment {
     @Subscribe
     public void onResponse(Response responseError) {
         Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los archivos del grupo." + responseError.reason, Toast.LENGTH_SHORT).show();
-        prgrsBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
         Application.getEventBus().unregister(this);
     }
 

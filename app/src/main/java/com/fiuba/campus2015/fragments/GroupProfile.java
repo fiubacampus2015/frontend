@@ -71,7 +71,7 @@ public class GroupProfile extends Fragment {
 
         BigImageCard personalCard = new BigImageCard(view.getContext());
         personalCard.setTitle(getArguments().getString(NAME));
-        personalCard.setTitleColor(R.color.accent);
+        personalCard.setTitleColorRes(R.color.black_button);
         personalCard.setDescription(getArguments().getString(DESCRIPCIONGRUPO) + "\n" + getArguments().getString(GROUPOWNER));
         personalCard.setTag("BIG_IMAGE_CARD");
 
