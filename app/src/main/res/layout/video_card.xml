@@ -34,11 +34,11 @@
                     android:layout_marginRight="15dp" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/descriptionTextView"
+                    android:visibility="gone"
                     android:textColor="#878787"
-                    android:textSize="@dimen/description_size"
                     tools:text="And this is the description"
                     android:layout_gravity="right"
                     android:layout_marginLeft="15dp"

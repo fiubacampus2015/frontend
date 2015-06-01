@@ -34,6 +34,10 @@ public class Constants {
     public static final String FORUM = "forum";
     public static final String DESCRIPCIONGRUPO = "descripcionGrupo";
     public static final int MAX_SIZE_PHOTO = 8;
+    public static final String CAMPUS = "Campus";
+    public static final String MOVIES = "Movies";
+    public static final String SEP = "/";
+    public static final String MP4 = ".mp4";
 
     public static enum MsgCardType {text, photo, video, place, file, link};
 

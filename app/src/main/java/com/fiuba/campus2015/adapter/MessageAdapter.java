@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,12 +34,20 @@ import com.fiuba.campus2015.customcard.TextCard;
 import com.fiuba.campus2015.customcard.LinkCard;
 import com.fiuba.campus2015.customcard.VideoCard;
 import com.fiuba.campus2015.dto.user.Message;
+import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.fragments.GroupFilesFragment;
 import com.fiuba.campus2015.fragments.WallFragment;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.widgets.ProgressDialog;
+import static com.fiuba.campus2015.extras.Constants.MOVIES;
+import static com.fiuba.campus2015.extras.Constants.CAMPUS;
+import static com.fiuba.campus2015.extras.Constants.MP4;
+import static com.fiuba.campus2015.extras.Constants.SEP;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
 import java.util.List;
 
 public class MessageAdapter {
@@ -81,34 +94,6 @@ public class MessageAdapter {
         this.forumMessage = forumMessage;
 
         setDismissCallback();
-    }
-
-    // probando video
-    public void setVideoTest(Message msg, Drawable videoPreview, final Uri uriVideo) {
-        VideoCard card = new VideoCard(context);
-        card.setTitle(msg.user.name + " " + msg.user.username);
-        card.setDescription("\n" + msg.content);
-        card.setTag("VIDEO_CARD");
-        card.setVideoPreview(videoPreview);
-        card.setDismissible(true);
-
-        card.setOnButtonPressedListenerPreview(new OnButtonPressListener() {
-            @Override
-            public void onButtonPressedListener(View view, Card card) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(uriVideo, "video/*");
-                wallFragment.startActivity(intent);
-            }
-        });
-
-        card.setOnButtonPressedListener(new OnButtonPressListener() {
-            @Override
-            public void onButtonPressedListener(View view, Card card) {
-             delete(card);
-            }
-        });
-
-        materialListView.addAtStart(card);
     }
 
     public void fillArray() {
@@ -181,33 +166,53 @@ public class MessageAdapter {
                 return card;
 
             case video:
-                card = new BasicImageButtonsCard(this.context);
-                card.setDescription(description);
+                card = new VideoCard(this.context, session.getUserid(), msg.user._id,
+                        (wallFragment == null? "": wallFragment.getWallUserId()));
                 card.setTitle(title);
-                //card.setDrawable(R.drawable.msg);
-                card.setTag("BASIC_IMAGE_BUTTON_CARD");
-                ((BasicImageButtonsCard) card).setLeftButtonText("LEFT");
-                ((BasicImageButtonsCard) card).setRightButtonText("RIGHT");
-
-                if (position % 2 == 0)
-                    ((BasicImageButtonsCard) card).setDividerVisible(true);
-
-                ((BasicImageButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
-                    @Override
-                    public void onButtonPressedListener(View view, Card card) {
-                        Toast.makeText(context, "You have pressed the left button", Toast.LENGTH_SHORT).show();
-                        ((SimpleCard) card).setTitle("CHANGED ON RUNTIME");
-                    }
-                });
-
-                ((BasicImageButtonsCard) card).setOnRightButtonPressedListener(new OnButtonPressListener() {
-                    @Override
-                    public void onButtonPressedListener(View view, Card card) {
-                        Toast.makeText(context, "You have pressed the right button on card " + ((SimpleCard) card).getTitle(), Toast.LENGTH_SHORT).show();
-                        materialListView.remove(card);
-                    }
-                });
+                card.setTag("VIDEO_CARD");
                 card.setDismissible(true);
+
+                String videoString = msg.content;
+                byte[] videoBytes = Base64.decode(videoString.getBytes(), Base64.DEFAULT);
+
+                String path = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                        SEP + CAMPUS + SEP + MOVIES;
+                java.util.Date date = new Date();
+                String nameFile = Long.toString(date.getTime()) + MP4;
+                final String completeName = path + File.separator + nameFile;
+
+                try {
+                    // si la carpeta  esta creada no se sobrescribe
+                    File folder = new File(path);
+                    folder.mkdirs();
+
+                    // se guarda el archivo en la carpeta creada
+                    FileOutputStream out = new FileOutputStream(completeName);
+                    out.write(videoBytes);
+                    out.close();
+
+                    Bitmap thumb = ThumbnailUtils.createVideoThumbnail(completeName, MediaStore.Video.Thumbnails.MINI_KIND);
+                    BitmapDrawable bitmapDrawable = new BitmapDrawable(wallFragment.getResources(), thumb);
+                    ((VideoCard) card).setVideoPreview(bitmapDrawable);
+
+                    ((VideoCard)card).setOnButtonPressedListenerPreview(new OnButtonPressListener() {
+                        @Override
+                        public void onButtonPressedListener(View view, Card card) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(Uri.fromFile(new File(completeName)), "video/*");
+                            wallFragment.startActivity(intent);
+                        }
+                    });
+                } catch (Exception e) {
+                    Toast.makeText(context, "error al grabar el video", Toast.LENGTH_LONG).show();
+                }
+
+                ((VideoCard)card).setOnButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        deleteCard(idMessage, card);
+                    }
+                });
 
                 return card;
 

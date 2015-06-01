@@ -39,10 +39,6 @@ public class VideoCardItemView extends BaseTextCardItemView<VideoCard> {
         View divider = findViewById(R.id.cardDivider);
         divider.setBackgroundColor(card.getDividerColor());
 
-        // DEscription}
-     //   TextView description = (TextView) findViewById(R.id.descriptionTextView);
-     //   description.setTextColor(#878787); Color.parseColor("#608DFA")
-
         // Button
         final TextView button2 = (TextView) findViewById(R.id.deleteButtonVideoCard);
         button2.setText(card.getButtonText());

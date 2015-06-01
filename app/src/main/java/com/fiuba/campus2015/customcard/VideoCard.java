@@ -19,12 +19,22 @@ public class VideoCard extends SimpleCard {
     private int dividerColor;
     private int buttonTextColor;
     private Drawable previewVideo;
+    private boolean showDeleteButton;
 
-    public VideoCard(final Context context) {
+    public VideoCard(final Context context, String userId, String msgUserId, String wallUserId) {
         super(context);
+
         buttonText = "Borrar";
         buttonTextColor = Color.parseColor("#ff80cbc4");
         dividerColor = Color.parseColor("#D4D4D4");
+
+        if(wallUserId.equalsIgnoreCase(userId)){
+            showDeleteButton = true;
+        } else showDeleteButton = (userId.equalsIgnoreCase(msgUserId));
+    }
+
+    public boolean isDeleteable(){
+        return showDeleteButton;
     }
 
     public String getSubtitle() {

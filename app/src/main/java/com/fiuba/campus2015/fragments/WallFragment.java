@@ -81,7 +81,7 @@ public class WallFragment extends Fragment
         this.msgAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
 
         w_msgDialog = new WriteMsgDialog(getActivity(), this, getArguments().getString(USERTO));
-        videoDialog = new VideoDialog(getActivity(), this, getArguments().getString(USERTO));
+        videoDialog = new VideoDialog(getActivity(), this, msgAdapter,getArguments().getString(USERTO));
         linkDialog = new PostLinkDialog(getActivity(), msgAdapter, getArguments().getString(USERTO));
         w_photoDialog = new PhotoWallDialog(getActivity(), msgAdapter, getArguments().getString(USERTO));
 
@@ -141,21 +141,10 @@ public class WallFragment extends Fragment
         return this.getArguments().getString(USERTO);
     }
 
-    public void onRelativePathVideo(int codeRequest, Intent intent) {
-        startActivityForResult(intent, codeRequest);
-    }
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK) {
-            videoDialog.setUri(data.getData());
-        }
+        videoDialog.onActivityResult(requestCode, resultCode, data);
         w_photoDialog.onActivityResult(requestCode,resultCode,data);
-    }
-
-    // probando video
-    public void addVideoCard(Message msg, Drawable videoPreview, Uri uriVideo) {
-        msgAdapter.setVideoTest(msg, videoPreview, uriVideo);
     }
 
     private class GetWallMsgsTask extends AsyncTask<Void, Void,

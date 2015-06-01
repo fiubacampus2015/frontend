@@ -36,22 +36,11 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:paddingRight="10dp">
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/msgContent"
-            android:hint="Escribí una descripción del video..."
-            app:met_primaryColor="@color/accent"
-            app:met_floatingLabel="normal"
-            android:layout_gravity="left"
-            android:maxLength="90"
-            app:met_maxCharacters="90"/>
-    </LinearLayout>
+        android:paddingRight="10dp"></LinearLayout>
 
     <RelativeLayout
         android:orientation="vertical"
