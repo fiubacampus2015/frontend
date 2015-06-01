@@ -188,6 +188,13 @@ public interface IApiUser {
             @Body User user
     );
 
+
+    @GET("/api/{token}/groups/{groupId}/members")
+    public List<User> getMembersGroup(
+            @Path("token") String token,
+            @Path("groupId") String groupId
+    );
+
     @POST("/api/{token}/groups/{groupId}/forums")
     public retrofit.client.Response  createForum(
             @Path("token") String token,

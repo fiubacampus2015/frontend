@@ -138,7 +138,7 @@ public class GroupBoard extends ActionBarActivity {
             Fragment fragment = null;
             switch (position) {
               case TAB_CONTACTS:
-                    fragment = GroupContactFragment.newInstance("","");
+                    fragment = GroupContactFragment.newInstance(group);
                     break;
                 case TAB_FILES:
                     fragment = GroupFilesFragment.newInstance(group._id);

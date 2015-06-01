@@ -30,6 +30,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     private List<User> contactsItems;
     private Context context;
     private String userId;
+    private boolean readOnly = false;
     private ContactFragment contactFragment;
 
     public ContactsAdapter(Context context, ContactFragment contactFragment){
@@ -38,6 +39,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         this.contactFragment =contactFragment;
     }
 
+    public void setReadOnly() {
+        readOnly = true;
+    }
 
     public void setContacts(List<User> listContacts,String userId) {
         this.contactsItems = listContacts;
@@ -78,13 +82,18 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         }
 
         //Valido si es amigo o no
-        if (contactItem.status == null || (contactItem.status!= null && contactItem.status.equals("reject")))
+        if (!readOnly)
         {
-            holder.viewSendInvitation.setVisibility(View.VISIBLE);
-            holder.viewDeleteContact.setVisibility(View.GONE);
-        }else {
-            holder.viewSendInvitation.setVisibility(View.GONE);
-            holder.viewDeleteContact.setVisibility(View.VISIBLE);
+            if (contactItem.status == null || (contactItem.status != null && contactItem.status.equals("reject"))) {
+                holder.viewSendInvitation.setVisibility(View.VISIBLE);
+                holder.viewDeleteContact.setVisibility(View.GONE);
+            } else {
+                holder.viewSendInvitation.setVisibility(View.GONE);
+                holder.viewDeleteContact.setVisibility(View.VISIBLE);
+            }
+        }else if(contactItem._id.equals(userId))
+        {
+            holder.viewOwner.setVisibility(View.VISIBLE);
         }
 
         Bitmap  icon;
@@ -139,6 +148,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         ImageView imageViewContact;
         View viewSeparator;
         ImageView viewSendInvitation;
+        ImageView viewOwner;
         ImageView viewDeleteContact;
         TextView textMail;
 
@@ -149,6 +159,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             viewSeparator = (View) itemView.findViewById(R.id.separatorContact);
             viewSendInvitation = (ImageView) itemView.findViewById(R.id.sendInvitation);
             viewDeleteContact = (ImageView) itemView.findViewById(R.id.deleteContact);
+            viewOwner = (ImageView) itemView.findViewById(R.id.owner);
             textMail = (TextView)itemView.findViewById(R.id.mailText);
             itemView.setOnClickListener(this);
             viewDeleteContact.setOnClickListener(this);
