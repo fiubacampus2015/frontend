@@ -23,6 +23,7 @@ import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.ForumMessage;
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.customcard.BigPhotoCard;
 import com.fiuba.campus2015.customcard.TextCard;
 import com.fiuba.campus2015.customcard.LinkCard;
 import com.fiuba.campus2015.customcard.VideoCard;
@@ -141,29 +142,24 @@ public class MessageAdapter {
                 return card;
 
             case photo:
-                card = new BigImageButtonsCard(this.context);
+                card = new BigPhotoCard(this.context, session.getUserid(), msg.user._id, (wallFragment == null? "": wallFragment.getWallUserId()));
                 card.setDescription(Utils.getBirthdayFormatted(msg.date));
                 card.setTitle(title);
                 card.setDismissible(true);
 
-                ((BigImageButtonsCard) card).setLeftButtonText("Borrar");
-                ((BigImageButtonsCard) card).setLeftButtonTextColorRes(R.color.my_awesome_darker_color);
-                ((BigImageButtonsCard) card).setRightButtonText("");
+                Drawable drawable = new BitmapDrawable(context.getResources(), Utils.getPhoto(msg.content));
+                card.setDrawable(drawable);
 
-                if ( msg.content != null && ! msg.content.isEmpty()) {
-                    Drawable drawable = new BitmapDrawable(context.getResources(), Utils.getPhoto(msg.content));
-                    card.setDrawable(drawable);
-                }else
-                    card.setDrawable(R.drawable.profiledefault);
+                card.setTag("BIG_PHOTO_CARD");
 
-                card.setTag("BIG_IMAGE_BUTTON_CARD");
-
-                ((BigImageButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
+                ((BigPhotoCard)card).setOnButtonPressedListener(new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
                         deleteCard(idMessage, card);
                     }
                 });
+
+                card.setDismissible(((BigPhotoCard) card).isDeleteable());
 
                 return card;
 
