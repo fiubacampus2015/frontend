@@ -77,11 +77,13 @@ public class WallFragment extends Fragment
         final FloatingActionButton button_actionAddMeg = (FloatingActionButton) myView.findViewById(R.id.action_write);
         final FloatingActionButton button_actionAddLink = (FloatingActionButton) myView.findViewById(R.id.action_link);
 
+        mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
+        this.msgAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
 
         w_msgDialog = new WriteMsgDialog(getActivity(), this, getArguments().getString(USERTO));
         videoDialog = new VideoDialog(getActivity(), this, getArguments().getString(USERTO));
-        linkDialog = new PostLinkDialog(getActivity(), this, getArguments().getString(USERTO));
-        w_photoDialog = new PhotoWallDialog(getActivity(), this, getArguments().getString(USERTO));
+        linkDialog = new PostLinkDialog(getActivity(), msgAdapter, getArguments().getString(USERTO));
+        w_photoDialog = new PhotoWallDialog(getActivity(), msgAdapter, getArguments().getString(USERTO));
 
         FloatingActionButton button_actionAddPlace = (FloatingActionButton) myView.findViewById(R.id.action_addPlace);
         FloatingActionButton button_actionAddVideo = (FloatingActionButton) myView.findViewById(R.id.action_addVideo);
@@ -93,8 +95,6 @@ public class WallFragment extends Fragment
                 w_msgDialog.showDialog();
             }
         });
-
-        mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
 
         button_actionAddLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +126,6 @@ public class WallFragment extends Fragment
             }
         });
 
-        this.msgAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
         prgrsBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminate_);
         update();
 

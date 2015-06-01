@@ -266,7 +266,7 @@ public class Map extends ActionBarActivity implements
     }
 
     private class SendLocationMsgTask extends AsyncTask<Void, Void,
-            Response> {
+            Message> {
         RestAdapter restAdapter;
 
         @Override
@@ -277,10 +277,10 @@ public class Map extends ActionBarActivity implements
         }
 
         @Override
-        protected retrofit.client.Response doInBackground(Void... params) {
+        protected Message doInBackground(Void... params) {
 
             IApiUser api = restAdapter.create(IApiUser.class);
-            retrofit.client.Response  response = null;
+            Message  response = null;
             try {
 
 
@@ -293,11 +293,11 @@ public class Map extends ActionBarActivity implements
         }
 
         @Override
-        protected void onPostExecute(retrofit.client.Response response) {
+        protected void onPostExecute(Message response) {
 
             Intent intent = new Intent(Map.this, Board.class);
             startActivity(intent);
-
         }
+
     }
 }

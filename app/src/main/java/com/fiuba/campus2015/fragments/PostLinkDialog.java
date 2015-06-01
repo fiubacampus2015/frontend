@@ -11,9 +11,11 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
@@ -33,15 +35,15 @@ public class PostLinkDialog extends AlertDialog.Builder {
     private MaterialEditText msgContent;
     private SessionManager session;
     private String userTo;
-    private WallFragment wallFragment;
+    private MessageAdapter msgList;
 
-
-    protected PostLinkDialog(FragmentActivity activity, WallFragment wallFragment, String userTo) {
+    protected PostLinkDialog(FragmentActivity activity, MessageAdapter msgList, String userTo) {
         super(activity);
 
         this.userTo = userTo;
-        this.wallFragment = wallFragment;
         this.context = activity;
+        this.msgList = msgList;
+
         LayoutInflater inflater = activity.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.post_link_layout, null);
         session = new SessionManager(context);
@@ -96,7 +98,7 @@ public class PostLinkDialog extends AlertDialog.Builder {
     }
 
     private class SendMsgTask extends AsyncTask<Void, Void,
-            Response> {
+            Message> {
         RestAdapter restAdapter;
 
         @Override
@@ -107,10 +109,10 @@ public class PostLinkDialog extends AlertDialog.Builder {
         }
 
         @Override
-        protected Response doInBackground(Void... params) {
+        protected Message doInBackground(Void... params) {
 
             IApiUser api = restAdapter.create(IApiUser.class);
-            Response  response = null;
+            Message  response = null;
             try {
                 response = api.postMsgToWall(session.getToken(),userTo,new Message(msgContent.getText().toString(),Constants.MsgCardType.link));
 
@@ -120,8 +122,8 @@ public class PostLinkDialog extends AlertDialog.Builder {
         }
 
         @Override
-        protected void onPostExecute(Response response) {
-            wallFragment.update();
+        protected void onPostExecute(Message response) {
+            msgList.addMsg(response);
 
         }
     }

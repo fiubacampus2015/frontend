@@ -99,7 +99,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
     }
 
     private class SendMsgTask extends AsyncTask<Void, Void,
-            Response> {
+            Message> {
         RestAdapter restAdapter;
 
         @Override
@@ -112,10 +112,10 @@ public class WriteMsgDialog extends AlertDialog.Builder {
         }
 
         @Override
-        protected retrofit.client.Response doInBackground(Void... params) {
+        protected Message doInBackground(Void... params) {
 
             IApiUser api = restAdapter.create(IApiUser.class);
-            retrofit.client.Response  response = null;
+            Message response = null;
             try {
                 response = api.postMsgToWall(session.getToken(),userTo,new Message(msgContent.getText().toString(),Constants.MsgCardType.text));
 
@@ -125,7 +125,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
         }
 
         @Override
-        protected void onPostExecute(retrofit.client.Response response) {
+        protected void onPostExecute(Message response) {
             prgrsBar.setVisibility(View.INVISIBLE);
             wallFragment.update();
 

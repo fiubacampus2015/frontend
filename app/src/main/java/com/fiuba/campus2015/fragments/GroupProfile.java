@@ -39,8 +39,8 @@ public class GroupProfile extends Fragment {
         args.putString(PHOTO, group.photo);
         args.putString(GROUPOWNER, group.owner.name + " " + group.owner.username);
         args.putString(GROUPDATE, group.date);
-        args.putString(GROUP_TOTALCONTACTS, (group.totalContacts != null ? group.totalContacts.toString() : "0"));
-        args.putString(GROUP_TOTALMSGS, (group.totalMsgs != null ? group.totalMsgs.toString() : "0"));
+        args.putString(GROUP_TOTALCONTACTS, (group.members != null ? group.members.toString() : "0"));
+        args.putString(GROUP_TOTALMSGS, (group.msgs != null ? group.msgs.toString() : "0"));
         args.putString(GROUP_TOTALFILES, (group.totalFiles != null ? group.totalFiles.toString() : "0"));
 
         fragment.setArguments(args);
