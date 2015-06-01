@@ -119,7 +119,7 @@ public interface IApiUser {
     );
 
     @POST("/api/{token}/users/{friendId}/wall")
-    public retrofit.client.Response postMsgToWall(
+    public Message postMsgToWall(
             @Path("token") String token,
             @Path("friendId") String friendId,
             @Body Message msg

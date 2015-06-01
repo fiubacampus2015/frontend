@@ -239,7 +239,7 @@ public class Map extends ActionBarActivity implements
     }
 
     private class SendLocationMsgTask extends AsyncTask<Void, Void,
-            Response> {
+            Message> {
         RestAdapter restAdapter;
 
         @Override
@@ -250,10 +250,10 @@ public class Map extends ActionBarActivity implements
         }
 
         @Override
-        protected retrofit.client.Response doInBackground(Void... params) {
+        protected Message doInBackground(Void... params) {
 
             IApiUser api = restAdapter.create(IApiUser.class);
-            retrofit.client.Response  response = null;
+            Message  response = null;
             try {
                 response = api.postMsgToWall(session.getToken(),session.getUserid(),new Message("Estoy en: ", Constants.MsgCardType.place));
 
@@ -263,8 +263,8 @@ public class Map extends ActionBarActivity implements
         }
 
         @Override
-        protected void onPostExecute(retrofit.client.Response response) {
-           // wallFragment.update();
+        protected void onPostExecute(Message response) {
+
 
         }
     }

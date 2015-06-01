@@ -328,6 +328,10 @@ public class MessageAdapter {
         return card;
     }
 
+    public void addMsg(Message card){
+        materialListView.addAtStart(getRandomCard(card));
+    }
+
     private void deleteCard(String idMessage, Card card) {
         DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage, card);
         deleteMsg.execute();

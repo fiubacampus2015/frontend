@@ -61,6 +61,8 @@
         android:divider="#ffffffff"
         android:dividerHeight="5dp" />
 
+    <include layout="@layout/file_menu"/>
+
     <RelativeLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -86,41 +88,5 @@
             android:visibility="gone"
             android:text="@string/no_data_available" />
     </RelativeLayout>
-
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/wall_actions"
-        android:layout_width="wrap_content"
-        android:layout_height="417dp"
-        fab:fab_addButtonColorNormal="@color/accent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_gravity="right">
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_addphoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_title="Foto"
-            fab:fab_colorPressed="@color/white_pressed"/>
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_addVideo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_title="Video"
-            fab:fab_colorPressed="@color/white_pressed"/>
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_addFile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_title="Archivo"
-            fab:fab_colorPressed="@color/white_pressed"/>
-
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </RelativeLayout>

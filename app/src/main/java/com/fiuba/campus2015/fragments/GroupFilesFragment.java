@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.ForumAdapter;
 import com.fiuba.campus2015.adapter.MessageAdapter;
@@ -34,6 +35,8 @@ import java.util.List;
 
 import retrofit.RestAdapter;
 
+import static com.fiuba.campus2015.extras.Constants.USERTO;
+
 public class GroupFilesFragment extends Fragment {
     private View myView;
     private SessionManager session;
@@ -42,6 +45,9 @@ public class GroupFilesFragment extends Fragment {
     private TextView emptyView;
     private ProgressBar prgrsBar;
     private EditText searchText;
+    private PhotoWallDialog photoDialog;
+    private VideoDialog videoDialog;
+    private MaterialListView mListView;
 
     public static GroupFilesFragment newInstance(String groupId) {
         GroupFilesFragment fragment = new GroupFilesFragment();
@@ -91,27 +97,38 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
+        mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
+        //this.fileAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
 
         FloatingActionButton button_actionAddPhoto = (FloatingActionButton) myView.findViewById(R.id.action_addphoto);
-        button_actionAddPhoto.setSize(FloatingActionButton.SIZE_MINI);
-        button_actionAddPhoto.setColorNormalResId(R.color.accent);
-        button_actionAddPhoto.setColorPressedResId(R.color.black);
-        button_actionAddPhoto.setIcon(R.drawable.ic_camera_grey600_48dp);
-        button_actionAddPhoto.setStrokeVisible(false);
-
         FloatingActionButton button_actionAddVideo = (FloatingActionButton) myView.findViewById(R.id.action_addVideo);
-        button_actionAddVideo.setSize(FloatingActionButton.SIZE_MINI);
-        button_actionAddVideo.setColorNormalResId(R.color.accent);
-        button_actionAddVideo.setColorPressedResId(R.color.black);
-        button_actionAddVideo.setIcon(R.drawable.ic_film_grey);
-        button_actionAddVideo.setStrokeVisible(false);
-
         FloatingActionButton button_actionAddFile = (FloatingActionButton) myView.findViewById(R.id.action_addFile);
-        button_actionAddFile.setSize(FloatingActionButton.SIZE_MINI);
-        button_actionAddFile.setColorNormalResId(R.color.accent);
-        button_actionAddFile.setColorPressedResId(R.color.black);
-        button_actionAddFile.setIcon(R.drawable.ic_add_file);
-        button_actionAddFile.setStrokeVisible(false);
+
+        //videoDialog = new VideoDialog(getActivity(), fileAdapter, getArguments().getString(USERTO));
+        photoDialog = new PhotoWallDialog(getActivity(), fileAdapter, getArguments().getString(USERTO));
+
+        button_actionAddPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                photoDialog.showDialog();
+            }
+        });
+
+
+        button_actionAddVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //videoDialog.showDialog();
+            }
+        });
+
+        button_actionAddFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //fileDialog.showDialog();
+            }
+        });
+
 
         return myView;
     }

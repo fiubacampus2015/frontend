@@ -3,6 +3,7 @@ package com.fiuba.campus2015.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.views.Card;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.squareup.otto.Subscribe;
@@ -59,16 +61,16 @@ public class PhotoWallDialog extends AlertDialog.Builder {
     private SessionManager session;
     private Bitmap photoBitmap;
     private String userTo;
-    private WallFragment wallFragment;
+    private MessageAdapter msgList;
     private ProgressBar prgrsBar;
 
-    public PhotoWallDialog(FragmentActivity activity, WallFragment wallFragment, String userTo) {
+    public PhotoWallDialog(FragmentActivity activity, MessageAdapter msgList, String userTo) {
         super(activity);
 
         this.userTo = userTo;
-        this.wallFragment = wallFragment;
         this.context = activity;
         this.activity = activity;
+        this.msgList = msgList;
 
 
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -170,7 +172,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
     }
 
     private class SendMsgTask extends AsyncTask<Void, Void,
-            Response> {
+            Message> {
         RestAdapter restAdapter;
 
         @Override
@@ -184,12 +186,12 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         }
 
         @Override
-        protected retrofit.client.Response doInBackground(Void... params) {
+        protected Message doInBackground(Void... params) {
 
             IApiUser api = restAdapter.create(IApiUser.class);
-            retrofit.client.Response  response = null;
+            Message  response = null;
             try {
-                response = api.postMsgToWall(session.getToken(),userTo,new Message(getPhotoString(photoBitmap),Constants.MsgCardType.photo));
+                msgList.addMsg(api.postMsgToWall(session.getToken(), userTo, new Message(getPhotoString(photoBitmap), Constants.MsgCardType.photo)));
 
             } catch (Exception x) {}
 
@@ -197,10 +199,8 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         }
 
         @Override
-        protected void onPostExecute(retrofit.client.Response response) {
+        protected void onPostExecute(Message response) {
             prgrsBar.setVisibility(View.INVISIBLE);
-            wallFragment.update();
-
         }
     }
 
