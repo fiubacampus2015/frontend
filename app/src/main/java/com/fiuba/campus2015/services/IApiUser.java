@@ -6,6 +6,7 @@ import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.MemberShip;
 import com.fiuba.campus2015.dto.user.Message;
+import com.fiuba.campus2015.dto.user.Position;
 import com.fiuba.campus2015.dto.user.User;
 
 import java.util.List;
@@ -142,7 +143,7 @@ public interface IApiUser {
     public retrofit.client.Response sendLocation(
             @Path("token") String token,
             @Path("user") String user,
-            @Body User userPosition
+            @Body Position position
     );
 
     //GRUPOS

@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuba.campus2015.services.LocationSender;
+import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.views.Switch;
 import com.gc.materialdesign.widgets.Dialog;
@@ -24,6 +26,7 @@ public class Configuration extends ActionBarActivity {
     private Toolbar toolbar;
     private Button deactivatedAccount;
     private Switch ubicacionActual;
+    private SessionManager session;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -32,6 +35,8 @@ public class Configuration extends ActionBarActivity {
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+
+        session = new SessionManager(getApplicationContext());
 
         deactivatedAccount = (Button) findViewById(R.id.desactivarCuenta);
         deactivatedAccount.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +78,7 @@ public class Configuration extends ActionBarActivity {
                         public void onClick(View v) {
                             System.out.println("Si");
                             //TODO: servicio de ubicacion actual
+                            //LocationSender.send(session.getToken(),session.getUserid(),"11111");
                             ubicacionActual.setChecked(true);
                         }
                     });
