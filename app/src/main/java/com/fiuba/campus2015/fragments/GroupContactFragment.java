@@ -134,6 +134,21 @@ public class GroupContactFragment extends ContactFragment {
         callApi.fetch(restClient.getApiService(), result, new com.fiuba.campus2015.services.Response());
     }
 
+    //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
+    @Subscribe
+    public void onResponse(retrofit.client.Response response) {
+        Application.getEventBus().unregister(this);
+        prgrsBar.setVisibility(View.GONE);
+    }
+
+    @Subscribe
+    public void onErrorResponse(com.fiuba.campus2015.services.Response errorResponse) {
+        Toast.makeText(getActivity().getApplicationContext(), "Hubo un error en grupos." + errorResponse.reason, Toast.LENGTH_SHORT).show();
+        prgrsBar.setVisibility(View.GONE);
+        Application.getEventBus().unregister(this);
+    }
+
+
     public void removeContact(final User contact) {
         prgrsBar.setVisibility(View.VISIBLE);
         Application.getEventBus().register(this);
