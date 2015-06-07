@@ -165,8 +165,8 @@ public class GroupFragment extends Fragment {
                 listItems.add("Eliminar grupo.");
             if (action.action.equals("unsuscribe"))
                 listItems.add("Abandonar grupo.");
-            //if (action.action.equals("suscribe"))
-                //listItems.add("Unirme al grupo.");
+            if (action.action.equals("suscribe"))
+                listItems.add("Unirme al grupo.");
 
         }
         if (!listItems.isEmpty()) {
