@@ -194,7 +194,16 @@ public class GroupFragment extends Fragment {
 
                     }else if (options[which].equals("Abandonar grupo."))
                     {
-                        unSubscribeGroup(group._id);
+                        Dialog dialogo = new Dialog(getActivity(),null, "¿Estás seguro de abandonar el grupo?");
+                        dialogo.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                unSubscribeGroup(group._id);
+                            }
+                        });
+                        dialogo.addCancelButton("Cancelar");
+                        dialogo.show();
+                        dialogo.getButtonAccept().setText("Aceptar");
                     }
                 }
             });
@@ -250,7 +259,7 @@ public class GroupFragment extends Fragment {
 
         }else
         {
-            Dialog dialog2 = new Dialog(getActivity(), null, "Enviamos tu solicitud al moderador del grupo.");
+            Dialog dialog2 = new Dialog(getActivity(), null, "Enviamo tu solicitud al moderador del grupo.");
             dialog2.show();
             dialog2.getButtonAccept().setText("Aceptar");
         }
