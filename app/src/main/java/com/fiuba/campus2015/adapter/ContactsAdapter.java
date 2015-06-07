@@ -32,11 +32,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     private String userId;
     private boolean readOnly = false;
     private ContactFragment contactFragment;
+    private String contactListOwnerId;
 
-    public ContactsAdapter(Context context, ContactFragment contactFragment){
+    public ContactsAdapter(Context context, ContactFragment contactFragment, String ownerId){
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
         this.contactFragment =contactFragment;
+        this.contactListOwnerId = ownerId;
     }
 
     public void setReadOnly() {
@@ -91,8 +93,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 holder.viewSendInvitation.setVisibility(View.GONE);
                 holder.viewDeleteContact.setVisibility(View.VISIBLE);
             }
-        }else if(contactItem._id.equals(userId))
+        }else if(userId.equals(contactListOwnerId)){
+            holder.viewDeleteContact.setVisibility(View.VISIBLE);
+        }
+
+        if(contactItem._id.equals(userId))
         {
+            holder.viewDeleteContact.setVisibility(View.GONE);
             holder.viewOwner.setVisibility(View.VISIBLE);
         }
 
@@ -122,7 +129,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     private void removeContact(final int position) {
         final User contact = getContact(position);
-        Dialog dialog = new Dialog(contactFragment.getActivity(),null, "Estás seguro de borrar tu contacto?");
+        Dialog dialog = new Dialog(contactFragment.getActivity(),null, "Estás seguro de borrar un contacto?");
         dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

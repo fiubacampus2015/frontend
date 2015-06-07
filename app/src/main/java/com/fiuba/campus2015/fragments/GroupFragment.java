@@ -1,5 +1,6 @@
 package com.fiuba.campus2015.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -51,6 +52,7 @@ public class GroupFragment extends Fragment {
     private ProgressBar prgrsBar;
     private EditText searchText;
     private AddGroupDialog addGroupDialog;
+    private int UPDATEGROUP = 26;
 
     public static GroupFragment newInstance(String string1, String string2) {
         GroupFragment fragment = new GroupFragment();
@@ -109,7 +111,7 @@ public class GroupFragment extends Fragment {
                             Intent intent;
                             intent = new Intent(getActivity(), GroupBoard.class);
                             intent.putExtra(GROUP, new Gson().toJson(group));
-                            startActivity(intent);
+                            startActivityForResult(intent, UPDATEGROUP);
                         }
 
                     }
@@ -163,8 +165,8 @@ public class GroupFragment extends Fragment {
                 listItems.add("Eliminar grupo.");
             if (action.action.equals("unsuscribe"))
                 listItems.add("Abandonar grupo.");
-            if (action.action.equals("suscribe"))
-                listItems.add("Unirme al grupo.");
+            //if (action.action.equals("suscribe"))
+                //listItems.add("Unirme al grupo.");
 
         }
         if (!listItems.isEmpty()) {
@@ -221,6 +223,9 @@ public class GroupFragment extends Fragment {
 
         super.onActivityResult(requestCode, resultCode, data);
         addGroupDialog.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == UPDATEGROUP && resultCode == Activity.RESULT_OK && null != data) {
+            update();
+        }
     }
 
     public void search() {

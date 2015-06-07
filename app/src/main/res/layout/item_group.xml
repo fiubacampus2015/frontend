@@ -53,6 +53,17 @@
                     android:layout_marginLeft="20dp"
                     android:visibility="gone"
                     android:layout_marginTop="5dp" />
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:id="@+id/needsSuscription"
+                    android:src="@drawable/ic_add_2_group"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="20dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="5dp" />
+
             </LinearLayout>
 
             <TextView

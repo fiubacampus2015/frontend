@@ -38,6 +38,7 @@ public class GroupBoard extends ActionBarActivity {
     private Group group;
     private SessionManager session;
     private final int CODEUPDATE = 28;
+    private boolean update;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,9 +143,19 @@ public class GroupBoard extends ActionBarActivity {
             }
             group.name = groupUpdate.name;
             group.description = groupUpdate.description;
+            update = true;
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(update) {
+            update = false;
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+        }
+        super.onBackPressed();
+    }
 
     class MyPagerAdapter extends FragmentPagerAdapter {
 

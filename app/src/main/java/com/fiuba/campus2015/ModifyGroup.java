@@ -16,23 +16,29 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
+import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.services.Application;
+import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.widgets.Dialog;
 import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
+
+import retrofit.RestAdapter;
 import retrofit.client.Response;
 
 import static com.fiuba.campus2015.extras.Constants.GROUP;
@@ -47,10 +53,9 @@ public class ModifyGroup extends ActionBarActivity {
     private Bitmap photoBitmap;
     private MaterialEditText groupName;
     private MaterialEditText groupDescription;
-    private RadioGroup radioGroup;
+    private Spinner groupTypeSpinner;
     private Toolbar toolbar;
     private ProgressBar prgrsBar;
-    private String myStatus;
     private SessionManager session;
     private String idGroup;
 
@@ -94,20 +99,11 @@ public class ModifyGroup extends ActionBarActivity {
         groupDescription = (MaterialEditText) findViewById(R.id.idDescGrupoEdit);
         photoGroup = (ImageView) findViewById(R.id.idPhotoGroup_);
 
-        myStatus = "";
-        radioGroup = (RadioGroup) findViewById(R.id.idshow_statusGroups_);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.status_private) {
-                    myStatus = "private";
-                } else if (checkedId == R.id.status_hidden) {
-                    myStatus = "hidden";
-                } else {
-                    myStatus = "public";
-                }
-            }
-        });
+        groupTypeSpinner = (Spinner) findViewById(R.id.groupTypeEditGroup);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.group_types, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        groupTypeSpinner.setAdapter(adapter);
     }
 
     public void submitData() {
@@ -142,16 +138,11 @@ public class ModifyGroup extends ActionBarActivity {
             photoGroup.setImageBitmap(photoBitmap);
         }
 
-        String status = group.status;
+        String status = getEstadoGrupo(group.status);
 
-        if(status != null) {
-            if(status.equals("private")) {
-                radioGroup.check(R.id.status_private);
-            } else if(status.equals("hidden")) {
-                radioGroup.check(R.id.status_hidden);
-            } else if(status.equals("public")){
-                radioGroup.check(R.id.status_public);
-            }
+        if(status != null && !status.isEmpty()) {
+            int spinnerPosition = ((ArrayAdapter<CharSequence>) groupTypeSpinner.getAdapter()).getPosition(status);
+            groupTypeSpinner.setSelection(spinnerPosition);
         }
 
     }
@@ -228,6 +219,28 @@ public class ModifyGroup extends ActionBarActivity {
         super.onBackPressed();
     }
 
+    public String getStatusGroup(String status)
+    {
+
+        if (status.equals("Privado"))
+            return "private";
+        else if (status.equals("Oculto"))
+            return "hidden";
+        return "public";
+    }
+
+    public String getEstadoGrupo(String estado)
+    {
+        if(estado != null) {
+            if (estado.equals("private"))
+                return "Privado";
+            else if (estado.equals("hidden"))
+                return "Oculto";
+            return "Público";
+        }
+        return "";
+    }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem itemSubmit = menu.findItem(R.id.action_submit);
@@ -259,7 +272,7 @@ public class ModifyGroup extends ActionBarActivity {
 
     private class EditGroupTask extends AsyncTask<Void, Void,
             Response> {
-        RestClient restClient;
+        RestAdapter restAdapter;
         ModifyGroup dataGroup;
         Group group;
 
@@ -267,26 +280,23 @@ public class ModifyGroup extends ActionBarActivity {
             this.dataGroup = dataGroup;
         }
 
-        public void executeTask() {
-            try {
-                this.execute();
-            } catch (Exception e) {
-            }
-        }
-
         @Override
         protected void onPreExecute() {
-            restClient = new RestClient();
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(UrlEndpoints.URL_API)
+                    .build();
         }
 
         @Override
         protected Response doInBackground(Void... params) {
             Response response = null;
+            String myStatus = getStatusGroup(groupTypeSpinner.getSelectedItem().toString());
+            IApiUser api = restAdapter.create(IApiUser.class);
 
-            group = new Group(new User(session.getUserid()), groupName.getText().toString(),
+           group = new Group(new User(session.getUserid()), groupName.getText().toString(),
                     groupDescription.getText().toString(),getPhotoString(photoBitmap),myStatus);
             try {
-                response = restClient.getApiService().editGroup(session.getToken(),idGroup, group);
+                response = api.editGroup(session.getToken(),idGroup, group);
 
             } catch (Exception x) {
             }
