@@ -27,14 +27,18 @@ import android.widget.Toast;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
+import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.services.Application;
+import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
 import com.gc.materialdesign.widgets.Dialog;
 import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
+
+import retrofit.RestAdapter;
 import retrofit.client.Response;
 
 import static com.fiuba.campus2015.extras.Constants.GROUP;
@@ -268,7 +272,7 @@ public class ModifyGroup extends ActionBarActivity {
 
     private class EditGroupTask extends AsyncTask<Void, Void,
             Response> {
-        RestClient restClient;
+        RestAdapter restAdapter;
         ModifyGroup dataGroup;
         Group group;
 
@@ -276,26 +280,23 @@ public class ModifyGroup extends ActionBarActivity {
             this.dataGroup = dataGroup;
         }
 
-        public void executeTask() {
-            try {
-                this.execute();
-            } catch (Exception e) {
-            }
-        }
-
         @Override
         protected void onPreExecute() {
-            restClient = new RestClient();
+            restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(UrlEndpoints.URL_API)
+                    .build();
         }
 
         @Override
         protected Response doInBackground(Void... params) {
             Response response = null;
             String myStatus = getStatusGroup(groupTypeSpinner.getSelectedItem().toString());
-            group = new Group(new User(session.getUserid()), groupName.getText().toString(),
+            IApiUser api = restAdapter.create(IApiUser.class);
+
+           group = new Group(new User(session.getUserid()), groupName.getText().toString(),
                     groupDescription.getText().toString(),getPhotoString(photoBitmap),myStatus);
             try {
-                response = restClient.getApiService().editGroup(session.getToken(),idGroup, group);
+                response = api.editGroup(session.getToken(),idGroup, group);
 
             } catch (Exception x) {
             }

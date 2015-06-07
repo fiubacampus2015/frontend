@@ -165,8 +165,8 @@ public class GroupFragment extends Fragment {
                 listItems.add("Eliminar grupo.");
             if (action.action.equals("unsuscribe"))
                 listItems.add("Abandonar grupo.");
-            if (action.action.equals("suscribe"))
-                listItems.add("Unirme al grupo.");
+            //if (action.action.equals("suscribe"))
+                //listItems.add("Unirme al grupo.");
 
         }
         if (!listItems.isEmpty()) {
@@ -264,7 +264,7 @@ public class GroupFragment extends Fragment {
 
         }else
         {
-            Dialog dialog2 = new Dialog(getActivity(), null, "Enviamo tu solicitud al moderador del grupo.");
+            Dialog dialog2 = new Dialog(getActivity(), null, "Enviamos tu solicitud al moderador del grupo.");
             dialog2.show();
             dialog2.getButtonAccept().setText("Aceptar");
         }
