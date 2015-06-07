@@ -249,6 +249,8 @@ public class GroupFragment extends Fragment {
     public void onResponse(retrofit.client.Response response) {
         Application.getEventBus().unregister(this);
         prgrsBar.setVisibility(View.GONE);
+        update();
+
     }
 
 
