@@ -93,14 +93,13 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 holder.viewSendInvitation.setVisibility(View.GONE);
                 holder.viewDeleteContact.setVisibility(View.VISIBLE);
             }
-        }else if(userId.equals(contactListOwnerId)){
-            holder.viewDeleteContact.setVisibility(View.VISIBLE);
-        }
-
-        if(contactItem._id.equals(userId))
+        }else
         {
-            holder.viewDeleteContact.setVisibility(View.GONE);
-            holder.viewOwner.setVisibility(View.VISIBLE);
+            if(contactItem._id.equals(contactListOwnerId)) {
+                holder.viewOwner.setVisibility(View.VISIBLE);
+            }else if(userId.equals(contactListOwnerId)){
+                holder.viewDeleteContact.setVisibility(View.VISIBLE);
+            }
         }
 
         Bitmap  icon;

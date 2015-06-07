@@ -1,6 +1,7 @@
 package com.fiuba.campus2015.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuba.campus2015.ProfileFriend;
+import com.fiuba.campus2015.ProfileReduced;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.ContactsAdapter;
 import com.fiuba.campus2015.dto.user.Group;
@@ -22,6 +25,7 @@ import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -31,6 +35,7 @@ import retrofit.client.Response;
 
 import static com.fiuba.campus2015.extras.Constants.GROUP;
 import static com.fiuba.campus2015.extras.Constants.GROUPOWNER;
+import static com.fiuba.campus2015.extras.Constants.USER;
 
 public class GroupContactFragment extends ContactFragment {
     private ListView listViewGroupContacts;
@@ -76,7 +81,7 @@ public class GroupContactFragment extends ContactFragment {
 
         recyclerView.setAdapter(contactsAdapter);
 
-        contactsAdapter.setContacts(new ArrayList<User>(), getArguments().getString(GROUPOWNER));
+        contactsAdapter.setContacts(new ArrayList<User>(), session.getUserid());
 
         searchFilter = new SearchFilter(getActivity(), this);
 
@@ -91,7 +96,7 @@ public class GroupContactFragment extends ContactFragment {
 
         if (!users.isEmpty()) {
             emptyView.setVisibility(View.INVISIBLE);
-            contactsAdapter.setContacts(users,getArguments().getString(GROUPOWNER));
+            contactsAdapter.setContacts(users,session.getUserid());
         }
         else
             emptyView.setVisibility(View.VISIBLE);
@@ -144,6 +149,11 @@ public class GroupContactFragment extends ContactFragment {
         RestClient restClient = new RestClient();
         RestServiceAsync callApi = new RestServiceAsync<retrofit.client.Response, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new com.fiuba.campus2015.services.Response());
+
+    }
+
+    //Se redefine metodo para que no llame al del padre
+    public void loadProfile(User contact) {
 
     }
 }
