@@ -68,34 +68,14 @@ public class Configuration extends ActionBarActivity {
             @Override
             public void onCheck(boolean b) {
 
-                if (b) {
-
-                    Dialog dialog = new Dialog(Configuration.this,"Ubicación Actual", "Activaste tu ubicación actual. Así, el resto de tus contactos puede verla. ¿ Estás seguro?");
-                    dialog.addCancelButton("No");
-
-                    dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            System.out.println("Si");
-                            //TODO: servicio de ubicacion actual
-                            //LocationSender.send(session.getToken(),session.getUserid(),"11111");
-                            ubicacionActual.setChecked(true);
-                        }
-                    });
-
-                    dialog.setOnCancelButtonClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ubicacionActual.setChecked(false);
-                        }
-                    });
-
-                    dialog.show();
-
-                    ButtonFlat acceptButton = (ButtonFlat) dialog.findViewById(R.id.button_accept);
-                    acceptButton.setText("Si");
-
-                } else {
+                if (b)
+                {
+                    //TODO: servicio de ubicacion actual
+                    LocationSender locationSender =new LocationSender();
+                    locationSender.send(getApplicationContext(),session.getToken(),session.getUserid());
+                    ubicacionActual.setChecked(true);
+                } else
+                {
                     ubicacionActual.setChecked(false);
                 }
             }

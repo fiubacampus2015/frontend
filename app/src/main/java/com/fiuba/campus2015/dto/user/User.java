@@ -8,6 +8,7 @@ import java.util.List;
 public class User implements Comparable <User> {
     public String _id;
     public String username;
+    public String lastPosition;
     public String password;
     public String status;
     public String email;
@@ -34,7 +35,6 @@ public class User implements Comparable <User> {
         this.education = education;
         this.job = job;
     }
-
     public User(String id){
         this._id = id;
     }

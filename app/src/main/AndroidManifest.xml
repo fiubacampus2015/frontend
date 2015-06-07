@@ -82,6 +82,10 @@
             android:name=".ModifyGroup"
             android:label="@string/app_data_group">
         </activity>
+        <activity
+            android:name=".ContactLocation"
+            android:label="@string/app_contact_location">
+        </activity>
         <service
             android:name=".services.LocationService" />
 

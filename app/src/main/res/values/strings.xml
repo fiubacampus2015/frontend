@@ -19,6 +19,7 @@
     <string name="app_profile">Perfil</string>
     <string name="app_group">Grupo</string>
     <string name="app_data_group">Datos</string>
+    <string name="app_contact_location">Ubicación contactos</string>
     <string name="app_map">Enviar Ubicación</string>
     <string name="drawer_close">Close</string>
     <string name="no_data_available">No se encontraron resultados</string>

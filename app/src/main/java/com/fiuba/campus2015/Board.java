@@ -9,6 +9,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -100,6 +103,30 @@ public class Board extends ActionBarActivity  implements NavigationDrawerCallbac
             default: break;
         }
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem itemSubmit = menu.findItem(R.id.action_submit);
+        itemSubmit.setVisible(false);
+        MenuItem itemSearch = menu.findItem(R.id.action_edit);
+        itemSearch.setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void shutdownMessage() {
         progressDialog =  new ProgressDialog(this, "Cerrando sesión");

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.fiuba.campus2015.ContactLocation;
 import com.fiuba.campus2015.ProfileEditable;
 import com.fiuba.campus2015.ProfileFriend;
 import com.fiuba.campus2015.ProfileReduced;
@@ -40,6 +43,7 @@ import org.apache.http.conn.ConnectTimeoutException;
 
 import retrofit.client.Response;
 
+import static com.fiuba.campus2015.extras.Constants.PAGE;
 import static com.fiuba.campus2015.extras.Constants.USER;
 
 
@@ -68,7 +72,7 @@ public class ContactFragment extends Fragment {
         myView = inflater.inflate(R.layout.contact_fragment, container, false);
 
         session = new SessionManager(getActivity().getApplicationContext());
-
+        setHasOptionsMenu(true);
 
         ImageView buttonSearch = (ImageView) myView.findViewById(R.id.search);
         buttonSearch.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +153,25 @@ public class ContactFragment extends Fragment {
     }
 
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_location).setVisible(true);
+        return;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_location:
+                Intent intent = new Intent(getActivity(), ContactLocation.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
 
     private void showSearchDialog() {
         searchFilter.showDialog();
