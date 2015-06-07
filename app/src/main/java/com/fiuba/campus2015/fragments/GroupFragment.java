@@ -250,7 +250,7 @@ public class GroupFragment extends Fragment {
 
         }else
         {
-            Dialog dialog2 = new Dialog(getActivity(), null, "Enviamo tu solicitud al moderador del grupo.");
+            Dialog dialog2 = new Dialog(getActivity(), null, "Enviamos tu solicitud al moderador del grupo.");
             dialog2.show();
             dialog2.getButtonAccept().setText("Aceptar");
         }

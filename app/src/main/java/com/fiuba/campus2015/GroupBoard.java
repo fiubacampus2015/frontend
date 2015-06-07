@@ -1,6 +1,7 @@
 package com.fiuba.campus2015;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.fragments.GroupContactFragment;
 import com.fiuba.campus2015.fragments.GroupFilesFragment;
 import com.fiuba.campus2015.fragments.GroupForumsFragment;
@@ -35,6 +37,7 @@ public class GroupBoard extends ActionBarActivity {
     public static final int TAB_COUNT = 4;
     private Group group;
     private SessionManager session;
+    private final int CODEUPDATE = 28;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +47,8 @@ public class GroupBoard extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         session = new SessionManager(getApplicationContext());
 
-       Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
             String groupJson = extras.getString(GROUP);
             this.group = new Gson().fromJson(groupJson, Group.class);
             getSupportActionBar().setTitle(group.name);
@@ -80,23 +83,39 @@ public class GroupBoard extends ActionBarActivity {
             }
         });
 
-        initialize();
-
     }
 
-    private void initialize() {
-
+    private boolean isOwner() {
+        User user = group.owner;
+        return (session.getUserid().equals(user._id)) ? true : false;
     }
 
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                Intent intent = new Intent(this, ModifyGroup.class);
+                intent.putExtra(GROUP, new Gson().toJson(group));
+                startActivityForResult(intent, CODEUPDATE);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem itemSubmit = menu.findItem(R.id.action_submit);
         itemSubmit.setVisible(false);
         MenuItem itemSearch = menu.findItem(R.id.action_edit);
-        itemSearch.setVisible(false);
+
+        if(isOwner())
+            itemSearch.setVisible(true);
+        else
+            itemSearch.setVisible(false);
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -109,11 +128,22 @@ public class GroupBoard extends ActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        return super.onOptionsItemSelected(item);
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == CODEUPDATE && resultCode == RESULT_OK && null != data) {
+            Group groupUpdate = new Gson().fromJson(data.getExtras().getString(GROUP), Group.class);
+
+            // esto para que seactualice la barra de titulo al regresar de modificar
+            getSupportActionBar().setTitle(groupUpdate.name);
+            String photo = groupUpdate.photo;
+            if(photo != null && !photo.isEmpty()) {
+                group.photo = photo;
+            }
+            group.name = groupUpdate.name;
+            group.description = groupUpdate.description;
+        }
+    }
 
 
     class MyPagerAdapter extends FragmentPagerAdapter {

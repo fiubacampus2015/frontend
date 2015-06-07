@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/idLinearEditGroup">
+
+    <include android:id="@+id/app_bar" layout="@layout/app_bar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <ImageView
+            android:id="@+id/idPhotoGroup_"
+            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:src="@drawable/profiledefault"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="3dp" />
+
+        <com.fiuba.campus2015.extras.ButtonFloatMaterial
+            android:id="@+id/buttonImageGroup_"
+            android:background="#FFFF00"
+            app:animate="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:iconDrawable="@drawable/ic_action_camera"
+            android:layout_marginLeft="280dp"
+            android:layout_marginTop="250dp" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            app:met_primaryColor="@color/accent"
+            app:met_floatingLabel="normal"
+            android:hint="Título"
+            android:fontFamily="abc_action_bar_home_description"
+            android:maxLength="45"
+            app:met_maxCharacters="45"
+            android:id="@+id/idnameGroupEdit"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_below="@+id/buttonImageGroup_"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            app:met_primaryColor="@color/accent"
+            app:met_floatingLabel="normal"
+            android:hint="Este grupo es para..."
+            android:fontFamily="abc_action_bar_home_description"
+            android:maxLength="45"
+            app:met_maxCharacters="45"
+            android:id="@+id/idDescGrupoEdit"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_below="@id/idnameGroupEdit"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="7dp" />
+
+        <RadioGroup android:id="@+id/idshow_statusGroups_"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_below="@+id/idDescGrupoEdit"
+            android:layout_marginTop="3dp">
+
+            <RadioButton android:id="@+id/status_public"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Público"
+                android:checked="false" />
+
+            <RadioButton android:id="@+id/status_private"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Privado"
+                android:checked="false" />
+
+            <RadioButton android:id="@+id/status_hidden"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Oculto"
+                android:checked="false" />
+
+        </RadioGroup>
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:id="@+id/progressbarEditGroup_" >
+            <ProgressBar
+                android:id="@+id/progressBarCircularIndeterminateDataGroup"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone">
+            </ProgressBar>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+</ScrollView>

@@ -7,14 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.dexafree.materialList.cards.BigImageCard;
 import com.dexafree.materialList.cards.SmallImageCard;
+import com.dexafree.materialList.controller.IMaterialListAdapter;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.customcard.TextCard;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.extras.Utils;
+import com.fiuba.campus2015.services.Application;
+import com.squareup.otto.Subscribe;
 
 import static com.fiuba.campus2015.extras.Constants.DESCRIPCIONGRUPO;
 import static com.fiuba.campus2015.extras.Constants.GROUP_TOTALCONTACTS;
@@ -28,7 +32,7 @@ import static com.fiuba.campus2015.extras.Constants.GROUPDATE;
 public class GroupProfile extends Fragment {
 
     private MaterialListView profileInformation;
-
+    private Group group;
 
     public static GroupProfile newInstance(Group group) {
         GroupProfile fragment = new GroupProfile();
@@ -48,6 +52,10 @@ public class GroupProfile extends Fragment {
         return fragment;
     }
 
+    @Subscribe
+    public void update(Group group) {
+        this.group = group;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +71,7 @@ public class GroupProfile extends Fragment {
         profileInformation = (MaterialListView) view.findViewById(R.id.groupProfileInfo);
 
         load(view);
-
+        Application.getEventBus().register(this);
         return view;
     }
 
@@ -95,4 +103,23 @@ public class GroupProfile extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        BigImageCard card = (BigImageCard)((IMaterialListAdapter) profileInformation.getAdapter()).getCard(0);
+
+        if(group != null) {
+            String photo = group.photo;
+
+            if(photo != null && !photo.isEmpty()) {
+                Drawable drawable = new BitmapDrawable(getResources(), Utils.getPhoto(photo));
+                card.setDrawable(drawable);
+            }
+            card.setTitle(group.name);
+            card.setDescription(group.description);
+
+            group = null;
+        }
+    }
 }
