@@ -95,7 +95,7 @@ public class ContactFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        contactsAdapter = new ContactsAdapter(getActivity(), this);
+        contactsAdapter = new ContactsAdapter(getActivity(), this, session.getUserid());
 
         recyclerView.setAdapter(contactsAdapter);
 
