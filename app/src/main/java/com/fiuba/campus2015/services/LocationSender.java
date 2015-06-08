@@ -6,15 +6,21 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.fiuba.campus2015.dto.user.Position;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 public class LocationSender implements
-        GoogleApiClient.ConnectionCallbacks
-{
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener
+        {
     private GoogleApiClient mGoogleApiClient;
     private Context context;
+    private String token;
+    private String user;
 
 
     public void send(Context context,final String token, final String user)
@@ -23,13 +29,20 @@ public class LocationSender implements
         this.context = context;
         mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
         mGoogleApiClient.connect();
-        LocationRequest mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+
+        this.token = token;
+
+        this.user = user;
+
+
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
 
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
@@ -41,7 +54,7 @@ public class LocationSender implements
             PoolingService.GetResult result = new PoolingService.GetResult<retrofit.client.Response, IApiUser>() {
                 @Override
                 public retrofit.client.Response getResult(IApiUser service) {
-                    return service.sendLocation(token, user, new Position(String.valueOf(currentLatitude) + String.valueOf(currentLongitude)));
+                    return service.sendLocation(token, user, new Position(String.valueOf(currentLatitude) +":" + String.valueOf(currentLongitude)));
                 }
             };
 
@@ -50,17 +63,20 @@ public class LocationSender implements
             PoolingService callApi = new PoolingService<retrofit.client.Response, IApiUser>();
             callApi.fetch(restClient.getApiService(), result, new com.fiuba.campus2015.services.Response());
         }
-
-
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        // Create the LocationRequest object
     }
 
     @Override
     public void onConnectionSuspended(int i) {
 
     }
-}
+
+            @Override
+            public void onConnectionFailed(ConnectionResult connectionResult) {
+
+            }
+
+            @Override
+            public void onLocationChanged(Location location) {
+
+            }
+        }
