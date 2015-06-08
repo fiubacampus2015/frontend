@@ -87,14 +87,20 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
             }
             holder.imageViewGroup.setImageBitmap(icon);
 
-        if (groupItem.actions.get(0).action.equals("suscribe"))
+        if (groupItem.suspend)
         {
-            holder.buttonSuscribe.setVisibility(View.VISIBLE);
-        }else
-        {
-            holder.buttonSuscribe.setVisibility(View.GONE);
+            holder.buttonSuspended.setVisibility(View.VISIBLE);
 
+        }else {
+
+            holder.buttonSuspended.setVisibility(View.GONE);
+            if (groupItem.actions.get(0).action.equals("suscribe")) {
+                holder.buttonSuscribe.setVisibility(View.VISIBLE);
+            } else {
+                holder.buttonSuscribe.setVisibility(View.GONE);
+            }
         }
+
 
         if(groupItem.owner._id.equals(userId)) {
             holder.imageStar.setVisibility(View.VISIBLE);
@@ -120,7 +126,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
 
     private void setGroupSelected(int position) {
         final Group group = getGroup(position);
-        Dialog dialog2 = new Dialog(this.fragment.getActivity(), null, "Para poder ingresar a " + group.name + " primero tenés que unirte.");
+        Dialog dialog2;
+        dialog2 = new Dialog(this.fragment.getActivity(), null, "Para poder ingresar a " + group.name + " primero tenés que unirte.");
         dialog2.show();
         dialog2.getButtonAccept().setText("Aceptar");
     }
@@ -132,6 +139,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
         TextView text_description_group;
         ImageView imageStar;
         ImageView buttonSuscribe;
+        ImageView buttonSuspended;
 
         public ViewHolderGroups(View itemView) {
             super(itemView);
@@ -139,6 +147,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
             imageViewGroup = (ImageView) itemView.findViewById(R.id.image_group);
             text_description_group = (TextView)itemView.findViewById(R.id.text_description_group);
             imageStar = (ImageView) itemView.findViewById(R.id.isOwner);
+            buttonSuspended =  (ImageView) itemView.findViewById(R.id.suspended);
+
             buttonSuscribe =  (ImageView) itemView.findViewById(R.id.needsSuscription);
             buttonSuscribe.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -64,7 +64,7 @@
                     android:visibility="gone"
                     android:layout_marginTop="5dp" />
 
-                <!--ImageView
+                <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:id="@+id/suspended"
@@ -72,7 +72,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginLeft="20dp"
                     android:visibility="gone"
-                    android:layout_marginTop="5dp" /-->
+                    android:layout_marginTop="5dp" />
 
             </LinearLayout>
 
