@@ -1,8 +1,5 @@
 package com.fiuba.campus2015.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fiuba.campus2015.ProfileFriend;
-import com.fiuba.campus2015.ProfileReduced;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.ContactsAdapter;
 import com.fiuba.campus2015.dto.user.Group;
@@ -25,17 +20,13 @@ import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
-import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.client.Response;
-
 import static com.fiuba.campus2015.extras.Constants.GROUP;
 import static com.fiuba.campus2015.extras.Constants.GROUPOWNER;
-import static com.fiuba.campus2015.extras.Constants.USER;
 
 public class GroupContactFragment extends ContactFragment {
     private ListView listViewGroupContacts;

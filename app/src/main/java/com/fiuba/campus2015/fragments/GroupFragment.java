@@ -140,7 +140,7 @@ public class GroupFragment extends Fragment {
         groupAdapter.setGroups(groupItems, session.getUserid());
 
 
-        update();
+        loadGroups();
         ButtonFloatMaterial addGroupbutton = (ButtonFloatMaterial) myView.findViewById(R.id.addGroup);
         addGroupbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,6 +218,14 @@ public class GroupFragment extends Fragment {
         SearchGroups fillGroupList = new SearchGroups();
         fillGroupList.execute();
     }
+
+    public void loadGroups() {
+        searchText.setText("");
+        LoadMyGroups fillGroupList = new LoadMyGroups();
+        fillGroupList.execute();
+    }
+
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -377,6 +385,55 @@ public class GroupFragment extends Fragment {
         protected void onPostExecute(List<Group> groups) {
             if (groups == null) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del grupo.", Toast.LENGTH_SHORT).show();
+            } else {
+                if(groups.isEmpty())
+                    emptyView.setVisibility(View.VISIBLE);
+                else
+                    emptyView.setVisibility(View.INVISIBLE);
+
+                prgrsBar.setVisibility(View.INVISIBLE);
+                groupAdapter.setGroups(groups, session.getUserid());
+            }
+        }
+    }
+
+    private  class LoadMyGroups extends AsyncTask<Void, Void, List<Group>> {
+
+        RestClient restClient;
+
+        public void executeTask() {
+            try {
+                this.execute();
+            } catch (Exception e) {
+                Toast.makeText(getActivity().getApplicationContext(), "Error.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            restClient = new RestClient();
+            prgrsBar.setEnabled(true);
+            prgrsBar.setVisibility(View.VISIBLE);
+
+        }
+
+        @Override
+        protected List<Group> doInBackground(Void... params) {
+            List<Group> group = null;
+            try {
+
+                group = restClient.getApiService().getMyGroups(session.getToken(),searchText.getText().toString());
+            } catch (Exception ex) {
+                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de grupos.", Toast.LENGTH_SHORT).show();
+
+            }
+            return group;
+        }
+
+        @Override
+        protected void onPostExecute(List<Group> groups) {
+            if (groups == null) {
+                Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de grupos.", Toast.LENGTH_SHORT).show();
             } else {
                 if(groups.isEmpty())
                     emptyView.setVisibility(View.VISIBLE);

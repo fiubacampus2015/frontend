@@ -248,4 +248,10 @@ public interface IApiUser {
             @Query("title") String title
     );
 
+    @GET("/api/{token}/groups/{userId}")
+    public List<Group> getMyGroups(
+            @Path("token") String token,
+            @Path("userId") String groupId
+    );
+
 }
