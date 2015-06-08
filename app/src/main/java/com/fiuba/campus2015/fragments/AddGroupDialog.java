@@ -229,7 +229,7 @@ public class AddGroupDialog extends AlertDialog.Builder {
         protected void onPostExecute(Response response) {
 
             if(response != null) {
-                groupFragment.update();
+                groupFragment.loadGroups();
             }
 
         }
