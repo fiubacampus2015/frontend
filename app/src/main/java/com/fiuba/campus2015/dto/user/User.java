@@ -18,6 +18,7 @@ public class User implements Comparable <User> {
     public Education education;
     public Job job;
     public List<String> contacts;
+    public boolean suspend;
 
     public User(String name, String username, String password, String email, Personal personal){
         this.name = name;

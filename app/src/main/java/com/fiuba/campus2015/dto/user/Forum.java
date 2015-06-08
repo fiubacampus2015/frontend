@@ -9,6 +9,7 @@ public class Forum {
     public String title;
     public String group;
     public User owner;
+    public boolean suspend;
 
     public Forum(String title, Message message){
         this.title = title;

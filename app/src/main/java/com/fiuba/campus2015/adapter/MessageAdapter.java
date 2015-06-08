@@ -30,6 +30,7 @@ import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.ForumMessage;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.customcard.BigPhotoCard;
+import com.fiuba.campus2015.customcard.PlaceCard;
 import com.fiuba.campus2015.customcard.TextCard;
 import com.fiuba.campus2015.customcard.LinkCard;
 import com.fiuba.campus2015.customcard.VideoCard;
@@ -140,6 +141,8 @@ public class MessageAdapter {
                         deleteCard(idMessage, card);
                     }
                 });
+
+                card.setDismissible(true);
 
                 return card;
 

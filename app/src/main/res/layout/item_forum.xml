@@ -61,6 +61,16 @@
                 android:layout_centerHorizontal="true"
                     android:layout_gravity="center_vertical" />
 
+                <!--ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:id="@+id/suspended"
+                    android:src="@drawable/ic_blocked"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="20dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="5dp" /-->
+
         </LinearLayout>
 
             <TextView

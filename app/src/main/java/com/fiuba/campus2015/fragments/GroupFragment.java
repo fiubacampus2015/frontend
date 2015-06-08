@@ -93,7 +93,7 @@ public class GroupFragment extends Fragment {
         recyclerView = (RecyclerView) myView.findViewById(R.id.listViewGroups);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
-        groupAdapter = new GroupAdapter(getActivity());
+        groupAdapter = new GroupAdapter(getActivity(),this);
         recyclerView.setAdapter(groupAdapter);
 
         recyclerView.addOnItemTouchListener(
@@ -165,8 +165,8 @@ public class GroupFragment extends Fragment {
                 listItems.add("Eliminar grupo.");
             if (action.action.equals("unsuscribe"))
                 listItems.add("Abandonar grupo.");
-            if (action.action.equals("suscribe"))
-                listItems.add("Unirme al grupo.");
+            //if (action.action.equals("suscribe"))
+                //listItems.add("Unirme al grupo.");
 
         }
         if (!listItems.isEmpty()) {
@@ -310,7 +310,7 @@ public class GroupFragment extends Fragment {
     }
 
 
-    private void subscribeGroup(final String groupId)
+    public void subscribeGroup(final String groupId)
     {
         prgrsBar.setVisibility(View.VISIBLE);
 

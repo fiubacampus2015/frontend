@@ -14,7 +14,15 @@ import android.widget.TextView;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.dto.user.MemberShip;
 import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.fragments.GroupFragment;
+import com.fiuba.campus2015.services.Application;
+import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.services.Response;
+import com.fiuba.campus2015.services.RestClient;
+import com.fiuba.campus2015.services.RestServiceAsync;
+import com.gc.materialdesign.widgets.Dialog;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,10 +32,12 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
     private List<Group> groupItems;
     private Context context;
     private String userId;
+    private GroupFragment fragment;
 
-    public GroupAdapter(Context context){
+    public GroupAdapter(Context context, GroupFragment fragment){
         layoutInflater = LayoutInflater.from(context);
         this.context = context;
+        this.fragment = fragment;
     }
 
 
@@ -61,6 +71,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
 
         holder.textViewName.setText(groupItem.name);
         holder.text_description_group.setText(groupItem.description);
+        holder.adapter = this;
 
             Bitmap  icon;
             if (groupItem.photo != null && !groupItem.photo.isEmpty())
@@ -75,6 +86,11 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
                 icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_account_circle_grey_48dp);
             }
             holder.imageViewGroup.setImageBitmap(icon);
+
+        if (groupItem.actions.get(0).action.equals("suscribe"))
+        {
+            holder.buttonSuscribe.setVisibility(View.VISIBLE);
+        }
 
         if(groupItem.owner._id.equals(userId)) {
             holder.imageStar.setVisibility(View.VISIBLE);
@@ -92,13 +108,25 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
         return groupItems.get(position);
     }
 
+    private void suscribeToGroup(final int position) {
+        final Group group = getGroup(position);
+        fragment.subscribeGroup(group._id);
+    }
+
+    private void setGroupSelected(int position) {
+        final Group group = getGroup(position);
+        Dialog dialog2 = new Dialog(this.fragment.getActivity(), null, "Para poder ingresar a " + group.name + " primero tenés que unirte.");
+        dialog2.show();
+        dialog2.getButtonAccept().setText("Aceptar");
+    }
 
     static class ViewHolderGroups extends RecyclerView.ViewHolder {
-
+        GroupAdapter adapter;
         TextView textViewName;
         ImageView imageViewGroup;
         TextView text_description_group;
         ImageView imageStar;
+        ImageView buttonSuscribe;
 
         public ViewHolderGroups(View itemView) {
             super(itemView);
@@ -106,6 +134,19 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
             imageViewGroup = (ImageView) itemView.findViewById(R.id.image_group);
             text_description_group = (TextView)itemView.findViewById(R.id.text_description_group);
             imageStar = (ImageView) itemView.findViewById(R.id.isOwner);
-        }
+            buttonSuscribe =  (ImageView) itemView.findViewById(R.id.needsSuscription);
+            buttonSuscribe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch(v.getId()) {
+                        case R.id.needsSuscription:
+                            adapter.suscribeToGroup(getAdapterPosition());
+                            break;
+                        default:
+                            adapter.setGroupSelected(getAdapterPosition());
+                    }
+                }
+            });
+       }
     }
 }
