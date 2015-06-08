@@ -26,6 +26,8 @@ public class SessionManager {
     public static final String KEY_TOKEN = "token";
     public static final String KEY_USER_ID = "userid";
     public static final String KEY_USER_PHOTO = "photo";
+    public static final String KEY_LOCATION_ACTIVE = "location_active";
+
 
 
 
@@ -46,6 +48,7 @@ public class SessionManager {
         editor.putString(KEY_TOKEN, token);
         editor.putString(KEY_USER_ID, userId);
         editor.putString(KEY_USER_PHOTO, photo);
+        editor.putBoolean(KEY_LOCATION_ACTIVE, false);
 
 
 
@@ -112,6 +115,18 @@ public class SessionManager {
     public String getUserPhoto(){
 
         return pref.getString(KEY_USER_PHOTO, "");
+    }
+
+    public void enableLocation(){
+        editor.putBoolean(KEY_LOCATION_ACTIVE,true);
+    }
+
+    public void unableLocation(){
+        editor.putBoolean(KEY_LOCATION_ACTIVE,false);
+    }
+
+    public boolean isLocationEnabled(){
+        return pref.getBoolean(KEY_LOCATION_ACTIVE, false);
     }
 
     public void logoutUser(){
