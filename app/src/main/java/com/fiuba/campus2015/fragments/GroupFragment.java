@@ -100,19 +100,26 @@ public class GroupFragment extends Fragment {
                 new RecyclerItemClickListener(getActivity(), recyclerView,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Group group = groupAdapter.getGroup(position);
+                        //int item = view.getId();
+//                        int item2 = R.id.needsSuscription;
 
-                        if (group.actions.get(0).action.equals("suscribe"))
-                        {
-                            Dialog dialog2 = new Dialog(getActivity(), null, "Para poder ingresar a " + group.name + " primero tenés que unirte.");
-                            dialog2.show();
-                            dialog2.getButtonAccept().setText("Aceptar");
-                        }else
-                        {
-                            Intent intent;
-                            intent = new Intent(getActivity(), GroupBoard.class);
-                            intent.putExtra(GROUP, new Gson().toJson(group));
-                            startActivityForResult(intent, UPDATEGROUP);
-                        }
+
+                        //if (item ==item2)
+                       // {
+                          //  subscribeGroup(group._id);
+
+                      //  }else {
+                            if (group.actions.get(0).action.equals("suscribe")) {
+                          //      Dialog dialog2 = new Dialog(getActivity(), null, "Para poder ingresar a " + group.name + " primero tenés que unirte.");
+                            //    dialog2.show();
+                              //  dialog2.getButtonAccept().setText("Aceptar");
+                            } else {
+                                Intent intent;
+                                intent = new Intent(getActivity(), GroupBoard.class);
+                                intent.putExtra(GROUP, new Gson().toJson(group));
+                                startActivityForResult(intent, UPDATEGROUP);
+                            }
+                        //}
 
                     }
 

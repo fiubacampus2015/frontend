@@ -90,6 +90,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
         if (groupItem.actions.get(0).action.equals("suscribe"))
         {
             holder.buttonSuscribe.setVisibility(View.VISIBLE);
+        }else
+        {
+            holder.buttonSuscribe.setVisibility(View.GONE);
+
         }
 
         if(groupItem.owner._id.equals(userId)) {
@@ -111,6 +115,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
     private void suscribeToGroup(final int position) {
         final Group group = getGroup(position);
         fragment.subscribeGroup(group._id);
+
     }
 
     private void setGroupSelected(int position) {
