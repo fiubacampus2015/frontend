@@ -56,6 +56,11 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolderFo
 
         holder.textViewTitle.setText(forumItem.title);
         holder.textLastMsg.setText("");
+
+        if (forumItem.suspend)
+            holder.imageSuspended.setVisibility(View.VISIBLE);
+        else
+            holder.imageSuspended.setVisibility(View.GONE);
     }
 
     @Override
@@ -74,12 +79,14 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHolderFo
         TextView textViewTitle;
         ImageView imageViewForum;
         TextView textLastMsg;
+        ImageView imageSuspended;
 
         public ViewHolderForums(View itemView) {
             super(itemView);
             textViewTitle = (TextView)itemView.findViewById(R.id.forum_title);
             imageViewForum = (ImageView) itemView.findViewById(R.id.image_forum);
             textLastMsg = (TextView)itemView.findViewById(R.id.lastMsgText);
+            imageSuspended = (ImageView) itemView.findViewById(R.id.suspended);
 
         }
     }
