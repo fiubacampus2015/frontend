@@ -249,7 +249,7 @@ public class GroupFragment extends Fragment {
     public void searchClear(View view) {
         emptyView.setVisibility(view.INVISIBLE);
         searchText.setText("");
-        search();
+        loadGroups();
     }
 
     //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
