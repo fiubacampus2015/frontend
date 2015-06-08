@@ -422,7 +422,7 @@ public class GroupFragment extends Fragment {
             List<Group> group = null;
             try {
 
-                group = restClient.getApiService().getMyGroups(session.getToken(),searchText.getText().toString());
+                group = restClient.getApiService().getMyGroups(session.getToken(),session.getUserid());
             } catch (Exception ex) {
                 Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos de grupos.", Toast.LENGTH_SHORT).show();
 
