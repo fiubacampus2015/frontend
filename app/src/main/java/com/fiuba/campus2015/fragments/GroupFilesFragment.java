@@ -1,7 +1,6 @@
 package com.fiuba.campus2015.fragments;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,17 +14,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
-import com.fiuba.campus2015.adapter.ForumAdapter;
-import com.fiuba.campus2015.adapter.MessageAdapter;
-import com.fiuba.campus2015.dto.user.Forum;
+import com.fiuba.campus2015.adapter.FileAdapter;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.Message;
-import com.fiuba.campus2015.extras.ButtonFloatMaterial;
-import com.fiuba.campus2015.extras.RecyclerItemClickListener;
-import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.Response;
@@ -47,14 +39,15 @@ import static com.fiuba.campus2015.extras.Constants.USERTO;
 public class GroupFilesFragment extends Fragment {
     private View myView;
     private SessionManager session;
-    private MessageAdapter fileAdapter;
     private TextView emptyView;
     private ProgressBar progressBar;
     private EditText searchText;
     private PhotoWallDialog photoDialog;
     private VideoDialog videoDialog;
-    private MaterialListView mListView;
     private String groupId;
+    private FileDialog fileDialog;
+    private FileAdapter fileAdapter;
+    private RecyclerView recyclerView;
 
     public static GroupFilesFragment newInstance(Group group) {
         GroupFilesFragment fragment = new GroupFilesFragment();
@@ -104,16 +97,21 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
+
         progressBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminateFile);
-        mListView = (MaterialListView) myView.findViewById(R.id.listViewFiles);
-        this.fileAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
+
+        fileAdapter = new FileAdapter(getActivity(), this);
+        recyclerView = (RecyclerView) myView.findViewById(R.id.listViewFiles);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(fileAdapter);
+
+        fileDialog = new FileDialog(getActivity(), fileAdapter);
+        videoDialog = new VideoDialog(getActivity(), fileAdapter);
+        photoDialog = new PhotoWallDialog(getActivity(), fileAdapter);
 
         FloatingActionButton button_actionAddPhoto = (FloatingActionButton) myView.findViewById(R.id.action_addphoto);
         FloatingActionButton button_actionAddVideo = (FloatingActionButton) myView.findViewById(R.id.action_addVideo);
         FloatingActionButton button_actionAddFile = (FloatingActionButton) myView.findViewById(R.id.action_addFile);
-
-        //videoDialog = new VideoDialog(getActivity(), fileAdapter, getArguments().getString(USERTO));
-        photoDialog = new PhotoWallDialog(getActivity(), fileAdapter, getArguments().getString(USERTO));
 
         button_actionAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,18 +120,17 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
-
         button_actionAddVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //videoDialog.showDialog();
+                videoDialog.showDialog();
             }
         });
 
         button_actionAddFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //fileDialog.showDialog();
+                fileDialog.showDialog();
             }
         });
 
@@ -158,6 +155,17 @@ public class GroupFilesFragment extends Fragment {
         searchText.setText("");
         searchFilesInGroup();
     }
+
+    public void downloadFile(String fileId) {
+        Toast.makeText(getActivity(),"sin implementar", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        photoDialog.onActivityResult(requestCode,resultCode,data);
+        fileDialog.onActivityResult(requestCode,resultCode,data);
+        videoDialog.onActivityResult(requestCode,resultCode,data);
+    }
+
     //Se llama a este metodo en caso de que no haya error
     @Subscribe
     public void onFileList(ArrayList<Message> msgs) {
@@ -166,7 +174,7 @@ public class GroupFilesFragment extends Fragment {
         else
             emptyView.setVisibility(View.INVISIBLE);
 
-        fileAdapter.setData(msgs);
+     //   fileAdapter.setData(msgs);
         progressBar.setVisibility(View.GONE);
         //Desuscripcion a los eventos que devuelve el cliente que llama la api
         Application.getEventBus().unregister(this);

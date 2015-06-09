@@ -81,7 +81,7 @@ public class WallFragment extends Fragment
         this.msgAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
 
         w_msgDialog = new WriteMsgDialog(getActivity(), this, getArguments().getString(USERTO));
-        videoDialog = new VideoDialog(getActivity(), this, msgAdapter,getArguments().getString(USERTO));
+        videoDialog = new VideoDialog(getActivity(), msgAdapter,getArguments().getString(USERTO));
         linkDialog = new PostLinkDialog(getActivity(), msgAdapter, getArguments().getString(USERTO));
         w_photoDialog = new PhotoWallDialog(getActivity(), msgAdapter, getArguments().getString(USERTO));
 

@@ -24,11 +24,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.adapter.FileAdapter;
 import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
 import java.io.ByteArrayOutputStream;
@@ -37,6 +39,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import retrofit.RestAdapter;
+
+import static com.fiuba.campus2015.extras.Constants.SEP;
+import static com.fiuba.campus2015.extras.Utils.getPhotoString;
+import static com.fiuba.campus2015.extras.Utils.getResizedBitmap;
 
 
 public class VideoDialog extends AlertDialog.Builder {
@@ -47,7 +53,6 @@ public class VideoDialog extends AlertDialog.Builder {
     private ImageView imagePreview;
     private SessionManager session;
     private String userTo;
-    private WallFragment wallFragment;
     private final static int REQUEST_VIDEO = 89;
     private Uri uriVideo;
     private ProgressBar prgrsBar;
@@ -57,23 +62,37 @@ public class VideoDialog extends AlertDialog.Builder {
     private boolean sending;
     private String realPath;
     private String videoEncoded;
+    private FileAdapter fileAdapter;
 
-    protected VideoDialog(FragmentActivity activity, WallFragment wallFragment, MessageAdapter msgAdapter, String userTo) {
+    public VideoDialog(FragmentActivity activity, FileAdapter fileAdapter) {
+        super(activity);
+        this.activity = activity;
+        this.fileAdapter = fileAdapter;
+
+        initialize();
+    }
+
+    public VideoDialog(FragmentActivity activity, MessageAdapter msgAdapter, String userTo) {
         super(activity);
 
         this.msgAdapter = msgAdapter;
         this.userTo = userTo;
-        this.wallFragment = wallFragment;
         this.activity = activity;
-        sending = false;
+
+        initialize();
+    }
+
+    private void initialize() {
         LayoutInflater inflater = activity.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.select_video_layout, null);
         session = new SessionManager(activity);
-
+        sending = false;
         prgrsBar = (ProgressBar) dialogView.findViewById(R.id.progressBarCircularIndeterminateVideo);
         imagePreview = (ImageView) dialogView.findViewById(R.id.videopreview);
         msgTo = (TextView) dialogView.findViewById(R.id.senderName);
-        msgTo.setText(session.getUserName() + " " + session.getUserSurname());
+
+        if(fileAdapter == null)
+            msgTo.setText(session.getUserName() + " " + session.getUserSurname());
 
         setView(dialogView);
         setListener();
@@ -90,7 +109,7 @@ public class VideoDialog extends AlertDialog.Builder {
             @Override
             public void onClick(View v) {
                 if(sending) {
-                    Toast.makeText(wallFragment.getActivity(), "Espera que termine de enviar el video",
+                    Toast.makeText(activity, "Espera que termine de enviar el video",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     if(realPath != null) {
@@ -103,11 +122,11 @@ public class VideoDialog extends AlertDialog.Builder {
                                 task.execute();
                             }
                         } else {
-                            Toast.makeText(wallFragment.getActivity(),"Error al convertir el video en bytes",
+                            Toast.makeText(activity,"Error al convertir el video en bytes",
                                     Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(wallFragment.getActivity(), "Aún no seleccionaste un video",
+                        Toast.makeText(activity, "Aún no seleccionaste un video",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -121,7 +140,7 @@ public class VideoDialog extends AlertDialog.Builder {
                 if(!sending)
                     reset();
                 else
-                    Toast.makeText(wallFragment.getActivity(), "Espera que termine de enviar el video",
+                    Toast.makeText(activity, "Espera que termine de enviar el video",
                             Toast.LENGTH_SHORT).show();
             }
         });
@@ -134,7 +153,7 @@ public class VideoDialog extends AlertDialog.Builder {
                     Intent intent = new Intent(android.provider.MediaStore.ACTION_VIDEO_CAPTURE);
                     activity.startActivityForResult(intent, REQUEST_VIDEO);
                 } else
-                    Toast.makeText(wallFragment.getActivity(), "Espera que termine de enviar el video",
+                    Toast.makeText(activity, "Espera que termine de enviar el video",
                             Toast.LENGTH_SHORT).show();
 
             }
@@ -144,36 +163,34 @@ public class VideoDialog extends AlertDialog.Builder {
         videoGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!sending) {
+                if (!sending) {
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("video/*");
                     activity.startActivityForResult(intent, REQUEST_VIDEO);
                 } else
-                    Toast.makeText(wallFragment.getActivity(), "Espera que termine de enviar el video",
+                    Toast.makeText(activity, "Espera que termine de enviar el video",
                             Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private String getRealPathFromURI(Activity activity, Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
-        CursorLoader loader = new CursorLoader(activity, contentUri, proj, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_VIDEO && resultCode == Activity.RESULT_OK && null != data) {
             this.uriVideo = data.getData();
-            realPath =  getRealPathFromURI(wallFragment.getActivity(), uriVideo);
+            realPath =  Utils.getRealPathFromURI(activity, uriVideo);
 
             Bitmap thumb = ThumbnailUtils.createVideoThumbnail(realPath, MediaStore.Video.Thumbnails.MINI_KIND);
-            BitmapDrawable bitmapDrawable = new BitmapDrawable(wallFragment.getResources(),thumb);
+            BitmapDrawable bitmapDrawable = new BitmapDrawable(activity.getResources(),thumb);
             imagePreview.setImageDrawable(bitmapDrawable);
         }
+    }
+
+    private String getNameFile(String temp) {
+        int pos = temp.lastIndexOf(SEP) + 1;
+        return temp.substring(pos);
     }
 
     private byte[] videoToBytes(String path) {
@@ -202,12 +219,23 @@ public class VideoDialog extends AlertDialog.Builder {
         return  Base64.encodeToString(videoBytes, Base64.NO_WRAP);
     }
 
+    /*
+    Bitmap thumb = ThumbnailUtils.createVideoThumbnail(completeName, MediaStore.Video.Thumbnails.MINI_KIND);
+                    BitmapDrawable bitmapDrawable = new BitmapDrawable(wallFragment.getResources(), thumb);
+     */
+
+    private Bitmap getBitmapPreview() {
+        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(realPath, MediaStore.Video.Thumbnails.MINI_KIND);
+        BitmapDrawable drawable = new BitmapDrawable(activity.getResources(), thumb);
+        return drawable.getBitmap();
+    }
+
     private boolean validateSize(byte[] data) {
         int size = data.length;
         int megaBytes = size/(KB*KB);
 
         if(megaBytes >= MAXSIZE) {
-            Toast.makeText(wallFragment.getActivity(),"Seleccioná videos menores a 8MB",Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity,"Seleccioná videos menores a 8MB",Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -241,14 +269,14 @@ public class VideoDialog extends AlertDialog.Builder {
             Message  message = null;
 
             try {
-               message =  api.postMsgToWall(session.getToken(), userTo, new Message(videoEncoded,
-                        Constants.MsgCardType.video));
+                if(msgAdapter != null) {
+                    message = api.postMsgToWall(session.getToken(), userTo, new Message(videoEncoded,
+                            Constants.MsgCardType.video));
+                } else {
+                    //videoEncoded es el video comprimido a string
+                }
 
             } catch (Exception x) { }
-
-            // probando envio directo al muro
-//            return new Message(params[0], Constants.MsgCardType.video);
-
 
             return message;
         }
@@ -260,13 +288,15 @@ public class VideoDialog extends AlertDialog.Builder {
            if(message != null)
               msgAdapter.addMsg(message);
 
+            //probando
+            if(fileAdapter != null) {
+                Bitmap bitmap = getBitmapPreview();
+                com.fiuba.campus2015.dto.user.File file = new com.fiuba.campus2015.dto.user.File();
+                file.name = getNameFile(realPath);
+                file.preview = getPhotoString(getResizedBitmap(bitmap, 50, 50));
+                fileAdapter.addFile(file);
+            }
 
-            // probando envio directo al muro
-/*
-           User user = new User(session.getUserName(), session.getUserSurname(),"","",null);
-            message.user = user;
-            msgAdapter.addMsg(message);
-*/
             reset();
             alertDialog.dismiss();
         }

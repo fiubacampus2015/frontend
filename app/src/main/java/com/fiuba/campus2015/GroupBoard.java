@@ -39,6 +39,7 @@ public class GroupBoard extends ActionBarActivity {
     private SessionManager session;
     private final int CODEUPDATE = 28;
     private boolean update;
+    private GroupFilesFragment  groupFilesFragment;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +133,9 @@ public class GroupBoard extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if(groupFilesFragment != null)
+            groupFilesFragment.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == CODEUPDATE && resultCode == RESULT_OK && null != data) {
             Group groupUpdate = new Gson().fromJson(data.getExtras().getString(GROUP), Group.class);
 
@@ -182,7 +186,8 @@ public class GroupBoard extends ActionBarActivity {
                     fragment = GroupContactFragment.newInstance(group);
                     break;
                 case TAB_FILES:
-                    fragment = GroupFilesFragment.newInstance(group);
+                    groupFilesFragment = GroupFilesFragment.newInstance(group);
+                    fragment = groupFilesFragment;
                     break;
                 case TAB_FORUMS:
                     fragment = GroupForumsFragment.newInstance(group);

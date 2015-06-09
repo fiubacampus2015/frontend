@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/accent"
+        android:layout_weight="0.04"
+        android:gravity="center_vertical|right"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/senderName"
+            android:textSize="15dp"
+            android:textColor="@color/primary_dark_material_light"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sendFile"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_send_msg" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/relative_">
+
+
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/msgContentFile"
+                    android:hint="Ingresa una descripción"
+                    app:met_primaryColor="@color/accent"
+                    app:met_floatingLabel="normal"
+                    android:layout_gravity="left"
+                    android:maxLength="80"
+                    app:met_maxCharacters="80"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="0dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="0dp" />
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignWithParentIfMissing="false"
+                    android:layout_alignBottom="@+id/msgContent"
+                    android:layout_marginBottom="25dp"
+                    android:id="@+id/linearH1"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Nombre:"
+                        android:id="@+id/nombreFile_"
+                        android:textSize="12dp"
+                        android:layout_marginRight="11dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Medium Text"
+                        android:id="@+id/nameFile_"
+                        android:textSize="12dp"
+                         />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/msgContent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignWithParentIfMissing="false"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Tamaño:"
+                        android:id="@+id/id_sizefile"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Medium Text"
+                        android:id="@+id/idSizeFile"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:id="@+id/progressbarMessage"
+                    android:layout_centerInParent="true">
+                    <ProgressBar
+                        android:id="@+id/progressBarCircularIndeterminateFile_"
+                        style="?android:attr/progressBarStyleLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:visibility="gone">
+                    </ProgressBar>
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/selected_gray"
+        android:layout_weight="0.04"
+        android:gravity="center_vertical|left"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/buttonAddFile"
+            android:src="@drawable/ic_add_file"
+            android:layout_marginLeft="15dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/delete_File"
+            android:src="@drawable/ic_delete"
+            android:layout_marginLeft="10dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -23,12 +23,15 @@ import android.widget.Toast;
 
 import com.fiuba.campus2015.ForumMessage;
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.adapter.FileAdapter;
 import com.fiuba.campus2015.adapter.MessageAdapter;
+import com.fiuba.campus2015.dto.user.File;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
@@ -45,6 +48,7 @@ import org.w3c.dom.Text;
 import retrofit.RestAdapter;
 import retrofit.client.Response;
 
+import static com.fiuba.campus2015.extras.Constants.SEP;
 import static com.fiuba.campus2015.extras.Utils.checkSizePhoto;
 import static com.fiuba.campus2015.extras.Utils.getPhotoString;
 import static com.fiuba.campus2015.extras.Utils.getResizedBitmap;
@@ -63,6 +67,19 @@ public class PhotoWallDialog extends AlertDialog.Builder {
     private String userTo;
     private MessageAdapter msgList;
     private ProgressBar prgrsBar;
+    private FileAdapter fileAdapter;
+    private String pathPhoto;
+    private Bitmap preview;
+
+    public PhotoWallDialog(FragmentActivity activity, FileAdapter fileAdapter) {
+        super(activity);
+
+        this.context = activity;
+        this.activity = activity;
+        this.fileAdapter = fileAdapter;
+
+        initialize();
+    }
 
     public PhotoWallDialog(FragmentActivity activity, MessageAdapter msgList, String userTo) {
         super(activity);
@@ -72,13 +89,19 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         this.activity = activity;
         this.msgList = msgList;
 
+        initialize();
+    }
 
+    private void initialize() {
         LayoutInflater inflater = activity.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.photo_message_layout, null);
         session = new SessionManager(activity);
 
         msgTo = (TextView) dialogView.findViewById(R.id.senderName);
-        msgTo.setText(session.getUserName() + " " + session.getUserSurname());
+
+        if(fileAdapter == null)
+            msgTo.setText(session.getUserName() + " " + session.getUserSurname());
+
         prgrsBar = (ProgressBar) dialogView.findViewById(R.id.progressBarCircularIndeterminatePhoto);
 
         buttonImage = (ButtonFloatMaterial) dialogView.findViewById(R.id.buttonImage);
@@ -95,7 +118,6 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         setListener();
         alertDialog = create();
     }
-
 
     public void showDialog() {
         alertDialog.show();
@@ -154,11 +176,21 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         return  BitmapFactory.decodeFile(img_Decodable);
     }
 
+    private String getNameFile(String temp) {
+        int pos = temp.lastIndexOf(SEP) + 1;
+        return temp.substring(pos);
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             if (requestCode == RESULT_LOAD && resultCode == Activity.RESULT_OK && null != data) {
                 Bitmap foto = getPhoto(data);
                 if(checkSizePhoto(foto)) {
+                    if(fileAdapter != null) {
+                        pathPhoto = Utils.getRealPathFromURI(activity, data.getData());
+                        preview = getResizedBitmap(foto, 50, 50);
+                    }
+
                     photoBitmap = getResizedBitmap(foto,200,200);
                     msgContent.setImageBitmap(photoBitmap);
                 }else
@@ -191,9 +223,16 @@ public class PhotoWallDialog extends AlertDialog.Builder {
             IApiUser api = restAdapter.create(IApiUser.class);
             Message  response = null;
             try {
-                msgList.addMsg(api.postMsgToWall(session.getToken(), userTo, new Message(getPhotoString(photoBitmap), Constants.MsgCardType.photo)));
 
-            } catch (Exception x) {}
+                if(fileAdapter != null) {
+
+                } else {
+                    msgList.addMsg(api.postMsgToWall(session.getToken(), userTo,
+                            new Message(getPhotoString(photoBitmap), Constants.MsgCardType.photo)));
+                }
+                photoBitmap = null;
+
+            } catch (Exception x) {x.printStackTrace();}
 
             return response;
         }
@@ -201,6 +240,16 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         @Override
         protected void onPostExecute(Message response) {
             prgrsBar.setVisibility(View.INVISIBLE);
+
+            // probando
+            if(fileAdapter != null) {
+                File file = new File();
+                file.name = getNameFile(pathPhoto);
+                file.preview = getPhotoString(preview);
+                fileAdapter.addFile(file);
+            }
+
+
         }
     }
 

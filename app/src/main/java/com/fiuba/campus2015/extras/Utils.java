@@ -1,8 +1,13 @@
 package com.fiuba.campus2015.extras;
 
+import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.v4.content.CursorLoader;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -96,5 +101,14 @@ public class Utils {
         } else {
             return "Femenino";
         }
+    }
+
+    public static String getRealPathFromURI(Activity activity, Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        CursorLoader loader = new CursorLoader(activity, contentUri, proj, null, null, null);
+        Cursor cursor = loader.loadInBackground();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 }
