@@ -99,13 +99,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
             } else {
                 holder.buttonSuscribe.setVisibility(View.GONE);
             }
-        }
 
 
-        if(groupItem.owner._id.equals(userId)) {
-            holder.imageStar.setVisibility(View.VISIBLE);
-        } else {
-            holder.imageStar.setVisibility(View.GONE);
+            if(groupItem.owner._id.equals(userId)) {
+                holder.imageStar.setVisibility(View.VISIBLE);
+            } else {
+                holder.imageStar.setVisibility(View.GONE);
+            }
         }
     }
 
