@@ -101,7 +101,7 @@
     <string-array name="group_types">
         <item>Público</item>
         <item>Privado</item>
-        <item>Oculto</item>
+        <!--item>Oculto</item-->
     </string-array>
 
     <!-- MENU -->
