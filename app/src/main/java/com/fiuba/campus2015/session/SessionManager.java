@@ -119,10 +119,12 @@ public class SessionManager {
 
     public void enableLocation(){
         editor.putBoolean(KEY_LOCATION_ACTIVE,true);
+        editor.commit();
     }
 
-    public void unableLocation(){
+    public void disableLocation(){
         editor.putBoolean(KEY_LOCATION_ACTIVE,false);
+        editor.commit();
     }
 
     public boolean isLocationEnabled(){

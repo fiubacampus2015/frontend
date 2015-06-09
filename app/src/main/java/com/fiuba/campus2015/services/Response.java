@@ -12,6 +12,7 @@ public class Response {
     public String name;
     public String photo;
     public String surname;
+    public boolean suspend;
     public Boolean confirmed;
 
     public Response()

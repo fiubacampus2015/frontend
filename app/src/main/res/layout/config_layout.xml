@@ -13,26 +13,22 @@
         android:layout_height="wrap_content"
         android:id="@+id/ubicacionContacto"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:weightSum="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Mostrar mi ubicación"
-            android:id="@+id/ubicacion_label"
-            android:textSize="15dp"
-            android:textColor="@color/primary_dark_material_light"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"/>
-
-        <com.gc.materialdesign.views.Switch
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/switchUbicacionContacto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/accent"
-            android:layout_marginTop="8dp"
-            materialdesign:check="false"/>
+            android:layout_marginTop="20dp"
+            android:text="Mostrar mi ubicación"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/primary_dark_material_light"
+            android:textSize="15dp"
+            android:checked="false"
+            android:textOff="OFF"
+            android:textOn="ON"
+            android:layout_weight="0.26" />
 
     </LinearLayout>
 

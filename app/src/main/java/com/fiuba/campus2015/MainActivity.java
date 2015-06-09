@@ -164,7 +164,13 @@ public class MainActivity extends ActionBarActivity {
                 dialog.getButtonAccept().setText("Aceptar");
             }
             else {
-                if (response.token != null && response.confirmed) {
+                if (response.suspend)
+                {
+                    dialog = new Dialog(MainActivity.this, "Cuenta suspendida", "Por favor, comunicate con el administrador.");
+                    dialog.show();
+                    dialog.getButtonAccept().setText("Aceptar");
+
+                }else if (response.token != null && response.confirmed) {
 
                     String user  =  ((EditText)findViewById(R.id.textuser)).getText().toString();
                     session.createLoginSession(user, response.token, response.id, response.name, response.surname,response.photo);

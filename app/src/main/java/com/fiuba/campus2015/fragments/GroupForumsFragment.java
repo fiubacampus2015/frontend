@@ -109,16 +109,28 @@ public class GroupForumsFragment extends Fragment {
                 new RecyclerItemClickListener(getActivity(),recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Forum forum = forumAdapter.getForum(position);
-                        Intent intent;
-                        intent = new Intent(getActivity(), ForumMessage.class);
-                        intent.putExtra(FORUM, new Gson().toJson(forum));
-                        intent.putExtra(GROUP,groupId);
-                        startActivity(intent);
+
+                        if (!forum.suspend)
+                        {
+                            Intent intent;
+                            intent = new Intent(getActivity(), ForumMessage.class);
+                            intent.putExtra(FORUM, new Gson().toJson(forum));
+                            intent.putExtra(GROUP, groupId);
+                            startActivity(intent);
+                        }else
+                        {
+                            Dialog  dialog  = new Dialog(getActivity(), null, "El foro " + forum.title + " está suspendido." +
+                                    "\n" + "Por favor, comunicate con el administrador.");
+                            dialog.show();
+                            dialog.getButtonAccept().setText("Aceptar");
+
+                        }
                     }
 
                     @Override public void onItemLongClick(View view, int position) {
                         Forum forum = forumAdapter.getForum(position);
-                        optionsForum(forum);
+                        if (!forum.suspend)
+                            optionsForum(forum);
 
                     }
                 })

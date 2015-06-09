@@ -41,6 +41,22 @@ public class LocationSender implements
 
     }
 
+    public void stop(final String token, final String user)
+    {
+
+        PoolingService.GetResult result = new PoolingService.GetResult<retrofit.client.Response, IApiUser>() {
+            @Override
+            public retrofit.client.Response getResult(IApiUser service) {
+                return service.sendLocation(token, user, new Position(""));
+            }
+        };
+
+        RestClient restClient = new RestClient();
+
+        PoolingService callApi = new PoolingService<retrofit.client.Response, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new com.fiuba.campus2015.services.Response());
+    }
+
     @Override
     public void onConnected(Bundle bundle) {
 
@@ -64,6 +80,8 @@ public class LocationSender implements
             callApi.fetch(restClient.getApiService(), result, new com.fiuba.campus2015.services.Response());
         }
     }
+
+
 
     @Override
     public void onConnectionSuspended(int i) {
