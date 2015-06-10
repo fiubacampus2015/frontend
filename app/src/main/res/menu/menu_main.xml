@@ -15,6 +15,6 @@
         android:id="@+id/action_location"
         android:title="Location"
         android:visible="false"
-        android:icon="@drawable/ic_account_location_white_18dp"
+        android:icon="@drawable/ic_map_marker_multiple_white_18dp"
         app:showAsAction="ifRoom"/>
 </menu>
