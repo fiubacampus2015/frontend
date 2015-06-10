@@ -274,13 +274,17 @@ public class PersonalDataFragment extends Fragment {
         return true;
     }
 
+    //Se checkea que el bitmap no haya sido reciclado
     private String getPhotoString() {
         if(photoBitmap != null) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            photoBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
-            byte[] imageBytes = baos.toByteArray();
-            photoBitmap.recycle();
-            return Base64.encodeToString(imageBytes, Base64.NO_WRAP);
+            if (!photoBitmap.isRecycled()) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                photoBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+                byte[] imageBytes = baos.toByteArray();
+                photoBitmap.recycle();
+                return Base64.encodeToString(imageBytes, Base64.NO_WRAP);
+            }else if (!getArguments().getString(PHOTO).isEmpty())
+                return getArguments().getString(PHOTO);
         }
         return null;
     }

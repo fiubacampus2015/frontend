@@ -3,6 +3,7 @@ package com.fiuba.campus2015;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -59,6 +60,7 @@ public class ProfileEditable extends ActionBarActivity {
     private PageAdapter adapterViewPager;
     private ViewPager vpPager;
     private ProgressBar prgrsBar;
+    private long mLastClickTime = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,39 +92,45 @@ public class ProfileEditable extends ActionBarActivity {
     }
 
     public void submitData(){
+
         prgrsBar.setVisibility(View.VISIBLE);
+
+        //Prevencion de multiples clicks
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 5000){
+            prgrsBar.setVisibility(View.GONE);
+            return;
+        }
 
         Bundle data = adapterViewPager.getAllData();
         int error = data.getInt("ERROR");
 
         if (error != 999){
             vpPager.setCurrentItem(error);
-            prgrsBar.setVisibility(View.GONE);
-
         } else {
-            if (!isFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESOEMPLEO))) {
+            if (isFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESOEMPLEO))) {
                 Dialog dialog = new Dialog(this, "Las fechas son incorrectas",
                         "La fecha de nacimiento no puede ser mayor que la fecha de ingreso al trabajo.");
                 dialog.show();
-                prgrsBar.setVisibility(View.GONE);
 
-            } else if (!isFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESO))) {
+            } else if (isFutureDate(data.getString(BIRTHDAY), data.getString(FECHAINGRESO))) {
                     Dialog dialog = new Dialog(this, "Las fechas son incorrectas" ,
                             "La fecha de nacimiento no puede ser mayor a la fecha de ingreso a la facultad.");
                     dialog.show();
-                prgrsBar.setVisibility(View.GONE);
 
             } else {
                 ExecuteSave(data);
             }
         }
+        mLastClickTime = SystemClock.elapsedRealtime();
+        prgrsBar.setVisibility(View.GONE);
     }
 
     private boolean isFutureDate(String pivotDate, String futureDate) {
 
         if (pivotDate != null && futureDate != null && !futureDate.isEmpty() && !pivotDate.isEmpty()) {
             try {
-                return (stringToCalendar(futureDate).compareTo(stringToCalendar(pivotDate)) == 1);
+                if(stringToCalendar(pivotDate).compareTo(stringToCalendar(futureDate)) == 1)
+                    return true;
             } catch (ParseException e) {
                 e.printStackTrace();
             }
