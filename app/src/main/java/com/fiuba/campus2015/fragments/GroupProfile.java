@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dexafree.materialList.cards.BigImageCard;
@@ -39,6 +40,7 @@ public class GroupProfile extends Fragment {
     private int messages;
     private int files;
     private TextCard ownerCard;
+    private ProgressBar prgrsBar;
 
     public static GroupProfile newInstance(Group group) {
         GroupProfile fragment = new GroupProfile();
@@ -73,6 +75,7 @@ public class GroupProfile extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.group_profile, container, false);
+        prgrsBar = (ProgressBar) view.findViewById(R.id.progressBarCircularIndeterminateGroupProfile);
 
         profileInformation = (MaterialListView) view.findViewById(R.id.groupProfileInfo);
 
@@ -191,5 +194,6 @@ public class GroupProfile extends Fragment {
             group = null;
         }
     }
+
 
 }
