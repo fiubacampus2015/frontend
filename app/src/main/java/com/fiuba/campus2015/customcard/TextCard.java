@@ -14,7 +14,7 @@ public class TextCard extends SimpleCard {
     private int dividerColor;
     private int buttonTextColor;
     private boolean showDeleteButton;
-
+    private boolean hideComponenents;
 
     public TextCard(final Context context) {
         super(context);
@@ -40,6 +40,10 @@ public class TextCard extends SimpleCard {
     public boolean isDeleteable(){
         return showDeleteButton;
     }
+
+    public void hideComponents() { hideComponenents = true;}
+
+    public boolean areHidden() { return hideComponenents;}
 
     @Override
     public int getLayout() {

@@ -58,6 +58,14 @@ public class TextCardItemView extends BaseTextCardItemView<TextCard> {
                 }
             }
         });
+
+        if(card.areHidden()) {
+            TextView title = (TextView) findViewById(R.id.titleTextView);
+            title.setVisibility(GONE);
+            TextView delete = (TextView) findViewById(R.id.deleteButtonTextCard);
+            delete.setVisibility(GONE);
+            divider.setVisibility(GONE);
+        }
     }
 
     private Drawable resize(Drawable image, int width, int height) {

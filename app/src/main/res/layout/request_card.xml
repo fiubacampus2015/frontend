@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.fiuba.campus2015.customcard.RequestCardItemView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MainLayout">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardCornerRadius="@dimen/card_corner_radius"
+        style="@style/MainCardView">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+
+                <TextView
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/titleTextView"
+                    android:textColor="#3C3C3C"
+                    tools:text="This is the title"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="75dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="15dp"
+
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textStyle="bold"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/descriptionTextView"
+                    android:textColor="#878787"
+                    tools:text="And this is the description"
+                    android:layout_gravity="right"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="38dp"
+                    android:layout_marginLeft="75dp" />
+
+                <com.fiuba.campus2015.extras.RoundedImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:src="@drawable/ic_account_circle_grey_48dp"
+                    android:id="@+id/imagePreview3"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp" />
+
+                <com.fiuba.campus2015.extras.ButtonFloatMaterial
+                    android:id="@+id/buttonAcceptRequestGroup"
+                    android:layout_width="21dp"
+                    app:iconDrawable="@drawable/ic_action_accept_dark"
+                    android:layout_height="21dp"
+                    android:background="@color/accent"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="33dp"
+                    android:layout_marginTop="15dp" />
+
+                <com.fiuba.campus2015.extras.ButtonFloatMaterial
+                    android:id="@+id/buttonRejectRequestGroup"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:background="@color/accent"
+                    android:layout_marginRight="4dp"
+                    app:iconDrawable="@drawable/ic_clear_grey"
+                    android:layout_marginTop="15dp"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/cardDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#608DFA"
+                android:layout_marginLeft="@dimen/big_padding"
+                android:layout_marginRight="@dimen/big_padding"
+                android:visibility="gone"
+                android:layout_gravity="right"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:id="@+id/deleteButtonVideoCard"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:textStyle="bold"
+                    android:padding="@dimen/big_padding"
+                    android:drawableLeft="@drawable/ic_delete"
+                    android:drawablePadding="@dimen/big_padding"
+                    style="@style/LeftButtonBaseStyle"
+                    tools:text="CLICK ME"
+                    android:textColor="#ffff171f"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</com.fiuba.campus2015.customcard.RequestCardItemView>

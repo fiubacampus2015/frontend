@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dexafree.materialList.cards.BigImageCard;
-import com.dexafree.materialList.cards.SmallImageCard;
+import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.controller.IMaterialListAdapter;
+import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.customcard.RequestCard;
 import com.fiuba.campus2015.customcard.TextCard;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.extras.Utils;
@@ -30,9 +32,13 @@ import static com.fiuba.campus2015.extras.Constants.GROUPOWNER;
 import static com.fiuba.campus2015.extras.Constants.GROUPDATE;
 
 public class GroupProfile extends Fragment {
-
+    private  View view;
     private MaterialListView profileInformation;
     private Group group;
+    private int participantes;
+    private int messages;
+    private int files;
+    private TextCard ownerCard;
 
     public static GroupProfile newInstance(Group group) {
         GroupProfile fragment = new GroupProfile();
@@ -66,16 +72,45 @@ public class GroupProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.group_profile, container, false);
+        view =  inflater.inflate(R.layout.group_profile, container, false);
 
         profileInformation = (MaterialListView) view.findViewById(R.id.groupProfileInfo);
 
-        load(view);
+        load();
         Application.getEventBus().register(this);
         return view;
     }
 
-    private void load(View view) {
+    public void acceptRequest() {
+        // llamando a la api
+
+        updateParticipantes();
+    }
+
+    private void updateParticipantes() {
+        participantes++;
+        ownerCard.setDescription(getParticipantes() + getMessages() + getFiles());
+
+        profileInformation.getAdapter().notifyDataSetChanged();
+    }
+
+    private String getParticipantes() {
+        return "#" + Integer.toString(participantes) + " participantes.\n";
+    }
+
+    private String getMessages() {
+        return "#" + Integer.toString(messages) + " mensajes.\n";
+    }
+
+    private String getFiles() {
+        return "#" + Integer.toString(files) + " archivos.";
+    }
+
+    public void rejectRequest() {
+        Toast.makeText(getActivity(), "sin implementar, se rechaza solicitud", Toast.LENGTH_SHORT).show();
+    }
+
+    private void load() {
 
         BigImageCard personalCard = new BigImageCard(view.getContext());
         personalCard.setTitle(getArguments().getString(NAME));
@@ -94,22 +129,56 @@ public class GroupProfile extends Fragment {
 
         profileInformation.add(personalCard);
 
-        TextCard ownerCard = new TextCard(view.getContext());
+        participantes = Integer.parseInt(getArguments().getString(GROUP_TOTALCONTACTS));
+        messages = Integer.parseInt(getArguments().getString(GROUP_TOTALMSGS));
+        files = Integer.parseInt(getArguments().getString(GROUP_TOTALFILES));
+
+        ownerCard = new TextCard(view.getContext());
         ownerCard.setDescription("#" + getArguments().getString(GROUP_TOTALCONTACTS) + " participantes. " + "\n#" + getArguments().getString(GROUP_TOTALMSGS) + " mensajes." + "\n#" + getArguments().getString(GROUP_TOTALFILES) + " archivos.");
         ownerCard.setDismissible(false);
         ownerCard.setTag("SMALL_IMAGE_CARD");
+        ownerCard.hideComponents();
 
         profileInformation.add(ownerCard);
 
+        addRequest();
+    }
+
+
+    private void addRequest() {
+        RequestCard requestCard = new RequestCard(view.getContext());
+        requestCard.setTitle("Bruce Wayne");
+        requestCard.setDescription("bruce@gmail.com");
+        requestCard.setTag("REQUEST_TAG");
+
+        addListener(requestCard);
+
+        profileInformation.add(requestCard);
+    }
+
+    private void addListener(RequestCard card) {
+        card.setOnButtonPressedAccpetListener(new OnButtonPressListener() {
+            @Override
+            public void onButtonPressedListener(View view, Card card) {
+                acceptRequest();
+            }
+        });
+
+        card.setOnButtonPressedRejectListener(new OnButtonPressListener() {
+            @Override
+            public void onButtonPressedListener(View view, Card card) {
+                rejectRequest();
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        BigImageCard card = (BigImageCard)((IMaterialListAdapter) profileInformation.getAdapter()).getCard(0);
-
         if(group != null) {
+            BigImageCard card = (BigImageCard)((IMaterialListAdapter) profileInformation.getAdapter()).getCard(0);
+
             String photo = group.photo;
 
             if(photo != null && !photo.isEmpty()) {
@@ -122,4 +191,5 @@ public class GroupProfile extends Fragment {
             group = null;
         }
     }
+
 }

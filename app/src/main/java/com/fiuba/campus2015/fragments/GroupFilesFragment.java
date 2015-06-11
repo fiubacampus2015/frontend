@@ -156,8 +156,8 @@ public class GroupFilesFragment extends Fragment {
         searchFilesInGroup();
     }
 
-    public void downloadFile(String fileId) {
-        Toast.makeText(getActivity(),"sin implementar", Toast.LENGTH_SHORT).show();
+    public void downloadFile(String fileId, String name) {
+        Toast.makeText(getActivity(),"sin implementar, descargando " + name, Toast.LENGTH_SHORT).show();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

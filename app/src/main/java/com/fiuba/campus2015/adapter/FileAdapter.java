@@ -80,7 +80,8 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
 
     private void downloadFile(final int position) {
         final File file = fileItems.get(position);
-        fragment.downloadFile(file._id);
+        String name = fileItems.get(position).name;
+        fragment.downloadFile(file._id, name) ;
     }
 
     @Override
