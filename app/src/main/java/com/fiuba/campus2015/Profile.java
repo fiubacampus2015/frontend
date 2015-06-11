@@ -33,6 +33,7 @@ public class Profile extends ActionBarActivity implements IProfile{
     private ProfileAdapter adapter;
     private Toolbar toolbar;
     private User user;
+    private boolean enableMenu;
     private ProgressBar prgrsBar;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,8 @@ public class Profile extends ActionBarActivity implements IProfile{
 
         SessionManager session = new SessionManager(getApplicationContext());
         prgrsBar.setVisibility(View.VISIBLE);
+        enableMenu =false;
+
         LoadUserDataTask loadTask = new LoadUserDataTask(this, session.getToken(), session.getUserid());
         loadTask.executeTask();
     }
@@ -61,6 +64,8 @@ public class Profile extends ActionBarActivity implements IProfile{
         this.user = user;
         adapter= new ProfileAdapter(getSupportFragmentManager(), user);
         vpPager.setAdapter(adapter);
+        enableMenu = true;
+
     }
 
     @Override
@@ -85,10 +90,12 @@ public class Profile extends ActionBarActivity implements IProfile{
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_edit:
-                Intent intent = new Intent(this, ProfileEditable.class);
-                intent.putExtra(USER, new Gson().toJson(user));
-                intent.putExtra(PAGE, vpPager.getCurrentItem());
-                startActivity(intent);
+                if(enableMenu) {
+                    Intent intent = new Intent(this, ProfileEditable.class);
+                    intent.putExtra(USER, new Gson().toJson(user));
+                    intent.putExtra(PAGE, vpPager.getCurrentItem());
+                    startActivity(intent);
+                }
                 break;
             default:
                 return super.onOptionsItemSelected(item);
