@@ -430,8 +430,12 @@ public class MessageAdapter {
                 progressDialog.dismiss();
             if (response== null)
                 Toast.makeText(context.getApplicationContext(), "Hubo un error al borrar el mensaje.", Toast.LENGTH_SHORT).show();
-            else
+            else {
                 delete(card);
+                if(forumMessage != null) {
+                    forumMessage.deletedMessage();
+                }
+            }
         }
     }
 
