@@ -117,6 +117,7 @@ public class VideoDialog extends AlertDialog.Builder {
 
                         if (data != null) {
                             if (validateSize(data)) {
+                                alertDialog.dismiss();
                                 videoEncoded = encodeVideoToString(data);
                                 SendVideoTask task = new SendVideoTask();
                                 task.execute();
@@ -298,7 +299,6 @@ public class VideoDialog extends AlertDialog.Builder {
             }
 
             reset();
-            alertDialog.dismiss();
         }
     }
 

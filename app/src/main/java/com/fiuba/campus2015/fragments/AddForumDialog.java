@@ -96,9 +96,9 @@ public class AddForumDialog extends AlertDialog.Builder {
             @Override
             public void onClick(View v) {
                 if (validateData()) {
+                    alertDialog.dismiss();
                     createForum();
                     groupforumFragment.update();
-                    alertDialog.dismiss();
                     reset();
                 } else {
 

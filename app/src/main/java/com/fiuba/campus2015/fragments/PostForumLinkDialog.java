@@ -77,9 +77,8 @@ public class PostForumLinkDialog extends AlertDialog.Builder {
             public void onClick(View v) {
 
                 if(Patterns.WEB_URL.matcher(msgContent.getText()).matches()){
-                    postMessage();
                     alertDialog.dismiss();
-                    reset();
+                    postMessage();
                 } else {
                     ((MaterialEditText) dialogView.findViewById(R.id.msgContent)).validateWith(new RegexpValidator("Esto no es un link!", "\\d+"));
 

@@ -109,7 +109,8 @@ public class PhotoForumDialog extends AlertDialog.Builder {
             @Override
             public void onClick(View v) {
                 if (validateData()) {
-                    dialogView.findViewById(R.id.sendMsg).setEnabled(false);
+                    alertDialog.dismiss();
+                    //dialogView.findViewById(R.id.sendMsg).setEnabled(false);
                     postMessage();
                 }
             }
@@ -119,7 +120,7 @@ public class PhotoForumDialog extends AlertDialog.Builder {
 
     public void reset()
     {
-        dialogView.findViewById(R.id.sendMsg).setEnabled(true);
+        //dialogView.findViewById(R.id.sendMsg).setEnabled(true);
         msgContent.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_image_default));
     }
 
@@ -170,7 +171,7 @@ public class PhotoForumDialog extends AlertDialog.Builder {
         Application.getEventBus().unregister(this);
         reset();
         this.context.getMessages();
-        alertDialog.dismiss();
+
     }
 
     public void postMessage() {

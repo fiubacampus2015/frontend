@@ -79,11 +79,9 @@ public class PostLinkDialog extends AlertDialog.Builder {
             public void onClick(View v) {
 
                 if(Patterns.WEB_URL.matcher(msgContent.getText()).matches()){
+                    alertDialog.dismiss();
                     SendMsgTask task = new SendMsgTask();
                     task.execute();
-
-                    alertDialog.dismiss();
-                    reset();
                 } else {
                     ((MaterialEditText) dialogView.findViewById(R.id.msgContent)).validateWith(new RegexpValidator("Esto no es un link!", "\\d+"));
 
@@ -123,6 +121,7 @@ public class PostLinkDialog extends AlertDialog.Builder {
 
         @Override
         protected void onPostExecute(Message response) {
+            reset();
             msgList.addMsg(response);
 
         }

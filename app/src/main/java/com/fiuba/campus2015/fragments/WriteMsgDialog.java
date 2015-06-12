@@ -45,6 +45,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
     private WallFragment wallFragment;
     private ProgressBar prgrsBar;
 
+
     protected WriteMsgDialog(FragmentActivity activity, WallFragment wallFragment, String userTo) {
         super(activity);
 
@@ -76,12 +77,9 @@ public class WriteMsgDialog extends AlertDialog.Builder {
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                alertDialog.dismiss();
                 SendMsgTask task = new SendMsgTask();
                 task.execute();
-
-                alertDialog.dismiss();
-                reset();
             }
         });
 
@@ -127,6 +125,7 @@ public class WriteMsgDialog extends AlertDialog.Builder {
         @Override
         protected void onPostExecute(Message response) {
             prgrsBar.setVisibility(View.INVISIBLE);
+            reset();
             wallFragment.update();
 
         }

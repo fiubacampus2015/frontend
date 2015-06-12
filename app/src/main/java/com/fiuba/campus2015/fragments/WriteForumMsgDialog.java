@@ -75,6 +75,7 @@ public class WriteForumMsgDialog extends AlertDialog.Builder {
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alertDialog.dismiss();
                 postMessage();
                 //alertDialog.dismiss();
             }
@@ -95,7 +96,6 @@ public class WriteForumMsgDialog extends AlertDialog.Builder {
         Application.getEventBus().unregister(this);
         reset();
         this.context.getMessages();
-        alertDialog.dismiss();
     }
 
 

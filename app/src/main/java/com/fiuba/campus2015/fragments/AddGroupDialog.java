@@ -150,11 +150,9 @@ public class AddGroupDialog extends AlertDialog.Builder {
             @Override
             public void onClick(View v) {
             if (validateData()){
+                alertDialog.dismiss();
                 AddGroupTask task = new AddGroupTask();
                 task.execute();
-
-                alertDialog.dismiss();
-                reset();
             }else{
 
             }
@@ -227,7 +225,7 @@ public class AddGroupDialog extends AlertDialog.Builder {
 
         @Override
         protected void onPostExecute(Response response) {
-
+            reset();
             if(response != null) {
                 groupFragment.loadGroups();
             }

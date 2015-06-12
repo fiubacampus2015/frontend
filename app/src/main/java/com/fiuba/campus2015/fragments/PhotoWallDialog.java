@@ -133,12 +133,10 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //dialogView.findViewById(R.id.sendMsg).setEnabled(false);
                 if (validateData()) {
+                    alertDialog.dismiss();
                     SendMsgTask task = new SendMsgTask();
                     task.execute();
-                    reset();
-                    alertDialog.dismiss();
                 }
             }
         });
@@ -157,7 +155,6 @@ public class PhotoWallDialog extends AlertDialog.Builder {
 
     public void reset()
     {
-        dialogView.findViewById(R.id.sendMsg).setEnabled(true);
         msgContent.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_image_default));
     }
 
@@ -213,7 +210,6 @@ public class PhotoWallDialog extends AlertDialog.Builder {
                     .setEndpoint(UrlEndpoints.URL_API)
                     .build();
 
-            prgrsBar.setEnabled(true);
             prgrsBar.setVisibility(View.VISIBLE);
         }
 
@@ -240,7 +236,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
         @Override
         protected void onPostExecute(Message response) {
             prgrsBar.setVisibility(View.INVISIBLE);
-
+            reset();
             // probando
             if(fileAdapter != null) {
                 File file = new File();
