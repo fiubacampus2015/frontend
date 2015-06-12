@@ -62,7 +62,7 @@ public class ForumMessage  extends ActionBarActivity {
         mListView = (MaterialListView) findViewById(R.id.material_listview);
 
 
-        msgAdapter = new MessageAdapter(getApplicationContext(), mListView, session.getUserid(),this);
+        msgAdapter = new MessageAdapter(this, mListView, session.getUserid(),this);
 
         FloatingActionButton button_actionAddMeg = (FloatingActionButton) findViewById(R.id.action_write);
 

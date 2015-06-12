@@ -360,22 +360,17 @@ public class MessageAdapter {
 
 
     private void deleteCard(final String idMessage, final Card card) {
-        if(wallFragment != null) {
-            Dialog dialogo = new Dialog(context, null, "¿Estás seguro que deseas eliminar el mensaje?");
-            dialogo.setOnAcceptButtonClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage, card);
-                    deleteMsg.execute();
-                }
-            });
-            dialogo.addCancelButton("Cancelar");
-            dialogo.show();
-            dialogo.getButtonAccept().setText("Aceptar");
-        } else {
-            DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage, card);
-            deleteMsg.execute();
-        }
+        Dialog dialogo = new Dialog(context, null, "¿Estás seguro que deseas eliminar el mensaje?");
+        dialogo.setOnAcceptButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage, card);
+                deleteMsg.execute();
+            }
+        });
+        dialogo.addCancelButton("Cancelar");
+        dialogo.show();
+        dialogo.getButtonAccept().setText("Aceptar");
     }
 
 
