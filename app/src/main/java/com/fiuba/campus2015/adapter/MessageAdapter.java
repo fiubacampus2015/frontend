@@ -41,6 +41,7 @@ import com.fiuba.campus2015.fragments.GroupFilesFragment;
 import com.fiuba.campus2015.fragments.WallFragment;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.widgets.Dialog;
 import com.gc.materialdesign.widgets.ProgressDialog;
 import static com.fiuba.campus2015.extras.Constants.MOVIES;
 import static com.fiuba.campus2015.extras.Constants.CAMPUS;
@@ -357,10 +358,26 @@ public class MessageAdapter {
         materialListView.addAtStart(getRandomCard(card));
     }
 
-    private void deleteCard(String idMessage, Card card) {
-        DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage, card);
-        deleteMsg.execute();
+
+    private void deleteCard(final String idMessage, final Card card) {
+        if(wallFragment != null) {
+            Dialog dialogo = new Dialog(context, null, "¿Estás seguro que deseas eliminar el mensaje?");
+            dialogo.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage, card);
+                    deleteMsg.execute();
+                }
+            });
+            dialogo.addCancelButton("Cancelar");
+            dialogo.show();
+            dialogo.getButtonAccept().setText("Aceptar");
+        } else {
+            DeleteMsgTask deleteMsg = new DeleteMsgTask(idMessage, card);
+            deleteMsg.execute();
+        }
     }
+
 
     private class DeleteMsgTask extends AsyncTask<Void, Void,retrofit.client.Response> {
         RestClient restClient;
