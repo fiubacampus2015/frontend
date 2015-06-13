@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:visibility="gone"
-            android:text="@string/no_data_available" />
+            android:text="No hay mensajes" />
     </RelativeLayout>
 
 </RelativeLayout>
