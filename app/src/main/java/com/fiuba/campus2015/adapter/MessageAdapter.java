@@ -12,9 +12,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
 import com.dexafree.materialList.controller.IMaterialListAdapter;
 import com.dexafree.materialList.controller.OnDismissCallback;
+import com.dexafree.materialList.controller.SwipeDismissRecyclerViewTouchListener;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.ForumMessage;
@@ -36,6 +39,7 @@ import com.fiuba.campus2015.customcard.LinkCard;
 import com.fiuba.campus2015.customcard.VideoCard;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.Constants;
+import com.fiuba.campus2015.extras.RecyclerItemClickListener;
 import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.fragments.GroupFilesFragment;
 import com.fiuba.campus2015.fragments.WallFragment;
@@ -62,7 +66,6 @@ public class MessageAdapter {
     private WallFragment wallFragment;
     private GroupFilesFragment fileFragment;
     private ForumMessage forumMessage;
-
 
     public MessageAdapter(Context context, MaterialListView materialListView , String userId, WallFragment fragment){
         layoutInflater = LayoutInflater.from(context);
@@ -320,28 +323,67 @@ public class MessageAdapter {
         }}
 
     private void setDismissCallback() {
-        OnDismissCallback callback = new OnDismissCallback() {
+/*
+        // deshabilita el swipe
+        SwipeDismissRecyclerViewTouchListener mDismissListener = new
+                SwipeDismissRecyclerViewTouchListener(materialListView,
+                new SwipeDismissRecyclerViewTouchListener.DismissCallbacks() {
+
             @Override
-            public void onDismiss(Card card, int i) {
-                switch(card.getTag().toString()) {
-                    case "TEXT_CARD":
-                        OnButtonPressListener button = ((TextCard)card).getOnButtonPressedListener();
-                        button.onButtonPressedListener(null, card);
-                        break;
-                    case "VIDEO_CARD":
-                        break;
-                    case "LINK_CARD":
-                        OnButtonPressListener button2 = ((LinkCard)card).getOnButtonPressedListener();
-                        button2.onButtonPressedListener(null, card);
-                        break;
-                    case "BIG_IMAGE_BUTTON_CARD":
-                        OnButtonPressListener button3 = ((BigImageButtonsCard)card).getOnLeftButtonPressedListener();
-                        button3.onButtonPressedListener(null, card);
-                        break;
-                }
+            public boolean canDismiss(int i) {
+                return false;
             }
-        };
-        materialListView.setOnDismissCallback(callback);
+
+            @Override
+            public void onDismiss(RecyclerView recyclerView, int[] ints) {
+                    }
+                });
+
+        materialListView.setOnTouchListener(mDismissListener);
+        */
+
+        SwipeDismissRecyclerViewTouchListener listener =
+                new SwipeDismissRecyclerViewTouchListener(materialListView, new SwipeDismissRecyclerViewTouchListener.DismissCallbacks() {
+                    public boolean canDismiss(int position) {
+                        return ((IMaterialListAdapter) materialListView.getAdapter()).getCard(position).isDismissible();
+                    }
+
+                    public void onDismiss(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                        int[] arr$ = reverseSortedPositions;
+                        int len$ = reverseSortedPositions.length;
+
+                        for(int i$ = 0; i$ < len$; ++i$) {
+                            int reverseSortedPosition = arr$[i$];
+                            Card card = ((IMaterialListAdapter)materialListView.getAdapter()).getCard(reverseSortedPosition);
+
+                            switch(card.getTag().toString()) {
+                                case "TEXT_CARD":
+                                    OnButtonPressListener button = ((TextCard)card).getOnButtonPressedListener();
+                                    button.onButtonPressedListener(null, card);
+                                    break;
+                                case "VIDEO_CARD":
+                                    ((VideoCard)card).getOnButtonPressedListener().onButtonPressedListener(null,card);
+                                    break;
+                                case "LINK_CARD":
+                                    OnButtonPressListener button2 = ((LinkCard)card).getOnButtonPressedListener();
+                                    button2.onButtonPressedListener(null, card);
+                                    break;
+                                case "BIG_IMAGE_BUTTON_CARD":
+                                    OnButtonPressListener button3 = ((BigImageButtonsCard)card).getOnLeftButtonPressedListener();
+                                    button3.onButtonPressedListener(null, card);
+                                    break;
+                                case "PLACE_CARD":
+                                    ((BasicImageButtonsCard)card).getOnLeftButtonPressedListener().onButtonPressedListener(null,card);
+                                    break;
+                                case "BIG_PHOTO_CARD":
+                                    ((BigPhotoCard)card).getOnButtonPressedListener().onButtonPressedListener(null,card);
+                            }
+                        }
+                    }
+                });
+
+        materialListView.setOnTouchListener(listener);
+
     }
 
     private Card generateNewCard() {
@@ -372,7 +414,6 @@ public class MessageAdapter {
         dialogo.show();
         dialogo.getButtonAccept().setText("Aceptar");
     }
-
 
     private class DeleteMsgTask extends AsyncTask<Void, Void,retrofit.client.Response> {
         RestClient restClient;
@@ -405,29 +446,29 @@ public class MessageAdapter {
         protected void onPreExecute() {
             restClient = new RestClient();
             progressDialog.show();
+        }
+
+        @Override
+        protected retrofit.client.Response doInBackground(Void... params) {
+            retrofit.client.Response response = null;
+            try {
+
+
+                if (wallFragment != null)
+                    response = restClient.getApiService().deleteMsg(session.getToken(), userId,new Message(idMessage));
+                else
+                    response = restClient.getApiService().deleteForumMessage(session.getToken(), forumMessage.getGroupId(), forumMessage.getForumId(), new Message(idMessage));
+
+            } catch (Exception ex) {
+
             }
-
-            @Override
-            protected retrofit.client.Response doInBackground(Void... params) {
-                retrofit.client.Response response = null;
-                try {
+            return response;
+        }
 
 
-                    if (wallFragment != null)
-                        response = restClient.getApiService().deleteMsg(session.getToken(), userId,new Message(idMessage));
-                    else
-                        response = restClient.getApiService().deleteForumMessage(session.getToken(), forumMessage.getGroupId(), forumMessage.getForumId(), new Message(idMessage));
-
-                } catch (Exception ex) {
-
-                }
-                return response;
-            }
-
-
-            @Override
+        @Override
         public void onPostExecute(retrofit.client.Response response) {
-                progressDialog.dismiss();
+            progressDialog.dismiss();
             if (response== null)
                 Toast.makeText(context.getApplicationContext(), "Hubo un error al borrar el mensaje.", Toast.LENGTH_SHORT).show();
             else {
