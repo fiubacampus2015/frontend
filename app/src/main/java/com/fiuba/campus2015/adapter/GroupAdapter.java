@@ -3,7 +3,6 @@ package com.fiuba.campus2015.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -14,17 +13,9 @@ import android.widget.TextView;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.dto.user.Group;
-import com.fiuba.campus2015.dto.user.MemberShip;
-import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.fragments.GroupFragment;
-import com.fiuba.campus2015.services.Application;
-import com.fiuba.campus2015.services.IApiUser;
-import com.fiuba.campus2015.services.Response;
-import com.fiuba.campus2015.services.RestClient;
-import com.fiuba.campus2015.services.RestServiceAsync;
 import com.gc.materialdesign.widgets.Dialog;
 
-import java.util.Collections;
 import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGroups> {
@@ -90,7 +81,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
         if (groupItem.suspend)
         {
             holder.buttonSuspended.setVisibility(View.VISIBLE);
-
+            holder.imageStar.setVisibility(View.GONE);
         }else {
 
             holder.buttonSuspended.setVisibility(View.GONE);
