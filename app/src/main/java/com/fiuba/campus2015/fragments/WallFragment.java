@@ -1,41 +1,23 @@
 package com.fiuba.campus2015.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
-import com.dexafree.materialList.cards.OnButtonPressListener;
-import com.dexafree.materialList.model.Card;
+import android.widget.TextView;
 import com.fiuba.campus2015.Map;
-import com.fiuba.campus2015.ProfileFriend;
 import com.fiuba.campus2015.R;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.adapter.MessageAdapter;
-import com.fiuba.campus2015.customcard.VideoCard;
 import com.fiuba.campus2015.dto.user.Message;
-import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.UrlEndpoints;
-import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
-import com.gc.materialdesign.widgets.ProgressDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -49,7 +31,7 @@ public class WallFragment extends Fragment
     private MessageAdapter msgAdapter;
     private WriteMsgDialog w_msgDialog;
     private PhotoWallDialog w_photoDialog;
-
+    private TextView emptyView;
     private VideoDialog videoDialog;
     private PostLinkDialog linkDialog;
     private SessionManager session;
@@ -79,6 +61,8 @@ public class WallFragment extends Fragment
 
         mListView = (MaterialListView) myView.findViewById(R.id.material_listview);
         this.msgAdapter = new MessageAdapter(myView.getContext(), mListView, getArguments().getString(USERTO),this);
+
+        emptyView = (TextView) myView.findViewById(R.id.empty_view_wall);
 
         w_msgDialog = new WriteMsgDialog(getActivity(), this, getArguments().getString(USERTO));
         videoDialog = new VideoDialog(getActivity(), msgAdapter,getArguments().getString(USERTO));
@@ -179,7 +163,15 @@ public class WallFragment extends Fragment
             if(msgs!=null) {
                 msgAdapter.setData(msgs);
                 msgAdapter.fillArray();
+                emptyView.setVisibility(View.INVISIBLE);
+            } else {
+                emptyView.setVisibility(View.VISIBLE);
             }
+
+            if (msgs.isEmpty()) {
+                emptyView.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 
