@@ -8,24 +8,30 @@
 
 <include android:id="@+id/app_bar" layout="@layout/app_bar"/>
 
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="400dp"
-    android:id="@+id/map"
-    tools:context=".Map"
-    android:name="com.google.android.gms.maps.SupportMapFragment" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.fiuba.campus2015.extras.ButtonFloatMaterial
-        android:id="@+id/postPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="25dp"
-        android:background="@color/accent"
-        app:animate="true"
-        app:iconDrawable="@drawable/ic_action_accept_dark"
-        android:layout_gravity="right" />
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map"
+        tools:context=".Map"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+        <com.fiuba.campus2015.extras.ButtonFloatMaterial
+            android:id="@+id/postPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="25dp"
+            android:background="@color/accent"
+            app:animate="true"
+            app:iconDrawable="@drawable/ic_action_accept_dark"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="20dp" />
+    </FrameLayout>
 
 </LinearLayout>
