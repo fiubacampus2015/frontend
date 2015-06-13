@@ -88,6 +88,7 @@ public class ProfileEditable extends ActionBarActivity {
             adapterViewPager = new PageAdapter(getSupportFragmentManager(), user);
             vpPager.setAdapter(adapterViewPager);
             vpPager.setCurrentItem(extras.getInt(PAGE));
+            mLastClickTime = SystemClock.elapsedRealtime();
         }
     }
 
