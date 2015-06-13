@@ -1,7 +1,10 @@
 package com.fiuba.campus2015.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +30,13 @@ import com.fiuba.campus2015.session.SessionManager;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.otto.Subscribe;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +58,7 @@ public class GroupFilesFragment extends Fragment {
     private FileDialog fileDialog;
     private FileAdapter fileAdapter;
     private RecyclerView recyclerView;
+    private ProgressDialog pDialog;
 
     public static GroupFilesFragment newInstance(Group group) {
         GroupFilesFragment fragment = new GroupFilesFragment();
@@ -61,6 +72,9 @@ public class GroupFilesFragment extends Fragment {
         return fragment;
     }
 
+    private void openFile(String path) {
+
+    }
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,7 +91,7 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
-        ImageView buttonClear= (ImageView) myView.findViewById(R.id.search_files_clear);
+        ImageView buttonClear = (ImageView) myView.findViewById(R.id.search_files_clear);
         buttonClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,24 +171,29 @@ public class GroupFilesFragment extends Fragment {
     }
 
     public void downloadFile(String fileId, String name) {
-        Toast.makeText(getActivity(),"sin implementar, descargando " + name, Toast.LENGTH_SHORT).show();
+        String file_url = "http://api.androidhive.info/progressdialog/hive.jpg";
+
+        DownloadFileFromURL downloadFile = new DownloadFileFromURL();
+        downloadFile.execute(file_url, name);
+
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        photoDialog.onActivityResult(requestCode,resultCode,data);
-        fileDialog.onActivityResult(requestCode,resultCode,data);
-        videoDialog.onActivityResult(requestCode,resultCode,data);
+        photoDialog.onActivityResult(requestCode, resultCode, data);
+        fileDialog.onActivityResult(requestCode, resultCode, data);
+        videoDialog.onActivityResult(requestCode, resultCode, data);
     }
 
     //Se llama a este metodo en caso de que no haya error
     @Subscribe
     public void onFileList(ArrayList<Message> msgs) {
-        if(msgs.isEmpty())
+        if (msgs.isEmpty())
             emptyView.setVisibility(View.VISIBLE);
         else
             emptyView.setVisibility(View.INVISIBLE);
 
-     //   fileAdapter.setData(msgs);
+        //   fileAdapter.setData(msgs);
         progressBar.setVisibility(View.GONE);
         //Desuscripcion a los eventos que devuelve el cliente que llama la api
         Application.getEventBus().unregister(this);
@@ -190,8 +209,7 @@ public class GroupFilesFragment extends Fragment {
     }
 
 
-    public void getFilesInGroup()
-    {
+    public void getFilesInGroup() {
         Application.getEventBus().register(this);
         //Se crea la llamada al servicio
         RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<List<Message>, IApiUser>() {
@@ -205,6 +223,91 @@ public class GroupFilesFragment extends Fragment {
         RestClient restClient = new RestClient();
         RestServiceAsync callApi = new RestServiceAsync<List<Message>, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new Response());
+    }
+
+    private void showDialog() {
+        pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Descargando archivo. Por favor espere...");
+        pDialog.setIndeterminate(false);
+        pDialog.setMax(100);
+        pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pDialog.setCancelable(true);
+        pDialog.show();
+    }
+
+    class DownloadFileFromURL extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+
+              showDialog();
+        }
+
+
+        @Override
+        protected String doInBackground(String... f_url) {
+            int count;
+            try {
+                URL url = new URL(f_url[0]);
+                URLConnection conection = url.openConnection();
+                conection.connect();
+                // getting file length
+                int lenghtOfFile = conection.getContentLength();
+
+                // input stream to read file - with 8k buffer
+                InputStream input = new BufferedInputStream(url.openStream(), 8192);
+
+                //
+                File downloadFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                String fileName = f_url[1];
+                File file = new File(downloadFolder, "prueba.jpg"); //por ahora se ignora el nombre real
+
+                // Output stream to write file
+                OutputStream output = new FileOutputStream(file);
+
+                byte data[] = new byte[1024];
+
+                long total = 0;
+
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+
+                    // writing data to file
+                    output.write(data, 0, count);
+                }
+
+                // flushing output
+                output.flush();
+
+                // closing streams
+                output.close();
+                input.close();
+
+            } catch (Exception e) {
+
+            }
+
+            return null;
+        }
+
+        /**
+         * Updating progress bar
+         */
+        protected void onProgressUpdate(String... progress) {
+            // setting progress percentage
+                  pDialog.setProgress(Integer.parseInt(progress[0]));
+        }
+
+
+        @Override
+        protected void onPostExecute(String file_url) {
+            pDialog.dismiss();
+
+        }
+
     }
 
 }
