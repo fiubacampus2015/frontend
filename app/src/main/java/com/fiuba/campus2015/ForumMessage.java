@@ -9,7 +9,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.dexafree.materialList.controller.IMaterialListAdapter;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Forum;
@@ -46,7 +48,7 @@ public class ForumMessage  extends ActionBarActivity {
     private WriteForumMsgDialog w_msgDialog;
     private PhotoForumDialog w_photoForumDialog;
     private PostForumLinkDialog linkDialog;
-
+    private TextView emptyView;
 
 
     private SessionManager session;
@@ -58,11 +60,12 @@ public class ForumMessage  extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         session = new SessionManager(getApplicationContext());
+        emptyView = (TextView) findViewById(R.id.empty_viewForum);
 
         mListView = (MaterialListView) findViewById(R.id.material_listview);
 
 
-        msgAdapter = new MessageAdapter(getApplicationContext(), mListView, session.getUserid(),this);
+        msgAdapter = new MessageAdapter(this, mListView, session.getUserid(),this);
 
         FloatingActionButton button_actionAddMeg = (FloatingActionButton) findViewById(R.id.action_write);
 
@@ -146,6 +149,12 @@ public class ForumMessage  extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void deletedMessage() {
+        if(((IMaterialListAdapter)mListView.getAdapter()).isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void getMessages() {
         prgrsBar.setVisibility(View.VISIBLE);
         //Suscripcion a los eventos que devuelve el cliente que llama la api
@@ -164,6 +173,11 @@ public class ForumMessage  extends ActionBarActivity {
     //Se llama a este metodo en caso de que no haya error
     @Subscribe
     public void onMessageForumList(ArrayList<Message> msgs) {
+
+        if(msgs.isEmpty())
+            emptyView.setVisibility(View.VISIBLE);
+        else
+            emptyView.setVisibility(View.INVISIBLE);
 
         msgAdapter.setData(msgs);
         msgAdapter.fillArray();
