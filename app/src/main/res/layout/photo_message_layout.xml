@@ -96,6 +96,12 @@
         android:gravity="center_vertical|left"
         android:weightSum="1">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_delete_photo_dialog"
+            android:src="@drawable/ic_delete"
+            android:layout_marginLeft="10dp" />
     </LinearLayout>
 
 

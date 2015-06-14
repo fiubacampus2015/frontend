@@ -63,6 +63,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
     private TextView msgTo;
     private ImageView msgContent;
     private ButtonFloatMaterial buttonImage;
+    private ImageView buttonDelete;
     private SessionManager session;
     private Bitmap photoBitmap;
     private String userTo;
@@ -115,6 +116,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
             }
         });
         msgContent = (ImageView) dialogView.findViewById(R.id.imageMessage);
+        buttonDelete = (ImageView) dialogView.findViewById(R.id.button_delete_photo_dialog);
 
         setView(dialogView);
 
@@ -143,22 +145,38 @@ public class PhotoWallDialog extends AlertDialog.Builder {
                 }
             }
         });
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reset();
+            }
+        });
     }
 
     private boolean validateData() {
-
         boolean isValid = true;
+
         if (photoBitmap == null) {
             Toast.makeText(this.getContext(), "No subiste ninguna foto", Toast.LENGTH_SHORT).show();
             isValid=false;
         }
 
+        if(fileAdapter != null) {
+            isValid = false;
+            if(pathPhoto != null && !pathPhoto.isEmpty() && preview != null) {
+                isValid = true;
+            }
+        }
         return isValid;
     }
 
     public void reset()
     {
         msgContent.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_image_default));
+        photoBitmap = null;
+        preview = null;
+        pathPhoto = null;
     }
 
     private Bitmap getPhoto(Intent data) {
