@@ -53,7 +53,7 @@ public class WallFragment extends Fragment
     private VideoDialog videoDialog;
     private PostLinkDialog linkDialog;
     private SessionManager session;
-    private ProgressBar prgrsBar;
+    public ProgressBar prgrsBar;
 
     public static WallFragment newInstance(String userId) {
         WallFragment fragment = new WallFragment();

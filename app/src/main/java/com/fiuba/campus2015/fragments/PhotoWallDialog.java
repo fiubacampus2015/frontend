@@ -47,6 +47,7 @@ import org.w3c.dom.Text;
 
 import retrofit.RestAdapter;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 
 import static com.fiuba.campus2015.extras.Constants.SEP;
 import static com.fiuba.campus2015.extras.Utils.checkSizePhoto;
@@ -65,18 +66,20 @@ public class PhotoWallDialog extends AlertDialog.Builder {
     private SessionManager session;
     private Bitmap photoBitmap;
     private String userTo;
+    private String groupTo;
     private MessageAdapter msgList;
     private ProgressBar prgrsBar;
     private FileAdapter fileAdapter;
     private String pathPhoto;
     private Bitmap preview;
 
-    public PhotoWallDialog(FragmentActivity activity, FileAdapter fileAdapter) {
+    public PhotoWallDialog(FragmentActivity activity, FileAdapter fileAdapter, String groupTo) {
         super(activity);
 
         this.context = activity;
         this.activity = activity;
         this.fileAdapter = fileAdapter;
+        this.groupTo = groupTo;
 
         initialize();
     }
@@ -222,13 +225,18 @@ public class PhotoWallDialog extends AlertDialog.Builder {
 
                 if(fileAdapter != null) {
 
+                    response = api.postFiles(session.getToken(),groupTo,new TypedFile("multipart/form-data",
+                            new java.io.File(pathPhoto)),getPhotoString(preview),Constants.MsgCardType.photo.toString());
+
                 } else {
                     msgList.addMsg(api.postMsgToWall(session.getToken(), userTo,
                             new Message(getPhotoString(photoBitmap), Constants.MsgCardType.photo)));
                 }
                 photoBitmap = null;
 
-            } catch (Exception x) {x.printStackTrace();}
+            } catch (Exception x) {
+                x.printStackTrace();
+            }
 
             return response;
         }
@@ -238,10 +246,14 @@ public class PhotoWallDialog extends AlertDialog.Builder {
             prgrsBar.setVisibility(View.INVISIBLE);
             reset();
             // probando
-            if(fileAdapter != null) {
+            if(fileAdapter != null && response != null) {
                 File file = new File();
-                file.name = getNameFile(pathPhoto);
-                file.preview = getPhotoString(preview);
+                file.originalName = response.originalName;
+                file.content = response.content;
+                file._id = response._id;
+                file.typeOf = response.typeOf;
+                file.path = response.path;
+
                 fileAdapter.addFile(file);
             }
 

@@ -81,20 +81,29 @@ public class GroupContactFragment extends ContactFragment {
         return myView;
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
     //Se llama a este metodo en caso de que no haya error
     @Subscribe
     public void onMembersResponse(ArrayList<User> users) {
-
-        if (!users.isEmpty()) {
+        if (!users.isEmpty() && users.get(0) instanceof User)
+        {
             emptyView.setVisibility(View.INVISIBLE);
             contactsAdapter.setContacts(users,session.getUserid());
+            Application.getEventBus().unregister(this);
         }
-        else
+        else if (users.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
+            Application.getEventBus().unregister(this);
+        }
 
         prgrsBar.setVisibility(View.GONE);
         //Desuscripcion a los eventos que devuelve el cliente que llama la api
-        Application.getEventBus().unregister(this);
     }
 
 
@@ -136,7 +145,6 @@ public class GroupContactFragment extends ContactFragment {
     public void onErrorResponse(com.fiuba.campus2015.services.Response errorResponse) {
         Toast.makeText(getActivity().getApplicationContext(), "Hubo un error en grupos." + errorResponse.reason, Toast.LENGTH_SHORT).show();
         prgrsBar.setVisibility(View.GONE);
-        Application.getEventBus().unregister(this);
     }
 
 

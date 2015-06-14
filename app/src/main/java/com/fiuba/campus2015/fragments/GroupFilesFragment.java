@@ -19,8 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.FileAdapter;
+import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.Message;
+import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.Response;
@@ -119,9 +121,9 @@ public class GroupFilesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(fileAdapter);
 
-        fileDialog = new FileDialog(getActivity(), fileAdapter);
-        videoDialog = new VideoDialog(getActivity(), fileAdapter);
-        photoDialog = new PhotoWallDialog(getActivity(), fileAdapter);
+        fileDialog = new FileDialog(getActivity(), fileAdapter,groupId);
+        videoDialog = new VideoDialog(getActivity(), fileAdapter,groupId);
+        photoDialog = new PhotoWallDialog(getActivity(), fileAdapter,groupId);
 
         FloatingActionButton button_actionAddPhoto = (FloatingActionButton) myView.findViewById(R.id.action_addphoto);
         FloatingActionButton button_actionAddVideo = (FloatingActionButton) myView.findViewById(R.id.action_addVideo);
@@ -148,12 +150,20 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
-//        update();
+        update();
 
         return myView;
     }
 
     public void searchFilesInGroup() {
+
+
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
 
     }
@@ -170,11 +180,11 @@ public class GroupFilesFragment extends Fragment {
         searchFilesInGroup();
     }
 
-    public void downloadFile(String fileId, String name) {
-        String file_url = "http://api.androidhive.info/progressdialog/hive.jpg";
+    public void downloadFile(String fileId, String name, String path) {
 
         DownloadFileFromURL downloadFile = new DownloadFileFromURL();
-        downloadFile.execute(file_url, name);
+
+        downloadFile.execute(path, name);
 
 
     }
@@ -187,41 +197,49 @@ public class GroupFilesFragment extends Fragment {
 
     //Se llama a este metodo en caso de que no haya error
     @Subscribe
-    public void onFileList(ArrayList<Message> msgs) {
-        if (msgs.isEmpty())
-            emptyView.setVisibility(View.VISIBLE);
-        else
-            emptyView.setVisibility(View.INVISIBLE);
+    public void onFileList(ArrayList<com.fiuba.campus2015.dto.user.File> files) {
 
-        //   fileAdapter.setData(msgs);
+        if (!files.isEmpty() && files.get(0) instanceof com.fiuba.campus2015.dto.user.File)
+        {
+            emptyView.setVisibility(View.INVISIBLE);
+            fileAdapter.setFiles(files);
+            Application.getEventBus().unregister(this);
+
+
+        }else if (files.isEmpty())
+        {
+            emptyView.setVisibility(View.VISIBLE);
+            Application.getEventBus().unregister(this);
+
+        }
         progressBar.setVisibility(View.GONE);
         //Desuscripcion a los eventos que devuelve el cliente que llama la api
-        Application.getEventBus().unregister(this);
     }
 
 
     //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
     @Subscribe
     public void onResponse(Response responseError) {
+        Application.getEventBus().unregister(this);
         Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los archivos del grupo." + responseError.reason, Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.GONE);
-        Application.getEventBus().unregister(this);
     }
 
 
     public void getFilesInGroup() {
         Application.getEventBus().register(this);
+
         //Se crea la llamada al servicio
-        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<List<Message>, IApiUser>() {
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<List<com.fiuba.campus2015.dto.user.File>, IApiUser>() {
             @Override
-            public List<Message> getResult(IApiUser service) {
+            public List<com.fiuba.campus2015.dto.user.File> getResult(IApiUser service) {
                 return service.getGroupFiles(session.getToken(), groupId, searchText.getText().toString());
             }
         };
 
         //Se llama a la api
         RestClient restClient = new RestClient();
-        RestServiceAsync callApi = new RestServiceAsync<List<Message>, IApiUser>();
+        RestServiceAsync callApi = new RestServiceAsync<List<com.fiuba.campus2015.dto.user.File>, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new Response());
     }
 
@@ -248,7 +266,7 @@ public class GroupFilesFragment extends Fragment {
         protected String doInBackground(String... f_url) {
             int count;
             try {
-                URL url = new URL(f_url[0]);
+                URL url = new URL(UrlEndpoints.URL_API + f_url[0]);
                 URLConnection conection = url.openConnection();
                 conection.connect();
                 // getting file length
@@ -260,7 +278,7 @@ public class GroupFilesFragment extends Fragment {
                 //
                 File downloadFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                 String fileName = f_url[1];
-                File file = new File(downloadFolder, "prueba.jpg"); //por ahora se ignora el nombre real
+                File file = new File(downloadFolder,fileName); //por ahora se ignora el nombre real
 
                 // Output stream to write file
                 OutputStream output = new FileOutputStream(file);

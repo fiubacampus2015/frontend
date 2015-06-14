@@ -38,7 +38,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import static com.fiuba.campus2015.extras.Constants.SEP;
+import static com.fiuba.campus2015.extras.Utils.getPhotoString;
+import static com.fiuba.campus2015.extras.Utils.getResizedBitmap;
+
 import retrofit.RestAdapter;
+import retrofit.mime.TypedFile;
 
 public class FileDialog extends AlertDialog.Builder {
     private FileAdapter fileAdapter;
@@ -62,16 +66,17 @@ public class FileDialog extends AlertDialog.Builder {
     private TextView name_TextView;
     private TextView size_TextView;
     private String nameFile;
+    private String groupTo;
     private MaterialEditText msgContentFile;
 
 
-    public FileDialog(final FragmentActivity activity, FileAdapter fileAdapter) {
+    public FileDialog(final FragmentActivity activity, FileAdapter fileAdapter, String groupTo) {
         super(activity);
 
         this.context = activity;
         this.activity = activity;
         this.fileAdapter = fileAdapter;
-
+        this.groupTo = groupTo;
         LayoutInflater inflater = activity.getLayoutInflater();
         dialogView = inflater.inflate(R.layout.file_dialog_layout, null);
         session = new SessionManager(activity);
@@ -264,8 +269,12 @@ public class FileDialog extends AlertDialog.Builder {
             IApiUser api = restAdapter.create(IApiUser.class);
             Message message = null;
 
-            // fileBase64 es el archivo comprimido a string que se debe enviar
+            try {
+            message = api.postFiles(session.getToken(),groupTo,
+                    new TypedFile("multipart/form-data",new java.io.File(realPath)),
+                    nameFile,Constants.MsgCardType.file.toString());
 
+            } catch (Exception x) { }
             return message;
         }
 
@@ -273,13 +282,18 @@ public class FileDialog extends AlertDialog.Builder {
         protected void onPostExecute(Message message) {
             prgrsBar.setVisibility(View.INVISIBLE);
 
-            com.fiuba.campus2015.dto.user.File file =
-                    new com.fiuba.campus2015.dto.user.File();
-            file.name = nameFile;
-            file.description = msgContentFile.getText().toString();
+            if (message!=null) {
 
-            fileAdapter.addFile(file);
+                com.fiuba.campus2015.dto.user.File file =
+                        new com.fiuba.campus2015.dto.user.File();
+                file.originalName = message.originalName;
+                file.path = message.path;
+                file._id = message._id;
+                file.typeOf = message.typeOf;
+                //file.description = msgContentFile.getText().toString();
 
+                fileAdapter.addFile(file);
+            }
             reset();
             alertDialog.dismiss();
         }

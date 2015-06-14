@@ -39,6 +39,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import retrofit.RestAdapter;
+import retrofit.mime.TypedFile;
 
 import static com.fiuba.campus2015.extras.Constants.SEP;
 import static com.fiuba.campus2015.extras.Utils.getPhotoString;
@@ -63,11 +64,13 @@ public class VideoDialog extends AlertDialog.Builder {
     private String realPath;
     private String videoEncoded;
     private FileAdapter fileAdapter;
+    private String groupTo;
 
-    public VideoDialog(FragmentActivity activity, FileAdapter fileAdapter) {
+    public VideoDialog(FragmentActivity activity, FileAdapter fileAdapter, String groupTo) {
         super(activity);
         this.activity = activity;
         this.fileAdapter = fileAdapter;
+        this.groupTo = groupTo;
 
         initialize();
     }
@@ -270,7 +273,13 @@ public class VideoDialog extends AlertDialog.Builder {
             Message  message = null;
 
             try {
-                if(msgAdapter != null) {
+                if (fileAdapter!= null)
+                {
+                    message = api.postFiles(session.getToken(),groupTo,
+                            new TypedFile("multipart/form-data",new java.io.File(realPath)),
+                            getPhotoString(getResizedBitmap(getBitmapPreview(), 50, 50)),Constants.MsgCardType.video.toString());
+
+                }else if(msgAdapter != null) {
                     message = api.postMsgToWall(session.getToken(), userTo, new Message(videoEncoded,
                             Constants.MsgCardType.video));
                 } else {
@@ -286,15 +295,16 @@ public class VideoDialog extends AlertDialog.Builder {
         protected void onPostExecute(Message message) {
             prgrsBar.setVisibility(View.INVISIBLE);
 
-           if(message != null)
+           if(message != null && fileAdapter ==null)
               msgAdapter.addMsg(message);
 
             //probando
-            if(fileAdapter != null) {
-                Bitmap bitmap = getBitmapPreview();
+            if(fileAdapter != null && message != null) {
                 com.fiuba.campus2015.dto.user.File file = new com.fiuba.campus2015.dto.user.File();
-                file.name = getNameFile(realPath);
-                file.preview = getPhotoString(getResizedBitmap(bitmap, 50, 50));
+                file.originalName = message.originalName;
+                file.content = message.content;
+                file.path = message.path;
+                file._id = message._id;
                 fileAdapter.addFile(file);
             }
 

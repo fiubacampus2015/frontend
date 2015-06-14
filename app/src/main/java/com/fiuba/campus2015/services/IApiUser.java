@@ -2,22 +2,28 @@ package com.fiuba.campus2015.services;
 
 import com.fiuba.campus2015.adapter.ContactItem;
 import com.fiuba.campus2015.dto.user.Authenticate;
+import com.fiuba.campus2015.dto.user.File;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.MemberShip;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.Position;
 import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.extras.Constants;
 
 import java.util.List;
 
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
+import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 
 /**
  * Created by apetalas on 3/4/15.
@@ -242,11 +248,24 @@ public interface IApiUser {
     );
 
     @GET("/api/{token}/groups/{groupId}/files")
-    public List<Message> getGroupFiles(
+    public List<File> getGroupFiles(
             @Path("token") String token,
             @Path("groupId") String groupId,
             @Query("title") String title
     );
+
+
+    @Multipart
+    @POST("/api/{token}/groups/{groupId}/messages")
+    public Message postFiles(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Part("file") TypedFile file,
+            @Part("content") String description,
+            @Part("typeOf") String type
+
+    );
+
 
     @GET("/api/{token}/users/{userId}/groups")
     public List<Group> getMyGroups(

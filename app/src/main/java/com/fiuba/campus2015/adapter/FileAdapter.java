@@ -57,14 +57,14 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
     public void onBindViewHolder(ViewHolderFiles holder, int position) {
         File fileItem = fileItems.get(position);
 
-        holder.textViewName.setText(fileItem.name);
-        holder.textViewDescription.setText(fileItem.description);
+        holder.textViewName.setText(fileItem.originalName);
+        holder.textViewDescription.setText(fileItem.typeOf.toString());
         holder.fileAdapter = this;
 
         Bitmap photoBitmap;
 
-        if(fileItem.preview != null && !fileItem.preview.isEmpty()) {
-            byte[] decodedString = Base64.decode(fileItem.preview , Base64.DEFAULT);
+        if(fileItem.content != null && !fileItem.content.isEmpty()) {
+            byte[] decodedString = Base64.decode(fileItem.content , Base64.DEFAULT);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPurgeable = true;
             photoBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length,options);
@@ -80,8 +80,7 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
 
     private void downloadFile(final int position) {
         final File file = fileItems.get(position);
-        String name = fileItems.get(position).name;
-        fragment.downloadFile(file._id, name) ;
+        fragment.downloadFile(file._id, file.originalName,file.path) ;
     }
 
     @Override

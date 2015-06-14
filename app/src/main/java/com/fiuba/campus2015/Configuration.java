@@ -150,5 +150,8 @@ public class Configuration extends ActionBarActivity implements
     {
         Intent intent = new Intent(this, LocationService.class);
         stopService(intent);
+
+        LocationSender locationSender =new LocationSender();
+        locationSender.stop(session.getToken(),session.getUserid());
     }
 }

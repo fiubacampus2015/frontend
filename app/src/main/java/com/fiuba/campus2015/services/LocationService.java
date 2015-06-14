@@ -26,9 +26,7 @@ public class LocationService extends Service {
             public void run() {
 
                 if (mRunning) {
-                    SessionManager sessionManager = new SessionManager(getApplicationContext());
-                    LocationSender locationSender =new LocationSender();
-                    locationSender.send(getApplicationContext(),sessionManager.getToken(),sessionManager.getUserid());
+                    sendlocation();
                 }
             }
         }, 300000, 300000);
@@ -37,6 +35,7 @@ public class LocationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mRunning = true;
+        sendlocation();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -55,12 +54,15 @@ public class LocationService extends Service {
     @Override
     public void onDestroy() {
         mRunning = false;
-        SessionManager sessionManager = new SessionManager(getApplicationContext());
-        LocationSender locationSender =new LocationSender();
-        locationSender.stop(sessionManager.getToken(),sessionManager.getUserid());
         super.onDestroy();
     }
 
+    public void sendlocation() {
+        SessionManager sessionManager = new SessionManager(getApplicationContext());
+        LocationSender locationSender =new LocationSender();
+        locationSender.send(getApplicationContext(),sessionManager.getToken(),sessionManager.getUserid());
+
+    }
     public class SocketServerBinder extends Binder {
 
         public LocationService getService() {

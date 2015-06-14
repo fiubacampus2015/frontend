@@ -162,6 +162,13 @@ public class GroupForumsFragment extends Fragment {
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+
     private void optionsForum(final Forum forum)
     {
         final List<String> listItems = new ArrayList<String>();
@@ -208,28 +215,36 @@ public class GroupForumsFragment extends Fragment {
         getForums();
     }
 
+
     //Se llama a este metodo en caso de que no haya error
     @Subscribe
     public void onForumList(ArrayList<Forum> forums) {
-        if(forums.isEmpty())
-            emptyView.setVisibility(View.VISIBLE);
-        else
-            emptyView.setVisibility(View.INVISIBLE);
 
-        forumAdapter.setForums(forums,session.getUserid());
+        if (!forums.isEmpty() && forums.get(0) instanceof Forum)
+        {
+            forumAdapter.setForums(forums,session.getUserid());
+            emptyView.setVisibility(View.INVISIBLE);
+            Application.getEventBus().unregister(this);
+
+        }else if (forums.isEmpty())
+        {
+            emptyView.setVisibility(View.VISIBLE);
+            Application.getEventBus().unregister(this);
+
+        }
+
         prgrsBar.setVisibility(View.GONE);
         //Desuscripcion a los eventos que devuelve el cliente que llama la api
-        Application.getEventBus().unregister(this);
     }
 
 
     //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
     @Subscribe
     public void onResponse(Response responseError) {
-        Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del foro." + responseError.reason, Toast.LENGTH_SHORT).show();
-        prgrsBar.setVisibility(View.GONE);
         Application.getEventBus().unregister(this);
 
+        Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los datos del foro." + responseError.reason, Toast.LENGTH_SHORT).show();
+        prgrsBar.setVisibility(View.GONE);
 
     }
 

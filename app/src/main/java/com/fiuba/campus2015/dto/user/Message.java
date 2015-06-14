@@ -8,6 +8,8 @@ public class Message {
     public String content;
     public String date;
     public User user;
+    public String path;
+    public String originalName;
     public Constants.MsgCardType typeOf;
 
     public Message(String content,Constants.MsgCardType type){
