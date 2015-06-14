@@ -239,6 +239,16 @@ public interface IApiUser {
             @Body Message message
     );
 
+    @POST("/api/{token}/groups/{groupId}/forums/{forumId}/messages")
+    public retrofit.client.Response postFileToForum(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Path("forumId") String forumId,
+            @Part("file") TypedFile file,
+            @Part("content") String description,
+            @Part("typeOf") String type
+            );
+
     @POST("/api/{token}/groups/{groupId}/forums/{forumId}/messages/delete")
     public retrofit.client.Response deleteForumMessage(
             @Path("token") String token,
@@ -264,6 +274,14 @@ public interface IApiUser {
             @Part("content") String description,
             @Part("typeOf") String type
 
+    );
+
+
+    @POST("/api/{token}/groups/{groupId}/messages/delete")
+    public retrofit.client.Response removeFile(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Body File file
     );
 
 

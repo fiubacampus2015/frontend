@@ -290,6 +290,7 @@ public class FileDialog extends AlertDialog.Builder {
                 file.path = message.path;
                 file._id = message._id;
                 file.typeOf = message.typeOf;
+                file.user = message.user._id;
                 //file.description = msgContentFile.getText().toString();
 
                 fileAdapter.addFile(file);

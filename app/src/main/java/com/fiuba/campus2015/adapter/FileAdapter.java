@@ -41,6 +41,11 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
         notifyDataSetChanged();
     }
 
+    public void removeFile(int position) {
+        this.fileItems.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void addFile(File file) {
         fileItems.add(file);
         notifyDataSetChanged();
@@ -76,6 +81,11 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
         }
 
         holder.imagePreView.setImageBitmap(photoBitmap);
+    }
+
+    public File getFile(int position)
+    {
+        return fileItems.get(position);
     }
 
     private void downloadFile(final int position) {

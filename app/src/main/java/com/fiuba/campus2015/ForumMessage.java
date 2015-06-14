@@ -177,16 +177,17 @@ public class ForumMessage  extends ActionBarActivity {
         if(msgs.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
             Application.getEventBus().unregister(this);
+            prgrsBar.setVisibility(View.GONE);
+
 
         }else if (!msgs.isEmpty() && msgs.get(0) instanceof  Message) {
             emptyView.setVisibility(View.INVISIBLE);
             msgAdapter.setData(msgs);
             msgAdapter.fillArray();
             Application.getEventBus().unregister(this);
+            prgrsBar.setVisibility(View.GONE);
 
         }
-        prgrsBar.setVisibility(View.GONE);
-        //Desuscripcion a los eventos que devuelve el cliente que llama la api
     }
 
 

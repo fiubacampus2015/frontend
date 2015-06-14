@@ -27,6 +27,7 @@ import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
+import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.services.RestClient;
@@ -58,6 +59,7 @@ public class PhotoForumDialog extends AlertDialog.Builder {
     private String forumId;
     private MessageAdapter messageAdapter;
     private String groupId;
+    private String pathPhoto;
 
 
     public PhotoForumDialog(ForumMessage activity, MessageAdapter messageAdapter, String groupId, String forumId) {
@@ -145,6 +147,7 @@ public class PhotoForumDialog extends AlertDialog.Builder {
                 Bitmap foto = getPhoto(data);
                 if(checkSizePhoto(foto)) {
                     photoBitmap = getResizedBitmap(foto,200,200);
+                    pathPhoto = Utils.getRealPathFromURI(activity, data.getData());
                     msgContent.setImageBitmap(photoBitmap);
                 }else
                     Toast.makeText(this.getContext(),

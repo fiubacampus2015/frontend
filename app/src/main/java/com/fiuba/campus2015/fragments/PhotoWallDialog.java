@@ -253,6 +253,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
                 file._id = response._id;
                 file.typeOf = response.typeOf;
                 file.path = response.path;
+                file.user = response.user._id;
 
                 fileAdapter.addFile(file);
             }

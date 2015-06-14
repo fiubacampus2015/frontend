@@ -1,6 +1,8 @@
 package com.fiuba.campus2015.fragments;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import com.fiuba.campus2015.adapter.FileAdapter;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.Message;
+import com.fiuba.campus2015.extras.RecyclerItemClickListener;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
@@ -29,6 +32,7 @@ import com.fiuba.campus2015.services.Response;
 import com.fiuba.campus2015.services.RestClient;
 import com.fiuba.campus2015.services.RestServiceAsync;
 import com.fiuba.campus2015.session.SessionManager;
+import com.gc.materialdesign.widgets.Dialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.otto.Subscribe;
 
@@ -39,6 +43,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +62,7 @@ public class GroupFilesFragment extends Fragment {
     private PhotoWallDialog photoDialog;
     private VideoDialog videoDialog;
     private String groupId;
+    private String ownerId;
     private FileDialog fileDialog;
     private FileAdapter fileAdapter;
     private RecyclerView recyclerView;
@@ -68,6 +74,7 @@ public class GroupFilesFragment extends Fragment {
 
         fragment.setArguments(args);
         args.putString(GROUP, group._id);
+        args.putString(GROUPOWNER, group.owner._id);
 
         //put any extra arguments that you may want to supply to this fragment
         fragment.setArguments(args);
@@ -84,6 +91,7 @@ public class GroupFilesFragment extends Fragment {
         myView = inflater.inflate(R.layout.group_files_fragment, container, false);
         session = new SessionManager(getActivity().getApplicationContext());
         groupId = getArguments().getString(GROUP);
+        ownerId = getArguments().getString(GROUPOWNER);
 
         ImageView buttonSearch = (ImageView) myView.findViewById(R.id.search_files);
         buttonSearch.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +158,19 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+                        com.fiuba.campus2015.dto.user.File file = fileAdapter.getFile(position);
+
+                        if (session.getUserid().equals(ownerId) || (file.user != null && file.user.equals(session.getUserid()))) {
+                            optionsFile(file,position);
+                        }
+                    }
+                })
+        );
         update();
 
         return myView;
@@ -204,16 +225,14 @@ public class GroupFilesFragment extends Fragment {
             emptyView.setVisibility(View.INVISIBLE);
             fileAdapter.setFiles(files);
             Application.getEventBus().unregister(this);
-
+            progressBar.setVisibility(View.GONE);
 
         }else if (files.isEmpty())
         {
             emptyView.setVisibility(View.VISIBLE);
             Application.getEventBus().unregister(this);
-
+            progressBar.setVisibility(View.GONE);
         }
-        progressBar.setVisibility(View.GONE);
-        //Desuscripcion a los eventos que devuelve el cliente que llama la api
     }
 
 
@@ -224,6 +243,13 @@ public class GroupFilesFragment extends Fragment {
         Toast.makeText(getActivity().getApplicationContext(), "Hubo un error al obtener los archivos del grupo." + responseError.reason, Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.GONE);
     }
+
+    //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
+    @Subscribe
+    public void onDeleteResponse(retrofit.client.Response responseError) {
+        Application.getEventBus().unregister(this);
+    }
+
 
 
     public void getFilesInGroup() {
@@ -240,6 +266,50 @@ public class GroupFilesFragment extends Fragment {
         //Se llama a la api
         RestClient restClient = new RestClient();
         RestServiceAsync callApi = new RestServiceAsync<List<com.fiuba.campus2015.dto.user.File>, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new Response());
+    }
+
+    private void optionsFile(final com.fiuba.campus2015.dto.user.File file, final int position)
+    {
+        CharSequence opciones[] = new CharSequence[]{"Eliminar archivo"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Opciones del archivo");
+        AlertDialog.Builder builder1 = builder.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {
+
+                Dialog dialog = new Dialog(getActivity(), null, "Estás seguro que deseas eliminar el archivo?");
+                dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Application.getEventBus().register(this);
+                        removeFile(file._id);
+                        fileAdapter.removeFile(position);
+
+                    }
+                });
+                dialog.addCancelButton("Cancelar");
+                dialog.show();
+                dialog.getButtonAccept().setText("Aceptar");
+            }
+        });
+        builder.show();
+    }
+
+    public void removeFile(final String fileId) {
+        Application.getEventBus().register(this);
+
+        //Se crea la llamada al servicio
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<retrofit.client.Response, IApiUser>() {
+            @Override
+            public retrofit.client.Response getResult(IApiUser service) {
+                return service.removeFile(session.getToken(), groupId, new com.fiuba.campus2015.dto.user.File(fileId));
+            }
+        };
+
+        //Se llama a la api
+        RestClient restClient = new RestClient();
+        RestServiceAsync callApi = new RestServiceAsync<retrofit.client.Response, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new Response());
     }
 

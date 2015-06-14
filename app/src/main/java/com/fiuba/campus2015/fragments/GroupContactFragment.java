@@ -96,14 +96,16 @@ public class GroupContactFragment extends ContactFragment {
             emptyView.setVisibility(View.INVISIBLE);
             contactsAdapter.setContacts(users,session.getUserid());
             Application.getEventBus().unregister(this);
+            prgrsBar.setVisibility(View.GONE);
+
         }
         else if (users.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
             Application.getEventBus().unregister(this);
+            prgrsBar.setVisibility(View.GONE);
+
         }
 
-        prgrsBar.setVisibility(View.GONE);
-        //Desuscripcion a los eventos que devuelve el cliente que llama la api
     }
 
 

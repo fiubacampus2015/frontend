@@ -305,6 +305,7 @@ public class VideoDialog extends AlertDialog.Builder {
                 file.content = message.content;
                 file.path = message.path;
                 file._id = message._id;
+                file.user = message.user._id;
                 fileAdapter.addFile(file);
             }
 

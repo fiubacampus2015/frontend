@@ -225,16 +225,15 @@ public class GroupForumsFragment extends Fragment {
             forumAdapter.setForums(forums,session.getUserid());
             emptyView.setVisibility(View.INVISIBLE);
             Application.getEventBus().unregister(this);
+            prgrsBar.setVisibility(View.GONE);
 
         }else if (forums.isEmpty())
         {
             emptyView.setVisibility(View.VISIBLE);
             Application.getEventBus().unregister(this);
-
+            prgrsBar.setVisibility(View.GONE);
         }
 
-        prgrsBar.setVisibility(View.GONE);
-        //Desuscripcion a los eventos que devuelve el cliente que llama la api
     }
 
 
