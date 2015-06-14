@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Ultima actividad"
-                android:id="@+id/textView12"
+                android:id="@+id/lastGroupActivity"
                 android:layout_below="@+id/text_description_group"
                 android:layout_alignStart="@+id/text_description_group"
                 android:gravity="center|bottom"

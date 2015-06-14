@@ -102,7 +102,7 @@ public class GroupFragment extends Fragment {
                         Group group = groupAdapter.getGroup(position);
 
                         if (!group.suspend) {
-                            if (!group.actions.get(0).action.equals("suscribe")) {
+                            if (!group.actions.get(0).action.equals("suscribe") && !group.pendiente) {
                                 Intent intent;
                                 intent = new Intent(getActivity(), GroupBoard.class);
                                 intent.putExtra(GROUP, new Gson().toJson(group));

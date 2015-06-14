@@ -16,6 +16,8 @@ public class Group {
     public Integer msgs;
     public Integer totalFiles;
     public boolean suspend;
+    public boolean pendiente;
+    public String last_updated;
 
     public Group(User user, String name, String description, String photo, String status){
         this.owner = user;

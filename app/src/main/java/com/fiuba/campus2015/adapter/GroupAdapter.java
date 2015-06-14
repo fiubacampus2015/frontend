@@ -16,7 +16,12 @@ import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.fragments.GroupFragment;
 import com.gc.materialdesign.widgets.Dialog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+
+import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGroups> {
     private LayoutInflater layoutInflater;
@@ -24,6 +29,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
     private Context context;
     private String userId;
     private GroupFragment fragment;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     public GroupAdapter(Context context, GroupFragment fragment){
         layoutInflater = LayoutInflater.from(context);
@@ -62,6 +68,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
 
         holder.textViewName.setText(groupItem.name);
         holder.text_description_group.setText(groupItem.description);
+        holder.lastGroupActivity.setText("Última actividad: " + formatter.format(getDateFormat(groupItem.last_updated)));
+
+        if (groupItem.pendiente) holder.lastGroupActivity.setText("Pendiente de Autorización");
+
         holder.adapter = this;
 
             Bitmap  icon;
@@ -115,6 +125,22 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
 
     }
 
+    private java.util.Date getDateFormat(String dateString)
+    {
+        Calendar calendar = null;
+        try {
+            if(dateString == null)
+                dateString = "";
+            calendar = stringToCalendar(dateString);
+            return calendar.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
     private void setGroupSelected(int position) {
         final Group group = getGroup(position);
         Dialog dialog2;
@@ -131,6 +157,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
         ImageView imageStar;
         ImageView buttonSuscribe;
         ImageView buttonSuspended;
+        TextView lastGroupActivity;
 
         public ViewHolderGroups(View itemView) {
             super(itemView);
@@ -139,7 +166,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolderGr
             text_description_group = (TextView)itemView.findViewById(R.id.text_description_group);
             imageStar = (ImageView) itemView.findViewById(R.id.isOwner);
             buttonSuspended =  (ImageView) itemView.findViewById(R.id.suspended);
-
+            lastGroupActivity = (TextView) itemView.findViewById(R.id.lastGroupActivity);
             buttonSuscribe =  (ImageView) itemView.findViewById(R.id.needsSuscription);
             buttonSuscribe.setOnClickListener(new View.OnClickListener() {
                 @Override
