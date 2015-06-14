@@ -76,7 +76,7 @@ public class GroupForumsFragment extends Fragment {
         myView = inflater.inflate(R.layout.group_forums_fragment, container, false);
 
         groupId = getArguments().getString(GROUP);
-        groupOwner = getArguments().getString(GROUP);
+        groupOwner = getArguments().getString(GROUPOWNER);
 
         session = new SessionManager(getActivity().getApplicationContext());
         addForumDialog = new AddForumDialog(getActivity(), this, groupId);

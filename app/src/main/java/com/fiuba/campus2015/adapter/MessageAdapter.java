@@ -117,6 +117,17 @@ public class MessageAdapter {
         ((IMaterialListAdapter)materialListView.getAdapter()).remove(card,false);
     }
 
+    private String getOwnerId(){
+
+        String ownerId = "";
+
+        if (wallFragment != null) ownerId = wallFragment.getWallUserId();
+        if (fileFragment != null) ownerId = fileFragment.getGroupOwnerId();
+        if (forumMessage != null) ownerId = forumMessage.getGroupOwnerId();
+
+        return ownerId;
+    }
+
     private Card getRandomCard(Message msg) {
         String title = msg.user.name + " " + msg.user.username;
         String description = Utils.getBirthdayFormatted(msg.date) + "\n \n" + msg.content;
@@ -151,7 +162,7 @@ public class MessageAdapter {
                 return card;
 
             case photo:
-                card = new BigPhotoCard(this.context, session.getUserid(), msg.user._id, (wallFragment == null? "": wallFragment.getWallUserId()));
+                card = new BigPhotoCard(this.context, session.getUserid(), msg.user._id, getOwnerId());
                 card.setDescription(Utils.getBirthdayFormatted(msg.date));
                 card.setTitle(title);
                 card.setDismissible(true);
@@ -173,8 +184,7 @@ public class MessageAdapter {
                 return card;
 
             case video:
-                card = new VideoCard(this.context, session.getUserid(), msg.user._id,
-                        (wallFragment == null? "": wallFragment.getWallUserId()));
+                card = new VideoCard(this.context, session.getUserid(), msg.user._id, getOwnerId());
                 card.setTitle(title);
                 card.setTag("VIDEO_CARD");
                 card.setDismissible(true);
@@ -254,7 +264,7 @@ public class MessageAdapter {
                 return card;
 
             case text:
-                card = new TextCard(this.context, session.getUserid(), msg.user._id, (wallFragment == null? "": wallFragment.getWallUserId()));
+                card = new TextCard(this.context, session.getUserid(), msg.user._id, getOwnerId());
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("TEXT_CARD");
@@ -270,7 +280,7 @@ public class MessageAdapter {
                 return card;
 
             case link:
-                card = new LinkCard(this.context, session.getUserid(), msg.user._id, (wallFragment == null? "": wallFragment.getWallUserId()));
+                card = new LinkCard(this.context, session.getUserid(), msg.user._id, getOwnerId());
                 card.setDescription(description);
                 card.setTitle(title);
                 card.setTag("LINK_CARD");

@@ -194,12 +194,16 @@ public class GroupFilesFragment extends Fragment {
     public void update() {
         progressBar.setVisibility(View.VISIBLE);
         //Suscripcion a los eventos que devuelve el cliente que llama la api
-        getFilesInGroup(searchText.getText().toString(),"");
+        getFilesInGroup(searchText.getText().toString(), "");
     }
 
     public void searchClear() {
         searchText.setText("");
         getFilesInGroup("","");
+    }
+
+    public String getGroupOwnerId() {
+        return getArguments().getString(GROUPOWNER);
     }
 
     public void downloadFile(String fileId, String name, String path) {
