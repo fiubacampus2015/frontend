@@ -24,6 +24,7 @@ import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.CustomAdapter;
 import com.fiuba.campus2015.dto.user.Education;
+import com.github.lzyzsd.circleprogress.CircleProgress;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -46,6 +47,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
     private ImageView fechaIngresoButton;
     private boolean disable;
     private int optionOrientation = -1;
+    private CircleProgress circleProgress;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     public static EducationFragment newInstance(Education education) {
@@ -145,6 +147,9 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
             spOrientacion.setSelection(spinnerPosition);
             optionOrientation = spinnerPosition;
         }
+
+        circleProgress = (CircleProgress) myView.findViewById(R.id.circle_progress);
+        circleProgress.setProgress(190);
 
         disableComponents();
         return myView;

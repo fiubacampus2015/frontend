@@ -115,6 +115,7 @@
     <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.inject-1" level="project" />
+    <orderEntry type="library" exported="" name="circleprogress-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="materialdatetimepicker-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="materiallist-2.4.3" level="project" />

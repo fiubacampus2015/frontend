@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:custom="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:weightSum="1">
 
     <LinearLayout
         android:orientation="vertical"
@@ -86,6 +89,33 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Carrera Completa"
+                android:id="@+id/textViewProgress"
+                android:textSize="13dp"
+                android:textColor="@color/primary_dark_material_light"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="20dp"/>
+
+            <com.github.lzyzsd.circleprogress.CircleProgress
+                android:id="@+id/circle_progress"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                custom:circle_progress="20"
+                custom:circle_finished_color="@color/accent"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
