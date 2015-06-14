@@ -51,11 +51,9 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_image_default"
+                android:src="@drawable/photouploaddefault"
                 android:id="@+id/imageMessage"
-                android:layout_gravity="center_horizontal"
-                android:layout_above="@+id/buttonImage"
-                android:layout_toStartOf="@+id/buttonImage" />
+                android:layout_gravity="center_horizontal" />
 
             <com.fiuba.campus2015.extras.ButtonFloatMaterial
                 android:id="@+id/buttonImage"
