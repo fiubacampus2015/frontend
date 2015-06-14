@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Carrera Completa"
+                android:text="Avance"
                 android:id="@+id/textViewProgress"
                 android:textSize="13dp"
                 android:textColor="@color/primary_dark_material_light"
@@ -106,6 +106,17 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="20dp"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/idCreditos"
+                android:hint="Créditos aprobados"
+                android:layout_weight="1"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:maxLines="1"
+                android:inputType="number"/>
 
             <com.github.lzyzsd.circleprogress.CircleProgress
                 android:id="@+id/circle_progress"

@@ -10,6 +10,7 @@ public class Constants {
     public static final String BIRTHDAY = " birthday";
     public static final String GENDER = "gender";
     public static final String PHOTO = "photo";
+    public static final String CREDITOS = "creditos";
     public static final String PROFESION = "profession";
     public static final String ORIENTATION = "orientation";
     public static final String FECHAINGRESO = "ingreso";

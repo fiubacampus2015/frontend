@@ -10,13 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import static com.fiuba.campus2015.extras.Constants.*;
 import static com.fiuba.campus2015.extras.Utils.stringToCalendar;
@@ -29,7 +28,6 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,6 +46,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
     private boolean disable;
     private int optionOrientation = -1;
     private CircleProgress circleProgress;
+    private EditText creditosInput;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     public static EducationFragment newInstance(Education education) {
@@ -57,18 +56,21 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         String title = "";
         String branch = "" ;
         String date = "";
+        String creditos = "";
 
         if(!education.careers.isEmpty())
         {
             title = education.careers.get(0).title;
             branch = education.careers.get(0).branch;
             date = education.careers.get(0).initdate;
+            creditos = "120";
         }
 
 
         args.putString(PROFESION, title);
         args.putString(ORIENTATION, branch);
         args.putString(FECHAINGRESO, date);
+        args.putString(CREDITOS,creditos);
 
         myFragment.setArguments(args);
 
@@ -85,6 +87,9 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
             spOrientacion.setEnabled(false);
             fechaIngresoButton.setEnabled(false);
             fechaIngresoString.setEnabled(false);
+            creditosInput.setVisibility(View.GONE);
+        }else{
+            circleProgress.setVisibility(View.GONE);
         }
     }
 
@@ -98,6 +103,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         loadCareer();
         String profesion = getArguments().getString(PROFESION);
 
+        creditosInput = (EditText) myView.findViewById(R.id.idCreditos);
 
         //Se carga la fecha
         fechaIngresoString =  (TextView) myView.findViewById(R.id.date_initString);
