@@ -39,7 +39,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="220dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_marginTop="10dp">
@@ -57,20 +57,57 @@
 
 
 
-                <com.rengwuxian.materialedittext.MaterialEditText
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/msgContentFile"
-                    android:hint="Ingresa una descripción"
-                    app:met_primaryColor="@color/accent"
-                    app:met_floatingLabel="normal"
-                    android:layout_gravity="left"
-                    android:maxLength="80"
-                    app:met_maxCharacters="80"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="0dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="0dp" />
+                    android:layout_height="250dp"
+                    android:padding="10dp">
+
+                    <RelativeLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/fileupload"
+                            android:id="@+id/imageFileDefault"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="25dp"/>
+
+                        <com.fiuba.campus2015.extras.ButtonFloatMaterial
+                            android:id="@+id/buttonAddFile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginRight="25dp"
+                            android:background="#FFFF00"
+                            app:animate="true"
+                            app:iconDrawable="@drawable/ic_add_file" />
+
+                        <RelativeLayout
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:id="@+id/progressbarPhoto"
+                            android:layout_centerInParent="true">
+                            <ProgressBar
+                                android:id="@+id/progressBarCircularIndeterminatePhoto"
+                                style="?android:attr/progressBarStyleLarge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:visibility="gone">
+                            </ProgressBar>
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -164,12 +201,7 @@
         android:gravity="center_vertical|left"
         android:weightSum="1">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:id="@+id/buttonAddFile"
-            android:src="@drawable/ic_add_file"
-            android:layout_marginLeft="15dp" />
+
 
         <ImageView
             android:layout_width="wrap_content"

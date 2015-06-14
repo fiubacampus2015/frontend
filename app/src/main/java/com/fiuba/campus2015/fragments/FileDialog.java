@@ -6,12 +6,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.CursorLoader;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,15 +19,13 @@ import android.widget.Toast;
 
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.FileAdapter;
-import com.fiuba.campus2015.adapter.MessageAdapter;
 import com.fiuba.campus2015.dto.user.Message;
-import com.fiuba.campus2015.dto.user.User;
+import com.fiuba.campus2015.extras.ButtonFloatMaterial;
 import com.fiuba.campus2015.extras.Constants;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.services.IApiUser;
 import com.fiuba.campus2015.session.SessionManager;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -38,8 +33,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import static com.fiuba.campus2015.extras.Constants.SEP;
-import static com.fiuba.campus2015.extras.Utils.getPhotoString;
-import static com.fiuba.campus2015.extras.Utils.getResizedBitmap;
 
 import retrofit.RestAdapter;
 import retrofit.mime.TypedFile;
@@ -51,7 +44,7 @@ public class FileDialog extends AlertDialog.Builder {
     private View dialogView;
     private Activity activity;
     public static int RESULT_LOAD = 158;
-    private ImageView buttonFile;
+    private ButtonFloatMaterial buttonFile;
     private ImageView buttonSend;
     private SessionManager session;
     private AlertDialog alertDialog;
@@ -67,8 +60,6 @@ public class FileDialog extends AlertDialog.Builder {
     private TextView size_TextView;
     private String nameFile;
     private String groupTo;
-    private MaterialEditText msgContentFile;
-
 
     public FileDialog(final FragmentActivity activity, FileAdapter fileAdapter, String groupTo) {
         super(activity);
@@ -94,12 +85,11 @@ public class FileDialog extends AlertDialog.Builder {
     private void initialice() {
         prgrsBar = (ProgressBar) dialogView.findViewById(R.id.progressBarCircularIndeterminateFile_);
         buttonSend = (ImageView) dialogView.findViewById(R.id.sendFile);
-        buttonFile= (ImageView) dialogView.findViewById(R.id.buttonAddFile);
+        buttonFile= (ButtonFloatMaterial) dialogView.findViewById(R.id.buttonAddFile);
         nameFileTextView = (TextView) dialogView.findViewById(R.id.nameFile_);
         sizeFileTextView = (TextView) dialogView.findViewById(R.id.idSizeFile);
         name_TextView = (TextView) dialogView.findViewById(R.id.nombreFile_);
         size_TextView = (TextView) dialogView.findViewById(R.id.id_sizefile);
-        msgContentFile = (MaterialEditText) dialogView.findViewById(R.id.msgContentFile);
     }
 
     private void hiddenText() {
@@ -119,7 +109,6 @@ public class FileDialog extends AlertDialog.Builder {
     private void clear() {
         nameFileTextView.setText("");
         sizeFileTextView.setText("");
-        msgContentFile.setText("");
     }
 
     private void setListener() {
@@ -134,7 +123,7 @@ public class FileDialog extends AlertDialog.Builder {
             @Override
             public void onClick(View v) {
                 if(sending) {
-                    Toast.makeText(activity, "Espera que termine de enviar el archivo",
+                    Toast.makeText(activity, "Esperá a que termine de enviar el archivo.",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     if(realPath != null) {
@@ -176,7 +165,7 @@ public class FileDialog extends AlertDialog.Builder {
         int megaBytes = size/(KB*KB);
 
         if(megaBytes >= MAXSIZE) {
-            Toast.makeText(activity,"Seleccioná archivos menores a 8MB",Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity,"Seleccioná archivos menores a 8MB.",Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -291,7 +280,6 @@ public class FileDialog extends AlertDialog.Builder {
                 file._id = message._id;
                 file.typeOf = message.typeOf;
                 file.user = message.user._id;
-                //file.description = msgContentFile.getText().toString();
 
                 fileAdapter.addFile(file);
             }
