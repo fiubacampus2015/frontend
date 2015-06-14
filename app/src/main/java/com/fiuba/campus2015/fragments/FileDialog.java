@@ -272,7 +272,7 @@ public class FileDialog extends AlertDialog.Builder {
             try {
             message = api.postFiles(session.getToken(),groupTo,
                     new TypedFile("multipart/form-data",new java.io.File(realPath)),
-                    nameFile,Constants.MsgCardType.file.toString());
+                    "",Constants.MsgCardType.file.toString());
 
             } catch (Exception x) { }
             return message;
