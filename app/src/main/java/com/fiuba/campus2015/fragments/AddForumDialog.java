@@ -133,8 +133,6 @@ public class AddForumDialog extends AlertDialog.Builder {
 
     public void createForum() {
 
-
-
         RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<Response, IApiUser>() {
             @Override
             public Response getResult(IApiUser service) {

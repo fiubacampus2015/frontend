@@ -229,6 +229,7 @@ public class GroupForumsFragment extends Fragment {
 
         }else if (forums.isEmpty())
         {
+            forumAdapter.setForums(forums,session.getUserid());
             emptyView.setVisibility(View.VISIBLE);
             Application.getEventBus().unregister(this);
             prgrsBar.setVisibility(View.GONE);
