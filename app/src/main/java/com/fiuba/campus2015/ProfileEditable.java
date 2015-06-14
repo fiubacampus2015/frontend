@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import static com.fiuba.campus2015.extras.Constants.BIRTHDAY;
 import static com.fiuba.campus2015.extras.Constants.COMENTARIO;
+import static com.fiuba.campus2015.extras.Constants.CREDITOS;
 import static com.fiuba.campus2015.extras.Constants.DESCRIPCIONEMPLEO;
 import static com.fiuba.campus2015.extras.Constants.FECHAINGRESO;
 import static com.fiuba.campus2015.extras.Constants.FECHAINGRESOEMPLEO;
@@ -249,6 +250,7 @@ public class ProfileEditable extends ActionBarActivity {
                 Personal personal = new Personal(data.getString(PHOTO), data.getString(COMENTARIO),data.getString(NATIONALITY),"",data.getString(BIRTHDAY),data.getString(GENDER),phones);
 
                 Education education = new Education();
+                education.creditos = data.getString(CREDITOS);
                 education.addCareer(data.getString(PROFESION),data.getString(ORIENTATION),data.getString(FECHAINGRESO));
 
                 Job empleo = new Job();

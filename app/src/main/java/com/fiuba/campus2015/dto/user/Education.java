@@ -10,6 +10,7 @@ import java.util.List;
 public class Education {
 
     public List<Career> careers;
+    public String creditos;
 
     public Education(){
         this.careers = new ArrayList<Career>();

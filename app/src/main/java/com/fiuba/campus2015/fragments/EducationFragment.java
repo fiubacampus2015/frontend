@@ -63,7 +63,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
             title = education.careers.get(0).title;
             branch = education.careers.get(0).branch;
             date = education.careers.get(0).initdate;
-            creditos = "120";
+            creditos = education.creditos;
         }
 
 
@@ -273,6 +273,8 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
             } else {
                 bundle.putString(ORIENTATION, "");
             }
+
+            bundle.putString(CREDITOS, creditosInput.getText().toString());
 
         }
         return bundle;
