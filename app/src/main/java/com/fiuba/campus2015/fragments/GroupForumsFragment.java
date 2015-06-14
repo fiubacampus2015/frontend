@@ -51,6 +51,8 @@ public class GroupForumsFragment extends Fragment {
     private ProgressBar prgrsBar;
     private EditText searchText;
     private String groupId;
+    private String groupOwner;
+
 
     private AddForumDialog addForumDialog;
 
@@ -74,6 +76,8 @@ public class GroupForumsFragment extends Fragment {
         myView = inflater.inflate(R.layout.group_forums_fragment, container, false);
 
         groupId = getArguments().getString(GROUP);
+        groupOwner = getArguments().getString(GROUP);
+
         session = new SessionManager(getActivity().getApplicationContext());
         addForumDialog = new AddForumDialog(getActivity(), this, groupId);
 
@@ -116,6 +120,8 @@ public class GroupForumsFragment extends Fragment {
                             intent = new Intent(getActivity(), ForumMessage.class);
                             intent.putExtra(FORUM, new Gson().toJson(forum));
                             intent.putExtra(GROUP, groupId);
+                            intent.putExtra(GROUPOWNER,groupOwner);
+
                             startActivity(intent);
                         }else
                         {
