@@ -25,11 +25,17 @@
             android:weightSum="1">
 
             <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/parche"
+                android:layout_marginLeft="7dp"
+                android:visibility="gone" />
+
+            <ImageView
                 android:id="@+id/image_preview_file"
-                android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/ic_insert_drive_file_grey600_36dp"
                 android:layout_marginBottom="5dp"
                 android:layout_gravity="center" />

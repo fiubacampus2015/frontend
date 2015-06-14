@@ -87,6 +87,7 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
         holder.textViewName.setText(fileItem.originalName);
         holder.textViewDescription.setText(getTypeFile(fileItem.typeOf.toString()));
         holder.fileAdapter = this;
+        holder.imageSpace.setVisibility(View.GONE);
 
         Bitmap photoBitmap;
 
@@ -95,7 +96,8 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPurgeable = true;
             photoBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length,options);
-            photoBitmap = Bitmap.createScaledBitmap(photoBitmap, 50, 50, true);
+            photoBitmap = Bitmap.createScaledBitmap(photoBitmap, 75, 75, true);
+            holder.imageSpace.setVisibility(View.VISIBLE);
 
         } else {
             int pos = fileItem.originalName.lastIndexOf(".") + 1;
@@ -104,34 +106,33 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
 
             switch (extension) {
                 case MP3:
-                    icon = R.drawable.ic_file_music_grey600_36dp;
+                    icon = R.drawable.ic_file_music_grey600_48dp;
                     break;
                 case MP4:
-                    icon = R.drawable.ic_file_video_grey600_36dp;
+                    icon = R.drawable.ic_file_video_grey600_48dp;
                     break;
                 case PDF:
-                    icon = R.drawable.ic_file_pdf_grey600_36dp;
+                    icon = R.drawable.ic_file_pdf_grey600_48dp;
                     break;
                 case DOC:
-                    icon = R.drawable.ic_file_word_grey600_36dp;
+                    icon = R.drawable.ic_file_word_grey600_48dp;
                     break;
                 case XLS:
-                    icon = R.drawable.ic_file_excel_grey600_36dp;
+                    icon = R.drawable.ic_file_excel_grey600_48dp;
                     break;
                 case PPT:
-                    icon = R.drawable.ic_file_powerpoint_grey600_36dp;
+                    icon = R.drawable.ic_file_powerpoint_grey600_48dp;
                     break;
                 case JPG:
-                    icon = R.drawable.ic_file_image_grey600_36dp;
+                    icon = R.drawable.ic_file_image_grey600_48dp;
                     break;
                 case JPEG:
-                    icon = R.drawable.ic_file_image_grey600_36dp;
+                    icon = R.drawable.ic_file_image_grey600_48dp;
                     break;
                 default:
-                    icon = R.drawable.ic_file_document_grey600_36dp;
+                    icon = R.drawable.ic_file_document_grey600_48dp;
                     break;
             }
-
             photoBitmap = BitmapFactory.decodeResource(context.getResources(), icon);
         }
 
@@ -161,10 +162,12 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
         ImageView imagePreView;
         ImageView buttonDownload;
         FileAdapter fileAdapter;
+        ImageView imageSpace;
 
         public ViewHolderFiles(View itemView) {
             super(itemView);
 
+            imageSpace = (ImageView)itemView.findViewById(R.id.parche);
             textViewName = (TextView) itemView.findViewById(R.id.file_title);
             textViewDescription = (TextView) itemView.findViewById(R.id.textView16);
             imagePreView = (ImageView) itemView.findViewById(R.id.image_preview_file);

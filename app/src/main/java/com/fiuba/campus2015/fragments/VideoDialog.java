@@ -306,6 +306,7 @@ public class VideoDialog extends AlertDialog.Builder {
                 file.path = message.path;
                 file._id = message._id;
                 file.user = message.user._id;
+                file.typeOf = Constants.MsgCardType.video;
                 fileAdapter.addFile(file);
             }
 
