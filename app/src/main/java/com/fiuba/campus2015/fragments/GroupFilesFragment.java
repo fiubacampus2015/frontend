@@ -100,8 +100,7 @@ public class GroupFilesFragment extends Fragment {
         buttonClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchText.setText("");
-                update();
+                searchClear();
             }
         });
 
@@ -195,13 +194,12 @@ public class GroupFilesFragment extends Fragment {
     public void update() {
         progressBar.setVisibility(View.VISIBLE);
         //Suscripcion a los eventos que devuelve el cliente que llama la api
-        getFilesInGroup();
+        getFilesInGroup(searchText.getText().toString(),"");
     }
 
-    public void searchClear(View view) {
-        emptyView.setVisibility(View.INVISIBLE);
+    public void searchClear() {
         searchText.setText("");
-        getFilesInGroup();
+        getFilesInGroup("","");
     }
 
     public void downloadFile(String fileId, String name, String path) {
@@ -256,14 +254,14 @@ public class GroupFilesFragment extends Fragment {
 
 
 
-    public void getFilesInGroup() {
+    public void getFilesInGroup(final String name, final String type) {
         Application.getEventBus().register(this);
 
         //Se crea la llamada al servicio
         RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<List<com.fiuba.campus2015.dto.user.File>, IApiUser>() {
             @Override
             public List<com.fiuba.campus2015.dto.user.File> getResult(IApiUser service) {
-                return service.getGroupFiles(session.getToken(), groupId, searchText.getText().toString());
+                return service.getGroupFiles(session.getToken(), groupId,name,type);
             }
         };
 

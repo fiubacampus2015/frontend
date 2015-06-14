@@ -43,13 +43,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Extensión"
+                android:text="Tipo"
                 android:id="@+id/textView5" />
 
             <Spinner
                 android:layout_width="185dp"
                 android:layout_height="wrap_content"
+                android:id="@+id/spinnerTypesSearch"
+                android:layout_marginLeft="56dp"
+                android:spinnerMode="dropdown"
+                android:layout_marginRight="0dp" />
+
+            <Spinner
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/spinnerExtensionsSearch"
+                android:visibility="gone"
                 android:layout_marginLeft="56dp"
                 android:spinnerMode="dropdown"
                 android:layout_marginRight="0dp" />

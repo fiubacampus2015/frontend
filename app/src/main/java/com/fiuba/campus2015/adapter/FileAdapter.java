@@ -51,6 +51,19 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
         notifyDataSetChanged();
     }
 
+    public String getTypeFile(String type)
+    {
+
+        if (type.equals("file"))
+            return "Archivo";
+        else if (type.equals("photo"))
+            return "Imagen";
+        else if (type.equals("video"))
+            return "Video";
+
+        return "Otro";
+    }
+
     @Override
     public ViewHolderFiles onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.item_file, parent, false);
@@ -63,7 +76,7 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
         File fileItem = fileItems.get(position);
 
         holder.textViewName.setText(fileItem.originalName);
-        holder.textViewDescription.setText(fileItem.typeOf.toString());
+        holder.textViewDescription.setText(getTypeFile(fileItem.typeOf.toString()));
         holder.fileAdapter = this;
 
         Bitmap photoBitmap;

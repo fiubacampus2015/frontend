@@ -42,6 +42,14 @@
         <item>xls</item>
     </string-array>
 
+
+    <!-- EXTENSIONES -->
+    <string-array name="tipos_archivos">
+        <item>Archivo</item>
+        <item>Imagen</item>
+        <item>Video</item>
+    </string-array>
+
     <string-array name="array_carrera_a_orientaciones">
         <item>@array/orientaciones_informatica</item>
         <item>@array/orientaciones_licenciatura</item>

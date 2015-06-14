@@ -22,7 +22,9 @@ public class SearchFileFilter extends AlertDialog.Builder implements AdapterView
     private View dialogView;
     private AlertDialog alertDialog;
     private Spinner spExtensiones;
+    private Spinner spTypes;
     private String extension;
+    private String type;
     private String title;
     private EditText titleText;
     private GroupFilesFragment groupFileFragment;
@@ -41,6 +43,7 @@ public class SearchFileFilter extends AlertDialog.Builder implements AdapterView
 
         setListener();
         loadExtension();
+        loadType();
         setFormat();
         alertDialog = create();
     }
@@ -51,6 +54,15 @@ public class SearchFileFilter extends AlertDialog.Builder implements AdapterView
                 context, R.array.extensiones, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spExtensiones.setAdapter(adapter);
+    }
+
+
+    private void loadType() {
+        spTypes = (Spinner) dialogView.findViewById(R.id.spinnerTypesSearch);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                context, R.array.tipos_archivos, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spTypes.setAdapter(adapter);
     }
 
     // si se coloco algun filtro de busqueda: true
@@ -79,8 +91,9 @@ public class SearchFileFilter extends AlertDialog.Builder implements AdapterView
             @Override
             public void onClick(View v) {
                 extension = spExtensiones.getSelectedItem().toString();
+                type = getTypeFile(spTypes.getSelectedItem().toString());
                 title = titleText.getText().toString();
-
+                groupFileFragment.getFilesInGroup(title,type);
                 //groupFileFragment.searchFilesInGroup(false);
 
                 alertDialog.dismiss();
@@ -90,14 +103,26 @@ public class SearchFileFilter extends AlertDialog.Builder implements AdapterView
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                groupFileFragment.searchClear(v);
+                groupFileFragment.searchClear();
+                reset();
                 alertDialog.dismiss();
             }
         });
     }
 
+    public String getTypeFile(String status)
+    {
+
+        if (status.equals("Archivo"))
+            return "file";
+        else if (status.equals("Imagen"))
+            return "photo";
+        return "video";
+    }
+
     public void reset() {
         spExtensiones.setSelection(0);
+        spTypes.setSelection(0);
         title = extension = "";
         titleText.setText("");
     }
