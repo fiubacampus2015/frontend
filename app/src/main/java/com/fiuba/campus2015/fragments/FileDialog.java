@@ -46,6 +46,7 @@ public class FileDialog extends AlertDialog.Builder {
     public static int RESULT_LOAD = 158;
     private ButtonFloatMaterial buttonFile;
     private ImageView buttonSend;
+    private ImageView buttonDelete;
     private SessionManager session;
     private AlertDialog alertDialog;
     private Uri uriFile;
@@ -90,6 +91,8 @@ public class FileDialog extends AlertDialog.Builder {
         sizeFileTextView = (TextView) dialogView.findViewById(R.id.idSizeFile);
         name_TextView = (TextView) dialogView.findViewById(R.id.nombreFile_);
         size_TextView = (TextView) dialogView.findViewById(R.id.id_sizefile);
+        buttonDelete = (ImageView) dialogView.findViewById(R.id.delete_File);
+
     }
 
     private void hiddenText() {
@@ -137,6 +140,18 @@ public class FileDialog extends AlertDialog.Builder {
                             }
                         }
                     }
+                }
+            }
+        });
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!sending) {
+                    reset();
+                } else {
+                    Toast.makeText(activity, "Esperá a que termine de enviar el archivo.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
