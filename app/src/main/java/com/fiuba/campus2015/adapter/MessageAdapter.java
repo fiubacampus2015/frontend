@@ -187,7 +187,7 @@ public class MessageAdapter {
                 card = new VideoCard(this.context, session.getUserid(), msg.user._id, getOwnerId());
                 card.setTitle(title);
                 card.setTag("VIDEO_CARD");
-                card.setDismissible(true);
+                card.setDismissible(((VideoCard) card).isDeleteable());
 
                 String videoString = msg.content;
                 byte[] videoBytes = Base64.decode(videoString.getBytes(), Base64.DEFAULT);
