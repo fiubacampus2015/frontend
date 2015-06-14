@@ -28,6 +28,15 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
     private List<File> fileItems;
     private Context context;
     private GroupFilesFragment fragment;
+    private static final String PDF = "pdf";
+    private static final String MP3 = "mp3";
+    private static final String DOC = "doc";
+    private static final String XLS = "xls";
+    private static final String JPEG = "jpeg";
+    private static final String JPG = "jpg";
+    private static final String PPT = "ppt";
+    private static final String MP4 = "mp4";
+    private static final String ZIP = "zip";
 
     public FileAdapter(Context context, GroupFilesFragment fragment) {
         layoutInflater = LayoutInflater.from(context);
@@ -89,8 +98,41 @@ public class FileAdapter  extends RecyclerView.Adapter<FileAdapter.ViewHolderFil
             photoBitmap = Bitmap.createScaledBitmap(photoBitmap, 50, 50, true);
 
         } else {
-            // se podria cambiar de icono segun el archivo pdf txt, etc
-            photoBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_insert_drive_file_grey600_36dp);
+            int pos = fileItem.originalName.lastIndexOf(".") + 1;
+            String extension = fileItem.originalName.substring(pos);
+            int icon;
+
+            switch (extension) {
+                case MP3:
+                    icon = R.drawable.ic_file_music_grey600_36dp;
+                    break;
+                case MP4:
+                    icon = R.drawable.ic_file_video_grey600_36dp;
+                    break;
+                case PDF:
+                    icon = R.drawable.ic_file_pdf_grey600_36dp;
+                    break;
+                case DOC:
+                    icon = R.drawable.ic_file_word_grey600_36dp;
+                    break;
+                case XLS:
+                    icon = R.drawable.ic_file_excel_grey600_36dp;
+                    break;
+                case PPT:
+                    icon = R.drawable.ic_file_powerpoint_grey600_36dp;
+                    break;
+                case JPG:
+                    icon = R.drawable.ic_file_image_grey600_36dp;
+                    break;
+                case JPEG:
+                    icon = R.drawable.ic_file_image_grey600_36dp;
+                    break;
+                default:
+                    icon = R.drawable.ic_file_document_grey600_36dp;
+                    break;
+            }
+
+            photoBitmap = BitmapFactory.decodeResource(context.getResources(), icon);
         }
 
         holder.imagePreView.setImageBitmap(photoBitmap);
