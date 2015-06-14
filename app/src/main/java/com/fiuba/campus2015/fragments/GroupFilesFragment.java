@@ -21,9 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.FileAdapter;
-import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
-import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
 import com.fiuba.campus2015.extras.UrlEndpoints;
 import com.fiuba.campus2015.services.Application;
@@ -43,15 +41,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.RestAdapter;
-
 import static com.fiuba.campus2015.extras.Constants.GROUP;
 import static com.fiuba.campus2015.extras.Constants.GROUPOWNER;
-import static com.fiuba.campus2015.extras.Constants.USERTO;
 
 public class GroupFilesFragment extends Fragment {
     private View myView;
@@ -67,6 +61,7 @@ public class GroupFilesFragment extends Fragment {
     private FileAdapter fileAdapter;
     private RecyclerView recyclerView;
     private ProgressDialog pDialog;
+    private SearchFileFilter searchFilter;
 
     public static GroupFilesFragment newInstance(Group group) {
         GroupFilesFragment fragment = new GroupFilesFragment();
@@ -97,7 +92,7 @@ public class GroupFilesFragment extends Fragment {
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchFilesInGroup();
+                searchFilesInGroup(true);
             }
         });
 
@@ -110,17 +105,6 @@ public class GroupFilesFragment extends Fragment {
         });
 
         emptyView = (TextView) myView.findViewById(R.id.empty_view_files);
-
-        //Se agrega esto por que sino no funciona el input con tabs
-        searchText = (EditText) myView.findViewById(R.id.search_files_text);
-        searchText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                searchText.requestFocusFromTouch();
-                return false;
-            }
-        });
-
 
         progressBar = (ProgressBar) myView.findViewById(R.id.progressBarCircularIndeterminateFile);
 
@@ -171,22 +155,46 @@ public class GroupFilesFragment extends Fragment {
                     }
                 })
         );
+
+        searchFilter = new SearchFileFilter(getActivity(), this);
+
+        searchFilesInGroup(true);
+        //Se agrega esto por que sino no funciona el input con tabs
+        searchText = (EditText) myView.findViewById(R.id.search_files_text);
+        searchText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                searchText.requestFocusFromTouch();
+                return false;
+            }
+        });
+
+        ImageView buttonAdvancedSearch = (ImageView) myView.findViewById(R.id.advancedSearchFiles);
+        buttonAdvancedSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSearchFileDialog();
+            }
+        });
+
         update();
+
 
         return myView;
     }
 
-    public void searchFilesInGroup() {
+    public void searchFilesInGroup(boolean file) {
 
 
     }
 
+    private void showSearchFileDialog() {
+        searchFilter.showDialog();
+    }
 
     @Override
     public void onStart() {
         super.onStart();
-
-
     }
 
     public void update() {
@@ -198,7 +206,7 @@ public class GroupFilesFragment extends Fragment {
     public void searchClear(View view) {
         emptyView.setVisibility(View.INVISIBLE);
         searchText.setText("");
-        searchFilesInGroup();
+        searchFilesInGroup(true);
     }
 
     public void downloadFile(String fileId, String name, String path) {

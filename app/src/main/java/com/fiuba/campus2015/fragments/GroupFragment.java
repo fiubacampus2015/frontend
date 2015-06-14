@@ -157,7 +157,6 @@ public class GroupFragment extends Fragment {
         return myView;
     }
 
-
     private void optionsGroup(final Group group)
     {
 
@@ -230,8 +229,6 @@ public class GroupFragment extends Fragment {
         fillGroupList.execute();
     }
 
-
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -265,8 +262,6 @@ public class GroupFragment extends Fragment {
         loadGroups();
 
     }
-
-
 
     //Se llama a este metodo en caso de que la api devuelva cualquier tipo de error
     @Subscribe
@@ -314,7 +309,6 @@ public class GroupFragment extends Fragment {
         callApi.fetch(restClient.getApiService(), result, new Response());
     }
 
-
     public void subscribeGroup(final String groupId)
     {
         prgrsBar.setVisibility(View.VISIBLE);
@@ -351,7 +345,6 @@ public class GroupFragment extends Fragment {
         RestServiceAsync callApi = new RestServiceAsync<retrofit.client.Response, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new Response());
     }
-
 
     private  class SearchGroups extends AsyncTask<Void, Void, List<Group>> {
 

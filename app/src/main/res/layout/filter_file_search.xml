@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Nombre"
+                android:id="@+id/textView14" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText_title"
+                android:layout_marginLeft="17dp"
+                android:maxLines="1"
+                android:minLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Extensión"
+                android:id="@+id/textView5" />
+
+            <Spinner
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerExtensionsSearch"
+                android:layout_marginLeft="56dp"
+                android:spinnerMode="dropdown"
+                android:layout_marginRight="0dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffe4e4e4"
+        android:layout_weight="0.04"
+        android:gravity="center_vertical|right"
+        android:weightSum="1">
+
+        <com.gc.materialdesign.views.ButtonFlat
+            android:id="@+id/buttonCancelarSearchContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Volver"
+            android:background="#1E88E5"
+            />
+
+        <com.gc.materialdesign.views.ButtonFlat
+            android:id="@+id/buttonAceptarSearchContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buscar"
+            android:background="#1E88E5"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -43,6 +43,13 @@
                 android:textColorHint="@color/black" />
 
             <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/advancedSearchFiles"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_filter_list_grey600_24dp" />
+
+            <ImageView
                 android:id="@+id/search_files_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,14 +61,16 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/listViewFiles"/>
+        android:id="@+id/listViewFiles"
+        android:layout_below="@+id/toolbarFiles" />
 
     <RelativeLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:gravity="center"
-        android:layout_centerInParent="true"
-        android:id="@+id/progressbarFile" >
+        android:id="@+id/progressbarFile"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/toolbarFiles">
         <ProgressBar
             android:id="@+id/progressBarCircularIndeterminateFile"
             style="?android:attr/progressBarStyleLarge"
@@ -82,5 +91,9 @@
             android:text="@string/no_data_available" />
     </RelativeLayout>
 
-    <include layout="@layout/file_menu"/>
+    <include layout="@layout/file_menu"
+        android:layout_below="@+id/toolbarFiles"
+        android:id="@+id/file_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 </RelativeLayout>

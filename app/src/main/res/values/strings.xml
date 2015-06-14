@@ -35,6 +35,13 @@
         <item>Ingeniería Civil</item>
     </string-array>
 
+    <!-- EXTENSIONES -->
+    <string-array name="extensiones">
+        <item>txt</item>
+        <item>pdf</item>
+        <item>xls</item>
+    </string-array>
+
     <string-array name="array_carrera_a_orientaciones">
         <item>@array/orientaciones_informatica</item>
         <item>@array/orientaciones_licenciatura</item>
