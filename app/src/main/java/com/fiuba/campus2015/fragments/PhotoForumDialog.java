@@ -124,7 +124,7 @@ public class PhotoForumDialog extends AlertDialog.Builder {
     public void reset()
     {
         //dialogView.findViewById(R.id.sendMsg).setEnabled(true);
-        msgContent.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_image_default));
+        msgContent.setImageDrawable(context.getResources().getDrawable(R.drawable.photouploaddefault));
     }
 
     private Bitmap getPhoto(Intent data) {

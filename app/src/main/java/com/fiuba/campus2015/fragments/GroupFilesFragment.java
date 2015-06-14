@@ -329,7 +329,7 @@ public class GroupFilesFragment extends Fragment {
 
     private void showDialog() {
         pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Descargando archivo. Por favor espere...");
+        pDialog.setMessage("Descargando archivo. Esperanos...");
         pDialog.setIndeterminate(false);
         pDialog.setMax(100);
         pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);

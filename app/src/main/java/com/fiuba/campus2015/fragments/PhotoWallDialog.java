@@ -173,7 +173,7 @@ public class PhotoWallDialog extends AlertDialog.Builder {
 
     public void reset()
     {
-        msgContent.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_image_default));
+        msgContent.setImageDrawable(context.getResources().getDrawable(R.drawable.photouploaddefault));
         photoBitmap = null;
         preview = null;
         pathPhoto = null;

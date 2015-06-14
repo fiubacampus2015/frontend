@@ -113,7 +113,7 @@ public class GroupFragment extends Fragment {
                             Dialog  dialog2  = new Dialog(getActivity(), null, "El grupo " + group.name + " está suspendido." +
                                     "\n" + "Por favor, comunicate con el administrador.");
                             dialog2.show();
-                            dialog2.getButtonAccept().setText("Aceptar");
+                            dialog2.getButtonAccept().setText("Entendido");
                         }
 
                     }
@@ -191,9 +191,9 @@ public class GroupFragment extends Fragment {
                                 update();
                             }
                         });
-                        dialog2.addCancelButton("Cancelar");
+                        dialog2.addCancelButton("No");
                         dialog2.show();
-                        dialog2.getButtonAccept().setText("Aceptar");
+                        dialog2.getButtonAccept().setText("Si");
                     }else if (options[which].equals("Unirme al grupo."))
                     {
                         subscribeGroup(group._id);
@@ -207,9 +207,9 @@ public class GroupFragment extends Fragment {
                                 unSubscribeGroup(group._id);
                             }
                         });
-                        dialogo.addCancelButton("Cancelar");
+                        dialogo.addCancelButton("No");
                         dialogo.show();
-                        dialogo.getButtonAccept().setText("Aceptar");
+                        dialogo.getButtonAccept().setText("Si");
                     }
                 }
             });
@@ -270,13 +270,13 @@ public class GroupFragment extends Fragment {
         {
             Dialog dialog2 = new Dialog(getActivity(), null, "Te uniste al grupo.");
             dialog2.show();
-            dialog2.getButtonAccept().setText("Aceptar");
+            dialog2.getButtonAccept().setText("Ok");
 
         }else
         {
             Dialog dialog2 = new Dialog(getActivity(), null, "Enviamos tu solicitud al moderador del grupo.");
             dialog2.show();
-            dialog2.getButtonAccept().setText("Aceptar");
+            dialog2.getButtonAccept().setText("Ok");
         }
         Application.getEventBus().unregister(this);
         prgrsBar.setVisibility(View.GONE);
