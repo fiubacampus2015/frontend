@@ -39,6 +39,7 @@ import com.squareup.otto.Subscribe;
 
 import retrofit.RestAdapter;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 
 import static com.fiuba.campus2015.extras.Utils.checkSizePhoto;
 import static com.fiuba.campus2015.extras.Utils.getPhotoString;
@@ -183,7 +184,10 @@ public class PhotoForumDialog extends AlertDialog.Builder {
         RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<Response, IApiUser>() {
             @Override
             public Response getResult(IApiUser service) {
-                return service.postMsgToForum(session.getToken(), groupId, forumId, new Message(getPhotoString(photoBitmap), Constants.MsgCardType.photo));
+
+                return service.postFileToForum(session.getToken(), groupId, forumId,
+                        new TypedFile("multipart/form-data",new java.io.File(pathPhoto)),
+                          getPhotoString(photoBitmap), Constants.MsgCardType.photo.toString());
             }
         };
 

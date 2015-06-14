@@ -239,13 +239,14 @@ public interface IApiUser {
             @Body Message message
     );
 
+    @Multipart
     @POST("/api/{token}/groups/{groupId}/forums/{forumId}/messages")
     public retrofit.client.Response postFileToForum(
             @Path("token") String token,
             @Path("groupId") String groupId,
             @Path("forumId") String forumId,
             @Part("file") TypedFile file,
-            @Part("content") String description,
+            @Part("content") String content,
             @Part("typeOf") String type
             );
 
