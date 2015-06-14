@@ -261,7 +261,7 @@ public interface IApiUser {
     public List<File> getGroupFiles(
             @Path("token") String token,
             @Path("groupId") String groupId,
-            @Query("title") String title
+            @Query("originalName") String originalName
     );
 
 

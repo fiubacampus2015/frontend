@@ -81,7 +81,7 @@ public class SearchFileFilter extends AlertDialog.Builder implements AdapterView
                 extension = spExtensiones.getSelectedItem().toString();
                 title = titleText.getText().toString();
 
-                groupFileFragment.searchFilesInGroup(false);
+                //groupFileFragment.searchFilesInGroup(false);
 
                 alertDialog.dismiss();
             }

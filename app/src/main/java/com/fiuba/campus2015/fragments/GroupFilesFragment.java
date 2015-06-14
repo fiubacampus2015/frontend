@@ -92,7 +92,7 @@ public class GroupFilesFragment extends Fragment {
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchFilesInGroup(true);
+                update();
             }
         });
 
@@ -100,7 +100,8 @@ public class GroupFilesFragment extends Fragment {
         buttonClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchClear(v);
+                searchText.setText("");
+                update();
             }
         });
 
@@ -158,7 +159,6 @@ public class GroupFilesFragment extends Fragment {
 
         searchFilter = new SearchFileFilter(getActivity(), this);
 
-        searchFilesInGroup(true);
         //Se agrega esto por que sino no funciona el input con tabs
         searchText = (EditText) myView.findViewById(R.id.search_files_text);
         searchText.setOnTouchListener(new View.OnTouchListener() {
@@ -183,11 +183,6 @@ public class GroupFilesFragment extends Fragment {
         return myView;
     }
 
-    public void searchFilesInGroup(boolean file) {
-
-
-    }
-
     private void showSearchFileDialog() {
         searchFilter.showDialog();
     }
@@ -206,7 +201,7 @@ public class GroupFilesFragment extends Fragment {
     public void searchClear(View view) {
         emptyView.setVisibility(View.INVISIBLE);
         searchText.setText("");
-        searchFilesInGroup(true);
+        getFilesInGroup();
     }
 
     public void downloadFile(String fileId, String name, String path) {
@@ -238,6 +233,7 @@ public class GroupFilesFragment extends Fragment {
         }else if (files.isEmpty())
         {
             emptyView.setVisibility(View.VISIBLE);
+            fileAdapter.setFiles(files);
             Application.getEventBus().unregister(this);
             progressBar.setVisibility(View.GONE);
         }
