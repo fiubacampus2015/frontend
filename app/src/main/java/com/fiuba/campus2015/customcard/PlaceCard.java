@@ -2,11 +2,13 @@ package com.fiuba.campus2015.customcard;
 
 import android.content.Context;
 import android.graphics.Color;
+
+import com.dexafree.materialList.cards.ExtendedCard;
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
 import com.fiuba.campus2015.R;
 
-public class PlaceCard extends SimpleCard {
+public class PlaceCard extends ExtendedCard {
     private String buttonText;
     private OnButtonPressListener mListener;
     private int dividerColor;

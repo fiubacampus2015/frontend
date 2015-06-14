@@ -16,8 +16,6 @@ import com.dexafree.materialList.cards.internal.BaseTextCardItemView;
 import com.fiuba.campus2015.R;
 
 public class PlaceCardItemView extends BaseTextCardItemView<PlaceCard> {
-
-
     TextView mTitle;
     TextView mDescription;
 
@@ -35,6 +33,7 @@ public class PlaceCardItemView extends BaseTextCardItemView<PlaceCard> {
 
     @Override
     public void build(final PlaceCard card) {
+        super.build(card);
         setTitle(card.getTitle());
         setDescription(card.getDescription());
 

@@ -140,24 +140,24 @@ public class MessageAdapter {
         switch (msg.typeOf) {
 
             case place:
-                card = new BasicImageButtonsCard(this.context);
+                card = new PlaceCard(this.context, session.getUserid(), msg.user._id, getOwnerId());
                 card.setDescription(Utils.getBirthdayFormatted(msg.date));
                 card.setTitle(title);
+
                 Drawable drawablePlace = new BitmapDrawable(context.getResources(), Utils.getPhoto(msg.content));
                 card.setDrawable(drawablePlace);
+
                 card.setTag("PLACE_CARD");
                 card.setDismissible(true);
-                ((BasicImageButtonsCard) card).setLeftButtonText("Borrar");
-                ((BasicImageButtonsCard) card).setLeftButtonTextColorRes(R.color.my_awesome_darker_color);
-                ((BasicImageButtonsCard) card).setRightButtonText("");
-                ((BasicImageButtonsCard) card).setOnLeftButtonPressedListener(new OnButtonPressListener() {
+
+                ((PlaceCard) card).setOnButtonPressedListener(new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
                         deleteCard(idMessage, card);
                     }
                 });
 
-                card.setDismissible(true);
+                card.setDismissible(((PlaceCard) card).isDeleteable());
 
                 return card;
 

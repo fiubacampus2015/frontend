@@ -16,6 +16,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
+            android:background="@color/white"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -54,34 +55,31 @@
                     android:paddingRight="@dimen/big_padding"
                     tools:text="By Alex Nelson"/>
 
+                <View
+                    android:id="@+id/cardDivider"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider_grey"
+                    android:visibility="invisible"/>
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
 
-                    <View
-                        android:id="@+id/cardDivider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="@color/black"
-                        android:layout_marginLeft="@dimen/big_padding"
-                        android:layout_marginRight="@dimen/big_padding"
-                        android:visibility="visible"/>
-
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:id="@+id/deleteButtonPlaceCard"
-                        android:clickable="true"
-                        android:focusable="false"
-                        android:textStyle="bold"
-                        android:padding="@dimen/big_padding"
-                        android:drawableLeft="@drawable/ic_delete"
                         android:drawablePadding="@dimen/big_padding"
-                        style="@style/LeftButtonBaseStyle"
-                        tools:text="CLICK ME"/>
-
+                        android:textSize="@dimen/button_size"
+                        android:drawableLeft="@drawable/ic_delete"
+                        android:paddingLeft="@dimen/small_padding"
+                        android:paddingTop="@dimen/big_padding"
+                        android:paddingRight="@dimen/big_padding"
+                        android:paddingBottom="@dimen/big_padding"
+                        android:textStyle="bold"
+                        tools:text="Review"/>
                 </LinearLayout>
 
             </LinearLayout>
