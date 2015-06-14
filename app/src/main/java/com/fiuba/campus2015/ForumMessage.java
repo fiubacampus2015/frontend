@@ -35,6 +35,7 @@ import java.util.List;
 
 import static com.fiuba.campus2015.extras.Constants.FORUM;
 import static com.fiuba.campus2015.extras.Constants.GROUP;
+import static com.fiuba.campus2015.extras.Constants.GROUPOWNER;
 import static com.fiuba.campus2015.extras.Constants.USERTO;
 
 
@@ -45,6 +46,7 @@ public class ForumMessage  extends ActionBarActivity {
     private ProgressBar prgrsBar;
     private String forumId;
     private String groupId;
+    private String groupOwner;
     private WriteForumMsgDialog w_msgDialog;
     private PhotoForumDialog w_photoForumDialog;
     private PostForumLinkDialog linkDialog;
@@ -95,6 +97,9 @@ public class ForumMessage  extends ActionBarActivity {
             Forum forum = new Gson().fromJson(forumJson, Forum.class);
             forumId = forum._id;
             groupId = extras.getString(GROUP);
+            groupOwner = extras.getString(GROUPOWNER);
+
+
             getSupportActionBar().setTitle(forum.title);
         }
 
@@ -156,6 +161,11 @@ public class ForumMessage  extends ActionBarActivity {
         if(((IMaterialListAdapter)mListView.getAdapter()).isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
         }
+    }
+
+
+    public String getGroupOwnerId() {
+        return groupOwner;
     }
 
     public void getMessages() {
