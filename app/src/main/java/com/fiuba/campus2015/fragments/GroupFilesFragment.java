@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.FileAdapter;
+import com.fiuba.campus2015.dto.user.Files;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.extras.RecyclerItemClickListener;
 import com.fiuba.campus2015.extras.UrlEndpoints;
@@ -231,19 +232,19 @@ public class GroupFilesFragment extends Fragment {
 
     //Se llama a este metodo en caso de que no haya error
     @Subscribe
-    public void onFileList(ArrayList<com.fiuba.campus2015.dto.user.File> files) {
+    public void onFileList(Files files) {
 
-        if (!files.isEmpty() && files.get(0) instanceof com.fiuba.campus2015.dto.user.File)
+        if (!files.filesMessages.isEmpty() && files.filesMessages.get(0) instanceof com.fiuba.campus2015.dto.user.File)
         {
             emptyView.setVisibility(View.INVISIBLE);
-            fileAdapter.setFiles(files);
+            fileAdapter.setFiles(files.filesMessages);
             Application.getEventBus().unregister(this);
             progressBar.setVisibility(View.GONE);
 
-        }else if (files.isEmpty())
+        }else if (files.filesMessages.isEmpty())
         {
             emptyView.setVisibility(View.VISIBLE);
-            fileAdapter.setFiles(files);
+            fileAdapter.setFiles(files.filesMessages);
             Application.getEventBus().unregister(this);
             progressBar.setVisibility(View.GONE);
         }
@@ -270,16 +271,16 @@ public class GroupFilesFragment extends Fragment {
         Application.getEventBus().register(this);
 
         //Se crea la llamada al servicio
-        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<List<com.fiuba.campus2015.dto.user.File>, IApiUser>() {
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<Files, IApiUser>() {
             @Override
-            public List<com.fiuba.campus2015.dto.user.File> getResult(IApiUser service) {
+            public Files getResult(IApiUser service) {
                 return service.getGroupFiles(session.getToken(), groupId,name,type);
             }
         };
 
         //Se llama a la api
         RestClient restClient = new RestClient();
-        RestServiceAsync callApi = new RestServiceAsync<List<com.fiuba.campus2015.dto.user.File>, IApiUser>();
+        RestServiceAsync callApi = new RestServiceAsync<Files, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new Response());
     }
 

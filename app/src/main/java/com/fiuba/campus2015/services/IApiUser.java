@@ -3,6 +3,7 @@ package com.fiuba.campus2015.services;
 import com.fiuba.campus2015.adapter.ContactItem;
 import com.fiuba.campus2015.dto.user.Authenticate;
 import com.fiuba.campus2015.dto.user.File;
+import com.fiuba.campus2015.dto.user.Files;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.MemberShip;
@@ -277,7 +278,7 @@ public interface IApiUser {
     );
 
     @GET("/api/{token}/groups/{groupId}/files")
-    public List<File> getGroupFiles(
+    public Files getGroupFiles(
             @Path("token") String token,
             @Path("groupId") String groupId,
             @Query("originalName") String originalName,
