@@ -303,9 +303,9 @@ public class GroupFilesFragment extends Fragment {
 
                     }
                 });
-                dialog.addCancelButton("Cancelar");
+                dialog.addCancelButton("No");
                 dialog.show();
-                dialog.getButtonAccept().setText("Aceptar");
+                dialog.getButtonAccept().setText("Si");
             }
         });
         builder.show();
