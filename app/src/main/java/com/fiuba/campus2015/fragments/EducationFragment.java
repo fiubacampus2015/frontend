@@ -261,10 +261,10 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
             }
         }
         if(creditosInput.getText() != null) {
-            //if(Integer.parseInt(creditosInput.getText().toString()) > 240 ){
-                ((MaterialEditText) myView.findViewById(R.id.idCreditos)).validateWith(new RegexpValidator("Son más créditos que los totales de la carrera.", "\\d+"));
+            if(Integer.parseInt(creditosInput.getText().toString()) > 240 ){
+                ((MaterialEditText) myView.findViewById(R.id.idCreditos)).validateWith(new RegexpValidator("Supera el total de la carrera.", ".*[^0-9].*"));
                 return false;
-            //}
+            }
         }
 
         return true;
