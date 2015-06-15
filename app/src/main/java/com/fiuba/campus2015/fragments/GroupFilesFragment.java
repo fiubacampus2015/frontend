@@ -169,6 +169,19 @@ public class GroupFilesFragment extends Fragment {
             }
         });
 
+        fileAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                                                    @Override
+                                                    public void onChanged() {
+                                                        if (fileAdapter.getItemCount()>0)
+                                                            emptyView.setVisibility(View.INVISIBLE);
+                                                        else
+                                                            emptyView.setVisibility(View.VISIBLE);
+
+                                                    }
+                                                }
+
+        );
+
         ImageView buttonAdvancedSearch = (ImageView) myView.findViewById(R.id.advancedSearchFiles);
         buttonAdvancedSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,7 +313,8 @@ public class GroupFilesFragment extends Fragment {
                         Application.getEventBus().register(this);
                         removeFile(file._id);
                         fileAdapter.removeFile(position);
-
+                        if (!(fileAdapter.getItemCount()>0))
+                            emptyView.setVisibility(View.VISIBLE);
                     }
                 });
                 dialog.addCancelButton("No");
