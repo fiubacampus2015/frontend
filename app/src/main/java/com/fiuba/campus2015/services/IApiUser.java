@@ -8,6 +8,7 @@ import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.MemberShip;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.Position;
+import com.fiuba.campus2015.dto.user.Subscriptions;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.Constants;
 
@@ -224,12 +225,28 @@ public interface IApiUser {
             @Body Forum forum
     );
 
+    @GET("/api/{token}/groups/{groupId}/subscriptions")
+    public Subscriptions getSuscriptors(
+            @Path("token") String token,
+            @Path("groupId") String groupId
+    );
+
+    @PUT("/api/{token}/groups/{groupId}/subscribe/{susId}/resolve")
+    public MemberShip subscribeResolve(
+            @Path("token") String token,
+            @Path("groupId") String groupId,
+            @Path("susId") String susId,
+            @Body MemberShip member
+    );
+
+
     @GET("/api/{token}/groups/{groupId}/forums/{forumId}/messages")
     public List<Message> getForumMessages(
             @Path("token") String token,
             @Path("groupId") String groupId,
             @Path("forumId") String forumId
             );
+
 
     @POST("/api/{token}/groups/{groupId}/forums/{forumId}/messages")
     public retrofit.client.Response postMsgToForum(

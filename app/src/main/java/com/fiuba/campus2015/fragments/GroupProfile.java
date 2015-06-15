@@ -13,17 +13,32 @@ import android.widget.Toast;
 import com.dexafree.materialList.cards.BigImageCard;
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.controller.IMaterialListAdapter;
+import com.dexafree.materialList.controller.MaterialListAdapter;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.customcard.RequestCard;
 import com.fiuba.campus2015.customcard.TextCard;
+import com.fiuba.campus2015.dto.user.File;
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.dto.user.MemberShip;
+import com.fiuba.campus2015.dto.user.Subscription;
+import com.fiuba.campus2015.dto.user.Subscriptions;
+import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.extras.Utils;
 import com.fiuba.campus2015.services.Application;
+import com.fiuba.campus2015.services.IApiUser;
+import com.fiuba.campus2015.services.Response;
+import com.fiuba.campus2015.services.RestClient;
+import com.fiuba.campus2015.services.RestServiceAsync;
+import com.fiuba.campus2015.session.SessionManager;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.fiuba.campus2015.extras.Constants.DESCRIPCIONGRUPO;
+import static com.fiuba.campus2015.extras.Constants.GROUP;
 import static com.fiuba.campus2015.extras.Constants.GROUP_TOTALCONTACTS;
 import static com.fiuba.campus2015.extras.Constants.GROUP_TOTALFILES;
 import static com.fiuba.campus2015.extras.Constants.GROUP_TOTALMSGS;
@@ -40,6 +55,8 @@ public class GroupProfile extends Fragment {
     private int messages;
     private int files;
     private TextCard ownerCard;
+    private String groupId;
+    private SessionManager session;
     private ProgressBar prgrsBar;
 
     public static GroupProfile newInstance(Group group) {
@@ -47,6 +64,7 @@ public class GroupProfile extends Fragment {
 
         Bundle args = new Bundle();
         args.putString(NAME, group.name);
+        args.putString(GROUP, group._id);
         args.putString(DESCRIPCIONGRUPO, group.description);
         args.putString(PHOTO, group.photo);
         args.putString(GROUPOWNER, group.owner.name + " " + group.owner.username);
@@ -79,16 +97,21 @@ public class GroupProfile extends Fragment {
 
         profileInformation = (MaterialListView) view.findViewById(R.id.groupProfileInfo);
 
+        session = new SessionManager(getActivity().getApplicationContext());
+        groupId = getArguments().getString(GROUP);
         load();
-        Application.getEventBus().register(this);
+        getSubscriptors();
         return view;
     }
 
-    public void acceptRequest() {
-        // llamando a la api
-
+    public void acceptRequest(String _id) {
+        resolveSubscription("accepted",_id);
         updateParticipantes();
     }
+    public void rejectRequest(String _id) {
+        resolveSubscription("denegada", _id);
+    }
+
 
     private void updateParticipantes() {
         participantes++;
@@ -109,9 +132,6 @@ public class GroupProfile extends Fragment {
         return "#" + Integer.toString(files) + " archivos.";
     }
 
-    public void rejectRequest() {
-        Toast.makeText(getActivity(), "sin implementar, se rechaza solicitud", Toast.LENGTH_SHORT).show();
-    }
 
     private void load() {
 
@@ -144,36 +164,95 @@ public class GroupProfile extends Fragment {
 
         profileInformation.add(ownerCard);
 
-        addRequest();
+        //addRequest();
     }
 
 
-    private void addRequest() {
+    private void addRequest(Subscription subs) {
+
         RequestCard requestCard = new RequestCard(view.getContext());
-        requestCard.setTitle("Bruce Wayne");
-        requestCard.setDescription("bruce@gmail.com");
+        requestCard.setTitle(subs.user.name+' '+subs.user.username);
+        requestCard.setDescription(subs.user.email);
+        requestCard.setPhoto(subs.user.personal.photo);
+
         requestCard.setTag("REQUEST_TAG");
 
-        addListener(requestCard);
+        addListener(requestCard, subs._id);
+
+
 
         profileInformation.add(requestCard);
     }
 
-    private void addListener(RequestCard card) {
-        card.setOnButtonPressedAccpetListener(new OnButtonPressListener() {
+    private void addListener(final RequestCard card2, final String _id) {
+        card2.setOnButtonPressedAccpetListener(new OnButtonPressListener() {
             @Override
             public void onButtonPressedListener(View view, Card card) {
-                acceptRequest();
+                card.setDismissible(true);
+                profileInformation.remove(card);
+                acceptRequest(_id);
             }
         });
 
-        card.setOnButtonPressedRejectListener(new OnButtonPressListener() {
+        card2.setOnButtonPressedRejectListener(new OnButtonPressListener() {
             @Override
             public void onButtonPressedListener(View view, Card card) {
-                rejectRequest();
+                card.setDismissible(true);
+                profileInformation.remove(card);
+                rejectRequest(_id);
             }
         });
     }
+
+
+    //Se llama a este metodo en caso de que no haya error
+    @Subscribe
+    public void onSubscriptions(Subscriptions subs) {
+
+        if (!subs.subscriptions.isEmpty())
+        {
+            for (int i = 0; i < subs.subscriptions.size(); i++) {
+                addRequest(subs.subscriptions.get(i));
+            }
+
+        }
+
+    }
+
+    public void getSubscriptors() {
+        Application.getEventBus().register(this);
+
+        //Se crea la llamada al servicio
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<Subscriptions, IApiUser>() {
+            @Override
+            public Subscriptions getResult(IApiUser service) {
+                return service.getSuscriptors(session.getToken(), groupId);
+            }
+        };
+
+        //Se llama a la api
+        RestClient restClient = new RestClient();
+        RestServiceAsync callApi = new RestServiceAsync<Subscriptions, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new Response());
+    }
+
+    public void resolveSubscription(final String status, final String subsId) {
+        Application.getEventBus().register(this);
+
+        //Se crea la llamada al servicio
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<MemberShip, IApiUser>() {
+            @Override
+            public MemberShip getResult(IApiUser service) {
+                return service.subscribeResolve(session.getToken(), groupId, subsId, new MemberShip(status));
+            }
+        };
+
+        //Se llama a la api
+        RestClient restClient = new RestClient();
+        RestServiceAsync callApi = new RestServiceAsync<MemberShip, IApiUser>();
+        callApi.fetch(restClient.getApiService(), result, new Response());
+    }
+
 
     @Override
     public void onResume() {
@@ -193,6 +272,12 @@ public class GroupProfile extends Fragment {
 
             group = null;
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Application.getEventBus().unregister(this);
     }
 
 

@@ -5,5 +5,10 @@ public class MemberShip {
     public String user;
     public String status;
     public String date;
+
+    public MemberShip(String status)
+    {
+        this.status = status;
+    }
 }
 

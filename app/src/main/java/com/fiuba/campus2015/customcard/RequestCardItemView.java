@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.dexafree.materialList.cards.internal.BaseTextCardItemView;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.extras.ButtonFloatMaterial;
+import com.fiuba.campus2015.extras.Utils;
 
 public class RequestCardItemView extends BaseTextCardItemView<RequestCard> {
 
@@ -34,13 +35,17 @@ public class RequestCardItemView extends BaseTextCardItemView<RequestCard> {
     public void build(final RequestCard card) {
         super.build(card);
 
+        ImageView image = (ImageView)findViewById(R.id.imagePreview3);
+
+        if (!card.getPhoto().isEmpty())
+            image.setImageBitmap(Utils.getPhoto(card.getPhoto()));
 
         final ButtonFloatMaterial accept = (ButtonFloatMaterial)findViewById(R.id.buttonAcceptRequestGroup);
         accept.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(card.getOnButtonPressedListenerAccept() != null) {
-                    card.getOnButtonPressedListenerAccept().onButtonPressedListener(null,null);
+                    card.getOnButtonPressedListenerAccept().onButtonPressedListener(null,card);
                 }
             }
         });
@@ -50,7 +55,7 @@ public class RequestCardItemView extends BaseTextCardItemView<RequestCard> {
             @Override
             public void onClick(View v) {
                 if(card.getOnButtonPressedListenerReject() != null) {
-                    card.getOnButtonPressedListenerReject().onButtonPressedListener(null,null);
+                    card.getOnButtonPressedListenerReject().onButtonPressedListener(null,card);
                 }
             }
         });

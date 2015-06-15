@@ -59,9 +59,9 @@
 
                 <com.fiuba.campus2015.extras.ButtonFloatMaterial
                     android:id="@+id/buttonAcceptRequestGroup"
-                    android:layout_width="21dp"
+                    android:layout_width="25dp"
                     app:iconDrawable="@drawable/ic_action_accept_dark"
-                    android:layout_height="21dp"
+                    android:layout_height="25dp"
                     android:background="@color/accent"
                     android:layout_alignParentStart="false"
                     android:layout_alignParentRight="true"
@@ -70,8 +70,8 @@
 
                 <com.fiuba.campus2015.extras.ButtonFloatMaterial
                     android:id="@+id/buttonRejectRequestGroup"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:background="@color/accent"
                     android:layout_marginRight="4dp"
                     app:iconDrawable="@drawable/ic_clear_grey"

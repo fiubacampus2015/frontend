@@ -3,11 +3,13 @@ package com.fiuba.campus2015.customcard;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
 import com.fiuba.campus2015.R;
+import com.fiuba.campus2015.extras.Utils;
 
 public class RequestCard extends SimpleCard {
     private String subtitle;
@@ -17,6 +19,8 @@ public class RequestCard extends SimpleCard {
     private int dividerColor;
     private int buttonTextColor;
     private Drawable photoUser;
+    private String photoUserString;
+    private Context context;
 
     public RequestCard(final Context context) {
         super(context);
@@ -34,6 +38,14 @@ public class RequestCard extends SimpleCard {
 
     public void setSubtitle(int subtitleId) {
         setSubtitle(getString(subtitleId));
+    }
+
+    public void setPhoto(String photo) {
+        photoUserString = photo;
+    }
+
+    public String getPhoto() {
+        return photoUserString ;
     }
 
     public void setSubtitle(String subtitle) {
