@@ -260,7 +260,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
                 return false;
             }
         }
-        if(creditosInput.getText() != null) {
+        if(creditosInput.getText() != null && !creditosInput.getText().toString().isEmpty()) {
             if(Integer.parseInt(creditosInput.getText().toString()) > 240 ){
                 ((MaterialEditText) myView.findViewById(R.id.idCreditos)).validateWith(new RegexpValidator("Supera el total de la carrera.", ".*[^0-9].*"));
                 return false;
