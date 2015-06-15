@@ -216,7 +216,13 @@ public class GroupProfile extends Fragment {
             }
 
         }
+        Application.getEventBus().unregister(this);
+    }
 
+
+    @Subscribe
+    public void onResolve(MemberShip member) {
+        Application.getEventBus().unregister(this);
     }
 
     public void getSubscriptors() {
@@ -272,12 +278,6 @@ public class GroupProfile extends Fragment {
 
             group = null;
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Application.getEventBus().unregister(this);
     }
 
 
