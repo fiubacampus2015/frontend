@@ -46,7 +46,7 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
     private boolean disable;
     private int optionOrientation = -1;
     private CircleProgress circleProgress;
-    private EditText creditosInput;
+    private MaterialEditText creditosInput;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     public static EducationFragment newInstance(Education education) {
@@ -103,7 +103,8 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         loadCareer();
         String profesion = getArguments().getString(PROFESION);
 
-        creditosInput = (EditText) myView.findViewById(R.id.idCreditos);
+        creditosInput = (MaterialEditText) myView.findViewById(R.id.idCreditos);
+        creditosInput.setText(getArguments().getString(CREDITOS));
 
         //Se carga la fecha
         fechaIngresoString =  (TextView) myView.findViewById(R.id.date_initString);
@@ -155,10 +156,20 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
         }
 
         circleProgress = (CircleProgress) myView.findViewById(R.id.circle_progress);
-        circleProgress.setProgress(190);
+        circleProgress.setProgress(getAvanceCarrera());
 
         disableComponents();
         return myView;
+    }
+
+    private Integer getAvanceCarrera() {
+        Integer avance = 0;
+        Double percent = 0.0;
+
+        if (!getArguments().getString(CREDITOS).isEmpty()) avance = Integer.parseInt(getArguments().getString(CREDITOS));
+        percent = ((avance.doubleValue() / 240 ) * 100);
+
+        return percent.intValue();
     }
 
     private void loadCareer() {
@@ -248,6 +259,12 @@ public class EducationFragment extends Fragment implements AdapterView.OnItemSel
                 ((MaterialEditText) myView.findViewById(R.id.date_initString)).validateWith(new RegexpValidator("Fecha de Ingreso mayor a hoy?", "\\d+"));
                 return false;
             }
+        }
+        if(creditosInput.getText() != null) {
+            //if(Integer.parseInt(creditosInput.getText().toString()) > 240 ){
+                ((MaterialEditText) myView.findViewById(R.id.idCreditos)).validateWith(new RegexpValidator("Son más créditos que los totales de la carrera.", "\\d+"));
+                return false;
+            //}
         }
 
         return true;
