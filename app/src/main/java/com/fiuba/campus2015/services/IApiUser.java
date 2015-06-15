@@ -6,6 +6,7 @@ import com.fiuba.campus2015.dto.user.File;
 import com.fiuba.campus2015.dto.user.Forum;
 import com.fiuba.campus2015.dto.user.Group;
 import com.fiuba.campus2015.dto.user.MemberShip;
+import com.fiuba.campus2015.dto.user.Members;
 import com.fiuba.campus2015.dto.user.Message;
 import com.fiuba.campus2015.dto.user.Position;
 import com.fiuba.campus2015.dto.user.Subscriptions;
@@ -198,7 +199,7 @@ public interface IApiUser {
 
 
     @GET("/api/{token}/groups/{groupId}/members")
-    public List<User> getMembersGroup(
+    public Members getMembersGroup(
             @Path("token") String token,
             @Path("groupId") String groupId
     );

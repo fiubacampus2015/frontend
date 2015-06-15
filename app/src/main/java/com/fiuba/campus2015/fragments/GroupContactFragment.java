@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.fiuba.campus2015.R;
 import com.fiuba.campus2015.adapter.ContactsAdapter;
 import com.fiuba.campus2015.dto.user.Group;
+import com.fiuba.campus2015.dto.user.Members;
 import com.fiuba.campus2015.dto.user.User;
 import com.fiuba.campus2015.services.Application;
 import com.fiuba.campus2015.services.IApiUser;
@@ -90,16 +91,16 @@ public class GroupContactFragment extends ContactFragment {
 
     //Se llama a este metodo en caso de que no haya error
     @Subscribe
-    public void onMembersResponse(ArrayList<User> users) {
-        if (!users.isEmpty() && users.get(0) instanceof User)
+    public void onMembersResponse(Members mem) {
+        if (!mem.members.isEmpty() && mem.members.get(0) instanceof User)
         {
             emptyView.setVisibility(View.INVISIBLE);
-            contactsAdapter.setContacts(users,session.getUserid());
+            contactsAdapter.setContacts(mem.members,session.getUserid());
             Application.getEventBus().unregister(this);
             prgrsBar.setVisibility(View.GONE);
 
         }
-        else if (users.isEmpty()) {
+        else if (mem.members.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
             Application.getEventBus().unregister(this);
             prgrsBar.setVisibility(View.GONE);
@@ -123,16 +124,16 @@ public class GroupContactFragment extends ContactFragment {
         Application.getEventBus().register(this);
 
         //Se crea la llamada al servicio
-        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<List<User>, IApiUser>() {
+        RestServiceAsync.GetResult result = new RestServiceAsync.GetResult<Members, IApiUser>() {
             @Override
-            public List<User> getResult(IApiUser service) {
+            public Members getResult(IApiUser service) {
                 return service.getMembersGroup(session.getToken(), groupId);
             }
         };
 
         //Se llama a la api
         RestClient restClient = new RestClient();
-        RestServiceAsync callApi = new RestServiceAsync<List<User>, IApiUser>();
+        RestServiceAsync callApi = new RestServiceAsync<Members, IApiUser>();
         callApi.fetch(restClient.getApiService(), result, new com.fiuba.campus2015.services.Response());
     }
 
